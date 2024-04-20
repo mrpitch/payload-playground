@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm start:postgres && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
@@ -12,7 +12,8 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "generate:types": "payload generate:types",
     "standalone-script": "tsx ./src/scripts/standalone-script.ts",
-    "start:postgres": "docker compose -f docker-compose.yml --env-file .env.development up -d"
+    "start:postgres": "docker compose -f docker-compose.yml --env-file .env.development up -d",
+    "stop:postgres": "docker compose -f docker-compose.yml --env-file .env.development down"
   },
   "engines": {
     "node": ">=18.19.0"

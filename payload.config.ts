@@ -1,5 +1,4 @@
 import path from 'path'
-// import { postgresAdapter } from '@payloadcms/db-postgres'
 import { en } from 'payload/i18n/en'
 import {
   AlignFeature,
@@ -26,6 +25,8 @@ import { buildConfig } from 'payload/config'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { Pages } from './src/app/(payload)/collections/Pages'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -33,6 +34,7 @@ export default buildConfig({
   //editor: slateEditor({}),
   editor: lexicalEditor(),
   collections: [
+    Pages,
     {
       slug: 'users',
       auth: true,
@@ -41,22 +43,6 @@ export default buildConfig({
         update: () => false,
       },
       fields: [],
-    },
-    {
-      slug: 'pages',
-      admin: {
-        useAsTitle: 'title',
-      },
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-        },
-        {
-          name: 'content',
-          type: 'richText',
-        },
-      ],
     },
     {
       slug: 'media',
