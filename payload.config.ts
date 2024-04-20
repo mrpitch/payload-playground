@@ -25,7 +25,10 @@ import { buildConfig } from 'payload/config'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
-import { Pages } from './src/app/(payload)/collections/Pages'
+import Pages from './src/app/(payload)/collections/Pages'
+import Users from '@/app/(payload)/collections/Users'
+import Media from '@/app/(payload)/collections/Media'
+import Categories from '@/app/(payload)/collections/Categories'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -33,28 +36,7 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   //editor: slateEditor({}),
   editor: lexicalEditor(),
-  collections: [
-    Pages,
-    {
-      slug: 'users',
-      auth: true,
-      access: {
-        delete: () => false,
-        update: () => false,
-      },
-      fields: [],
-    },
-    {
-      slug: 'media',
-      upload: true,
-      fields: [
-        {
-          name: 'text',
-          type: 'text',
-        },
-      ],
-    },
-  ],
+  collections: [Pages, Users, Media, Categories],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -76,29 +58,29 @@ export default buildConfig({
     supportedLanguages: { en },
   },
 
-  admin: {
-    autoLogin: {
-      email: 'dev@payloadcms.com',
-      password: 'test',
-      prefillOnly: true,
-    },
-  },
-  async onInit(payload) {
-    const existingUsers = await payload.find({
-      collection: 'users',
-      limit: 1,
-    })
+  // admin: {
+  //   autoLogin: {
+  //     email: 'dev@payloadcms.com',
+  //     password: 'test',
+  //     prefillOnly: true,
+  //   },
+  // },
+  // async onInit(payload) {
+  //   const existingUsers = await payload.find({
+  //     collection: 'users',
+  //     limit: 1,
+  //   })
 
-    if (existingUsers.docs.length === 0) {
-      await payload.create({
-        collection: 'users',
-        data: {
-          email: 'dev@payloadcms.com',
-          password: 'test',
-        },
-      })
-    }
-  },
+  //   if (existingUsers.docs.length === 0) {
+  //     await payload.create({
+  //       collection: 'users',
+  //       data: {
+  //         email: 'dev@payloadcms.com',
+  //         password: 'test',
+  //       },
+  //     })
+  //   }
+  // },
   // Sharp is now an optional dependency -
   // if you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.

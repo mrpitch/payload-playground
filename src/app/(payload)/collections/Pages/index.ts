@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload/types'
 import { QuoteBlock } from '../../blocks/quote-block'
 
-export const Pages: CollectionConfig = {
+const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
@@ -23,3 +23,5 @@ export const Pages: CollectionConfig = {
     },
   ],
 }
+
+export default Pages
