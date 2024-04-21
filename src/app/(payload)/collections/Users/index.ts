@@ -22,32 +22,37 @@ const Users: CollectionConfig = {
   auth: true,
   fields: [
     {
-      name: 'name',
-      type: 'text',
-    },
-    {
-      name: 'roles',
-      type: 'select',
-      hasMany: true,
-      defaultValue: ['user'],
-      options: [
+      type: 'row',
+      fields: [
         {
-          label: 'admin',
-          value: 'admin',
+          name: 'name',
+          type: 'text',
         },
         {
-          label: 'user',
-          value: 'user',
+          name: 'roles',
+          type: 'select',
+          hasMany: true,
+          defaultValue: ['user'],
+          options: [
+            {
+              label: 'admin',
+              value: 'admin',
+            },
+            {
+              label: 'user',
+              value: 'user',
+            },
+          ],
+          hooks: {
+            beforeChange: [ensureFirstUserIsAdmin],
+          },
+          access: {
+            read: admins,
+            create: admins,
+            update: admins,
+          },
         },
       ],
-      hooks: {
-        beforeChange: [ensureFirstUserIsAdmin],
-      },
-      access: {
-        read: admins,
-        create: admins,
-        update: admins,
-      },
     },
   ],
   timestamps: true,
