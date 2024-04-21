@@ -29,6 +29,7 @@ import Pages from './src/app/(payload)/collections/Pages'
 import Users from '@/app/(payload)/collections/Users'
 import Media from '@/app/(payload)/collections/Media'
 import Categories from '@/app/(payload)/collections/Categories'
+import Newsletter from '@/app/(payload)/collections/Newsletter'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -36,7 +37,7 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   //editor: slateEditor({}),
   editor: lexicalEditor(),
-  collections: [Pages, Users, Media, Categories],
+  collections: [Categories, Pages, Users, Media, Newsletter],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
