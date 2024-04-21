@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+		"target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,13 +18,19 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      // "@/app/*": ["./src/app/(app)/*"],
+      "@/components/*": ["src/components/*"],
+			"@/lib/*": ["src/lib/*"],
+			"@/actions/*": ["src/actions/*"],
+			"@/img/*": ["public/img/*"],
       "@/payload": ["./src/app/(payload)/*"],
       "@payload-config": ["./payload.config.ts"],
       "@payload-types": ["./payload-types.ts"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/lib/styles/fonts/index.cjs", "postcss.config.cjs"],
   "exclude": ["node_modules"]
 }

@@ -1,19 +1,75 @@
-import React from 'react'
-import './globals.scss'
-import { Inter } from 'next/font/google'
+import { Metadata } from 'next'
+import { cookies } from 'next/headers'
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-})
+import { cn } from '@/lib/utils/cn'
 
-/* Our app sits here to not cause any conflicts with payload's root layout  */
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <html className={inter.className}>
-      <body>{children}</body>
-    </html>
-  )
+import {
+	typeNextRegular,
+	typeNextLight,
+	typeNextSemiBold,
+	typeNextBold,
+} from '@/lib/styles/fonts/index'
+import '@/lib/styles/globals.css'
+
+import { siteConfig } from '@/lib/config'
+
+import { ThemeProvider } from '@/components/utils/theme-provider'
+import { Toaster } from '@/components/ui/toast'
+import { useThemeStore } from '@/lib/store/themeStore'
+export const metadata: Metadata = {
+	title: {
+		default: siteConfig.name,
+		template: `%s - ${siteConfig.name}`,
+	},
+	description: siteConfig.description,
+	icons: {
+		icon: '/favicon.ico',
+		shortcut: '/favicon-16x16.png',
+		apple: '/apple-touch-icon.png',
+	},
 }
 
-export default Layout
+export const viewport = {
+	themeColor: [
+		{ media: '(prefers-color-scheme: light)', color: 'white' },
+		{ media: '(prefers-color-scheme: dark)', color: 'black' },
+	],
+}
+
+interface RootLayoutProps {
+	children: React.ReactNode
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+	const cookieStore = cookies()
+	const currentTheme = cookieStore.get('theme')
+
+	return (
+		<html
+			lang="en"
+			data-mode={currentTheme?.value || useThemeStore.getState().theme}
+			className={cn(
+				currentTheme?.value || useThemeStore.getState().theme,
+				'h-full'
+			)}
+		>
+			<head />
+				<ThemeProvider>
+					<body
+						className={cn(
+							'font-sans h-full min-h-screen antialiased',
+							typeNextRegular.variable,
+							typeNextLight.variable,
+							typeNextSemiBold.variable,
+							typeNextBold.variable
+						)}
+					>
+						<div className="relative flex min-h-screen flex-col">
+							{children}
+						</div>
+						<Toaster position="bottom-right" />
+					</body>
+				</ThemeProvider>
+		</html>
+	)
+}
