@@ -21,12 +21,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      // "@/app/*": ["./src/app/(app)/*"],
+      "@/app/*": ["./src/app/(app)/*"],
       "@/components/*": ["src/components/*"],
 			"@/lib/*": ["src/lib/*"],
 			"@/actions/*": ["src/actions/*"],
 			"@/img/*": ["public/img/*"],
-      "@/payload": ["./src/app/(payload)/*"],
+      "@/payload/*": ["./src/app/(payload)/*"],
       "@payload-config": ["./payload.config.ts"],
       "@payload-types": ["./payload-types.ts"]
     }

@@ -1,8 +1,8 @@
 import { Block } from 'payload/types'
 
 export const QuoteBlock: Block = {
-  slug: 'Quote', // required
-  imageURL: 'https://google.com/path/to/image.jpg',
+  slug: 'Quote',
+  imageURL: '/icon-quote.svg', // optional
   imageAltText: 'A nice thumbnail image to show what this block looks like',
   interfaceName: 'QuoteBlock', // optional
   fields: [

@@ -25,11 +25,11 @@ import { buildConfig } from 'payload/config'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
-import Pages from './src/app/(payload)/collections/Pages'
-import Users from '@/app/(payload)/collections/Users'
-import Media from '@/app/(payload)/collections/Media'
-import Categories from '@/app/(payload)/collections/Categories'
-import Newsletter from '@/app/(payload)/collections/Newsletter'
+import Pages from '@/payload/collections/Pages'
+import Users from '@/payload/collections/Users'
+import Media from '@/payload/collections/Media'
+import Categories from '@/payload/collections/Categories'
+import Newsletter from '@/payload/collections/Newsletter'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
