@@ -44,8 +44,8 @@ services:
       - POSTGRES_USER=${DATABASE_USERNAME}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     volumes:
-      - db_payload_dev:/var/lib/postgresql/data/
-      #- ./database/db_strapi_latest.sql.gz:/docker-entrypoint-initdb.d/db_strapi_latest.sql.gz
+      #- db_payload_dev:/var/lib/postgresql/data/
+      - ./database/opayload_db_dev.sql.gz:/docker-entrypoint-initdb.d/payload_db_dev.sql.gz
     ports:
       - "5432:5432"
     # networks:
