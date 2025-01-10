@@ -1,5 +1,5 @@
 services:
-  db_strapi_dev:
+  db_payload_dev:
     container_name: payload-playground-db-dev
     image: 'postgres:15.1'
     env_file: .env
