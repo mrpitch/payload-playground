@@ -1,5 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { QuoteBlock } from '../blocks/quote-block'
+import { QuoteBlock } from '@/payload/blocks/quote-block'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',

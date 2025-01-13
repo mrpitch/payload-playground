@@ -12,7 +12,10 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "start:postgres": "docker compose -f docker-compose.yml --env-file .env up -d",
+    "stop:postgres": "docker compose -f docker-compose.yml --env-file .env down",
+    "nuke": "rm -r node_modules; rm -r pnpm-lock.yaml"
   },
   "dependencies": {
     "@payloadcms/next": "latest",
