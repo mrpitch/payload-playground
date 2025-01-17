@@ -75,6 +75,7 @@ export const Posts: CollectionConfig = {
           ],
         },
         {
+          label: 'Meta',
           fields: [
             {
               name: 'relatedPosts',
@@ -102,7 +103,26 @@ export const Posts: CollectionConfig = {
               relationTo: 'categories',
             },
           ],
-          label: 'Meta',
+        },
+        {
+          label: 'Test',
+          fields: [
+            {
+              type: 'tabs',
+              tabs: [
+                {
+                  label: 'Test',
+                  fields: [
+                    {
+                      name: 'test',
+                      type: 'text',
+                      label: 'Test',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
       ],
     },

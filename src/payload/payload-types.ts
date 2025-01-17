@@ -144,6 +144,7 @@ export interface Post {
   layout?: QuoteBlock[] | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
+  test?: string | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -412,6 +413,7 @@ export interface PostsSelect<T extends boolean = true> {
       };
   relatedPosts?: T;
   categories?: T;
+  test?: T;
   publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;

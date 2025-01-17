@@ -33,7 +33,7 @@ export const Pages: CollectionConfig = {
       tabs: [
         {
           name: 'meta',
-          label: 'SEO',
+          label: 'Meta',
           fields: [
             OverviewField({
               titlePath: 'meta.title',
