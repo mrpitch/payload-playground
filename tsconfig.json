@@ -26,7 +26,8 @@
       "@/actions/*": ["src/actions/*"],
       "@/img/*": ["public/img/*"],
       "@/payload/*": ["./src/payload/*"],
-      "@payload-config": ["./src/payload/payload.config.ts"]
+      "@payload-config": ["./src/payload/payload.config.ts"],
+      "@payload-types": ["./src/payload/payload-types.ts"]
     },
     "target": "ES2022"
   },

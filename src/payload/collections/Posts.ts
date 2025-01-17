@@ -10,8 +10,8 @@ import {
 
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 
-export const Pages: CollectionConfig = {
-  slug: 'pages',
+export const Posts: CollectionConfig = {
+  slug: 'posts',
   admin: {
     useAsTitle: 'title',
   },
@@ -33,7 +33,7 @@ export const Pages: CollectionConfig = {
       tabs: [
         {
           name: 'meta',
-          label: 'Meta',
+          label: 'SEO',
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -70,6 +70,56 @@ export const Pages: CollectionConfig = {
               blocks: [
                 // required
                 QuoteBlock,
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Meta',
+          fields: [
+            {
+              name: 'relatedPosts',
+              type: 'relationship',
+              admin: {
+                position: 'sidebar',
+              },
+              filterOptions: ({ id }) => {
+                return {
+                  id: {
+                    not_in: [id],
+                  },
+                }
+              },
+              hasMany: true,
+              relationTo: 'posts',
+            },
+            {
+              name: 'categories',
+              type: 'relationship',
+              admin: {
+                position: 'sidebar',
+              },
+              hasMany: true,
+              relationTo: 'categories',
+            },
+          ],
+        },
+        {
+          label: 'Test',
+          fields: [
+            {
+              type: 'tabs',
+              tabs: [
+                {
+                  label: 'Test',
+                  fields: [
+                    {
+                      name: 'test',
+                      type: 'text',
+                      label: 'Test',
+                    },
+                  ],
+                },
               ],
             },
           ],
