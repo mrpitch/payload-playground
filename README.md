@@ -48,9 +48,42 @@ A modern, full-stack web application built with PayloadCMS 3.0 and Next.js 15.
 │       ├── blocks/         # Content blocks
 │       ├── collections/    # Database collections
 │       ├── i18n/          # Internationalization
+│           ├── routing.ts  # i18n routing configuration
+│           └── i18n.ts     # PayloadCMS i18n config
 │       ├── plugins/       # PayloadCMS plugins
 │       └── utils/         # CMS utilities
 ```
+
+## Internationalization (i18n)
+
+The project uses a dual i18n setup:
+
+- PayloadCMS Admin UI translations (en, de)
+- Next.js frontend translations using next-intl
+
+### Supported Languages
+
+- English (en) - Default
+- German (de)
+
+### Collection Fields
+
+Localized fields in collections are marked with:
+
+```typescript
+{
+  name: 'title',
+  type: 'text',
+  localized: true
+}
+```
+
+### Configuration Files
+
+- `src/payload/i18n/i18n.ts` - PayloadCMS admin translations
+- `src/payload/i18n/messages/` - Frontend translation files
+- `src/payload/i18n/routing.ts` - i18n routing setup
+- `src/payload/i18n/request.ts` - next-intl configuration
 
 ## Collections
 

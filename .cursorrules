@@ -179,6 +179,7 @@ Documentation Requirements
   - Explain business rules
   - Note edge cases
   - TSDoc for exported functions
+- create and update *.md refer to markdownlint to ensure valid markdown
 
 Monitoring and Analytics
 
