@@ -14,6 +14,16 @@ export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+      schedulePublish: true,
+    },
+    maxPerDoc: 50,
   },
   fields: [
     {
@@ -21,12 +31,14 @@ export const Pages: CollectionConfig = {
       label: 'Title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'slug',
       type: 'text',
       label: 'Slug',
       required: true,
+      localized: true,
     },
     {
       type: 'tabs',
@@ -98,13 +110,4 @@ export const Pages: CollectionConfig = {
     },
   ],
   hooks: {},
-  versions: {
-    drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
-      },
-      schedulePublish: true,
-    },
-    maxPerDoc: 50,
-  },
 }

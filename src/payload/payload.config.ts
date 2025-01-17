@@ -15,8 +15,7 @@ import { Posts } from '@/payload/collections/Posts'
 import { Categories } from '@/payload/collections/Categories'
 import { Newsletter } from '@/payload/collections/Newsletter'
 
-import { en } from '@payloadcms/translations/languages/en'
-import { de } from '@payloadcms/translations/languages/de'
+import { i18n, localization } from '@/payload/i18n/localization'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -39,10 +38,8 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  i18n: {
-    fallbackLanguage: 'en', // default
-    supportedLanguages: { en, de },
-  },
+  i18n,
+  localization,
   sharp,
   plugins: [...plugins],
 })

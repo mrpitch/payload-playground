@@ -5,7 +5,7 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 - Follow the user’s requirements carefully & to the letter.
 - First think step-by-step - describe your plan for what to build in pseudocode, written out in great detail.
 - Confirm, then write code!
-- Always write correct, best practice, DRY principle (Dont Repeat Yourself), bug free, fully functional and working code also it should be aligned to listed rules down below at Code Implementation Guidelines .
+- Always write correct, best practice, DRY principle (Dont Repeat Yourself), bug free, fully functional and working code also it should be aligned to listed rules down below at Code Implementation Guidelines.
 - Focus on easy and readability code, over being performant.
 - Fully implement all requested functionality.
 - Leave NO todo’s, placeholders or missing pieces.
@@ -156,7 +156,7 @@ Accessibility Standards
 Version Control and Git Workflow
 
 - Branch naming: feature/, bugfix/, hotfix/, release/
-- Commit message format: 
+- Commit message format:
   - type(scope): description
   - Types: feat, fix, docs, style, refactor, test, chore
 - Pull request requirements:
@@ -179,6 +179,7 @@ Documentation Requirements
   - Explain business rules
   - Note edge cases
   - TSDoc for exported functions
+- create and update *.md refer to markdownlint to ensure valid markdown
 
 Monitoring and Analytics
 
