@@ -1,4 +1,6 @@
 import { CollectionConfig } from 'payload'
+import { isAdmin } from '@/payload/access/isAdmin'
+import { isAdminOrHasSiteAccess } from '@/payload/access/isAdminOrHasSiteAccess'
 
 import {
   MetaDescriptionField,
@@ -25,6 +27,16 @@ export const Pages: CollectionConfig = {
     },
     maxPerDoc: 50,
   },
+  access: {
+    // Only admins can create
+    create: isAdmin,
+    // Only admins or editors with site access can read
+    read: isAdminOrHasSiteAccess('id'),
+    // Only admins can update
+    update: isAdmin,
+    // Only admins can delete
+    delete: isAdmin,
+  },
   fields: [
     {
       name: 'title',
@@ -39,6 +51,12 @@ export const Pages: CollectionConfig = {
       label: 'Slug',
       required: true,
       localized: true,
+    },
+    {
+      name: 'site',
+      type: 'relationship',
+      relationTo: 'sites',
+      required: true,
     },
     {
       type: 'tabs',
@@ -58,13 +76,9 @@ export const Pages: CollectionConfig = {
             MetaImageField({
               relationTo: 'media',
             }),
-
             MetaDescriptionField({}),
             PreviewField({
-              // if the `generateUrl` function is configured
               hasGenerateFn: true,
-
-              // field paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
