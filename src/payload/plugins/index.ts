@@ -30,6 +30,7 @@ export const plugins: Plugin[] = [
         prefix: process.env.AWS_S3_BUCKET_PREFIX || '',
       },
     },
+    disableLocalStorage: process.env.AWS_S3_BUCKET_NAME ? false : true,
     bucket: process.env.AWS_S3_BUCKET_NAME || '',
     config: {
       credentials: {
