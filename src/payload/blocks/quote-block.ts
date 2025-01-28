@@ -11,10 +11,12 @@ export const QuoteBlock: Block = {
       name: 'quoteHeader',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'quoteText',
       type: 'text',
+      localized: true,
     },
   ],
 }
