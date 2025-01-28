@@ -1,63 +1,86 @@
 import { Payload } from 'payload'
+
 export const seed = async (payload: Payload): Promise<void> => {
-  // Create sites
-  const site1 = await payload.create({
-    collection: 'sites',
+  // Create categories
+  const category1 = await payload.create({
+    collection: 'categories',
     data: {
-      name: 'Hurdi Site',
-      domain: 'hurdigurdi.com',
+      _status: 'published',
+      title: 'Category 1',
+      slug: 'category-1',
+      publishedAt: new Date().toISOString(),
     },
   })
 
-  const site2 = await payload.create({
-    collection: 'sites',
+  const category2 = await payload.create({
+    collection: 'categories',
     data: {
-      name: 'Site1',
-      domain: 'site1.hurdigurdi.com',
+      _status: 'published',
+      title: 'Category 2',
+      slug: 'category-2',
+      publishedAt: new Date().toISOString(),
     },
   })
 
-  // Create admin user
+  const category3 = await payload.create({
+    collection: 'categories',
+    data: {
+      _status: 'published',
+      title: 'Category 3',
+      slug: 'category-3',
+      publishedAt: new Date().toISOString(),
+    },
+  })
+
+  // Create users with different roles
   await payload.create({
     collection: 'users',
     data: {
       email: 'hurdi@gurdi.de',
-      password: 'Test1234',
-      firstName: 'Hurid',
-      lastName: 'Gurdi',
+      password: 'abc',
+      firstName: 'Admin',
+      lastName: 'User',
       roles: ['admin'],
     },
   })
 
-  // Create editor user with access to site1 only
   await payload.create({
     collection: 'users',
     data: {
-      email: 'site1@hurdi.de',
-      password: 'Test1234',
-      firstName: 'Site1',
-      lastName: 'Hurdi',
+      email: 'editor@hurdi.de',
+      password: 'abc',
+      firstName: 'Editor',
+      lastName: 'User',
       roles: ['editor'],
-      sites: [site1.id],
     },
   })
 
-  // Create pages for each site
+  await payload.create({
+    collection: 'users',
+    data: {
+      email: 'user@hurdi.de',
+      password: 'abc',
+      firstName: 'Regular',
+      lastName: 'User',
+      roles: ['user'],
+    },
+  })
+
+  // Create pages
   await payload.create({
     collection: 'pages',
     data: {
       _status: 'published',
-      title: 'Welcome to Hurdi',
-      slug: 'welcome-hurdi',
+      title: 'Home',
+      slug: 'home',
       layout: [
         {
           blockType: 'Quote',
-          quoteHeader: 'Welcome to Hurdi Site',
-          quoteText:
-            'This is the main page of Hurdi site. Only Site1 editor and admin can access this.',
+          quoteHeader: 'Welcome to Our Site',
+          quoteText: 'This is the home page of our website.',
         },
       ],
-      site: site1.id,
+      publishedAt: new Date().toISOString(),
     },
   })
 
@@ -65,50 +88,54 @@ export const seed = async (payload: Payload): Promise<void> => {
     collection: 'pages',
     data: {
       _status: 'published',
-      title: 'Welcome to Gurdi',
-      slug: 'welcome-gurdi',
+      title: 'Imprint',
+      slug: 'imprint',
       layout: [
         {
           blockType: 'Quote',
-          quoteHeader: 'Welcome to Gurdi Site',
-          quoteText: 'This is the main page of Gurdi site. Only admin can access this.',
+          quoteHeader: 'Legal Information',
+          quoteText: 'This is our imprint page containing legal information.',
         },
       ],
-      site: site2.id,
+      publishedAt: new Date().toISOString(),
     },
   })
 
-  // Create posts for each site
+  // Create posts with category relationships
   await payload.create({
     collection: 'posts',
     data: {
       _status: 'published',
-      title: 'First Hurdi Post',
-      slug: 'first-hurdi-post',
+      title: 'Post 1',
+      slug: 'post-1',
       content: {
         root: {
-          type: 'root',
           children: [
             {
+              children: [{ text: 'This is the content of post 1.' }],
               type: 'p',
-              children: [
-                {
-                  text: 'This is the first post on Hurdi site. Only Site1 editor and admin can access this.',
-                },
-              ],
+              version: 1,
               direction: null,
               format: '',
               indent: 0,
-              version: 1,
             },
           ],
+          type: 'root',
+          version: 1,
           direction: null,
           format: '',
           indent: 0,
-          version: 1,
         },
       },
-      site: site1.id,
+      categories: [category1.id],
+      publishedAt: new Date().toISOString(),
+      layout: [
+        {
+          blockType: 'Quote',
+          quoteHeader: 'Post 1',
+          quoteText: 'This is a featured quote from post 1.',
+        },
+      ],
     },
   })
 
@@ -116,32 +143,36 @@ export const seed = async (payload: Payload): Promise<void> => {
     collection: 'posts',
     data: {
       _status: 'published',
-      title: 'First Gurdi Post',
-      slug: 'first-gurdi-post',
+      title: 'Post 2',
+      slug: 'post-2',
       content: {
         root: {
-          type: 'root',
           children: [
             {
+              children: [{ text: 'This is the content of post 2.' }],
               type: 'p',
-              children: [
-                {
-                  text: 'This is the first post on Gurdi site. Only admin can access this.',
-                },
-              ],
+              version: 1,
               direction: null,
               format: '',
               indent: 0,
-              version: 1,
             },
           ],
+          type: 'root',
+          version: 1,
           direction: null,
           format: '',
           indent: 0,
-          version: 1,
         },
       },
-      site: site2.id,
+      categories: [category2.id, category3.id],
+      publishedAt: new Date().toISOString(),
+      layout: [
+        {
+          blockType: 'Quote',
+          quoteHeader: 'Post 2',
+          quoteText: 'This is a featured quote from post 2.',
+        },
+      ],
     },
   })
 

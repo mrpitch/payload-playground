@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload'
+import { admin } from '@/payload/access/admin'
+import { adminAndEditor } from '@/payload/access/adminAndEditor'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -7,7 +9,10 @@ export const Categories: CollectionConfig = {
     defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
   },
   access: {
-    read: () => true,
+    create: admin,
+    read: adminAndEditor,
+    update: admin,
+    delete: admin,
   },
   versions: {
     drafts: {

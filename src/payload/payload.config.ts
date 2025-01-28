@@ -15,7 +15,6 @@ import { Pages } from '@/payload/collections/Pages'
 import { Posts } from '@/payload/collections/Posts'
 import { Categories } from '@/payload/collections/Categories'
 import { Newsletter } from '@/payload/collections/Newsletter'
-import { Sites } from '@/payload/collections/Sites'
 
 import { i18n, localization } from '@/payload/i18n/localization'
 
@@ -29,7 +28,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Sites, Pages, Posts, Categories, Newsletter, Users, Media],
+  collections: [Pages, Posts, Categories, Newsletter, Users, Media],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

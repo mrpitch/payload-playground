@@ -1,6 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { isAdmin } from '@/payload/access/isAdmin'
-import { isAdminOrHasSiteAccess } from '@/payload/access/isAdminOrHasSiteAccess'
+import { adminAndEditor } from '@/payload/access/adminAndEditor'
 
 import {
   MetaDescriptionField,
@@ -28,14 +27,10 @@ export const Posts: CollectionConfig = {
     maxPerDoc: 50,
   },
   access: {
-    // Only admins can create
-    create: isAdmin,
-    // Only admins or editors with site access can read
-    read: isAdminOrHasSiteAccess('id'),
-    // Only admins can update
-    update: isAdmin,
-    // Only admins can delete
-    delete: isAdmin,
+    create: adminAndEditor,
+    read: adminAndEditor,
+    update: adminAndEditor,
+    delete: adminAndEditor,
   },
   fields: [
     {
@@ -51,12 +46,6 @@ export const Posts: CollectionConfig = {
       label: 'Slug',
       required: true,
       localized: true,
-    },
-    {
-      name: 'site',
-      type: 'relationship',
-      relationTo: 'sites',
-      required: true,
     },
     {
       name: 'content',

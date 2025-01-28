@@ -11,7 +11,6 @@ export interface Config {
     users: UserAuthOperations;
   };
   collections: {
-    sites: Site;
     pages: Page;
     posts: Post;
     categories: Category;
@@ -25,7 +24,6 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    sites: SitesSelect<false> | SitesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
@@ -77,25 +75,12 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sites".
- */
-export interface Site {
-  id: number;
-  name: string;
-  domain: string;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
   id: number;
   title: string;
   slug: string;
-  site: number | Site;
   meta?: {
     title?: string | null;
     /**
@@ -148,7 +133,6 @@ export interface Post {
   id: number;
   title: string;
   slug: string;
-  site: number | Site;
   content: {
     root: {
       type: string;
@@ -215,7 +199,6 @@ export interface User {
   firstName: string;
   lastName: string;
   roles?: ('admin' | 'editor' | 'user')[] | null;
-  sites?: (number | Site)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -327,10 +310,6 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'sites';
-        value: number | Site;
-      } | null)
-    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -402,23 +381,11 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sites_select".
- */
-export interface SitesSelect<T extends boolean = true> {
-  name?: T;
-  domain?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  site?: T;
   meta?:
     | T
     | {
@@ -453,7 +420,6 @@ export interface QuoteBlockSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  site?: T;
   content?: T;
   meta?:
     | T
@@ -510,7 +476,6 @@ export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
   roles?: T;
-  sites?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -611,10 +576,6 @@ export interface TaskSchedulePublish {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
     doc?:
-      | ({
-          relationTo: 'sites';
-          value: number | Site;
-        } | null)
       | ({
           relationTo: 'pages';
           value: number | Page;
