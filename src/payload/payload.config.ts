@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { plugins } from '@/payload/plugins'
+import { seed } from './seed'
 
 import { Users } from '@/payload/collections/Users'
 import { Media } from '@/payload/collections/Media'
@@ -42,4 +43,9 @@ export default buildConfig({
   localization,
   sharp,
   plugins: [...plugins],
+  onInit: async (payload) => {
+    if (process.env.PAYLOAD_SEED === 'true') {
+      await seed(payload)
+    }
+  },
 })

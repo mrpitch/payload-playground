@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import { adminAndEditor } from '@/payload/access/adminAndEditor'
 
 import {
   MetaDescriptionField,
@@ -25,6 +26,12 @@ export const Posts: CollectionConfig = {
     },
     maxPerDoc: 50,
   },
+  access: {
+    create: adminAndEditor,
+    read: adminAndEditor,
+    update: adminAndEditor,
+    delete: adminAndEditor,
+  },
   fields: [
     {
       name: 'title',
@@ -37,6 +44,12 @@ export const Posts: CollectionConfig = {
       name: 'slug',
       type: 'text',
       label: 'Slug',
+      required: true,
+      localized: true,
+    },
+    {
+      name: 'content',
+      type: 'richText',
       required: true,
       localized: true,
     },

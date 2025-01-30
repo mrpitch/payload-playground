@@ -1,7 +1,9 @@
+import { Plugin } from 'payload'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { Plugin } from 'payload'
+import { s3Storage } from '@payloadcms/storage-s3'
+
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 
 import { Page } from '@payload-types'
@@ -22,4 +24,20 @@ export const plugins: Plugin[] = [
     generateURL,
   }),
   payloadCloudPlugin(),
+  s3Storage({
+    collections: {
+      media: {
+        prefix: process.env.AWS_S3_BUCKET_PREFIX || '',
+      },
+    },
+    disableLocalStorage: process.env.AWS_S3_BUCKET_NAME ? false : true,
+    bucket: process.env.AWS_S3_BUCKET_NAME || '',
+    config: {
+      credentials: {
+        accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY || '',
+      },
+      region: process.env.AWS_S3_REGION || '',
+    },
+  }),
 ]

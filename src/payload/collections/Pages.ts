@@ -1,4 +1,6 @@
 import { CollectionConfig } from 'payload'
+import { adminAndEditor } from '@/payload/access/adminAndEditor'
+import { admin } from '@/payload/access/admin'
 
 import {
   MetaDescriptionField,
@@ -24,6 +26,12 @@ export const Pages: CollectionConfig = {
       schedulePublish: true,
     },
     maxPerDoc: 50,
+  },
+  access: {
+    create: admin,
+    read: adminAndEditor,
+    update: adminAndEditor,
+    delete: admin,
   },
   fields: [
     {
@@ -58,13 +66,9 @@ export const Pages: CollectionConfig = {
             MetaImageField({
               relationTo: 'media',
             }),
-
             MetaDescriptionField({}),
             PreviewField({
-              // if the `generateUrl` function is configured
               hasGenerateFn: true,
-
-              // field paths to match the target field for data
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
