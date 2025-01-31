@@ -8,10 +8,7 @@ import { themePreset } from './src/lib/styles/themePresets'
 
 const config = {
 	presets: [themePreset],
-	content: [
-		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
-		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
-	],
+	content: ['./src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
 } satisfies Config
 
 export default config
