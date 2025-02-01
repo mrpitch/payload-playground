@@ -8,7 +8,7 @@ import {
 	typeNextSemiBold,
 	typeNextBold,
 } from '@/lib/styles/fonts/index'
-import '../../lib/styles/globals.css'
+import '@/lib/styles/globals.css'
 
 import { siteConfig } from '@/lib/config'
 
@@ -53,7 +53,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 			<ThemeProvider>
 				<body
 					className={cn(
-						'h-full min-h-screen font-sans antialiased',
+						'font-sans h-full min-h-screen antialiased',
 						typeNextRegular.variable,
 						typeNextLight.variable,
 						typeNextSemiBold.variable,

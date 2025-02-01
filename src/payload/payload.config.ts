@@ -22,30 +22,36 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  admin: {
-    user: Users.slug,
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
-  },
-  collections: [Pages, Posts, Categories, Newsletter, Users, Media],
-  editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
-  typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI || '',
-    },
-  }),
-  i18n,
-  localization,
-  sharp,
-  plugins: [...plugins],
-  onInit: async (payload) => {
-    if (process.env.PAYLOAD_SEED === 'true') {
-      await seed(payload)
-    }
-  },
+	admin: {
+		components: {
+			graphics: {
+				Icon: './styles/Icon.tsx',
+				Logo: './styles/logo.tsx',
+			},
+		},
+		user: Users.slug,
+		importMap: {
+			baseDir: path.resolve(dirname),
+		},
+	},
+	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
+	editor: lexicalEditor(),
+	secret: process.env.PAYLOAD_SECRET || '',
+	typescript: {
+		outputFile: path.resolve(dirname, 'payload-types.ts'),
+	},
+	db: postgresAdapter({
+		pool: {
+			connectionString: process.env.DATABASE_URI || '',
+		},
+	}),
+	i18n,
+	localization,
+	sharp,
+	plugins: [...plugins],
+	onInit: async (payload) => {
+		if (process.env.PAYLOAD_SEED === 'true') {
+			await seed(payload)
+		}
+	},
 })
