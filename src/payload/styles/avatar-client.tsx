@@ -1,16 +1,16 @@
-import { BasePayload } from 'payload'
-import { headers as nextHeaders } from 'next/headers'
+'use client'
+import { useAuth } from '@payloadcms/ui'
 
 import type { User, Media } from '@payload-types'
 
 import { Avatar as AvatarPrimitive, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Icon } from '@/components/ui/icons'
 
-const Avatar = async ({ payload }: { payload: BasePayload }) => {
-	const headers = await nextHeaders()
-	const { user } = (await payload.auth({ headers })) as { user: User | null }
+const Avatar = () => {
+	const { user } = useAuth<User>()
 
 	if (!user) return null
+
 	const avatar = user.avatar as Media
 
 	return (
