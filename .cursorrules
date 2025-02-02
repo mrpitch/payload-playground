@@ -64,7 +64,7 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 
 ## UI and Styling
 
-- Use Shadcn UI, Radix, and Tailwind for components and styling
+- Use Shadcn UI, Radix, and Tailwind CSS for components and styling
 - Implement responsive design with Tailwind CSS; use a mobile-first approach
 
 ## State Management and Data Fetching
@@ -120,9 +120,24 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 ## Follow Official Documentation
 
 - Adhere to the official documentation for each technology used
+  - https://payloadcms.com/docs/
+  - https://nextjs.org/docs/
+  - https://react.dev/
+  - https://tailwindcss.com/docs/
+  - https://zustand.docs.pmnd.rs/
+  - https://vercel.com/docs/
+  - https://vercel.com/docs/functions
 - For Next.js, focus on data fetching methods and routing conventions
 - Stay updated with the latest best practices and updates
 - Add references to the documentation in the code
+- use official github repos and examples as reference:
+  - https://github.com/payloadcms/payload
+  - https://github.com/vercel/next.js
+  - https://github.com/shadcn-ui/ui
+  - https://github.com/radix-ui/react-radix
+  - https://github.com/tailwindlabs/tailwindcss
+  - https://github.com/pmndrs/zustand
+  - https://github.com/vercel/edge-functions
 
 ## Output Expectations
 
@@ -351,45 +366,45 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 ## Pull Request Template
 
 ### Required Sections
-```markdown
-# [Feature/Fix/Chore] Title
 
-## Overview
+#### [Feature/Fix/Chore] Title
+
+#### Overview
 - Brief description of changes
 - Related ticket: [TICKET-XXX]
 - Impact assessment
 
-## Changes Made
+#### Changes Made
 - Bullet points of specific changes
 - Implementation details
 - Architecture decisions
 
-## Technical Details
+#### Technical Details
 - Detailed technical implementation
 - Code examples where relevant
 - Dependencies added/modified
 
-## Testing Done
+####   Testing Done
 - ✅ List of test cases
 - ✅ Testing environment details
 - ✅ Performance impact
 
-## Documentation
+#### Documentation
 - README updates
 - API changes
 - Configuration updates
 
-## Recommendations for Future Improvements
+#### Recommendations for Future Improvements
 - List potential enhancements
 - Technical debt notes
 - Future considerations
 
-## Screenshots
+#### Screenshots
 - Before/After (if UI changes)
 - Console outputs
 - Error states
 
-## Checklist
+#### Checklist
 - [ ] Tests added/updated
 - [ ] Documentation updated
 - [ ] No new TypeScript errors
@@ -399,11 +414,8 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 - [ ] Security checked
 - [ ] Performance verified
 
-## Reviewers
+#### Reviewers
 - @relevant-team-members
 
-## Dependencies
+#### Dependencies
 - List of dependencies and versions
-```
-
-[Remaining sections remain unchanged...]
