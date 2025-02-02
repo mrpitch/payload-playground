@@ -29,6 +29,9 @@ export default buildConfig({
 				Logo: './styles/logo.tsx',
 			},
 		},
+		avatar: {
+			Component: './styles/avatar.tsx',
+		},
 		user: Users.slug,
 		importMap: {
 			baseDir: path.resolve(dirname),

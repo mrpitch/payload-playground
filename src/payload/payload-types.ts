@@ -199,6 +199,7 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
+  avatar?: (number | null) | Media;
   roles?: ('admin' | 'editor' | 'user')[] | null;
   updatedAt: string;
   createdAt: string;
@@ -476,6 +477,7 @@ export interface NewsletterSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
+  avatar?: T;
   roles?: T;
   updatedAt?: T;
   createdAt?: T;
