@@ -1,15 +1,34 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
 import { buttonVariants } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 
 export default async function Home() {
-	//const contentData = await useContent({ lang: 'de' })
+	const payload = await getPayload({ config })
+	const page = await payload.find({
+		collection: 'pages',
+		limit: 1,
+		depth: 1,
+		where: {
+			slug: {
+				equals: 'home',
+			},
+		},
+	})
+	if (page.docs.length) {
+		notFound()
+	}
+
+	const { title } = page.docs[0]
 
 	return (
 		<section>
 			<Typography as="h1" size="4xl">
-				Dashboard
+				{title}
 			</Typography>
 			<div className="mt-8 flex gap-4">
 				<Link href="/dashboard" className={buttonVariants()}>
@@ -20,7 +39,7 @@ export default async function Home() {
 				</Link>
 			</div>
 			{/* <div className="mt-8">
-				<pre>{JSON.stringify(contentData, null, 2)}</pre>
+				<pre>{JSON.stringify(content, null, 2)}</pre>
 			</div> */}
 		</section>
 	)
