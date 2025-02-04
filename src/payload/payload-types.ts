@@ -581,8 +581,20 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface AppShell {
   id: number;
-  settings?: {};
+  settings: {
+    siteName: string;
+    siteDescription: string;
+  };
   mainNavigation?: {
+    navItems?:
+      | {
+          label: string;
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  legalNavigation?: {
     navItems?:
       | {
           label: string;
@@ -601,8 +613,24 @@ export interface AppShell {
  * via the `definition` "app-shell_select".
  */
 export interface AppShellSelect<T extends boolean = true> {
-  settings?: T | {};
+  settings?:
+    | T
+    | {
+        siteName?: T;
+        siteDescription?: T;
+      };
   mainNavigation?:
+    | T
+    | {
+        navItems?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+      };
+  legalNavigation?:
     | T
     | {
         navItems?:

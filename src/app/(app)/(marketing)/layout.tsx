@@ -5,11 +5,10 @@ import { siteConfig } from '@/lib/config'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-import { Container } from '@/components/ui/container'
 import { Logo } from '@/components/ui/logo'
+import { Footer } from '@/app/_components/footer'
 import { MainNav, DrawerNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
-import { Typography } from '@/components/ui/typography'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
 	const payload = await getPayload({ config: configPromise })
@@ -18,7 +17,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 	if (!appShell) {
 		notFound()
 	}
-	const { mainNavigation } = appShell
+	const { mainNavigation, settings, legalNavigation } = appShell
 
 	return (
 		<div className="flex h-screen flex-col">
@@ -35,13 +34,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 				</div>
 			</header>
 			<main className="flex flex-1 overflow-y-auto p-8">{children}</main>
-			<footer className="py-4">
-				<Container as="div" className="flex w-full">
-					<Typography as="p" size="xs">
-						&copy; {new Date().getFullYear()} {siteConfig.name}
-					</Typography>
-				</Container>
-			</footer>
+			<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
 		</div>
 	)
 }

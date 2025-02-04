@@ -16,6 +16,7 @@ export const AppShell: GlobalConfig = {
 			},
 			schedulePublish: true,
 		},
+		max: 10,
 	},
 	fields: [
 		{
@@ -24,7 +25,18 @@ export const AppShell: GlobalConfig = {
 				{
 					name: 'settings',
 					label: 'Settings',
-					fields: [],
+					fields: [
+						{
+							name: 'siteName',
+							type: 'text',
+							required: true,
+						},
+						{
+							name: 'siteDescription',
+							type: 'text',
+							required: true,
+						},
+					],
 				},
 				{
 					name: 'mainNavigation',
@@ -47,6 +59,30 @@ export const AppShell: GlobalConfig = {
 							],
 							minRows: 1,
 							maxRows: 4,
+						},
+					],
+				},
+				{
+					name: 'legalNavigation',
+					label: 'Legal Navigation',
+					fields: [
+						{
+							name: 'navItems',
+							type: 'array',
+							fields: [
+								{
+									name: 'label',
+									type: 'text',
+									required: true,
+								},
+								{
+									name: 'href',
+									type: 'text',
+									required: true,
+								},
+							],
+							minRows: 1,
+							maxRows: 5,
 						},
 					],
 				},
