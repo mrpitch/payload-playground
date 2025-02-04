@@ -38,8 +38,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'app-shell': AppShell;
+  };
+  globalsSelect: {
+    'app-shell': AppShellSelect<false> | AppShellSelect<true>;
+  };
   locale: 'en' | 'de';
   user: User & {
     collection: 'users';
@@ -573,6 +577,50 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-shell".
+ */
+export interface AppShell {
+  id: number;
+  settings?: {};
+  mainNavigation?: {
+    navItems?:
+      | {
+          label: string;
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  publishedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-shell_select".
+ */
+export interface AppShellSelect<T extends boolean = true> {
+  settings?: T | {};
+  mainNavigation?:
+    | T
+    | {
+        navItems?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+      };
+  publishedAt?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -592,7 +640,7 @@ export interface TaskSchedulePublish {
           relationTo: 'categories';
           value: number | Category;
         } | null);
-    global?: string | null;
+    global?: 'app-shell' | null;
     user?: (number | null) | User;
   };
   output?: unknown;

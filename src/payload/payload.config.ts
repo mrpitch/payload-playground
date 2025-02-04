@@ -9,6 +9,7 @@ import sharp from 'sharp'
 import { plugins } from '@/payload/plugins'
 import { seed } from './seed'
 
+import { AppShell } from '@/payload/globals/AppShell'
 import { Users } from '@/payload/collections/Users'
 import { Media } from '@/payload/collections/Media'
 import { Pages } from '@/payload/collections/Pages'
@@ -25,18 +26,19 @@ export default buildConfig({
 	admin: {
 		components: {
 			graphics: {
-				Icon: './styles/Icon.tsx',
-				Logo: './styles/logo.tsx',
+				Icon: './components/Icon.tsx',
+				Logo: './components/logo.tsx',
 			},
 		},
 		avatar: {
-			Component: './styles/avatar.tsx',
+			Component: './components/avatar.tsx',
 		},
 		user: Users.slug,
 		importMap: {
 			baseDir: path.resolve(dirname),
 		},
 	},
+	globals: [AppShell],
 	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
 	editor: lexicalEditor(),
 	secret: process.env.PAYLOAD_SECRET || '',

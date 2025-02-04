@@ -28,7 +28,7 @@ interface INavChildItem {
 }
 
 interface IMainNavProps {
-	items?: INavItem[]
+	items?: INavItem[] | null
 }
 
 export const MainNav = ({ items }: IMainNavProps) => {
@@ -41,13 +41,9 @@ export const MainNav = ({ items }: IMainNavProps) => {
 							<NavigationMenuItem key={index}>
 								<NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
 								<NavigationMenuContent>
-									<ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+									<ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
 										{item.children.map((child) => (
-											<ListItem
-												key={child.label}
-												title={child.label}
-												href={child.href}
-											>
+											<ListItem key={child.label} title={child.label} href={child.href}>
 												{child.description}
 											</ListItem>
 										))}
@@ -62,7 +58,7 @@ export const MainNav = ({ items }: IMainNavProps) => {
 									</NavigationMenuLink>
 								</Link>
 							</NavigationMenuItem>
-						)
+						),
 					)}
 				</NavigationMenuList>
 			) : null}
@@ -70,30 +66,29 @@ export const MainNav = ({ items }: IMainNavProps) => {
 	)
 }
 
-const ListItem = React.forwardRef<
-	React.ElementRef<'a'>,
-	React.ComponentPropsWithoutRef<'a'>
->(({ className, title, children, ...props }, ref) => {
-	return (
-		<li>
-			<NavigationMenuLink asChild>
-				<a
-					ref={ref}
-					className={cn(
-						'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:text-foreground-dark dark:hover:text-foreground-light',
-						className
-					)}
-					{...props}
-				>
-					<Typography as="p" className="font-medium">
-						{title}
-					</Typography>
-					<Typography as="p" className="line-clamp-2 text-sm leading-snug">
-						{children}
-					</Typography>
-				</a>
-			</NavigationMenuLink>
-		</li>
-	)
-})
+const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWithoutRef<'a'>>(
+	({ className, title, children, ...props }, ref) => {
+		return (
+			<li>
+				<NavigationMenuLink asChild>
+					<a
+						ref={ref}
+						className={cn(
+							'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:text-foreground-dark dark:hover:text-foreground-light',
+							className,
+						)}
+						{...props}
+					>
+						<Typography as="p" className="font-medium">
+							{title}
+						</Typography>
+						<Typography as="p" className="line-clamp-2 text-sm leading-snug">
+							{children}
+						</Typography>
+					</a>
+				</NavigationMenuLink>
+			</li>
+		)
+	},
+)
 ListItem.displayName = 'ListItem'
