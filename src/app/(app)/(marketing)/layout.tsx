@@ -1,25 +1,19 @@
-import { unstable_cache } from 'next/cache'
+// import { unstable_cache } from 'next/cache'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { siteConfig } from '@/lib/config'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
+// import configPromise from '@payload-config'
+// import { getPayload } from 'payload'
+
+import { getGlobals } from '@/lib/utils/getGlobals'
 
 import { Logo } from '@/components/ui/logo'
 import { Footer } from '@/app/_components/footer'
 import { MainNav, DrawerNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 
-const getAppShell = unstable_cache(
-	async () => {
-		console.log('revalidate getAppShell')
-		const payload = await getPayload({ config: configPromise })
-		return await payload.findGlobal({ slug: 'app-shell', draft: false })
-	},
-	['app-shell'],
-	{ revalidate: 20, tags: ['app-shell'] },
-)
+const getAppShell = getGlobals('app-shell')
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
 	const appShell = await getAppShell()
