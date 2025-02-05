@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -10,10 +11,18 @@ import { Footer } from '@/app/_components/footer'
 import { MainNav, DrawerNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 
-export default async function RootLayout({ children }: { children: React.JSX.Element }) {
-	const payload = await getPayload({ config: configPromise })
-	const appShell = await payload.findGlobal({ slug: 'app-shell', draft: false })
+const getAppShell = unstable_cache(
+	async () => {
+		console.log('revalidate getAppShell')
+		const payload = await getPayload({ config: configPromise })
+		return await payload.findGlobal({ slug: 'app-shell', draft: false })
+	},
+	['app-shell'],
+	{ revalidate: 20, tags: ['app-shell'] },
+)
 
+export default async function RootLayout({ children }: { children: React.JSX.Element }) {
+	const appShell = await getAppShell()
 	if (!appShell) {
 		notFound()
 	}
