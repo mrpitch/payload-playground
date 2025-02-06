@@ -9,12 +9,12 @@ type Global = keyof Config['globals']
 
 const payload = await getPayload({ config: configPromise })
 
-export const getGlobals = (slug: Global, draft?: boolean, revalidate?: number) => {
+export const getGlobals = async (slug: Global, draft?: boolean, revalidate?: number) => {
 	if (!revalidate) {
 		revalidate = parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
 	}
 
-	return unstable_cache(
+	const cached = unstable_cache(
 		async () => {
 			console.log('revalidate', slug)
 			return await payload.findGlobal({ slug: slug, draft: draft || false })
@@ -22,4 +22,6 @@ export const getGlobals = (slug: Global, draft?: boolean, revalidate?: number) =
 		[slug],
 		{ revalidate: revalidate, tags: [`global_${slug}`] },
 	)
+
+	return cached()
 }
