@@ -20,6 +20,6 @@ export const getGlobals = (slug: Global, draft?: boolean, revalidate?: number) =
 			return await payload.findGlobal({ slug: slug, draft: draft || false })
 		},
 		[slug],
-		{ revalidate: revalidate, tags: [slug] },
+		{ revalidate: revalidate, tags: [`global_${slug}`] },
 	)
 }
