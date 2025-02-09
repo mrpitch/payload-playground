@@ -5,11 +5,11 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { Config } from '@payload-types'
 
-type Global = keyof Config['globals']
+type TGlobal = keyof Config['globals']
 
 const payload = await getPayload({ config: configPromise })
 
-export const getGlobals = async (slug: Global, draft?: boolean, revalidate?: number) => {
+export const getGlobals = async (slug: TGlobal, draft?: boolean, revalidate?: number) => {
 	if (!revalidate) {
 		revalidate = parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
 	}
