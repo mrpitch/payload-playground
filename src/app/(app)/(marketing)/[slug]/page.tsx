@@ -2,10 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-
 import { generateMeta } from '@/lib/utils/generateMeta'
+import { queryPageBySlug } from '@/lib/utils/getCollections'
+import { getSlugs } from '@/lib/utils/getCollections'
 
 import type { Page } from '@payload-types'
 
@@ -22,27 +21,15 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 }
 
 export async function generateStaticParams() {
-	const payload = await getPayload({ config: configPromise })
-	const pages = await payload.find({
-		collection: 'pages',
-		draft: false,
-		limit: 1000,
-		overrideAccess: false,
-		pagination: false,
-		select: {
-			slug: true,
-		},
-	})
+	const pages = await getSlugs('pages')
 
-	const params = pages.docs
-		?.filter((doc) => {
-			return doc.slug !== 'home'
-		})
-		.map(({ slug }) => {
-			return { slug }
-		})
-
-	return params
+	return (
+		pages.docs
+			?.filter((doc) => {
+				return doc && 'slug' in doc && typeof doc.slug === 'string' && doc.slug !== 'home'
+			})
+			.map((doc) => ({ slug: (doc as { slug: string }).slug })) || []
+	)
 }
 
 type Args = {
@@ -82,22 +69,4 @@ export default async function Page({ params: paramsPromise }: Args) {
 				</div> */}
 		</section>
 	)
-}
-
-const queryPageBySlug = async ({ slug }: { slug: string }) => {
-	const payload = await getPayload({ config: configPromise })
-
-	const result = await payload.find({
-		collection: 'pages',
-		draft: true,
-		limit: 1,
-		pagination: false,
-		where: {
-			slug: {
-				equals: slug,
-			},
-		},
-	})
-
-	return result.docs?.[0] || null
 }
