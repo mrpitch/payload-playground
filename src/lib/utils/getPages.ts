@@ -34,7 +34,7 @@ export const getSlugs = async (
 			})
 		},
 		[slug],
-		{ revalidate: revalidate, tags: [`pages_${slug}`] },
+		{ revalidate: revalidate, tags: [`collection_slugs_${slug}`] },
 	)
 
 	return cached()
@@ -57,7 +57,6 @@ export const queryPageBySlug = async ({
 		async () => {
 			const result = await payload.find({
 				collection: 'pages',
-
 				draft: draft || false,
 				limit: 1,
 				pagination: false,
@@ -70,7 +69,7 @@ export const queryPageBySlug = async ({
 			return result.docs?.[0] || null
 		},
 		[slug],
-		{ revalidate: revalidate, tags: [`pages_${slug}`] },
+		{ revalidate: revalidate, tags: [`collection_${slug}`] },
 	)
 	return cached()
 }
