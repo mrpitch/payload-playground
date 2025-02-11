@@ -10,7 +10,7 @@ type TCollection = keyof Config['collections']
 const payload = await getPayload({ config: configPromise })
 
 export const getSlugs = async (
-	slug: TCollection,
+	collection: TCollection,
 	draft?: boolean,
 	revalidate?: number,
 	limit?: number,
@@ -21,20 +21,20 @@ export const getSlugs = async (
 
 	const cached = unstable_cache(
 		async () => {
-			console.log('revalidate', slug)
+			console.log('revalidate', collection)
 			return await payload.find({
-				collection: slug,
+				collection: collection,
 				draft: draft || false,
 				limit: limit || 1000,
-				overrideAccess: false,
+				overrideAccess: true,
 				pagination: false,
 				select: {
 					slug: true,
 				},
 			})
 		},
-		[slug],
-		{ revalidate: revalidate, tags: [`collection_slugs_${slug}`] },
+		[`collection_slugs_${collection}`],
+		{ revalidate: revalidate, tags: [`collection_slugs_${collection}`] },
 	)
 
 	return cached()
@@ -58,6 +58,7 @@ export const queryPageBySlug = async ({
 			const result = await payload.find({
 				collection: 'pages',
 				draft: draft || false,
+				overrideAccess: true,
 				limit: 1,
 				pagination: false,
 				where: {
@@ -68,8 +69,8 @@ export const queryPageBySlug = async ({
 			})
 			return result.docs?.[0] || null
 		},
-		[slug],
-		{ revalidate: revalidate, tags: [`collection_${slug}`] },
+		[`page_${slug}`],
+		{ revalidate: revalidate, tags: [`collection_page_${slug}`] },
 	)
 	return cached()
 }

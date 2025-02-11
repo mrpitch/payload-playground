@@ -1,7 +1,6 @@
 import { CollectionConfig } from 'payload'
 import { adminAndEditor } from '@/payload/access/adminAndEditor'
 import { admin } from '@/payload/access/admin'
-import { anyone } from '@/payload/access/anyone'
 
 import {
 	MetaDescriptionField,
@@ -30,7 +29,7 @@ export const Pages: CollectionConfig = {
 	},
 	access: {
 		create: admin,
-		read: anyone,
+		read: adminAndEditor,
 		update: adminAndEditor,
 		delete: admin,
 	},

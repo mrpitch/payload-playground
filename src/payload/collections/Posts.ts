@@ -1,6 +1,5 @@
 import { CollectionConfig } from 'payload'
 import { adminAndEditor } from '@/payload/access/adminAndEditor'
-import { anyone } from '@/payload/access/anyone'
 import {
 	MetaDescriptionField,
 	MetaImageField,
@@ -24,11 +23,11 @@ export const Posts: CollectionConfig = {
 			},
 			schedulePublish: true,
 		},
-		maxPerDoc: 50,
+		maxPerDoc: 10,
 	},
 	access: {
 		create: adminAndEditor,
-		read: anyone,
+		read: adminAndEditor,
 		update: adminAndEditor,
 		delete: adminAndEditor,
 	},

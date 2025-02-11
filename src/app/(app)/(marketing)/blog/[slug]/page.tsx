@@ -25,7 +25,7 @@ export async function generateStaticParams() {
 	return (
 		posts.docs
 			?.filter((doc) => {
-				return doc && 'slug' in doc && typeof doc.slug === 'string' && doc.slug !== 'home'
+				return doc && 'slug' in doc && typeof doc.slug === 'string'
 			})
 			.map((doc) => ({ slug: (doc as { slug: string }).slug })) || []
 	)
@@ -43,7 +43,6 @@ export default async function Post({ params: paramsPromise }: Args) {
 	const post = await queryPostBySlug({
 		slug: slug || '',
 	})
-	console.log('post', post)
 
 	if (!post) {
 		notFound()

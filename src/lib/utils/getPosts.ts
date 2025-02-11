@@ -20,13 +20,14 @@ export const queryPostBySlug = async ({
 	limit?: number
 }) => {
 	if (!revalidate) {
-		revalidate = parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
+		revalidate = 300 //parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
 	}
 	const cached = unstable_cache(
 		async () => {
 			const result = await payload.find({
 				collection: 'posts',
 				draft: draft || false,
+				overrideAccess: true,
 				limit: 1,
 				pagination: false,
 				where: {
@@ -37,45 +38,52 @@ export const queryPostBySlug = async ({
 			})
 			return result.docs?.[0] || null
 		},
-		[slug],
-		{ revalidate: revalidate, tags: [`collection_${slug}`] },
+		[`post_${slug}`],
+		{ revalidate: revalidate, tags: [`collection_post_${slug}`] },
 	)
 	return cached()
 }
 
 export const getAllPosts = async (
-	slug: TCollection,
+	collection: TCollection,
 	draft?: boolean,
 	revalidate?: number,
 	limit?: number,
 ) => {
 	if (!revalidate) {
-		revalidate = parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
+		revalidate = 300 //parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
 	}
 
 	const cached = unstable_cache(
 		async () => {
-			console.log('revalidate', slug)
+			console.log('revalidate1', collection)
 			return await payload.find({
-				collection: slug,
+				collection: collection,
 				draft: draft || false,
 				limit: limit || 1000,
-				overrideAccess: false,
+				overrideAccess: true,
+				depth: 1,
 				pagination: false,
 				sort: 'title',
 				select: {
 					slug: true,
 					title: true,
-					content: true,
 					createdAt: true,
 					updatedAt: true,
 					publishedAt: true,
 					categories: true,
+					relatedPosts: true,
+				},
+				populate: {
+					categories: {
+						title: true,
+						slug: true,
+					},
 				},
 			})
 		},
-		[slug],
-		{ revalidate: revalidate, tags: [`collection_${slug}`] },
+		['getAllPosts'],
+		{ revalidate: revalidate, tags: [`collection_${collection}_getAllPosts`] },
 	)
 
 	return cached()

@@ -7,7 +7,9 @@ import { queryPageBySlug, getSlugs } from '@/lib/utils/getPages'
 import { getAllPosts } from '@/lib/utils/getPosts'
 
 import type { Page } from '@payload-types'
+
 import type { TPostMeta } from '@/lib/types/posts'
+
 import { buttonVariants } from '@/components/ui/button'
 import { Typography } from '@/components/ui/typography'
 import { Badge } from '@/components/ui/badge'
