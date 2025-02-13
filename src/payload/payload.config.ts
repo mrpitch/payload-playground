@@ -9,6 +9,7 @@ import sharp from 'sharp'
 import { plugins } from '@/payload/plugins'
 import { seed } from './seed'
 
+import { AppShell } from '@/payload/globals/AppShell'
 import { Users } from '@/payload/collections/Users'
 import { Media } from '@/payload/collections/Media'
 import { Pages } from '@/payload/collections/Pages'
@@ -22,30 +23,40 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  admin: {
-    user: Users.slug,
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
-  },
-  collections: [Pages, Posts, Categories, Newsletter, Users, Media],
-  editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
-  typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
-  db: postgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI || '',
-    },
-  }),
-  i18n,
-  localization,
-  sharp,
-  plugins: [...plugins],
-  onInit: async (payload) => {
-    if (process.env.PAYLOAD_SEED === 'true') {
-      await seed(payload)
-    }
-  },
+	admin: {
+		components: {
+			graphics: {
+				Icon: './components/Icon.tsx',
+				Logo: './components/logo.tsx',
+			},
+		},
+		avatar: {
+			Component: './components/avatar.tsx',
+		},
+		user: Users.slug,
+		importMap: {
+			baseDir: path.resolve(dirname),
+		},
+	},
+	globals: [AppShell],
+	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
+	editor: lexicalEditor(),
+	secret: process.env.PAYLOAD_SECRET || '',
+	typescript: {
+		outputFile: path.resolve(dirname, 'payload-types.ts'),
+	},
+	db: postgresAdapter({
+		pool: {
+			connectionString: process.env.DATABASE_URI || '',
+		},
+	}),
+	i18n,
+	localization,
+	sharp,
+	plugins: [...plugins],
+	onInit: async (payload) => {
+		if (process.env.PAYLOAD_SEED === 'true') {
+			await seed(payload)
+		}
+	},
 })

@@ -38,8 +38,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'app-shell': AppShell;
+  };
+  globalsSelect: {
+    'app-shell': AppShellSelect<false> | AppShellSelect<true>;
+  };
   locale: 'en' | 'de';
   user: User & {
     collection: 'users';
@@ -102,6 +106,7 @@ export interface Page {
 export interface Media {
   id: number;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -198,6 +203,7 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
+  avatar?: (number | null) | Media;
   roles?: ('admin' | 'editor' | 'user')[] | null;
   updatedAt: string;
   createdAt: string;
@@ -475,6 +481,7 @@ export interface NewsletterSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   firstName?: T;
   lastName?: T;
+  avatar?: T;
   roles?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -492,6 +499,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -569,6 +577,78 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-shell".
+ */
+export interface AppShell {
+  id: number;
+  settings: {
+    siteName: string;
+    siteDescription: string;
+  };
+  mainNavigation?: {
+    navItems?:
+      | {
+          label: string;
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  legalNavigation?: {
+    navItems?:
+      | {
+          label: string;
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  publishedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-shell_select".
+ */
+export interface AppShellSelect<T extends boolean = true> {
+  settings?:
+    | T
+    | {
+        siteName?: T;
+        siteDescription?: T;
+      };
+  mainNavigation?:
+    | T
+    | {
+        navItems?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+      };
+  legalNavigation?:
+    | T
+    | {
+        navItems?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+      };
+  publishedAt?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -588,7 +668,7 @@ export interface TaskSchedulePublish {
           relationTo: 'categories';
           value: number | Category;
         } | null);
-    global?: string | null;
+    global?: 'app-shell' | null;
     user?: (number | null) | User;
   };
   output?: unknown;
