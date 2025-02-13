@@ -20,7 +20,7 @@ export const queryPostBySlug = async ({
 	limit?: number
 }) => {
 	if (!revalidate) {
-		revalidate = 300 //parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
+		revalidate = parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
 	}
 	const cached = unstable_cache(
 		async () => {
@@ -51,12 +51,11 @@ export const getAllPosts = async (
 	limit?: number,
 ) => {
 	if (!revalidate) {
-		revalidate = 300 //parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
+		revalidate = parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
 	}
 
 	const cached = unstable_cache(
 		async () => {
-			console.log('revalidate1', collection)
 			return await payload.find({
 				collection: collection,
 				draft: draft || false,

@@ -21,7 +21,6 @@ export const getSlugs = async (
 
 	const cached = unstable_cache(
 		async () => {
-			console.log('revalidate', collection)
 			return await payload.find({
 				collection: collection,
 				draft: draft || false,
@@ -36,7 +35,6 @@ export const getSlugs = async (
 		[`collection_slugs_${collection}`],
 		{ revalidate: revalidate, tags: [`collection_slugs_${collection}`] },
 	)
-
 	return cached()
 }
 
