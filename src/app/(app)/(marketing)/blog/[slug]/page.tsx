@@ -2,21 +2,22 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { generateMeta } from '@/lib/utils/generateMeta'
-import { getSlugs } from '@/lib/utils/getPages'
-import { queryPostBySlug } from '@/lib/utils/getPosts'
+import { getSlugs, getCollectionBySlug } from '@/lib/utils/getCollections'
 
 import type { Post } from '@payload-types'
+import { TGenerateMeta } from '@/lib/types'
 
 import { Badge } from '@/components/ui/badge'
 import { Typography } from '@/components/ui/typography'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise
-	const page = await queryPostBySlug({
+	const page = await getCollectionBySlug({
+		collection: 'posts',
 		slug: slug || '',
 	})
 
-	return generateMeta({ doc: page })
+	return generateMeta({ doc: page } as TGenerateMeta)
 }
 
 export async function generateStaticParams() {
@@ -40,7 +41,8 @@ type Args = {
 export default async function Post({ params: paramsPromise }: Args) {
 	const { slug } = await paramsPromise
 
-	const post = await queryPostBySlug({
+	const post = await getCollectionBySlug({
+		collection: 'posts',
 		slug: slug || '',
 	})
 
@@ -48,7 +50,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories } = post
+	const { title, publishedAt, categories } = post as Post
 
 	return (
 		<section>

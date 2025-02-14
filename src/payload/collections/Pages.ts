@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload'
-import { adminAndEditor } from '@/payload/access/adminAndEditor'
-import { admin } from '@/payload/access/admin'
+
+import { admin, adminAndEditor } from '@/payload/access'
+import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidateCache'
 
 import {
 	MetaDescriptionField,
@@ -25,7 +26,7 @@ export const Pages: CollectionConfig = {
 			},
 			schedulePublish: true,
 		},
-		maxPerDoc: 50,
+		maxPerDoc: 10,
 	},
 	access: {
 		create: admin,
@@ -113,5 +114,8 @@ export const Pages: CollectionConfig = {
 			},
 		},
 	],
-	hooks: {},
+	hooks: {
+		afterChange: [revalidateCache],
+		afterDelete: [revalidateCacheAfterDelete],
+	},
 }

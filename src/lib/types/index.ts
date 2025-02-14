@@ -1,4 +1,8 @@
-import type { Post, Category } from '@payload-types'
+import type { Post, Category, Page } from '@payload-types'
+
+export type TGenerateMeta = {
+	doc: Post | Page
+}
 
 export type TPostMeta = Pick<
 	Post,
