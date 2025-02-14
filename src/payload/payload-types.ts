@@ -138,21 +138,6 @@ export interface Post {
   id: number;
   title: string;
   slug: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
   meta?: {
     title?: string | null;
     /**
@@ -426,7 +411,6 @@ export interface QuoteBlockSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  content?: T;
   meta?:
     | T
     | {

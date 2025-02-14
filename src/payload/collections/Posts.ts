@@ -1,5 +1,8 @@
 import { CollectionConfig } from 'payload'
-import { adminAndEditor } from '@/payload/access/adminAndEditor'
+
+import { adminAndEditor } from '@/payload/access'
+import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidateCache'
+
 import {
 	MetaDescriptionField,
 	MetaImageField,
@@ -43,12 +46,6 @@ export const Posts: CollectionConfig = {
 			name: 'slug',
 			type: 'text',
 			label: 'Slug',
-			required: true,
-			localized: true,
-		},
-		{
-			name: 'content',
-			type: 'richText',
 			required: true,
 			localized: true,
 		},
@@ -171,5 +168,8 @@ export const Posts: CollectionConfig = {
 			},
 		},
 	],
-	hooks: {},
+	hooks: {
+		afterChange: [revalidateCache],
+		afterDelete: [revalidateCacheAfterDelete],
+	},
 }
