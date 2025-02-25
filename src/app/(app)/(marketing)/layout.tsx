@@ -2,9 +2,15 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { auth } from '@/lib/auth'
+import { getPayloadSession } from 'payload-authjs'
+
 import { siteConfig } from '@/lib/config'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
+
+import { SignInButton } from '../_components/signin-button'
+import { SignOutButton } from '../_components/signout-button'
 
 import { Logo } from '@/components/ui/logo'
 import { Footer } from '@/app/_components/footer'
@@ -17,6 +23,9 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 		notFound()
 	}
 	const { mainNavigation, settings, legalNavigation } = appShell
+
+	const authjsSession = await auth()
+	const payloadSession = await getPayloadSession()
 
 	return (
 		<div className="flex h-screen flex-col">
@@ -32,7 +41,18 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 					<DrawerNav items={siteConfig.mainNav} />
 				</div>
 			</header>
-			<main className="flex flex-1 overflow-y-auto p-8">{children}</main>
+			<main className="p-8">
+				<div className="mb-8 mt-8">
+					{payloadSession ? <SignOutButton /> : <SignInButton />}
+
+					<h3>Auth.js Session</h3>
+					<pre>{JSON.stringify(authjsSession, null, 2)}</pre>
+					<br />
+					<h3>Payload CMS Session</h3>
+					<pre>{JSON.stringify(payloadSession, null, 2)}</pre>
+				</div>
+				<div>{children}</div>
+			</main>
 			<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
 		</div>
 	)
