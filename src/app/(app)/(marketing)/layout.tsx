@@ -2,7 +2,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { auth } from '@/lib/auth'
 import { getPayloadSession } from 'payload-authjs'
 
 import { siteConfig } from '@/lib/config'
@@ -24,7 +23,6 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 	}
 	const { mainNavigation, settings, legalNavigation } = appShell
 
-	const authjsSession = await auth()
 	const payloadSession = await getPayloadSession()
 
 	return (
@@ -43,11 +41,8 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 			</header>
 			<main className="p-8">
 				<div className="mb-8 mt-8">
-					{payloadSession ? <SignOutButton /> : <SignInButton />}
+					{payloadSession ? <Link href="/logout">Logout</Link> : <Link href="/login">Login</Link>}
 
-					<h3>Auth.js Session</h3>
-					<pre>{JSON.stringify(authjsSession, null, 2)}</pre>
-					<br />
 					<h3>Payload CMS Session</h3>
 					<pre>{JSON.stringify(payloadSession, null, 2)}</pre>
 				</div>

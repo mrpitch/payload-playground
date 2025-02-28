@@ -16,6 +16,7 @@
 		"start": "cross-env NODE_OPTIONS=--no-deprecation next start",
 		"start:postgres": "docker compose -f docker-compose.yml --env-file .env up -d",
 		"stop:postgres": "docker compose -f docker-compose.yml --env-file .env down",
+		"stop:postgres:cleanup": "docker compose -f docker-compose.yml --env-file .env down --volumes",
 		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml"
 	},
 	"dependencies": {
@@ -48,10 +49,8 @@
 		"graphql": "^16.8.1",
 		"lucide-react": "^0.474.0",
 		"next": "15.1.4",
-		"next-auth": "5.0.0-beta.25",
 		"next-intl": "^3.26.3",
 		"payload": "^3.20.0",
-		"payload-authjs": "^0.7.1",
 		"react": "19.0.0",
 		"react-dom": "19.0.0",
 		"react-hook-form": "^7.54.2",

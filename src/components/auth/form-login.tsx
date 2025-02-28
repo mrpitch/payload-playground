@@ -6,7 +6,8 @@ import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { login, loginFormSchema } from '@/lib/actions/login'
+import { login } from '@/lib/actions/login'
+import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
 
 import { cn } from '@/lib/utils/cn'
@@ -41,7 +42,6 @@ export function FormLogin() {
 		await login(values).then((res) => {
 			const fieldErrors = res?.errors?.fieldErrors
 			const formError = res?.error
-
 			if (fieldErrors) {
 				if (fieldErrors.email) {
 					setError('email', {
@@ -56,14 +56,12 @@ export function FormLogin() {
 					})
 				}
 			}
-
 			if (formError) {
 				setError('root.serverError', {
 					type: 'server',
 					message: formError.toString(),
 				})
 			}
-
 			if (res?.success) {
 				setSuccess(res?.success)
 				reset()
