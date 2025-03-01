@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 
+import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { login } from '@/lib/actions/login'
 import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
 
 import { cn } from '@/lib/utils/cn'
 
@@ -40,6 +42,7 @@ export function FormLogin() {
 
 	async function onSubmit(values: TLoginForm) {
 		await login(values).then((res) => {
+			console.log('res', res)
 			const fieldErrors = res?.errors?.fieldErrors
 			const formError = res?.error
 			if (fieldErrors) {
@@ -63,8 +66,9 @@ export function FormLogin() {
 				})
 			}
 			if (res?.success) {
-				setSuccess(res?.success)
+				setSuccess('Login successful')
 				reset()
+				redirect(DEFAULT_LOGIN_REDIRECT)
 			}
 		})
 	}

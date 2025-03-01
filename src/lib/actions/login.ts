@@ -11,7 +11,7 @@ import * as z from 'zod'
 import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
 import { formMessages } from '@/lib/utils/constants'
-
+import { redirect } from 'next/navigation'
 interface LoginResult {
 	exp?: number
 	token?: string
@@ -44,6 +44,7 @@ export async function login(data: TLoginForm) {
 				secure: process.env.NODE_ENV === 'production',
 				path: '/',
 			})
+			return { success: true }
 		} else {
 			return { error: 'Failed to login. Please try again.' }
 		}

@@ -8,12 +8,9 @@ import { siteConfig } from '@/lib/config'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
 
-import { SignInButton } from '../_components/signin-button'
-import { SignOutButton } from '../_components/signout-button'
-
 import { Logo } from '@/components/ui/logo'
 import { Footer } from '@/app/_components/footer'
-import { MainNav, DrawerNav } from '@/app/_components/navigation'
+import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
@@ -24,6 +21,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 	const { mainNavigation, settings, legalNavigation } = appShell
 
 	const payloadSession = await getPayloadSession()
+	const user = payloadSession?.user ?? null
 
 	return (
 		<div className="flex h-screen flex-col">
@@ -35,6 +33,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 					<MainNav items={mainNavigation?.navItems} />
 				</div>
 				<div className="flex flex-1 items-center justify-end">
+					<ProfileNav items={siteConfig.profileNav} user={user} />
 					<ThemeToggle />
 					<DrawerNav items={siteConfig.mainNav} />
 				</div>
