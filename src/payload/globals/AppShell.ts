@@ -86,6 +86,69 @@ export const AppShell: GlobalConfig = {
 						},
 					],
 				},
+				{
+					name: 'profileNavigation',
+					label: 'Profile Navigation',
+					fields: [
+						{
+							name: 'navItems',
+							type: 'array',
+							fields: [
+								{
+									name: 'label',
+									type: 'text',
+									required: true,
+								},
+								{
+									name: 'href',
+									type: 'text',
+									required: true,
+								},
+							],
+							minRows: 1,
+							maxRows: 5,
+						},
+					],
+				},
+				{
+					name: 'sideBarNavigation',
+					label: 'Sidebar Navigation',
+					fields: [
+						{
+							name: 'navItems',
+							type: 'array',
+							fields: [
+								{
+									name: 'label',
+									type: 'text',
+									required: true,
+								},
+								{
+									name: 'href',
+									type: 'text',
+									required: true,
+								},
+								{
+									name: 'icon',
+									type: 'select',
+									required: true,
+									options: [
+										'layoutDashboard',
+										'rocket',
+										'dumbbell',
+										'tag',
+										'image',
+										'user',
+										'settings',
+										'logout',
+									],
+								},
+							],
+							minRows: 1,
+							maxRows: 5,
+						},
+					],
+				},
 			],
 		},
 		{

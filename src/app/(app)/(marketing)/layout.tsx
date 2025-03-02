@@ -2,9 +2,8 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-import { getPayloadSession } from 'payload-authjs'
-
 import { siteConfig } from '@/lib/config'
+import { getSession } from '@/lib/actions/get-session'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
 
@@ -18,32 +17,32 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 	if (!appShell) {
 		notFound()
 	}
-	const { mainNavigation, settings, legalNavigation } = appShell
+	const { mainNavigation, settings, legalNavigation, profileNavigation, sideBarNavigation } =
+		appShell
 
-	const payloadSession = await getPayloadSession()
-	const user = payloadSession?.user ?? null
+	const user = await getSession()
 
 	return (
 		<div className="flex h-screen flex-col">
-			<header className="flex items-center justify-between border-b border-foreground-light bg-background px-8 py-2">
+			<header className="flex items-center justify-between border-b border-foreground-light bg-background py-2">
 				<div className="flex gap-6 md:gap-10">
 					<Link href="/" passHref>
 						<Logo className="text-foreground" name={siteConfig.name} />
 					</Link>
 					<MainNav items={mainNavigation?.navItems} />
 				</div>
-				<div className="flex flex-1 items-center justify-end">
-					<ProfileNav items={siteConfig.profileNav} user={user} />
+				<div className="flex items-center justify-end">
+					<ProfileNav items={profileNavigation?.navItems ?? undefined} user={user} />
 					<ThemeToggle />
-					<DrawerNav items={siteConfig.mainNav} />
+					<DrawerNav items={mainNavigation?.navItems ?? undefined} />
 				</div>
 			</header>
 			<main className="p-8">
 				<div className="mb-8 mt-8">
-					{payloadSession ? <Link href="/logout">Logout</Link> : <Link href="/login">Login</Link>}
+					{user ? <Link href="/logout">Logout</Link> : <Link href="/login">Login</Link>}
 
 					<h3>Payload CMS Session</h3>
-					<pre>{JSON.stringify(payloadSession, null, 2)}</pre>
+					<pre>{JSON.stringify(user, null, 2)}</pre>
 				</div>
 				<div>{children}</div>
 			</main>

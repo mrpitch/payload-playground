@@ -587,6 +587,25 @@ export interface AppShell {
         }[]
       | null;
   };
+  profileNavigation?: {
+    navItems?:
+      | {
+          label: string;
+          href: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  sideBarNavigation?: {
+    navItems?:
+      | {
+          label: string;
+          href: string;
+          icon: 'layoutDashboard' | 'rocket' | 'dumbbell' | 'tag' | 'image' | 'user' | 'settings' | 'logout';
+          id?: string | null;
+        }[]
+      | null;
+  };
   publishedAt?: string | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -622,6 +641,29 @@ export interface AppShellSelect<T extends boolean = true> {
           | {
               label?: T;
               href?: T;
+              id?: T;
+            };
+      };
+  profileNavigation?:
+    | T
+    | {
+        navItems?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+      };
+  sideBarNavigation?:
+    | T
+    | {
+        navItems?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              icon?: T;
               id?: T;
             };
       };

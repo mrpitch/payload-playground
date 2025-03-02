@@ -11,7 +11,6 @@ import * as z from 'zod'
 import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
 import { formMessages } from '@/lib/utils/constants'
-import { redirect } from 'next/navigation'
 interface LoginResult {
 	exp?: number
 	token?: string

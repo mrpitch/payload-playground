@@ -2,13 +2,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-import type { User } from '@payload-types'
-import { logout } from '@/lib/actions/logout'
-
 import { cn } from '@/lib/utils/cn'
 
+import type { User } from '@payload-types'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Icon } from '@/components/ui/icons'
 import {
 	DropdownMenu,
@@ -16,6 +15,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { LogoutButton } from '@/components/auth/logout-button'
 
 interface INavItem {
 	label: string
@@ -28,9 +28,7 @@ interface IMainNavProps {
 }
 
 export const ProfileNav = ({ items, user }: IMainNavProps) => {
-	const [open, setOpen] = useState(false)
-	console.log('open', open)
-	console.log('user', user)
+	const [_, setOpen] = useState(false)
 	return (
 		<>
 			{user ? (
@@ -56,7 +54,7 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 						) : null}
 						{user ? (
 							<DropdownMenuItem>
-								<button onClick={() => logout()}>Sign Out</button>
+								<LogoutButton>Sign Out</LogoutButton>
 							</DropdownMenuItem>
 						) : null}
 					</DropdownMenuContent>
