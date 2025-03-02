@@ -9,7 +9,6 @@ import { Footer } from '../_components/footer'
 import { Logo } from '@/components/ui/logo'
 import { SideBarNav, ProfileNav, DrawerNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
-import { Typography } from '@/components/ui/typography'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const appShell = await getGlobals('app-shell')

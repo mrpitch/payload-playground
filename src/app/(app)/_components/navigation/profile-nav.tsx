@@ -35,7 +35,9 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 				<DropdownMenu onOpenChange={setOpen}>
 					<DropdownMenuTrigger>
 						<Avatar className="h-8 w-8">
-							{/* <AvatarImage src={user?.avatar?.url ?? ''} /> */}
+							{user?.avatar ? (
+								<AvatarImage src={(user?.avatar as { url?: string })?.url ?? ''} />
+							) : null}
 							<AvatarFallback>
 								<Icon iconName="user" className="fill-current h-5 w-5" />
 							</AvatarFallback>

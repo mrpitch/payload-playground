@@ -17,8 +17,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 	if (!appShell) {
 		notFound()
 	}
-	const { mainNavigation, settings, legalNavigation, profileNavigation, sideBarNavigation } =
-		appShell
+	const { mainNavigation, settings, legalNavigation, profileNavigation } = appShell
 
 	const user = await getSession()
 
