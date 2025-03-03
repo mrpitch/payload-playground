@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils/cn'
+import { imageUrl } from '@/lib/constants'
 
 import type { User } from '@payload-types'
 
@@ -29,6 +30,8 @@ interface IMainNavProps {
 
 export const ProfileNav = ({ items, user }: IMainNavProps) => {
 	const [_, setOpen] = useState(false)
+
+	console.log('avatar:', `${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`)
 	return (
 		<>
 			{user ? (
@@ -36,7 +39,9 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 					<DropdownMenuTrigger>
 						<Avatar className="h-8 w-8">
 							{user?.avatar ? (
-								<AvatarImage src={(user?.avatar as { url?: string })?.url ?? ''} />
+								<AvatarImage
+									src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
+								/>
 							) : null}
 							<AvatarFallback>
 								<Icon iconName="user" className="fill-current h-5 w-5" />
