@@ -11,7 +11,6 @@ import { login } from '@/lib/actions/login'
 import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
-import { useUserStore } from '@/lib/store/user-store'
 
 import { cn } from '@/lib/utils/cn'
 
