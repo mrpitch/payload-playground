@@ -17,11 +17,20 @@ export const Users: CollectionConfig = {
 			domain: process.env.COOKIE_DOMAIN,
 		},
 		verify: {
-			generateEmailHTML: ({ req, token, user }) => {
+			generateEmailHTML: ({ token, user }: { token?: string; user?: User }) => {
 				// Use the token provided to allow your user to verify their account
 				const url = `http://localhost:3000/verify-email?token=${token}`
 
-				return `Hey ${user.email}, verify your email by clicking here: ${url}`
+				return `Hey ${user?.email}, verify your email by clicking here: ${url}`
+			},
+		},
+		forgotPassword: {
+			generateEmailHTML: (args?: { token?: string; user?: User }) => {
+				if (!args?.token || !args?.user) return ''
+				const { token, user } = args
+				const url = `http://localhost:3000/change-password?token=${token}`
+
+				return `Hey ${user.email}, reset your password by clicking here: ${url}`
 			},
 		},
 	},
