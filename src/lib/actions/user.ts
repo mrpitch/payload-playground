@@ -2,7 +2,7 @@
 import { getPayload, Payload } from 'payload'
 import configPromise from '@payload-config'
 import type { User } from '@payload-types'
-import { TCreateUser } from '../types'
+import { TCreateUser } from '@/lib/types'
 
 export async function getUser(email: string): Promise<User | null> {
 	const payload: Payload = await getPayload({ config: await configPromise })

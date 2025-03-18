@@ -16,6 +16,14 @@ export const Users: CollectionConfig = {
 			secure: true,
 			domain: process.env.COOKIE_DOMAIN,
 		},
+		verify: {
+			generateEmailHTML: ({ req, token, user }) => {
+				// Use the token provided to allow your user to verify their account
+				const url = `http://localhost:3000/verify-email?token=${token}`
+
+				return `Hey ${user.email}, verify your email by clicking here: ${url}`
+			},
+		},
 	},
 	admin: {
 		useAsTitle: 'email',

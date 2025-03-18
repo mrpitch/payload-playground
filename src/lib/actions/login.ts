@@ -6,8 +6,7 @@ import config from '@payload-config'
 
 import { User } from '@payload-types'
 
-import * as z from 'zod'
-
+import { getUser } from '@/lib/actions/user'
 import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
 import { formMessages } from '@/lib/utils/constants'
@@ -18,22 +17,32 @@ interface LoginResult {
 }
 
 export async function login(data: TLoginForm) {
+	const {
+		error: { credentialsInvalid, emailNotVerified, somethingWrong },
+	} = formMessages
+
 	const validatedData = loginFormSchema.safeParse(data)
 
 	if (!validatedData.success) {
 		return { errors: validatedData.error.flatten() }
 	}
 	const { email, password } = validatedData.data
-
-	console.log('email', email)
-	console.log('password', password)
-
 	const payload = await getPayload({ config })
 
 	try {
+		// Check if user exists and is verified
+		const user = await getUser(email)
+		if (!user) {
+			return { error: credentialsInvalid }
+		}
+		if (!user._verified) {
+			return { error: emailNotVerified }
+		}
+
 		const result: LoginResult = await payload.login({
 			collection: 'users',
 			data: { email, password },
+			showHiddenFields: true,
 		})
 
 		if (result && result.token) {
@@ -44,11 +53,9 @@ export async function login(data: TLoginForm) {
 				path: '/',
 			})
 			return { success: true }
-		} else {
-			return { error: 'Failed to login. Please try again.' }
 		}
 	} catch (error) {
-		console.error('Login error:', error)
-		return { error: 'Failed to login. Please try again.' }
+		console.log('error', error)
+		return { error: somethingWrong }
 	}
 }

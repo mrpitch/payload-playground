@@ -1,6 +1,7 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { resendAdapter } from '@payloadcms/email-resend'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -49,6 +50,11 @@ export default buildConfig({
 		pool: {
 			connectionString: process.env.DATABASE_URI || '',
 		},
+	}),
+	email: resendAdapter({
+		defaultFromAddress: process.env.RESEND_FROM_EMAIL || '',
+		defaultFromName: process.env.RESEND_FROM_NAME || '',
+		apiKey: process.env.RESEND_API_KEY || '',
 	}),
 	i18n,
 	localization,

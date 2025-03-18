@@ -6,6 +6,11 @@ import type { TRegisterForm } from '@/lib/types'
 import { formMessages } from '@/lib/utils/constants'
 
 export async function register(data: TRegisterForm) {
+	const {
+		error: { credentialsInvalid, emailInUse },
+		success: { emailConfirmationSent },
+	} = formMessages
+
 	const validatedData = registerFormSchema.safeParse(data)
 
 	if (!validatedData.success) {
@@ -18,9 +23,9 @@ export async function register(data: TRegisterForm) {
 	if (existingUser) {
 		return {
 			errors: {
-				formError: formMessages.error.credentialsInvalid,
+				formError: credentialsInvalid,
 				fieldErrors: {
-					email: [formMessages.error.emailInUse],
+					email: [emailInUse],
 				},
 			},
 		}
@@ -34,5 +39,5 @@ export async function register(data: TRegisterForm) {
 	})
 	//TODO: sent verification email
 
-	return { success: formMessages.success.emailConfirmationSent }
+	return { success: emailConfirmationSent }
 }

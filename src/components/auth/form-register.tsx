@@ -64,7 +64,6 @@ export function FormRegister() {
 			if (res.success) {
 				setSuccess(res.success)
 				reset()
-				redirect('/login')
 			}
 		})
 	}

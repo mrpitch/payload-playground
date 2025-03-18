@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils/cn'
-import { imageUrl } from '@/lib/constants'
+import { imageUrl } from '@/lib/utils/constants'
 
 import type { User } from '@payload-types'
 
