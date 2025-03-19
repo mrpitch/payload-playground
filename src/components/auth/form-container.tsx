@@ -11,12 +11,7 @@ export interface IContainerProps {
 	title: string
 }
 
-const FormContainer: React.FC<IContainerProps> = ({
-	className,
-	children,
-	title,
-	...props
-}) => {
+const FormContainer: React.FC<IContainerProps> = ({ className, children, title, ...props }) => {
 	const baseStyles = {
 		default: '',
 	}
@@ -44,6 +39,7 @@ const FormContainer: React.FC<IContainerProps> = ({
 						src="/images/bg_form_sunset.webp"
 						alt="My Account"
 						fill={true}
+						priority={true}
 					/>
 				</div>
 			</div>

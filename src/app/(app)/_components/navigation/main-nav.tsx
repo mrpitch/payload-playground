@@ -13,7 +13,7 @@ import {
 	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
-import { Typography, typographyVariants } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/typography'
 
 interface INavItem {
 	label: string
