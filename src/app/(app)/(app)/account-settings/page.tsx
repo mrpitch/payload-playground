@@ -16,7 +16,7 @@ export default async function Dashboard() {
 				</Typography>
 				<div className="space-y-2 divide-y divide-foreground-light">
 					<div className="flex space-x-3 pb-6 pt-6">
-						<Icon iconName="user" className="mt-1 h-5 w-5 flex-shrink-0" />
+						<Icon iconName="user" className="mt-1 h-5 w-5 shrink-0" />
 						<div className="flex-1">
 							<Typography as="label" size="lg">
 								Name
@@ -27,7 +27,7 @@ export default async function Dashboard() {
 						</div>
 					</div>
 					<div className="flex space-x-3 pb-6 pt-6">
-						<Icon iconName="mail" className="mt-1 h-5 w-5 flex-shrink-0" />
+						<Icon iconName="mail" className="mt-1 h-5 w-5 shrink-0" />
 						<div className="flex-1">
 							<Typography as="label" size="lg">
 								Email
@@ -38,7 +38,7 @@ export default async function Dashboard() {
 						</div>
 					</div>
 					<div className="flex space-x-3 pb-6 pt-6">
-						<Icon iconName="calendarCheck" className="mt-1 h-5 w-5 flex-shrink-0" />
+						<Icon iconName="calendarCheck" className="mt-1 h-5 w-5 shrink-0" />
 						<div className="flex-1">
 							<Typography as="label" size="lg">
 								Member since
@@ -49,7 +49,7 @@ export default async function Dashboard() {
 						</div>
 					</div>
 					<div className="flex space-x-3 pb-6 pt-6">
-						<Icon iconName="userRole" className="mt-1 h-5 w-5 flex-shrink-0" />
+						<Icon iconName="userRole" className="mt-1 h-5 w-5 shrink-0" />
 						<div className="flex-1">
 							<Typography as="label" size="lg">
 								Role(s)
@@ -60,7 +60,7 @@ export default async function Dashboard() {
 						</div>
 					</div>
 					<div className="flex space-x-3 pb-6 pt-6">
-						<Icon iconName="book" className="mt-1 h-5 w-5 flex-shrink-0" />
+						<Icon iconName="book" className="mt-1 h-5 w-5 shrink-0" />
 						<div className="flex-1">
 							<Typography as="label" size="lg">
 								Adress

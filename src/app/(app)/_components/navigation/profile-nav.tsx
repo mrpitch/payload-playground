@@ -44,7 +44,7 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 								/>
 							) : null}
 							<AvatarFallback>
-								<Icon iconName="user" className="fill-current h-5 w-5" />
+								<Icon iconName="user" className="h-5 w-5" />
 							</AvatarFallback>
 						</Avatar>
 						<span className="sr-only">My Account</span>
@@ -68,7 +68,7 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 				</DropdownMenu>
 			) : (
 				<Link href="/login" className={cn(buttonVariants({ variant: 'neutral', size: 'icon' }))}>
-					<Icon iconName="logIn" className="fill-current h-5 w-5" />
+					<Icon iconName="logIn" className="h-5 w-5" />
 					<span className="sr-only">log in</span>
 				</Link>
 			)}
