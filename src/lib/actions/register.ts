@@ -37,7 +37,6 @@ export async function register(data: TRegisterForm) {
 		email: email,
 		password: password,
 	})
-	//TODO: sent verification email
 
 	return { success: emailConfirmationSent }
 }

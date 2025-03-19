@@ -9,7 +9,7 @@ import { formMessages } from '@/lib/utils/constants'
 
 export async function changePassword(data: TChangePasswordForm, token: string) {
 	const {
-		error: { emailNotExists },
+		error: { tokenNotExists },
 		success: { passwordUpdated },
 	} = formMessages
 	const validatedData = changePasswordFormSchema.safeParse(data)
@@ -20,22 +20,24 @@ export async function changePassword(data: TChangePasswordForm, token: string) {
 	const { password } = validatedData.data
 	const payload = await getPayload({ config })
 
-	// const existingUser = await getUser(email)
+	try {
+		await payload.resetPassword({
+			collection: 'users',
+			data: {
+				password: password,
+				token: token,
+			},
+			overrideAccess: true,
+		})
 
-	// if (!existingUser) {
-	// 	return {
-	// 		error: emailNotExists,
-	// 	}
-	// }
-
-	await payload.resetPassword({
-		collection: 'users',
-		data: {
-			password: password,
-			token: token,
-		},
-		overrideAccess: true,
-	})
-
-	return { success: passwordUpdated }
+		return { success: passwordUpdated }
+	} catch (error) {
+		// Handle invalid token error
+		if (
+			error instanceof Error &&
+			error.message.includes('Token is either invalid or has expired.')
+		) {
+			return { error: tokenNotExists }
+		}
+	}
 }

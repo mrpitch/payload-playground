@@ -36,6 +36,7 @@ export async function resetPassword(data: TResetPasswordForm) {
 			email: email,
 		},
 	})
+	console.log('url:', `http://localhost:3000/change-password?token=${token}`)
 
 	return { success: emailResetSend }
 }

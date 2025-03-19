@@ -42,14 +42,20 @@ export function FormChangePassword({ token }: { token: string }) {
 		handleSubmit,
 		setError,
 		reset,
-		formState: { isSubmitting, isSubmitSuccessful },
+		formState: { errors, isSubmitting, isSubmitSuccessful },
 	} = form
 
 	const onSubmit = async (values: TChangePasswordForm) => {
 		await changePassword(values, token).then((res) => {
-			const errors = res.errors
-			console.log(errors)
-			if (res.success) {
+			const formError = res?.error
+			console.log('formError', formError)
+			if (formError) {
+				setError('root.serverError', {
+					type: 'server',
+					message: formError.toString(),
+				})
+			}
+			if (res?.success) {
 				setSuccess(res.success)
 				reset()
 			}
@@ -87,6 +93,18 @@ export function FormChangePassword({ token }: { token: string }) {
 							)}
 						/>
 						{isSubmitSuccessful ? <FormMessage variant="success">{success}</FormMessage> : null}
+
+						{errors.root?.serverError ? (
+							<div className="space-y-1">
+								<FormMessage variant="error">{errors.root?.serverError.message}</FormMessage>
+								<Link
+									className={cn(buttonVariants({ variant: 'neutral' }), 'px-0')}
+									href="/reset-password"
+								>
+									Send Verification E-Mail again
+								</Link>
+							</div>
+						) : null}
 					</div>
 				</div>
 				<div className="w-full space-y-4 md:flex md:w-1/2 md:gap-4 md:space-y-0 lg:w-full">

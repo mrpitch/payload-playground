@@ -6,11 +6,11 @@ import { adminAndEditor } from '@/payload/access/adminAndEditor'
 import { anyone } from '@/payload/access/anyone'
 import { checkRole } from '@/payload/hooks/checkRole'
 import { protectRoles } from '@/payload/hooks/protectRoles'
-
+import { tokenExpiration } from '@/lib/utils/constants'
 export const Users: CollectionConfig = {
 	slug: 'users',
 	auth: {
-		tokenExpiration: 28800, // 8 hours
+		tokenExpiration: tokenExpiration.jwt,
 		cookies: {
 			sameSite: 'None',
 			secure: true,
@@ -25,10 +25,11 @@ export const Users: CollectionConfig = {
 			},
 		},
 		forgotPassword: {
+			expiration: tokenExpiration.reset,
 			generateEmailHTML: (args?: { token?: string; user?: User }) => {
 				if (!args?.token || !args?.user) return ''
 				const { token, user } = args
-				const url = `http://localhost:3000/change-password?token=${token}`
+				const url = `http://localhost:3000/change-password?email=${user.email}&token=${token}`
 
 				return `Hey ${user.email}, reset your password by clicking here: ${url}`
 			},

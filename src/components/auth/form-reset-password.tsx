@@ -60,7 +60,6 @@ export const ResetPasswordForm = () => {
 			if (res?.success) {
 				setSuccess(res?.success)
 				reset()
-				//router.push('/login')
 			}
 		})
 	}

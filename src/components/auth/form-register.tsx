@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils/cn'
