@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 
 	return (
 		<div className="flex h-screen flex-col">
-			<header className="flex items-center justify-between border-b border-foreground-light bg-background py-2">
+			<header className="border-foreground-light bg-background flex items-center justify-between border-b py-2">
 				<div className="flex gap-6 md:gap-10">
 					<Link href="/" passHref>
 						<Logo className="text-foreground" name={siteConfig.name} />
@@ -37,13 +37,13 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 				</div>
 			</header>
 			<main className="p-8">
-				<div className="mb-8 mt-8">
+				<div>{children}</div>
+				<div className="mt-8 mb-8">
 					{user ? <Link href="/logout">Logout</Link> : <Link href="/login">Login</Link>}
 
 					<h3>Payload CMS Session</h3>
 					<pre>{JSON.stringify(user, null, 2)}</pre>
 				</div>
-				<div>{children}</div>
 			</main>
 			<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
 		</div>
