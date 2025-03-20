@@ -107,7 +107,7 @@ export function FormChangePassword({ token }: { token: string }) {
 						) : null}
 					</div>
 				</div>
-				<div className="w-full space-y-4 md:flex md:w-1/2 md:gap-4 md:space-y-0 lg:w-full">
+				<div className="w-full space-y-4">
 					<Button type="submit" className="w-full" disabled={isSubmitting}>
 						{isSubmitting ? <Icon iconName="loader" className="mr-2 h-4 w-4 animate-spin" /> : null}
 						Change Password
