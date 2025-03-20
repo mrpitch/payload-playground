@@ -16,10 +16,10 @@ import { cn } from '@/lib/utils/cn'
 
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/form/form'
-import { Icon } from '@/components/ui/icons'
+import { Icon } from '@/components/ui/custom/icons'
 import { Input } from '@/components/ui/input'
 import { FormMessage } from '@/components/form/form-message'
-import { typographyVariants } from '@/components/ui/typography'
+import { typographyVariants } from '@/components/ui/custom/typography'
 
 export function FormLogin() {
 	const [success, setSuccess] = useState<string>('')

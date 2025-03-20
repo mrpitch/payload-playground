@@ -1,23 +1,14 @@
 import Image from 'next/image'
 
-import { cn } from '@/lib/utils/cn'
-
-import { Logo } from '@/components/ui/logo'
-import { Typography } from '@/components/ui/typography'
+import { Logo } from '@/components/ui/custom/logo'
+import { Typography } from '@/components/ui/custom/typography'
 
 export interface IContainerProps {
 	children: React.ReactNode
-	className?: string
 	title: string
 }
 
-const FormContainer: React.FC<IContainerProps> = ({ className, children, title, ...props }) => {
-	const baseStyles = {
-		default: '',
-	}
-
-	className = cn(baseStyles.default, className)
-
+const FormContainer: React.FC<IContainerProps> = ({ children, title }) => {
 	return (
 		<div className="flex min-h-screen flex-1">
 			<div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">

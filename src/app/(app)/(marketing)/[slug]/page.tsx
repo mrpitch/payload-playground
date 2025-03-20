@@ -9,7 +9,7 @@ import type { Page } from '@payload-types'
 import type { TPostMeta, TGenerateMeta } from '@/lib/types'
 
 import { buttonVariants } from '@/components/ui/button'
-import { Typography } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/custom/typography'
 import { Badge } from '@/components/ui/badge'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {

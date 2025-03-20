@@ -44,7 +44,7 @@ const Typography: React.FC<ITypographyProps> = ({
 }) => {
 	const Component = as === 'p' ? 'p' : as
 
-	const componentProps: Record<string, any> = {
+	const componentProps: React.HTMLAttributes<HTMLElement> = {
 		...props,
 		className,
 	}
@@ -69,7 +69,7 @@ const proseTypography = cn(
 	proseStyles.h4,
 	proseStyles.h5,
 	proseStyles.h6,
-	proseStyles.p
+	proseStyles.p,
 )
 
 Typography.displayName = 'Typography'

@@ -1,4 +1,4 @@
-import { Typography, typographyVariants } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/custom/typography'
 
 export default async function Dashboard() {
 	return (

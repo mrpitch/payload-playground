@@ -1,4 +1,4 @@
-import { Typography } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/custom/typography'
 import { EmailPasswordResetPreview } from '@/payload/emails/password-reset'
 import { EmailVerifyAccountPreview } from '@/payload/emails/verify-account'
 

@@ -1,11 +1,8 @@
 import { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { FormContainer } from '@/components/auth/form-container'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Container } from '@/components/ui/container'
-import { Typography } from '@/components/ui/typography'
+import { buttonVariants } from '@/components/ui/button'
 
 export const metadata: Metadata = {
 	title: 'Fehler 404 - Seite nicht gefunden',

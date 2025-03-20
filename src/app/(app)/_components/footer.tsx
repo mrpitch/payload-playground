@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { Typography, typographyVariants } from '@/components/ui/typography'
+import { Typography, typographyVariants } from '@/components/ui/custom/typography'
 
 interface INavItem {
 	label: string

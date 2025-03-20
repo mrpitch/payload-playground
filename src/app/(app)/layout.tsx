@@ -13,7 +13,7 @@ import '@/lib/styles/globals.css'
 import { siteConfig } from '@/lib/config'
 
 import { ThemeProvider } from '@/components/utils/theme-provider'
-import { Toaster } from '@/components/ui/toast'
+import { Toaster } from '@/components/ui/sonner'
 import { useThemeStore } from '@/lib/store/theme-store'
 export const metadata: Metadata = {
 	title: {
@@ -53,7 +53,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 			<ThemeProvider>
 				<body
 					className={cn(
-						'font-sans h-full min-h-screen antialiased',
+						'h-full min-h-screen font-sans antialiased',
 						typeNextRegular.variable,
 						typeNextLight.variable,
 						typeNextSemiBold.variable,

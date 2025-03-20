@@ -13,22 +13,22 @@ export const ThemeProvider: React.FC<IThemeProviderProps> = ({ children }) => {
 	const { theme, setCurrentTheme } = useThemeStore()
 
 	useEffect(() => {
-		window
-			.matchMedia('(prefers-color-scheme: dark)')
-			.addEventListener('change', (event) => {
-				event.matches
-					? setCurrentTheme(Theme.dark)
-					: setCurrentTheme(Theme.light)
-			})
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+			if (event.matches) {
+				setCurrentTheme(Theme.dark)
+			} else {
+				setCurrentTheme(Theme.light)
+			}
+		})
 
 		return () => {
-			window
-				.matchMedia('(prefers-color-scheme: dark)')
-				.removeEventListener('change', (event) => {
-					event.matches
-						? setCurrentTheme(Theme.dark)
-						: setCurrentTheme(Theme.light)
-				})
+			window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', (event) => {
+				if (event.matches) {
+					setCurrentTheme(Theme.dark)
+				} else {
+					setCurrentTheme(Theme.light)
+				}
+			})
 		}
 	}, [setCurrentTheme])
 

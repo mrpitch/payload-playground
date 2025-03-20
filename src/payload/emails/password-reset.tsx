@@ -15,7 +15,6 @@ import {
 	Text,
 } from '@react-email/components'
 
-import { theme } from '@/lib/styles/theme'
 import { baseUrl } from '@/payload/utils/constants'
 
 import { buttonVariants } from '@/components/ui/button'
@@ -91,7 +90,7 @@ export function EmailPasswordReset(props: EmailPasswordResetProps) {
 	const previewText = `Reset password for email ${email}`
 	return (
 		<Html>
-			<Tailwind config={theme}>
+			<Tailwind>
 				<Head />
 				<Body className="bg-background mx-auto my-auto px-2 font-sans">
 					<Preview>{previewText}</Preview>

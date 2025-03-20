@@ -13,7 +13,7 @@ import {
 	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
-import { Typography } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/custom/typography'
 
 interface INavItem {
 	label: string
@@ -74,7 +74,7 @@ const ListItem = React.forwardRef<React.ElementRef<'a'>, React.ComponentPropsWit
 					<a
 						ref={ref}
 						className={cn(
-							'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:text-foreground-dark dark:hover:text-foreground-light',
+							'hover:text-foreground-dark dark:hover:text-foreground-light block space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors select-none',
 							className,
 						)}
 						{...props}

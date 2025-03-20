@@ -4,7 +4,7 @@ export interface ILogoProps {
 	name?: string
 	className?: string
 }
-export const Logo: React.FC<ILogoProps> = ({ name, className, ...props }) => {
+export const Logo: React.FC<ILogoProps> = ({ name, className }) => {
 	const baseStyles = {
 		default: 'w-11 h-11 rounded-full p-0.5',
 	}
