@@ -5,22 +5,19 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { Config } from '@payload-types'
 
+import { revalidate } from '@/lib/utils/constants'
+
 type TGlobal = keyof Config['globals']
 
 const payload = await getPayload({ config: configPromise })
 
-export const getGlobals = async (slug: TGlobal, draft?: boolean, revalidate?: number) => {
-	if (!revalidate) {
-		revalidate = parseInt(process.env.NEXT_PUBLIC_REVALIDATE || '20')
-	}
-
+export const getGlobals = async (slug: TGlobal, draft?: boolean) => {
 	const cached = unstable_cache(
 		async () => {
-			console.log('revalidate', slug)
 			return await payload.findGlobal({ slug: slug, draft: draft || false })
 		},
-		[slug],
-		{ revalidate: revalidate, tags: [`global_${slug}`] },
+		[`global_${slug}`],
+		{ revalidate: revalidate, tags: ['global', `global_${slug}`] },
 	)
 
 	return cached()

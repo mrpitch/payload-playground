@@ -3,24 +3,23 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { generateMeta } from '@/lib/utils/generateMeta'
-import { queryPageBySlug, getSlugs } from '@/lib/utils/getPages'
-import { getAllPosts } from '@/lib/utils/getPosts'
+import { getAllPosts, getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
 
 import type { Page } from '@payload-types'
-
-import type { TPostMeta } from '@/lib/types/posts'
+import type { TPostMeta, TGenerateMeta } from '@/lib/types'
 
 import { buttonVariants } from '@/components/ui/button'
-import { Typography } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/custom/typography'
 import { Badge } from '@/components/ui/badge'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug = 'home' } = await paramsPromise
-	const page = await queryPageBySlug({
+	const page = await getCollectionBySlug({
+		collection: 'pages',
 		slug,
 	})
 
-	return generateMeta({ doc: page })
+	return generateMeta({ doc: page } as TGenerateMeta)
 }
 
 export async function generateStaticParams() {
@@ -44,7 +43,8 @@ type Args = {
 export default async function Page({ params: paramsPromise }: Args) {
 	const { slug = 'home' } = await paramsPromise
 
-	const page = await queryPageBySlug({
+	const page = await getCollectionBySlug({
+		collection: 'pages',
 		slug,
 	})
 
@@ -52,10 +52,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title } = page
+	const { title } = page as Page
 	let posts = { docs: [] as TPostMeta[] }
 	if (slug === 'blog') {
-		posts = (await getAllPosts('posts')) as unknown as { docs: TPostMeta[] }
+		posts = (await getAllPosts()) as unknown as { docs: TPostMeta[] }
 	}
 	return (
 		<section>

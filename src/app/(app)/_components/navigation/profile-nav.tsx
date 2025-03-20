@@ -2,21 +2,21 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-import { Session } from 'next-auth'
-
-import { logout } from '@/lib/actions/logout'
-
 import { cn } from '@/lib/utils/cn'
+import { imageUrl } from '@/lib/utils/constants'
+
+import type { User } from '@payload-types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Icon } from '@/components/ui/icons'
+import { buttonVariants } from '@/components/ui/button'
+import { Icon } from '@/components/ui/custom/icons'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { LogoutButton } from '@/components/auth/logout-button'
 
 interface INavItem {
 	label: string
@@ -25,34 +25,35 @@ interface INavItem {
 
 interface IMainNavProps {
 	items?: INavItem[]
-	session: Session | null
+	user: User | null
 }
 
-export const ProfileNav = ({ items, session }: IMainNavProps) => {
-	const [open, setOpen] = useState(false)
-	const user = session?.user
-	console.log('open', open)
+export const ProfileNav = ({ items, user }: IMainNavProps) => {
+	const [_, setOpen] = useState(false)
+
+	console.log('avatar:', `${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`)
 	return (
 		<>
 			{user ? (
 				<DropdownMenu onOpenChange={setOpen}>
-					<DropdownMenuTrigger>
-						<Avatar className="h-8 w-8">
-							<AvatarImage src={user.image || ''} />
+					<DropdownMenuTrigger className="cursor-pointer">
+						<Avatar className="mr-2 h-8 w-8">
+							{user?.avatar ? (
+								<AvatarImage
+									src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
+								/>
+							) : null}
 							<AvatarFallback>
-								<Icon iconName="user" className="fill-current h-5 w-5" />
+								<Icon iconName="user" className="h-5 w-5" />
 							</AvatarFallback>
 						</Avatar>
 						<span className="sr-only">My Account</span>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent
-						align="end"
-						onCloseAutoFocus={(e) => e.preventDefault()}
-					>
+					<DropdownMenuContent align="end" onCloseAutoFocus={(e) => e.preventDefault()}>
 						{items?.length ? (
 							<>
 								{items?.map((item, index) => (
-									<DropdownMenuItem key={index} asChild>
+									<DropdownMenuItem key={index} asChild className="cursor-pointer">
 										<Link href={item.href as string}>{item.label}</Link>
 									</DropdownMenuItem>
 								))}
@@ -60,17 +61,14 @@ export const ProfileNav = ({ items, session }: IMainNavProps) => {
 						) : null}
 						{user ? (
 							<DropdownMenuItem>
-								<button onClick={() => logout()}>Sign Out</button>
+								<LogoutButton>Sign Out</LogoutButton>
 							</DropdownMenuItem>
 						) : null}
 					</DropdownMenuContent>
 				</DropdownMenu>
 			) : (
-				<Link
-					href="/login"
-					className={cn(buttonVariants({ variant: 'neutral', size: 'icon' }))}
-				>
-					<Icon iconName="logIn" className="fill-current h-5 w-5" />
+				<Link href="/login" className={cn(buttonVariants({ variant: 'neutral', size: 'icon' }))}>
+					<Icon iconName="logIn" className="h-5 w-5" />
 					<span className="sr-only">log in</span>
 				</Link>
 			)}
