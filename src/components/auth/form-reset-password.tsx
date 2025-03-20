@@ -15,9 +15,9 @@ import { cn } from '@/lib/utils/cn'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/form/form'
 import { FormMessage } from '@/components/form/form-message'
-import { Icon } from '@/components/ui/icons'
+import { Icon } from '@/components/ui/custom/icons'
 import { Input } from '@/components/ui/input'
-import { typographyVariants } from '@/components/ui/typography'
+import { typographyVariants } from '@/components/ui/custom/typography'
 
 export const ResetPasswordForm = () => {
 	const [success, setSuccess] = useState<string>('')

@@ -1,11 +1,7 @@
 import { redirect } from 'next/navigation'
 
-import { cn } from '@/lib/utils/cn'
-
 import { DEFAULT_LOGOUT_REDIRECT } from '@/lib/routes'
 import { logout } from '@/lib/actions/logout'
-
-import { buttonVariants } from '@/components/ui/button'
 
 export interface ILogoutButtonProps {
 	className?: string

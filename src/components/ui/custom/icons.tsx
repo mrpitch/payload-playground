@@ -1,5 +1,4 @@
 import {
-	LucideProps,
 	AlertTriangle,
 	ArrowDown,
 	ArrowLeft,
@@ -102,8 +101,8 @@ export type IconType =
 	| 'x'
 	| 'xCircle'
 
-// Adjust IconProps to extend SVG attributes
-export interface IconProps extends React.SVGProps<SVGSVGElement> {}
+// IconProps extends SVG attributes to allow passing all standard SVG props to icons
+export type IconProps = React.SVGProps<SVGSVGElement>
 
 const Icons = {
 	alertTriangle: (props: IconProps) => <AlertTriangle {...props} />,

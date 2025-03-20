@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils/cn'
 
 import { useFormField } from '@/components/form/form'
-import { Icon } from '@/components/ui/icons'
+import { Icon } from '@/components/ui/custom/icons'
 
 interface IFormMessageProps {
 	variant?: 'error' | 'success' | 'warning' | null

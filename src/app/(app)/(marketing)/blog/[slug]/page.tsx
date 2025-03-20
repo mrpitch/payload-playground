@@ -8,7 +8,7 @@ import type { Post } from '@payload-types'
 import { TGenerateMeta } from '@/lib/types'
 
 import { Badge } from '@/components/ui/badge'
-import { Typography } from '@/components/ui/typography'
+import { Typography } from '@/components/ui/custom/typography'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise

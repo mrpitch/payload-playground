@@ -22,9 +22,9 @@ import {
 	//FormMessage,
 } from '@/components/form/form'
 import { FormMessage } from '@/components/form/form-message'
-import { Icon } from '@/components/ui/icons'
+import { Icon } from '@/components/ui/custom/icons'
 import { Input } from '@/components/ui/input'
-import { typographyVariants } from '@/components/ui/typography'
+import { typographyVariants } from '@/components/ui/custom/typography'
 
 export function FormChangePassword({ token }: { token: string }) {
 	const [success, setSuccess] = useState<string>('')

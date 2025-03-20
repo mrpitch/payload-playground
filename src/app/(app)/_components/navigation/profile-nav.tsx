@@ -9,7 +9,7 @@ import type { User } from '@payload-types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { buttonVariants } from '@/components/ui/button'
-import { Icon } from '@/components/ui/icons'
+import { Icon } from '@/components/ui/custom/icons'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -36,8 +36,8 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 		<>
 			{user ? (
 				<DropdownMenu onOpenChange={setOpen}>
-					<DropdownMenuTrigger>
-						<Avatar className="h-8 w-8">
+					<DropdownMenuTrigger className="cursor-pointer">
+						<Avatar className="mr-2 h-8 w-8">
 							{user?.avatar ? (
 								<AvatarImage
 									src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
@@ -53,7 +53,7 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 						{items?.length ? (
 							<>
 								{items?.map((item, index) => (
-									<DropdownMenuItem key={index} asChild>
+									<DropdownMenuItem key={index} asChild className="cursor-pointer">
 										<Link href={item.href as string}>{item.label}</Link>
 									</DropdownMenuItem>
 								))}

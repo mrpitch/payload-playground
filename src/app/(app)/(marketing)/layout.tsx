@@ -7,10 +7,10 @@ import { getSession } from '@/lib/actions/get-session'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
 
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/components/ui/custom/logo'
 import { Footer } from '@/app/_components/footer'
 import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
-import { ThemeToggle } from '@/components/ui/theme-toggle'
+import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
 	const appShell = await getGlobals('app-shell')
@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 
 	return (
 		<div className="flex h-screen flex-col">
-			<header className="border-foreground-light bg-background flex items-center justify-between border-b py-2">
+			<header className="border-foreground-light bg-background flex items-center justify-between border-b px-2 py-2">
 				<div className="flex gap-6 md:gap-10">
 					<Link href="/" passHref>
 						<Logo className="text-foreground" name={siteConfig.name} />
