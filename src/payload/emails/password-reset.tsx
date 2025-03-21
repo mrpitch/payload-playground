@@ -17,8 +17,6 @@ import {
 
 import { baseUrl } from '@/payload/utils/constants'
 
-import { buttonVariants } from '@/components/ui/button'
-
 interface EmailPasswordResetProps {
 	username: string
 	url: string
@@ -58,9 +56,7 @@ export function EmailPasswordResetContent(props: EmailPasswordResetProps) {
 				<Text className="text-normal text-foreground leading-1.5">{content.copy}</Text>
 			</Section>
 			<Section className="mx-auto mb-6 w-10/12 text-center">
-				<Button href={url} className={buttonVariants({ variant: 'outline' })}>
-					{content.buttonLabel}
-				</Button>
+				<Button href={url}>{content.buttonLabel}</Button>
 			</Section>
 			<Section className="mx-auto w-10/12">
 				<Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
