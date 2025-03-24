@@ -230,8 +230,12 @@ export interface Category {
 export interface Newsletter {
   id: number;
   title: string;
-  subject: string;
-  layout?: QuoteBlock[] | null;
+  content: {
+    slug: string;
+    subject: string;
+    layout?: QuoteBlock[] | null;
+  };
+  preview?: {};
   updatedAt: string;
   createdAt: string;
 }
@@ -506,12 +510,18 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface NewsletterSelect<T extends boolean = true> {
   title?: T;
-  subject?: T;
-  layout?:
+  content?:
     | T
     | {
-        Quote?: T | QuoteBlockSelect<T>;
+        slug?: T;
+        subject?: T;
+        layout?:
+          | T
+          | {
+              Quote?: T | QuoteBlockSelect<T>;
+            };
       };
+  preview?: T | {};
   updatedAt?: T;
   createdAt?: T;
 }

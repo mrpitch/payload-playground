@@ -26,9 +26,20 @@ const dirname = path.dirname(filename)
 export default buildConfig({
 	admin: {
 		components: {
+			afterNavLinks: ['./components/nav-links#LinkToCustomView'],
 			graphics: {
 				Icon: './components/Icon.tsx',
 				Logo: './components/logo.tsx',
+			},
+			views: {
+				customView: {
+					path: '/my-custom-view',
+					Component: './components/views/my-custom-view.tsx',
+					meta: {
+						title: 'My Cusotm View',
+						description: 'The best Custom View in the world',
+					},
+				},
 			},
 		},
 		avatar: {
