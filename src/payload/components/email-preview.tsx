@@ -1,31 +1,22 @@
 'use client'
 import { useState } from 'react'
-import { useAuth } from '@payloadcms/ui'
-
-import type { User } from '@payload-types'
-
-import { render } from '@react-email/render'
-
+import { renderEmail } from '@/payload/hooks/renderEmail'
 import { EmailPasswordReset } from '@/payload/emails/password-reset'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-const html = await render(
+
+const html = await renderEmail(
 	<EmailPasswordReset
 		username="John Doe"
 		url="https://www.google.com"
 		email="john.doe@example.com"
 	/>,
-	{
-		pretty: true,
-	},
 )
+
 const EmailPreview = () => {
 	const [viewPort, setViewPort] = useState<'desktop' | 'mobile' | 'code'>('desktop')
-	const { user } = useAuth<User>()
-
-	if (!user) return null
 
 	return (
 		<div className="flex min-h-[500px] flex-col">
