@@ -59,7 +59,7 @@ export const Newsletter: CollectionConfig = {
 							name: 'my custom component',
 							admin: {
 								components: {
-									Field: './components/newsletter-preview',
+									Field: './components/email-preview',
 								},
 							},
 						},

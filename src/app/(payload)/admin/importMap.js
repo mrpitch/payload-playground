@@ -3,7 +3,7 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { default as default_5baf67bf99698992e60ec11121840bdd } from '../../../payload/components/newsletter-preview'
+import { default as default_19d2147f71e562776f0451fb668e198d } from '../../../payload/components/email-preview'
 import { default as default_89d0e8c6334958a20a07ea2a5169e3e8 } from '../../../payload/components/avatar.tsx'
 import { default as default_3d54692f952a4077fdcf382e43745351 } from '../../../payload/components/Icon.tsx'
 import { default as default_a00caba113209666e61d893d06127258 } from '../../../payload/components/logo.tsx'
@@ -17,7 +17,7 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "./components/newsletter-preview#default": default_5baf67bf99698992e60ec11121840bdd,
+  "./components/email-preview#default": default_19d2147f71e562776f0451fb668e198d,
   "./components/avatar.tsx#default": default_89d0e8c6334958a20a07ea2a5169e3e8,
   "./components/Icon.tsx#default": default_3d54692f952a4077fdcf382e43745351,
   "./components/logo.tsx#default": default_a00caba113209666e61d893d06127258,
