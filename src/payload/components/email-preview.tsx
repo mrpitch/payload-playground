@@ -1,26 +1,53 @@
 'use client'
 import { useState } from 'react'
-import { renderEmail } from '@/payload/hooks/renderEmail'
 import { EmailPasswordReset } from '@/payload/emails/password-reset'
+import { EmailVerifyAccount } from '@/payload/emails/verify-account'
+import { useEmailPreview } from '@/payload/hooks/useEmailPreview'
+import { useAllFormFields } from '@payloadcms/ui'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
-const html = await renderEmail(
-	<EmailPasswordReset
-		username="John Doe"
-		url="https://www.google.com"
-		email="john.doe@example.com"
-	/>,
-)
+export interface EmailTemplate<T extends Record<string, string> = Record<string, string>> {
+	Template: {
+		previewText: string
+		heading: string
+		salutation: string
+		copy: string
+		buttonLabel: string
+		disclaimer: string
+	} & T
+}
 
-const EmailPreview = () => {
+type EmailPreviewProps = {
+	type: 'passwordReset' | 'verifyEmail'
+}
+
+export const EmailPreview = ({ type }: EmailPreviewProps) => {
 	const [viewPort, setViewPort] = useState<'desktop' | 'mobile' | 'code'>('desktop')
+
+	const [fields] = useAllFormFields()
+
+	const html = useEmailPreview({
+		component: type === 'passwordReset' ? EmailPasswordReset : EmailVerifyAccount,
+		props: {
+			username: 'John Doe',
+			url: 'https://www.google.com',
+			email: 'john.doe@example.com',
+			previewText: (fields?.[`${type}.Template.previewText`]?.value as string) || '',
+			heading: (fields?.[`${type}.Template.heading`]?.value as string) || '',
+			salutation: (fields?.[`${type}.Template.salutation`]?.value as string) || '',
+			copy: (fields?.[`${type}.Template.copy`]?.value as string) || '',
+			buttonLabel: (fields?.[`${type}.Template.buttonLabel`]?.value as string) || '',
+			footer: (fields?.['footer.content']?.value as string) || '',
+		},
+		templateKey: type,
+	})
 
 	return (
 		<div className="flex min-h-[500px] flex-col">
-			<div className="flex items-center justify-end gap-2 p-4">
+			<div className="flex items-center justify-end gap-2 py-4">
 				<ToggleGroup
 					type="single"
 					variant="outline"
@@ -37,7 +64,7 @@ const EmailPreview = () => {
 						<Icon iconName="code" />
 					</ToggleGroupItem>
 				</ToggleGroup>
-				<Button variant="outline">Send</Button>
+				<Button variant="outline">Test Send</Button>
 			</div>
 			<div className="mx-auto flex-1 overflow-y-auto">
 				{viewPort === 'desktop' ? (
@@ -60,7 +87,17 @@ const EmailPreview = () => {
 	)
 }
 
-export default EmailPreview
+export const verifyEmail = () => {
+	return <EmailPreview type="verifyEmail" />
+}
+
+export const passwordReset = () => {
+	return <EmailPreview type="passwordReset" />
+}
+
+export const newsletter = () => {
+	return <EmailPreview type="passwordReset" />
+}
 
 export const CodePreview = ({ html }: { html: string }) => {
 	return (

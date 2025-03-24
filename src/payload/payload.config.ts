@@ -11,6 +11,7 @@ import { plugins } from '@/payload/plugins'
 import { seed } from './seed'
 
 import { AppShell } from '@/payload/globals/AppShell'
+import { EmailTemplates } from '@/payload/globals/EmailTemplates'
 import { Users } from '@/payload/collections/Users'
 import { Media } from '@/payload/collections/Media'
 import { Pages } from '@/payload/collections/Pages'
@@ -36,7 +37,7 @@ export default buildConfig({
 					path: '/my-custom-view',
 					Component: './components/views/my-custom-view.tsx',
 					meta: {
-						title: 'My Cusotm View',
+						title: 'My Custom View',
 						description: 'The best Custom View in the world',
 					},
 				},
@@ -50,7 +51,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname),
 		},
 	},
-	globals: [AppShell],
+	globals: [AppShell, EmailTemplates],
 	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
 	editor: lexicalEditor(),
 	secret: process.env.PAYLOAD_SECRET || '',

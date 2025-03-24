@@ -4,6 +4,7 @@ import { notFound, redirect } from 'next/navigation'
 import { getSession } from '@/lib/actions/get-session'
 import { siteConfig } from '@/lib/config'
 import { getGlobals } from '@/lib/utils/getGlobals'
+import type { AppShell } from '@/payload/payload-types'
 
 import { Footer } from '../_components/footer'
 import { Logo } from '@/components/ui/custom/logo'
@@ -11,7 +12,7 @@ import { SideBarNav, ProfileNav, DrawerNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-	const appShell = await getGlobals('app-shell')
+	const appShell = (await getGlobals('app-shell')) as AppShell
 	if (!appShell) {
 		notFound()
 	}

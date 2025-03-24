@@ -5,6 +5,10 @@ export const Newsletter: CollectionConfig = {
 	slug: 'newsletter',
 	admin: {
 		useAsTitle: 'title',
+		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+	},
+	versions: {
+		maxPerDoc: 10,
 	},
 	fields: [
 		{
@@ -59,7 +63,7 @@ export const Newsletter: CollectionConfig = {
 							name: 'my custom component',
 							admin: {
 								components: {
-									Field: './components/email-preview',
+									Field: './components/email-preview#newsletter',
 								},
 							},
 						},
