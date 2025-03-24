@@ -11,6 +11,7 @@ import { plugins } from '@/payload/plugins'
 import { seed } from './seed'
 
 import { AppShell } from '@/payload/globals/AppShell'
+import { EmailTemplates } from '@/payload/globals/EmailTemplates'
 import { Users } from '@/payload/collections/Users'
 import { Media } from '@/payload/collections/Media'
 import { Pages } from '@/payload/collections/Pages'
@@ -26,9 +27,20 @@ const dirname = path.dirname(filename)
 export default buildConfig({
 	admin: {
 		components: {
+			afterNavLinks: ['./components/nav-links#LinkToCustomView'],
 			graphics: {
 				Icon: './components/Icon.tsx',
 				Logo: './components/logo.tsx',
+			},
+			views: {
+				customView: {
+					path: '/my-custom-view',
+					Component: './components/views/my-custom-view.tsx',
+					meta: {
+						title: 'My Custom View',
+						description: 'The best Custom View in the world',
+					},
+				},
 			},
 		},
 		avatar: {
@@ -39,7 +51,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname),
 		},
 	},
-	globals: [AppShell],
+	globals: [AppShell, EmailTemplates],
 	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
 	editor: lexicalEditor(),
 	secret: process.env.PAYLOAD_SECRET || '',

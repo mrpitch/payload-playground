@@ -14,6 +14,10 @@ import {
 	Check,
 	CheckCircle2,
 	Circle,
+	Clipboard,
+	Code,
+	Copy,
+	Download,
 	Dumbbell,
 	Edit,
 	Eye,
@@ -30,6 +34,7 @@ import {
 	LogIn,
 	LogOut,
 	Mail,
+	Monitor,
 	Moon,
 	Menu,
 	MoreHorizontal,
@@ -39,10 +44,11 @@ import {
 	Rocket,
 	Save,
 	Search,
-	Upload,
+	Smartphone,
 	SunMedium,
 	Tag,
 	Trash2,
+	Upload,
 	User,
 	UserCog,
 	X,
@@ -66,6 +72,10 @@ export type IconType =
 	| 'chevronDown'
 	| 'chevronRight'
 	| 'circle'
+	| 'clipboard'
+	| 'code'
+	| 'copy'
+	| 'download'
 	| 'dumbbell'
 	| 'edit'
 	| 'eye'
@@ -84,6 +94,7 @@ export type IconType =
 	| 'logOut'
 	| 'mail'
 	| 'menu'
+	| 'monitor'
 	| 'moon'
 	| 'moreHorizontal'
 	| 'plus'
@@ -92,6 +103,7 @@ export type IconType =
 	| 'rocket'
 	| 'save'
 	| 'search'
+	| 'smartphone'
 	| 'sun'
 	| 'tag'
 	| 'trash'
@@ -120,6 +132,10 @@ const Icons = {
 	chevronDown: (props: IconProps) => <ChevronDown {...props} />,
 	chevronRight: (props: IconProps) => <ChevronRight {...props} />,
 	circle: (props: IconProps) => <Circle {...props} />,
+	clipboard: (props: IconProps) => <Clipboard {...props} />,
+	code: (props: IconProps) => <Code {...props} />,
+	copy: (props: IconProps) => <Copy {...props} />,
+	download: (props: IconProps) => <Download {...props} />,
 	dumbbell: (props: IconProps) => <Dumbbell {...props} />,
 	edit: (props: IconProps) => <Edit {...props} />,
 	eye: (props: IconProps) => <Eye {...props} />,
@@ -137,6 +153,7 @@ const Icons = {
 	logIn: (props: IconProps) => <LogIn {...props} />,
 	logOut: (props: IconProps) => <LogOut {...props} />,
 	mail: (props: IconProps) => <Mail {...props} />,
+	monitor: (props: IconProps) => <Monitor {...props} />,
 	moon: (props: IconProps) => <Moon {...props} />,
 	moreHorizontal: (props: IconProps) => <MoreHorizontal {...props} />,
 	phone: (props: IconProps) => <Phone {...props} />,
@@ -145,6 +162,7 @@ const Icons = {
 	rocket: (props: IconProps) => <Rocket {...props} />,
 	save: (props: IconProps) => <Save {...props} />,
 	search: (props: IconProps) => <Search {...props} />,
+	smartphone: (props: IconProps) => <Smartphone {...props} />,
 	sun: (props: IconProps) => <SunMedium {...props} />,
 	tag: (props: IconProps) => <Tag {...props} />,
 	trash: (props: IconProps) => <Trash2 {...props} />,

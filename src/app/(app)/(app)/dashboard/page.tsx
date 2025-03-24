@@ -1,5 +1,4 @@
 import { Typography } from '@/components/ui/custom/typography'
-
 export default async function Dashboard() {
 	return (
 		<section>

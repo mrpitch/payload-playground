@@ -27,6 +27,10 @@ const nextConfig = {
 		],
 		formats: ['image/avif', 'image/webp'],
 	},
+	webpack: (config) => {
+		process.setMaxListeners(20)
+		return config
+	},
 }
 
 export default withPayload(nextConfig)

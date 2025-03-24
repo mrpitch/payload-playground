@@ -7,13 +7,15 @@ import { getSession } from '@/lib/actions/get-session'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
 
+import type { AppShell } from '@/payload/payload-types'
+
 import { Logo } from '@/components/ui/custom/logo'
 import { Footer } from '@/app/_components/footer'
 import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
-	const appShell = await getGlobals('app-shell')
+	const appShell = (await getGlobals('app-shell')) as AppShell
 	if (!appShell) {
 		notFound()
 	}

@@ -95,9 +95,11 @@ export interface Config {
   };
   globals: {
     'app-shell': AppShell;
+    'e-mail-templates': EMailTemplate;
   };
   globalsSelect: {
     'app-shell': AppShellSelect<false> | AppShellSelect<true>;
+    'e-mail-templates': EMailTemplatesSelect<false> | EMailTemplatesSelect<true>;
   };
   locale: 'en' | 'de';
   user: User & {
@@ -230,8 +232,12 @@ export interface Category {
 export interface Newsletter {
   id: number;
   title: string;
-  subject: string;
-  layout?: QuoteBlock[] | null;
+  content: {
+    slug: string;
+    subject: string;
+    layout?: QuoteBlock[] | null;
+  };
+  preview?: {};
   updatedAt: string;
   createdAt: string;
 }
@@ -506,12 +512,18 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface NewsletterSelect<T extends boolean = true> {
   title?: T;
-  subject?: T;
-  layout?:
+  content?:
     | T
     | {
-        Quote?: T | QuoteBlockSelect<T>;
+        slug?: T;
+        subject?: T;
+        layout?:
+          | T
+          | {
+              Quote?: T | QuoteBlockSelect<T>;
+            };
       };
+  preview?: T | {};
   updatedAt?: T;
   createdAt?: T;
 }
@@ -672,6 +684,38 @@ export interface AppShell {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "e-mail-templates".
+ */
+export interface EMailTemplate {
+  id: number;
+  verifyEmail: {
+    Template: {
+      previewText: string;
+      subject: string;
+      heading: string;
+      salutation: string;
+      copy: string;
+      buttonLabel: string;
+    };
+  };
+  passwordReset: {
+    Template: {
+      previewText: string;
+      subject: string;
+      heading: string;
+      salutation: string;
+      copy: string;
+      buttonLabel: string;
+    };
+  };
+  footer: {
+    content: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "app-shell_select".
  */
 export interface AppShellSelect<T extends boolean = true> {
@@ -728,6 +772,48 @@ export interface AppShellSelect<T extends boolean = true> {
       };
   publishedAt?: T;
   _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "e-mail-templates_select".
+ */
+export interface EMailTemplatesSelect<T extends boolean = true> {
+  verifyEmail?:
+    | T
+    | {
+        Template?:
+          | T
+          | {
+              previewText?: T;
+              subject?: T;
+              heading?: T;
+              salutation?: T;
+              copy?: T;
+              buttonLabel?: T;
+            };
+      };
+  passwordReset?:
+    | T
+    | {
+        Template?:
+          | T
+          | {
+              previewText?: T;
+              subject?: T;
+              heading?: T;
+              salutation?: T;
+              copy?: T;
+              buttonLabel?: T;
+            };
+      };
+  footer?:
+    | T
+    | {
+        content?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
