@@ -15,7 +15,8 @@ import {
 
 import { baseUrl } from '@/payload/utils/constants'
 
-import { buttonVariants } from '@/components/ui/button'
+import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
+import { themeDark } from '@/lib/styles/v3/theme'
 
 export type TEmailPasswordResetProps = {
 	username: string
@@ -29,14 +30,13 @@ export type TEmailPasswordResetProps = {
 	footer: string
 }
 
-export async function EmailPasswordReset(props: TEmailPasswordResetProps) {
+export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =
 		props
 
-	console.log('props', props)
 	return (
 		<Html>
-			<Tailwind>
+			<Tailwind config={themeDark}>
 				<Head />
 				<Body className="bg-background mx-auto my-auto px-2 font-sans">
 					<Preview>
@@ -64,7 +64,7 @@ export async function EmailPasswordReset(props: TEmailPasswordResetProps) {
 							<Text className="text-normal text-foreground leading-1.5">{copy}</Text>
 						</Section>
 						<Section className="mx-auto mb-6 w-10/12 text-center">
-							<Button href={url} className={buttonVariants({ variant: 'outline' })}>
+							<Button href={url} className={emailButtonVariants({ variant: 'secondary' })}>
 								{buttonLabel}
 							</Button>
 						</Section>

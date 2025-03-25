@@ -1,5 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import type { User } from '@payload-types'
+import type { PayloadRequest } from 'payload'
+import type { ReactElement } from 'react'
+import type { TEmailVerifyAccountProps } from '@/payload/emails/verify-account'
+import type { TEmailPasswordResetProps } from '@/payload/emails/password-reset'
 
 import { admin } from '@/payload/access/admin'
 import { adminAndEditor } from '@/payload/access/adminAndEditor'
@@ -8,11 +12,9 @@ import { checkRole } from '@/payload/hooks/checkRole'
 import { protectRoles } from '@/payload/hooks/protectRoles'
 import { tokenExpiration } from '@/lib/utils/constants'
 
-import { render } from '@react-email/render'
-
 import { EmailPasswordReset } from '@/payload/emails/password-reset'
 import { EmailVerifyAccount } from '@/payload/emails/verify-account'
-import { getEmailSubject, getEmailContents } from '@/payload/utils/renderEmail'
+import { getEmailSubject, renderMail } from '@/payload/utils/renderEmail'
 
 export const Users: CollectionConfig = {
 	slug: 'users',
@@ -24,68 +26,34 @@ export const Users: CollectionConfig = {
 			domain: process.env.COOKIE_DOMAIN,
 		},
 		verify: {
-			generateEmailHTML: async (args?: { token?: string; user?: User }) => {
-				if (!args?.token || !args?.user) return ''
-				const { token, user } = args
-				const url = `${process.env.NEXT_PUBLIC_URL}/change-password?token=${token}`
-				const {
-					verifyAccount: {
-						Template: { previewText, heading, salutation, copy, buttonLabel },
-					},
-					footer: { content: footer },
-				} = await getEmailContents()
-
-				return await render(
-					await EmailVerifyAccount({
-						url: url,
-						email: user.email,
-						username: user.firstName,
-						previewText,
-						heading,
-						salutation,
-						copy,
-						buttonLabel,
-						footer,
-					}),
-				)
+			generateEmailHTML: async (args?: { req?: PayloadRequest; token?: string; user?: User }) => {
+				if (!args?.token || !args?.user || !args?.req) return ''
+				return renderMail({
+					...args,
+					EmailTemplate: EmailVerifyAccount as (props: TEmailVerifyAccountProps) => ReactElement,
+					user: args.user,
+					type: 'verifyEmail',
+				})
 			},
 		},
 		forgotPassword: {
 			expiration: tokenExpiration.reset,
-			generateEmailSubject: async (args?: { token?: string; user?: User }) => {
-				if (!args?.token || !args?.user) return ''
-				const { user } = args
-				const {
-					passwordReset: {
-						Template: { subject },
-					},
-				} = await getEmailContents()
-				return getEmailSubject({ subject, username: user.firstName })
+			generateEmailSubject: async (args?: {
+				token?: string
+				user?: User
+				req?: PayloadRequest
+			}) => {
+				if (!args?.token || !args?.user || !args?.req) return ''
+				return getEmailSubject(args)
 			},
-			generateEmailHTML: async (args?: { token?: string; user?: User }) => {
-				if (!args?.token || !args?.user) return ''
-				const { token, user } = args
-				const url = `${process.env.NEXT_PUBLIC_URL}/change-password?token=${token}`
-				const {
-					passwordReset: {
-						Template: { previewText, heading, salutation, copy, buttonLabel },
-					},
-					footer: { content: footer },
-				} = await getEmailContents()
-
-				return await render(
-					await EmailPasswordReset({
-						url: url,
-						email: user.email,
-						username: user.firstName,
-						previewText,
-						heading,
-						salutation,
-						copy,
-						buttonLabel,
-						footer,
-					}),
-				)
+			generateEmailHTML: async (args?: { req?: PayloadRequest; token?: string; user?: User }) => {
+				if (!args?.token || !args?.user || !args?.req) return ''
+				return renderMail({
+					...args,
+					EmailTemplate: EmailPasswordReset as (props: TEmailPasswordResetProps) => ReactElement,
+					user: args.user,
+					type: 'passwordReset',
+				})
 			},
 		},
 	},

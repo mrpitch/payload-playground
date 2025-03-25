@@ -16,6 +16,7 @@ import {
 import { baseUrl } from '@/payload/utils/constants'
 
 import { buttonVariants } from '@/components/ui/button'
+import { themeDark } from '@/lib/styles/v3/theme'
 
 export type TEmailVerifyAccountProps = {
 	username: string
@@ -29,14 +30,13 @@ export type TEmailVerifyAccountProps = {
 	footer: string
 }
 
-export async function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
+export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =
 		props
 
-	console.log('props', props)
 	return (
 		<Html>
-			<Tailwind>
+			<Tailwind config={themeDark}>
 				<Head />
 				<Body className="bg-background mx-auto my-auto px-2 font-sans">
 					<Preview>
