@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { renderEmail } from '@/payload/utils/renderEmail'
+import { renderEmailHtml } from '@/payload/utils/renderEmail'
 import { ReactElement } from 'react'
 
 interface UseEmailPreviewProps<T> {
@@ -19,7 +19,7 @@ export function useEmailPreview<T extends object>({
 	useEffect(() => {
 		const renderPreview = async () => {
 			const element = await Component(props)
-			const renderedHtml = await renderEmail(element)
+			const renderedHtml = await renderEmailHtml(element)
 			setHtml(renderedHtml)
 		}
 		renderPreview()

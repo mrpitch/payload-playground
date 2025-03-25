@@ -12,6 +12,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 
 import { QuoteBlock } from '@/payload/blocks/quote-block'
+import { CopyBlock } from '@/payload/blocks/copy-block'
 
 export const Posts: CollectionConfig = {
 	slug: 'posts',
@@ -91,6 +92,7 @@ export const Posts: CollectionConfig = {
 							blocks: [
 								// required
 								QuoteBlock,
+								CopyBlock,
 							],
 						},
 					],
@@ -122,26 +124,6 @@ export const Posts: CollectionConfig = {
 							},
 							hasMany: true,
 							relationTo: 'categories',
-						},
-					],
-				},
-				{
-					label: 'Test',
-					fields: [
-						{
-							type: 'tabs',
-							tabs: [
-								{
-									label: 'Test',
-									fields: [
-										{
-											name: 'test',
-											type: 'text',
-											label: 'Test',
-										},
-									],
-								},
-							],
 						},
 					],
 				},

@@ -61,12 +61,12 @@ export default buildConfig({
 	db: postgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || '',
-			ssl:
-				process.env.NODE_ENV === 'production'
-					? {
-							rejectUnauthorized: false,
-						}
-					: false,
+			// ssl:
+			// 	process.env.NODE_ENV === 'production'
+			// 		? {
+			// 				rejectUnauthorized: false,
+			// 			}
+			// 		: false,
 			max: 20, // Maximum number of connections in the pool
 			idleTimeoutMillis: 30000, // How long a connection can be idle before being closed
 			connectionTimeoutMillis: 2000, // How long to wait for a connection

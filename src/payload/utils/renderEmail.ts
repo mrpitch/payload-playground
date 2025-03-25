@@ -17,6 +17,15 @@ interface EmailTemplateProps {
 	footer: string
 }
 
+export const renderEmailHtml = async (email: ReactElement) => {
+	if (!email) throw new Error('Email component is required')
+	const html = await render(email, {
+		pretty: true,
+	})
+
+	return html
+}
+
 export const getEmailContents = async (req: PayloadRequest) => {
 	const data = await req?.payload.findGlobal({ slug: 'e-mail-templates' })
 
@@ -36,7 +45,7 @@ export const getEmailSubject = async (args?: {
 	return `Hi ${username}, ${subject}`
 }
 
-export const renderMail = async (args?: {
+export const renderEMail = async (args?: {
 	req?: PayloadRequest
 	token?: string
 	user?: User

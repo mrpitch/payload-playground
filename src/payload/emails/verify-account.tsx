@@ -15,8 +15,8 @@ import {
 
 import { baseUrl } from '@/payload/utils/constants'
 
-import { buttonVariants } from '@/components/ui/button'
 import { themeDark } from '@/lib/styles/v3/theme'
+import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
 
 export type TEmailVerifyAccountProps = {
 	username: string
@@ -64,7 +64,7 @@ export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 							<Text className="text-normal text-foreground leading-1.5">{copy}</Text>
 						</Section>
 						<Section className="mx-auto mb-6 w-10/12 text-center">
-							<Button href={url} className={buttonVariants({ variant: 'outline' })}>
+							<Button href={url} className={emailButtonVariants({ variant: 'secondary' })}>
 								{buttonLabel}
 							</Button>
 						</Section>

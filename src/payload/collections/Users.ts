@@ -14,7 +14,7 @@ import { tokenExpiration } from '@/lib/utils/constants'
 
 import { EmailPasswordReset } from '@/payload/emails/password-reset'
 import { EmailVerifyAccount } from '@/payload/emails/verify-account'
-import { getEmailSubject, renderMail } from '@/payload/utils/renderEmail'
+import { getEmailSubject, renderEMail } from '@/payload/utils/renderEmail'
 
 export const Users: CollectionConfig = {
 	slug: 'users',
@@ -28,7 +28,7 @@ export const Users: CollectionConfig = {
 		verify: {
 			generateEmailHTML: async (args?: { req?: PayloadRequest; token?: string; user?: User }) => {
 				if (!args?.token || !args?.user || !args?.req) return ''
-				return renderMail({
+				return renderEMail({
 					...args,
 					EmailTemplate: EmailVerifyAccount as (props: TEmailVerifyAccountProps) => ReactElement,
 					user: args.user,
@@ -48,7 +48,7 @@ export const Users: CollectionConfig = {
 			},
 			generateEmailHTML: async (args?: { req?: PayloadRequest; token?: string; user?: User }) => {
 				if (!args?.token || !args?.user || !args?.req) return ''
-				return renderMail({
+				return renderEMail({
 					...args,
 					EmailTemplate: EmailPasswordReset as (props: TEmailPasswordResetProps) => ReactElement,
 					user: args.user,

@@ -7,6 +7,8 @@ import { getSlugs, getCollectionBySlug } from '@/lib/utils/getCollections'
 import type { Post } from '@payload-types'
 import { TGenerateMeta } from '@/lib/types'
 
+import { RenderBlocks } from '@/components/utils/render-blocks'
+
 import { Badge } from '@/components/ui/badge'
 import { Typography } from '@/components/ui/custom/typography'
 
@@ -50,7 +52,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories } = post as Post
+	const { title, publishedAt, categories, layout } = post as Post
 
 	return (
 		<section>
@@ -68,7 +70,9 @@ export default async function Post({ params: paramsPromise }: Args) {
 						),
 				)}
 			</div>
-
+			<div className="mt-8">
+				<RenderBlocks blocks={layout} />
+			</div>
 			<div className="mt-8">
 				<pre>{JSON.stringify(post, null, 2)}</pre>
 			</div>
