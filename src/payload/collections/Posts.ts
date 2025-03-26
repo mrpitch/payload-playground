@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
 import { adminAndEditor } from '@/payload/access'
-import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidateCache'
+import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
 
 import {
 	MetaDescriptionField,

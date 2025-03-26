@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { renderEmailHtml } from '@/payload/utils/renderEmail'
+import { renderEmailHtml } from '@/payload/utils/render-email'
 import { ReactElement } from 'react'
 
 interface UseEmailPreviewProps<T> {

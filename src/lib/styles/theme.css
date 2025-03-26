@@ -94,12 +94,11 @@
 	--color-warning-border: var(--warning-border);
 	--color-warning: var(--warning);
 	--color-warning-foreground: var(--warning-foreground);
-
-
 }
+
+/*override prose styles*/
 @layer utilities {
 	.prose-gray {
-	/* Typography */
 	--tw-prose-body: var(--color-foreground);
 	--tw-prose-headings: var(--color-foreground);
 	--tw-prose-lead: var(--color-foreground);
@@ -139,15 +138,15 @@
  * Find other solution, since this is redundant
  */
 .toaster {
-	--error-border: hsl(0 70% 35%);
-	--info-border: hsl(221 71% 40%);
-	--success-border: hsl(142 64% 24%);
-	--warning-border: hsl(38 83% 31%);
+	--error-border: var(--color-error-border);
+	--info-border: var(--color-info-border);
+	--success-border: var(--color-success-border);
+	--warning-border: var(--color-warning-border);
 }
 
 .dark.toaster {
-	--error-border: hsl(0 70% 35%);
-	--info-border: hsl(221 96% 78%);
-	--success-border: hsl(142 77% 73%);
-	--warning-border: hsl(38 97% 65%);
+	--error-border: var(--color-error-border);
+	--info-border: var(--color-info-border);
+	--success-border: var(--color-success-border);
+	--warning-border: var(--color-warning-border);
 }

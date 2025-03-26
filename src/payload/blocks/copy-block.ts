@@ -1,3 +1,14 @@
+import {
+	HeadingFeature,
+	ItalicFeature,
+	BoldFeature,
+	LinkFeature,
+	UnorderedListFeature,
+	OrderedListFeature,
+	UnderlineFeature,
+	BlockquoteFeature,
+} from '@payloadcms/richtext-lexical'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { Block } from 'payload'
 
 export const CopyBlock: Block = {
@@ -17,6 +28,21 @@ export const CopyBlock: Block = {
 			name: 'copy',
 			type: 'richText',
 			localized: true,
+			editor: lexicalEditor({
+				features({ rootFeatures }) {
+					return [
+						...rootFeatures,
+						HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
+						BoldFeature(),
+						UnderlineFeature(),
+						OrderedListFeature(),
+						UnorderedListFeature(),
+						LinkFeature(),
+						ItalicFeature(),
+						BlockquoteFeature(),
+					]
+				},
+			}),
 		},
 	],
 }

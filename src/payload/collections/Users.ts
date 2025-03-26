@@ -2,19 +2,19 @@ import type { CollectionConfig } from 'payload'
 import type { User } from '@payload-types'
 import type { PayloadRequest } from 'payload'
 import type { ReactElement } from 'react'
-import type { TEmailVerifyAccountProps } from '@/payload/emails/verify-account'
-import type { TEmailPasswordResetProps } from '@/payload/emails/password-reset'
+import type { TEmailVerifyAccountProps } from '@/payload/email-templates/verify-account'
+import type { TEmailPasswordResetProps } from '@/payload/email-templates/password-reset'
 
 import { admin } from '@/payload/access/admin'
-import { adminAndEditor } from '@/payload/access/adminAndEditor'
+import { adminAndEditor } from '@/payload/access/admin-and-editor'
 import { anyone } from '@/payload/access/anyone'
-import { checkRole } from '@/payload/hooks/checkRole'
-import { protectRoles } from '@/payload/hooks/protectRoles'
+import { checkRole } from '@/payload/hooks/check-role'
+import { protectRoles } from '@/payload/hooks/protect-roles'
 import { tokenExpiration } from '@/lib/utils/constants'
 
-import { EmailPasswordReset } from '@/payload/emails/password-reset'
-import { EmailVerifyAccount } from '@/payload/emails/verify-account'
-import { getEmailSubject, renderEMail } from '@/payload/utils/renderEmail'
+import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
+import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
+import { getEmailSubject, renderEMail } from '@/payload/utils/render-email'
 
 export const Users: CollectionConfig = {
 	slug: 'users',

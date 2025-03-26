@@ -53,7 +53,7 @@ export default async function Dashboard() {
 								Role(s)
 							</Typography>
 							<Typography as="p" className="mt-2">
-								{roles?.map((role) => role).join(', ')}
+								{roles?.map((role: string) => role).join(', ')}
 							</Typography>
 						</div>
 					</div>

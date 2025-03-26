@@ -1,4 +1,4 @@
-import { CopyBlock as TCopyBlock } from '@/payload/payload-types'
+import { CopyBlock as TCopyBlock } from '@payload-types'
 
 import { cn } from '@/lib/utils/cn'
 import { RichText } from '@/components/utils/richtext'

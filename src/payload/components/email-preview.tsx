@@ -1,12 +1,18 @@
 'use client'
-import { useState } from 'react'
-import { EmailPasswordReset } from '@/payload/emails/password-reset'
-import { EmailVerifyAccount } from '@/payload/emails/verify-account'
-import { useEmailPreview } from '@/payload/hooks/useEmailPreview'
+import { Fragment, useState } from 'react'
+
+import type { Language } from 'prism-react-renderer'
+import { Highlight } from 'prism-react-renderer'
+import { cn } from '@/lib/utils/cn'
+
+import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
+import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
+import { useEmailPreview } from '@/payload/hooks/email-preview'
 import { useAllFormFields } from '@payloadcms/ui'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 export interface EmailTemplate<T extends Record<string, string> = Record<string, string>> {
@@ -46,7 +52,10 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 	})
 
 	return (
-		<div className="flex min-h-[500px] flex-col">
+		<div
+			className="field-type group-field group-field--within-row group-field--within-tab min-h-[500px]"
+			style={{ '--field-width': '50%' } as React.CSSProperties}
+		>
 			<div className="flex items-center justify-end gap-2 py-4">
 				<ToggleGroup
 					type="single"
@@ -66,7 +75,7 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 				</ToggleGroup>
 				<Button variant="outline">Test Send</Button>
 			</div>
-			<div className="mx-auto flex-1 overflow-y-auto">
+			<div className="mx-auto">
 				{viewPort === 'desktop' ? (
 					<iframe
 						className="h-[calc(100vh_-_140px)] w-[640px] border-none lg:h-[calc(100vh_-_70px)]"
@@ -101,7 +110,7 @@ export const newsletter = () => {
 
 export const CodePreview = ({ html }: { html: string }) => {
 	return (
-		<div className="w-[640px]">
+		<div className="border-border-foreground w-[640px] rounded-sm border p-4">
 			<div className="flex items-center justify-end gap-2">
 				<Button variant="outline" size="icon" onClick={() => copyHtmlToClipboard(html)}>
 					<Icon iconName="clipboard" />
@@ -110,9 +119,7 @@ export const CodePreview = ({ html }: { html: string }) => {
 					<Icon iconName="download" />
 				</Button>
 			</div>
-			<code>
-				<pre>{html}</pre>
-			</code>
+			<Code>{html}</Code>
 		</div>
 	)
 }
@@ -133,4 +140,71 @@ export const downloadHtml = async (text: string, filename: string) => {
 	a.download = filename
 	a.click()
 	URL.revokeObjectURL(url)
+}
+
+interface CodeProps {
+	children: string
+	className?: string
+	language?: Language
+}
+
+export const Code: React.FC<Readonly<CodeProps>> = ({ children, language = 'html' }) => {
+	const value = children.trim()
+
+	return (
+		<Highlight code={value} language={language}>
+			{({ tokens, getLineProps, getTokenProps }) => (
+				<>
+					<div
+						className="absolute top-0 right-0 h-px w-[200px]"
+						style={{
+							background:
+								'linear-gradient(90deg, rgba(56, 189, 248, 0) 0%, rgba(56, 189, 248, 0) 0%, rgba(232, 232, 232, 0.2) 33.02%, rgba(143, 143, 143, 0.6719) 64.41%, rgba(236, 72, 153, 0) 98.93%)',
+						}}
+					/>
+					<pre className="h-[640px] overflow-auto p-4">
+						{tokens.map((line, i) => {
+							const lineProps = getLineProps({
+								line,
+								key: i,
+							})
+							return (
+								<div
+									key={i}
+									{...lineProps}
+									className={cn('whitespace-pre', {
+										"before:text-slate-11 before:mr-2 before:content-['$']":
+											language === 'bash' && tokens.length === 1,
+									})}
+								>
+									{line.map((token, key) => {
+										const tokenProps = getTokenProps({
+											token,
+											key,
+										})
+										const isException = token.content === 'from' && line[key + 1]?.content === ':'
+										const newTypes = isException ? [...token.types, 'key-white'] : token.types
+										token.types = newTypes
+
+										return (
+											<Fragment key={key}>
+												<span {...tokenProps} />
+											</Fragment>
+										)
+									})}
+								</div>
+							)
+						})}
+					</pre>
+					<div
+						className="absolute bottom-0 left-0 h-px w-[200px]"
+						style={{
+							background:
+								'linear-gradient(90deg, rgba(56, 189, 248, 0) 0%, rgba(56, 189, 248, 0) 0%, rgba(232, 232, 232, 0.2) 33.02%, rgba(143, 143, 143, 0.6719) 64.41%, rgba(236, 72, 153, 0) 98.93%)',
+						}}
+					/>
+				</>
+			)}
+		</Highlight>
+	)
 }
