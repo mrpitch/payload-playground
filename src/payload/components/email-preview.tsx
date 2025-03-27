@@ -12,8 +12,8 @@ import { useAllFormFields } from '@payloadcms/ui'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 export interface EmailTemplate<T extends Record<string, string> = Record<string, string>> {
 	Template: {
@@ -46,7 +46,20 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 			salutation: (fields?.[`${type}.Template.salutation`]?.value as string) || '',
 			copy: (fields?.[`${type}.Template.copy`]?.value as string) || '',
 			buttonLabel: (fields?.[`${type}.Template.buttonLabel`]?.value as string) || '',
-			footer: (fields?.['footer.content']?.value as string) || '',
+			footer: (fields?.['footer.content']?.value as DefaultTypedEditorState) || {
+				root: {
+					children: [
+						{
+							children: [{ text: '' }],
+							direction: null,
+							format: '',
+							indent: 0,
+							type: 'paragraph',
+							version: 1,
+						},
+					],
+				},
+			},
 		},
 		templateKey: type,
 	})
@@ -166,7 +179,6 @@ export const Code: React.FC<Readonly<CodeProps>> = ({ children, language = 'html
 						{tokens.map((line, i) => {
 							const lineProps = getLineProps({
 								line,
-								key: i,
 							})
 							return (
 								<div
@@ -180,8 +192,8 @@ export const Code: React.FC<Readonly<CodeProps>> = ({ children, language = 'html
 									{line.map((token, key) => {
 										const tokenProps = getTokenProps({
 											token,
-											key,
 										})
+										console.log('tokenProps', tokenProps)
 										const isException = token.content === 'from' && line[key + 1]?.content === ':'
 										const newTypes = isException ? [...token.types, 'key-white'] : token.types
 										token.types = newTypes

@@ -55,7 +55,7 @@ const Typography: React.FC<ITypographyProps> = ({
 }
 
 const proseStyles = {
-	default: 'prose dark:prose-invert prose-gray',
+	default: 'prose dark:prose-invert prose-pink',
 	h2: 'prose-h2:text-3xl prose-h2:font-light prose-h2:font-normal prose-h2:mb-4 prose-h2:mt-0',
 	h3: 'prose-h3:text-2xl prose-h3:font-semibold prose-h3:font-normal prose-h3:mb-2 prose-h3:mt-0',
 	h4: 'prose-h4:text-xl prose-h4:font-regular prose-h4:mb-2',

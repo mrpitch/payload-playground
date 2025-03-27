@@ -1,4 +1,5 @@
 import { variables } from './variables'
+
 export const theme = {
 	theme: {
 		screens: {
@@ -8,12 +9,6 @@ export const theme = {
 			xl: '1280px',
 			'2xl': '1536px',
 		},
-		// fontFamily: {
-		// 	regular: ['hsl(var(----font-typeNextRegular))'],
-		// 	light: ['hsl(var(----font-typeNextLight))'],
-		// 	semibold: ['hsl(var(----font-typeNextBold))'],
-		// 	bold: ['hsl(var(----font-typeNextBold))'],
-		// },
 		colors: {
 			primary: {
 				DEFAULT: variables['root']['--primary'],
@@ -103,22 +98,6 @@ export const theme = {
 				DEFAULT: variables['root']['--border'],
 				primary: variables['root']['--border-primary'],
 				secondary: variables['root']['--border-secondary'],
-			},
-		},
-		extend: {
-			keyframes: {
-				'accordion-down': {
-					from: { height: '0' },
-					to: { height: 'var(--radix-accordion-content-height)' },
-				},
-				'accordion-up': {
-					from: { height: 'var(--radix-accordion-content-height)' },
-					to: { height: '0' },
-				},
-			},
-			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out',
 			},
 		},
 	},

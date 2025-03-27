@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 
 import { render } from '@react-email/render'
-
+import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import type { PayloadRequest } from 'payload'
 import type { User } from '@payload-types'
 
@@ -14,7 +14,7 @@ interface EmailTemplateProps {
 	salutation: string
 	copy: string
 	buttonLabel: string
-	footer: string
+	footer: DefaultTypedEditorState
 }
 
 export const renderEmailHtml = async (email: ReactElement) => {
