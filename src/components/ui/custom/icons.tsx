@@ -27,6 +27,7 @@ import {
 	Heading4,
 	ImageIcon,
 	ImagePlus,
+	Info,
 	Italic,
 	List,
 	ListOrdered,
@@ -85,6 +86,7 @@ export type IconType =
 	| 'heading4'
 	| 'image'
 	| 'imagePlus'
+	| 'info'
 	| 'italic'
 	| 'layoutDashboard'
 	| 'list'
@@ -145,6 +147,7 @@ const Icons = {
 	heading4: (props: IconProps) => <Heading4 {...props} />,
 	image: (props: IconProps) => <ImageIcon {...props} />,
 	imagePlus: (props: IconProps) => <ImagePlus {...props} />,
+	info: (props: IconProps) => <Info {...props} />,
 	italic: (props: IconProps) => <Italic {...props} />,
 	layoutDashboard: (props: IconProps) => <LayoutDashboard {...props} />,
 	list: (props: IconProps) => <List {...props} />,

@@ -10,6 +10,8 @@ import { importMap } from './admin/importMap.js'
 import './payloadShadcn.css'
 import './custom.scss'
 
+import { Toaster } from '@/components/ui/custom/toast'
+
 type Args = {
 	children: React.ReactNode
 }
@@ -26,6 +28,7 @@ const serverFunction: ServerFunctionClient = async function (args) {
 const Layout = ({ children }: Args) => (
 	<RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
 		{children}
+		<Toaster />
 	</RootLayout>
 )
 

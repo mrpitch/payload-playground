@@ -7,7 +7,7 @@ import { getSession } from '@/lib/actions/get-session'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
 
-import type { AppShell } from '@/payload/payload-types'
+import type { AppShell } from '@payload-types'
 
 import { Logo } from '@/components/ui/custom/logo'
 import { Footer } from '@/app/_components/footer'

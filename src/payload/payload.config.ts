@@ -1,6 +1,6 @@
 // storage-adapter-import-placeholder
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { lexicalEditor, InlineToolbarFeature } from '@payloadcms/richtext-lexical'
 import { resendAdapter } from '@payloadcms/email-resend'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { plugins } from '@/payload/plugins'
-import { seed } from './seed'
+import { seed } from './utils/seed'
 
 import { AppShell } from '@/payload/globals/AppShell'
 import { EmailTemplates } from '@/payload/globals/EmailTemplates'
@@ -53,7 +53,11 @@ export default buildConfig({
 	},
 	globals: [AppShell, EmailTemplates],
 	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
-	editor: lexicalEditor(),
+	editor: lexicalEditor({
+		features({ rootFeatures }) {
+			return [...rootFeatures, InlineToolbarFeature()]
+		},
+	}),
 	secret: process.env.PAYLOAD_SECRET || '',
 	typescript: {
 		outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -61,12 +65,12 @@ export default buildConfig({
 	db: postgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || '',
-			ssl:
-				process.env.NODE_ENV === 'production'
-					? {
-							rejectUnauthorized: false,
-						}
-					: false,
+			// ssl:
+			// 	process.env.NODE_ENV === 'production'
+			// 		? {
+			// 				rejectUnauthorized: false,
+			// 			}
+			// 		: false,
 			max: 20, // Maximum number of connections in the pool
 			idleTimeoutMillis: 30000, // How long a connection can be idle before being closed
 			connectionTimeoutMillis: 2000, // How long to wait for a connection

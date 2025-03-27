@@ -4,7 +4,7 @@ import { notFound, redirect } from 'next/navigation'
 import { getSession } from '@/lib/actions/get-session'
 import { siteConfig } from '@/lib/config'
 import { getGlobals } from '@/lib/utils/getGlobals'
-import type { AppShell } from '@/payload/payload-types'
+import type { AppShell } from '@payload-types'
 
 import { Footer } from '../_components/footer'
 import { Logo } from '@/components/ui/custom/logo'

@@ -131,13 +131,15 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 - Stay updated with the latest best practices and updates
 - Add references to the documentation in the code
 - use official github repos and examples as reference:
-  - https://github.com/payloadcms/payload
   - https://github.com/vercel/next.js
   - https://github.com/shadcn-ui/ui
   - https://github.com/radix-ui/react-radix
   - https://github.com/tailwindlabs/tailwindcss
   - https://github.com/pmndrs/zustand
   - https://github.com/vercel/edge-functions
+- for payloadcms and payloadcms pakcage specific questions adhere to the github repo
+  - https://github.com/payloadcms/payload
+  - https://github.com/payloadcms/payload/tree/main/packages
 
 ## Output Expectations
 
