@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useCallback, useMemo } from 'react'
 
 import type { Language } from 'prism-react-renderer'
 import { Highlight } from 'prism-react-renderer'
@@ -9,12 +9,17 @@ import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
 import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
 import { useEmailPreview } from '@/payload/hooks/email-preview'
 import { useAllFormFields } from '@payloadcms/ui'
+import { sendEmail } from '@/payload/actions/send-email'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { toast } from '@/components/ui/custom/toast'
+
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 export interface EmailTemplate<T extends Record<string, string> = Record<string, string>> {
@@ -32,14 +37,85 @@ type EmailPreviewProps = {
 	type: 'passwordReset' | 'verifyEmail'
 }
 
+const TestEmailPopover = ({ html }: { html: string }) => {
+	const [testEmail, setTestEmail] = useState('')
+	const [isSending, setIsSending] = useState(false)
+	const [openPopover, setOpenPopover] = useState(false)
+
+	const handleSendTestEmail = useCallback(async () => {
+		if (!testEmail) {
+			toast({
+				title: 'Please enter an email address',
+				type: 'error',
+			})
+			return
+		}
+
+		try {
+			setIsSending(true)
+			await sendEmail({
+				to: testEmail,
+				subject: 'Test Email',
+				html,
+			})
+			toast({
+				title: 'Email sent successfully',
+				type: 'success',
+			})
+		} catch (err) {
+			console.error('Failed to send email:', err)
+			toast({
+				title: 'Failed to send email',
+				description: err instanceof Error ? err.message : 'An unknown error occurred',
+				type: 'error',
+			})
+		} finally {
+			setIsSending(false)
+			setOpenPopover(false)
+		}
+	}, [testEmail, html])
+
+	return (
+		<Popover open={openPopover} onOpenChange={setOpenPopover}>
+			<PopoverTrigger asChild>
+				<Button variant="outline" type="button">
+					Test
+				</Button>
+			</PopoverTrigger>
+			<PopoverContent align="end" className="w-80">
+				<div className="grid gap-4">
+					<div className="space-y-2">
+						<Input
+							id="test-email"
+							type="email"
+							placeholder="Enter email address"
+							value={testEmail}
+							onChange={(e) => setTestEmail(e.target.value)}
+						/>
+					</div>
+					<Button
+						variant="outline"
+						type="button"
+						onClick={handleSendTestEmail}
+						disabled={isSending || !testEmail}
+						className="w-full"
+					>
+						{isSending ? <Icon iconName="loader" className="mr-2 h-4 w-4 animate-spin" /> : null}
+						Send Test Email
+					</Button>
+				</div>
+			</PopoverContent>
+		</Popover>
+	)
+}
+
 export const EmailPreview = ({ type }: EmailPreviewProps) => {
 	const [viewPort, setViewPort] = useState<'desktop' | 'mobile' | 'code'>('desktop')
 
 	const [fields] = useAllFormFields()
 
-	const { html, isLoading } = useEmailPreview({
-		component: type === 'passwordReset' ? EmailPasswordReset : EmailVerifyAccount,
-		props: {
+	const props = useMemo(
+		() => ({
 			username: 'John Doe',
 			url: 'https://www.google.com',
 			email: 'john.doe@example.com',
@@ -62,9 +138,16 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 					],
 				},
 			},
-		},
+		}),
+		[fields, type],
+	)
+
+	const { html, isLoading } = useEmailPreview({
+		component: type === 'passwordReset' ? EmailPasswordReset : EmailVerifyAccount,
+		props,
 		templateKey: type,
 	})
+
 	return (
 		<div
 			className="field-type group-field group-field--within-row group-field--within-tab min-h-[500px]"
@@ -87,7 +170,7 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 						<Icon iconName="code" />
 					</ToggleGroupItem>
 				</ToggleGroup>
-				<Button variant="outline">Test Send</Button>
+				{!isLoading && <TestEmailPopover html={html} />}
 			</div>
 			<div className="mx-auto">
 				{isLoading ? (
