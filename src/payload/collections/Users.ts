@@ -30,7 +30,9 @@ export const Users: CollectionConfig = {
 				if (!args?.token || !args?.user || !args?.req) return ''
 				return renderEMail({
 					...args,
-					EmailTemplate: EmailVerifyAccount as (props: TEmailVerifyAccountProps) => ReactElement,
+					EmailTemplate: EmailVerifyAccount as (
+						props: Partial<TEmailVerifyAccountProps>,
+					) => ReactElement,
 					user: args.user,
 					type: 'verifyEmail',
 				})
@@ -50,7 +52,9 @@ export const Users: CollectionConfig = {
 				if (!args?.token || !args?.user || !args?.req) return ''
 				return renderEMail({
 					...args,
-					EmailTemplate: EmailPasswordReset as (props: TEmailPasswordResetProps) => ReactElement,
+					EmailTemplate: EmailPasswordReset as (
+						props: Partial<TEmailPasswordResetProps>,
+					) => ReactElement,
 					user: args.user,
 					type: 'passwordReset',
 				})

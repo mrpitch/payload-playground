@@ -8,22 +8,31 @@ interface UseEmailPreviewProps<T> {
 	templateKey: string
 }
 
+interface UseEmailPreviewResult {
+	html: string
+	isLoading: boolean
+}
+
 export function useEmailPreview<T extends object>({
 	component: Component,
 	props,
-	templateKey,
-}: UseEmailPreviewProps<T>) {
+}: UseEmailPreviewProps<T>): UseEmailPreviewResult {
 	const [html, setHtml] = useState('')
-	console.log('templateKey', templateKey)
+	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
 		const renderPreview = async () => {
-			const element = await Component(props)
-			const renderedHtml = await renderEmailHtml(element)
-			setHtml(renderedHtml)
+			try {
+				setIsLoading(true)
+				const element = await Component(props)
+				const renderedHtml = await renderEmailHtml(element)
+				setHtml(renderedHtml)
+			} finally {
+				setIsLoading(false)
+			}
 		}
 		renderPreview()
 	}, [Component, props])
 
-	return html
+	return { html, isLoading }
 }

@@ -19,7 +19,7 @@ import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 import { baseUrl } from '@/payload/utils/constants'
 
-import { theme, themeDark } from '@/lib/styles/v3/theme'
+import { theme } from '@/lib/styles/v3/theme'
 import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'

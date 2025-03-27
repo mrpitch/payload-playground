@@ -7,10 +7,10 @@
 	--screen-2xl: 1536px;
 
 	/* Font Family */
-	--font-regular: hsl(var(--font-typeNextRegular));
-	--font-light: hsl(var(--font-typeNextLight));
-	--font-semibold: hsl(var(--font-typeNextBold));
-	--font-bold: hsl(var(--font-typeNextBold));
+	--font-regular: var(--font-typeNextRegular);
+	--font-light: var(--font-typeNextLight);
+	--font-semibold: var(--font-typeNextBold);
+	--font-bold: var(--font-typeNextBold);
   /* tbd: check what this is used for
 	--font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono); */
@@ -134,19 +134,19 @@
 	}
 }
 
-/* Override sonner default colors and use theme colors
+/* /* Override sonner default colors and use theme colors
  * Find other solution, since this is redundant
  */
-.toaster {
-	--error-border: var(--color-error-border);
-	--info-border: var(--color-info-border);
-	--success-border: var(--color-success-border);
-	--warning-border: var(--color-warning-border);
+/* .toaster {
+	--error-border: var(--error-border);
+	--info-border: var(--info-border);
+	--success-border: var(--success-border);
+	--warning-border: var(--warning-border);
 }
 
 .dark.toaster {
-	--error-border: var(--color-error-border);
-	--info-border: var(--color-info-border);
-	--success-border: var(--color-success-border);
-	--warning-border: var(--color-warning-border);
-}
+	--error-border: var(--error-border);
+	--info-border: var(--info-border);
+	--success-border: var(--success-border);
+	--warning-border: var(--warning-border);
+} */ 

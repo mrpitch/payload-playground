@@ -12,8 +12,8 @@ interface EmailTemplateProps {
 	previewText: string
 	heading: string
 	salutation: string
-	copy: string
-	buttonLabel: string
+	copy?: string
+	buttonLabel?: string
 	footer: DefaultTypedEditorState
 }
 

@@ -12,7 +12,9 @@ import { useAllFormFields } from '@payloadcms/ui'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
+import { Skeleton } from '@/components/ui/skeleton'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { toast } from '@/components/ui/custom/toast'
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 export interface EmailTemplate<T extends Record<string, string> = Record<string, string>> {
@@ -35,7 +37,7 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 
 	const [fields] = useAllFormFields()
 
-	const html = useEmailPreview({
+	const { html, isLoading } = useEmailPreview({
 		component: type === 'passwordReset' ? EmailPasswordReset : EmailVerifyAccount,
 		props: {
 			username: 'John Doe',
@@ -63,7 +65,6 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 		},
 		templateKey: type,
 	})
-
 	return (
 		<div
 			className="field-type group-field group-field--within-row group-field--within-tab min-h-[500px]"
@@ -89,21 +90,43 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 				<Button variant="outline">Test Send</Button>
 			</div>
 			<div className="mx-auto">
-				{viewPort === 'desktop' ? (
-					<iframe
-						className="h-[calc(100vh_-_140px)] w-[640px] border-none lg:h-[calc(100vh_-_70px)]"
-						srcDoc={html}
-						title="Desktop"
-					/>
-				) : null}
-				{viewPort === 'mobile' ? (
-					<iframe
-						className="mx-auto h-[calc(100vh_-_140px)] w-[360px] border-none lg:h-[calc(100vh_-_70px)]"
-						srcDoc={html}
-						title="Mobile"
-					/>
-				) : null}
-				{viewPort === 'code' ? <CodePreview html={html} /> : null}
+				{isLoading ? (
+					<div className="bg-background flex h-[calc(100vh_-_140px)] w-[640px]">
+						<div className="border-accent mx-auto my-[40px] w-[465px] rounded border border-solid">
+							<div className="mx-auto mt-8 mb-8 flex w-10/12 flex-col space-y-3">
+								<Skeleton className="mx-auto h-[25px] w-full rounded-xl" />
+								<Skeleton className="mx-auto h-[250px] w-full rounded-xl" />
+								<div className="space-y-2">
+									<Skeleton className="h-4 w-full" />
+									<Skeleton className="h-4 w-full" />
+								</div>
+								<Skeleton className="mx-auto h-[250px] w-full rounded-xl" />
+								<div className="space-y-2">
+									<Skeleton className="h-4 w-full" />
+									<Skeleton className="h-4 w-full" />
+								</div>
+							</div>
+						</div>
+					</div>
+				) : (
+					<>
+						{viewPort === 'desktop' ? (
+							<iframe
+								className="bg-background h-[calc(100vh_-_140px)] w-[640px] border-none lg:h-[calc(100vh_-_70px)]"
+								srcDoc={html}
+								title="Desktop"
+							/>
+						) : null}
+						{viewPort === 'mobile' ? (
+							<iframe
+								className="bg-background mx-auto h-[calc(100vh_-_140px)] w-[360px] border-none lg:h-[calc(100vh_-_70px)]"
+								srcDoc={html}
+								title="Mobile"
+							/>
+						) : null}
+						{viewPort === 'code' ? <CodePreview html={html} /> : null}
+					</>
+				)}
 			</div>
 		</div>
 	)
@@ -122,37 +145,52 @@ export const newsletter = () => {
 }
 
 export const CodePreview = ({ html }: { html: string }) => {
+	const [isCopied, setIsCopied] = useState(false)
+
+	const copyToClipboard = async () => {
+		try {
+			await navigator.clipboard.writeText(html)
+			setIsCopied(true)
+			toast({
+				title: 'Copied to clipboard',
+				type: 'info',
+			})
+			setTimeout(() => setIsCopied(false), 3000)
+		} catch (error) {
+			console.error('Failed to copy:', error)
+		}
+	}
+
+	const downloadHtml = async (text: string, filename: string) => {
+		const blob = new Blob([text], { type: 'text/html' })
+		const url = URL.createObjectURL(blob)
+		const a = document.createElement('a')
+		a.href = url
+		a.download = filename
+		a.click()
+		URL.revokeObjectURL(url)
+	}
+
 	return (
-		<div className="border-border-foreground w-[640px] rounded-sm border p-4">
-			<div className="flex items-center justify-end gap-2">
-				<Button variant="outline" size="icon" onClick={() => copyHtmlToClipboard(html)}>
-					<Icon iconName="clipboard" />
+		<div className="border-accent w-[640px] rounded-sm border p-4">
+			<div className="flex items-center justify-end gap-2 pb-4">
+				<Button type="button" variant="outline" size="icon" onClick={() => copyToClipboard()}>
+					{isCopied ? <Icon iconName="check" /> : <Icon iconName="clipboard" />}
 				</Button>
-				<Button variant="outline" size="icon" onClick={() => downloadHtml(html, 'email.html')}>
+				<Button
+					type="button"
+					variant="outline"
+					size="icon"
+					onClick={() => downloadHtml(html, 'email.html')}
+				>
 					<Icon iconName="download" />
 				</Button>
 			</div>
-			<Code>{html}</Code>
+			<div className="rounded-sm bg-gray-900 p-4">
+				<Code>{html}</Code>
+			</div>
 		</div>
 	)
-}
-
-export const copyHtmlToClipboard = async (text: string) => {
-	try {
-		await navigator.clipboard.writeText(text)
-	} catch {
-		throw new Error('Not able to copy')
-	}
-}
-
-export const downloadHtml = async (text: string, filename: string) => {
-	const blob = new Blob([text], { type: 'text/html' })
-	const url = URL.createObjectURL(blob)
-	const a = document.createElement('a')
-	a.href = url
-	a.download = filename
-	a.click()
-	URL.revokeObjectURL(url)
 }
 
 interface CodeProps {
@@ -193,7 +231,6 @@ export const Code: React.FC<Readonly<CodeProps>> = ({ children, language = 'html
 										const tokenProps = getTokenProps({
 											token,
 										})
-										console.log('tokenProps', tokenProps)
 										const isException = token.content === 'from' && line[key + 1]?.content === ':'
 										const newTypes = isException ? [...token.types, 'key-white'] : token.types
 										token.types = newTypes
