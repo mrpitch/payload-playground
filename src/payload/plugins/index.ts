@@ -6,7 +6,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 
 import { Page } from '@payload-types'
-import { getServerSideURL } from '@/payload/utils/getUrl'
+import { getServerSideURL } from '@/payload/utils/get-url'
 
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
 	return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'

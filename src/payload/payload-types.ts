@@ -54,6 +54,7 @@ export type SupportedTimezones =
   | 'Asia/Singapore'
   | 'Asia/Tokyo'
   | 'Asia/Seoul'
+  | 'Australia/Brisbane'
   | 'Australia/Sydney'
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
@@ -185,7 +186,7 @@ export interface QuoteBlock {
   quoteText?: string | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'Quote';
+  blockType: 'quote';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -203,14 +204,38 @@ export interface Post {
     image?: (number | null) | Media;
     description?: string | null;
   };
-  layout?: QuoteBlock[] | null;
+  layout?: (QuoteBlock | CopyBlock)[] | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
-  test?: string | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CopyBlock".
+ */
+export interface CopyBlock {
+  headline: string;
+  copy?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'copy';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -450,7 +475,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        Quote?: T | QuoteBlockSelect<T>;
+        quote?: T | QuoteBlockSelect<T>;
       };
   publishedAt?: T;
   updatedAt?: T;
@@ -484,15 +509,25 @@ export interface PostsSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        Quote?: T | QuoteBlockSelect<T>;
+        quote?: T | QuoteBlockSelect<T>;
+        copy?: T | CopyBlockSelect<T>;
       };
   relatedPosts?: T;
   categories?: T;
-  test?: T;
   publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CopyBlock_select".
+ */
+export interface CopyBlockSelect<T extends boolean = true> {
+  headline?: T;
+  copy?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -520,7 +555,7 @@ export interface NewsletterSelect<T extends boolean = true> {
         layout?:
           | T
           | {
-              Quote?: T | QuoteBlockSelect<T>;
+              quote?: T | QuoteBlockSelect<T>;
             };
       };
   preview?: T | {};
@@ -709,7 +744,21 @@ export interface EMailTemplate {
     };
   };
   footer: {
-    content: string;
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
   };
   updatedAt?: string | null;
   createdAt?: string | null;

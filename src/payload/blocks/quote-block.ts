@@ -1,22 +1,22 @@
 import { Block } from 'payload'
 
 export const QuoteBlock: Block = {
-  slug: 'Quote',
-  imageURL: '/icon-quote.svg', // optional
-  imageAltText: 'A nice thumbnail image to show what this block looks like',
-  interfaceName: 'QuoteBlock', // optional
-  fields: [
-    // required
-    {
-      name: 'quoteHeader',
-      type: 'text',
-      required: true,
-      localized: true,
-    },
-    {
-      name: 'quoteText',
-      type: 'text',
-      localized: true,
-    },
-  ],
+	slug: 'quote',
+	imageURL: '/images/icons/icon-quote.svg', // optional
+	imageAltText: 'Quote Block Icon',
+	interfaceName: 'QuoteBlock', // optional
+	fields: [
+		// required
+		{
+			name: 'quoteHeader',
+			type: 'text',
+			required: true,
+			localized: true,
+		},
+		{
+			name: 'quoteText',
+			type: 'text',
+			localized: true,
+		},
+	],
 }

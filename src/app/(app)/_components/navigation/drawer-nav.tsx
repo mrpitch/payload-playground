@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 
-import { AppShell } from '@/payload/payload-types'
+import { AppShell } from '@payload-types'
 
 import { Button } from '@/components/ui/button'
 import { Icon, IconType } from '@/components/ui/custom/icons'

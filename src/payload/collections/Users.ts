@@ -1,18 +1,20 @@
 import type { CollectionConfig } from 'payload'
 import type { User } from '@payload-types'
+import type { PayloadRequest } from 'payload'
+import type { ReactElement } from 'react'
+import type { TEmailVerifyAccountProps } from '@/payload/email-templates/verify-account'
+import type { TEmailPasswordResetProps } from '@/payload/email-templates/password-reset'
 
 import { admin } from '@/payload/access/admin'
-import { adminAndEditor } from '@/payload/access/adminAndEditor'
+import { adminAndEditor } from '@/payload/access/admin-and-editor'
 import { anyone } from '@/payload/access/anyone'
-import { checkRole } from '@/payload/hooks/checkRole'
-import { protectRoles } from '@/payload/hooks/protectRoles'
+import { checkRole } from '@/payload/hooks/check-role'
+import { protectRoles } from '@/payload/hooks/protect-roles'
 import { tokenExpiration } from '@/lib/utils/constants'
 
-import { render } from '@react-email/render'
-
-import { EmailPasswordReset } from '@/payload/emails/password-reset'
-import { EmailVerifyAccount } from '@/payload/emails/verify-account'
-import { getEmailSubject, getEmailContents } from '@/payload/utils/renderEmail'
+import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
+import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
+import { getEmailSubject, renderEMail } from '@/payload/utils/render-email'
 
 export const Users: CollectionConfig = {
 	slug: 'users',
@@ -24,68 +26,38 @@ export const Users: CollectionConfig = {
 			domain: process.env.COOKIE_DOMAIN,
 		},
 		verify: {
-			generateEmailHTML: async (args?: { token?: string; user?: User }) => {
-				if (!args?.token || !args?.user) return ''
-				const { token, user } = args
-				const url = `${process.env.NEXT_PUBLIC_URL}/change-password?token=${token}`
-				const {
-					verifyAccount: {
-						Template: { previewText, heading, salutation, copy, buttonLabel },
-					},
-					footer: { content: footer },
-				} = await getEmailContents()
-
-				return await render(
-					await EmailVerifyAccount({
-						url: url,
-						email: user.email,
-						username: user.firstName,
-						previewText,
-						heading,
-						salutation,
-						copy,
-						buttonLabel,
-						footer,
-					}),
-				)
+			generateEmailHTML: async (args?: { req?: PayloadRequest; token?: string; user?: User }) => {
+				if (!args?.token || !args?.user || !args?.req) return ''
+				return renderEMail({
+					...args,
+					EmailTemplate: EmailVerifyAccount as (
+						props: Partial<TEmailVerifyAccountProps>,
+					) => ReactElement,
+					user: args.user,
+					type: 'verifyEmail',
+				})
 			},
 		},
 		forgotPassword: {
 			expiration: tokenExpiration.reset,
-			generateEmailSubject: async (args?: { token?: string; user?: User }) => {
-				if (!args?.token || !args?.user) return ''
-				const { user } = args
-				const {
-					passwordReset: {
-						Template: { subject },
-					},
-				} = await getEmailContents()
-				return getEmailSubject({ subject, username: user.firstName })
+			generateEmailSubject: async (args?: {
+				token?: string
+				user?: User
+				req?: PayloadRequest
+			}) => {
+				if (!args?.token || !args?.user || !args?.req) return ''
+				return getEmailSubject(args)
 			},
-			generateEmailHTML: async (args?: { token?: string; user?: User }) => {
-				if (!args?.token || !args?.user) return ''
-				const { token, user } = args
-				const url = `${process.env.NEXT_PUBLIC_URL}/change-password?token=${token}`
-				const {
-					passwordReset: {
-						Template: { previewText, heading, salutation, copy, buttonLabel },
-					},
-					footer: { content: footer },
-				} = await getEmailContents()
-
-				return await render(
-					await EmailPasswordReset({
-						url: url,
-						email: user.email,
-						username: user.firstName,
-						previewText,
-						heading,
-						salutation,
-						copy,
-						buttonLabel,
-						footer,
-					}),
-				)
+			generateEmailHTML: async (args?: { req?: PayloadRequest; token?: string; user?: User }) => {
+				if (!args?.token || !args?.user || !args?.req) return ''
+				return renderEMail({
+					...args,
+					EmailTemplate: EmailPasswordReset as (
+						props: Partial<TEmailPasswordResetProps>,
+					) => ReactElement,
+					user: args.user,
+					type: 'passwordReset',
+				})
 			},
 		},
 	},

@@ -1,6 +1,16 @@
 import type { GlobalConfig } from 'payload'
 import { admin } from '@/payload/access/admin'
-import { adminAndEditor } from '@/payload/access/adminAndEditor'
+import { adminAndEditor } from '@/payload/access/admin-and-editor'
+
+import {
+	lexicalEditor,
+	ItalicFeature,
+	BoldFeature,
+	LinkFeature,
+	UnorderedListFeature,
+	OrderedListFeature,
+	UnderlineFeature,
+} from '@payloadcms/richtext-lexical'
 
 export const EmailTemplates: GlobalConfig = {
 	slug: 'e-mail-templates',
@@ -154,9 +164,21 @@ export const EmailTemplates: GlobalConfig = {
 					fields: [
 						{
 							name: 'content',
-							type: 'text',
+							type: 'richText',
 							required: true,
-							defaultValue: 'footer',
+							editor: lexicalEditor({
+								features({ rootFeatures }) {
+									return [
+										...rootFeatures,
+										BoldFeature(),
+										UnderlineFeature(),
+										OrderedListFeature(),
+										UnorderedListFeature(),
+										LinkFeature(),
+										ItalicFeature(),
+									]
+								},
+							}),
 						},
 					],
 				},

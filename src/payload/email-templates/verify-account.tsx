@@ -14,8 +14,15 @@ import {
 } from '@react-email/components'
 
 import { baseUrl } from '@/payload/utils/constants'
+import { cn } from '@/lib/utils/cn'
 
-import { buttonVariants } from '@/components/ui/button'
+import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
+
+import { theme } from '@/lib/styles/v3/theme'
+import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
+import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
+
+import { RichText } from '@/components/utils/richtext'
 
 export type TEmailVerifyAccountProps = {
 	username: string
@@ -26,19 +33,26 @@ export type TEmailVerifyAccountProps = {
 	salutation: string
 	copy: string
 	buttonLabel: string
-	footer: string
+	footer: DefaultTypedEditorState
 }
 
-export async function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
+export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =
 		props
 
-	console.log('props', props)
 	return (
 		<Html>
-			<Tailwind>
+			<Tailwind config={theme}>
 				<Head />
-				<Body className="bg-background mx-auto my-auto px-2 font-sans">
+				<Body
+					className={cn(
+						'bg-background mx-auto my-auto px-2 font-sans',
+						typeNextRegular.variable,
+						typeNextLight.variable,
+						typeNextSemiBold.variable,
+						typeNextBold.variable,
+					)}
+				>
 					<Preview>
 						{previewText} {email}
 					</Preview>
@@ -64,13 +78,14 @@ export async function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 							<Text className="text-normal text-foreground leading-1.5">{copy}</Text>
 						</Section>
 						<Section className="mx-auto mb-6 w-10/12 text-center">
-							<Button href={url} className={buttonVariants({ variant: 'outline' })}>
+							<Button href={url} className={emailButtonVariants({ variant: 'secondary' })}>
 								{buttonLabel}
 							</Button>
 						</Section>
 						<Section className="mx-auto w-10/12">
 							<Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
-							<Text className="text-[12px] leading-[24px] text-[#666666]">{footer}</Text>
+
+							<RichText data={footer} className="text-foreground text-xs" />
 						</Section>
 					</Container>
 				</Body>

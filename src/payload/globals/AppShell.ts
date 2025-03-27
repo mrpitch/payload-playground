@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { admin } from '@/payload/access/admin'
-import { adminAndEditor } from '@/payload/access/adminAndEditor'
+import { adminAndEditor } from '@/payload/access/admin-and-editor'
 
 export const AppShell: GlobalConfig = {
 	slug: 'app-shell',

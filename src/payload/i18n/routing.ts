@@ -3,8 +3,8 @@ import { createNavigation } from 'next-intl/navigation'
 import { localization } from '@/payload/i18n/localization'
 
 export const routing = defineRouting({
-  locales: localization.locales.map((locale) => locale.code),
-  defaultLocale: localization.defaultLocale,
+	locales: localization.locales.map((locale) => locale.code),
+	defaultLocale: localization.defaultLocale,
 })
 
 // Lightweight wrappers around Next.js' navigation APIs

@@ -75,7 +75,7 @@ export const seed = async (payload: Payload): Promise<void> => {
 			slug: 'home',
 			layout: [
 				{
-					blockType: 'Quote',
+					blockType: 'quote',
 					quoteHeader: 'Welcome to Our Site',
 					quoteText: 'This is the home page of our website.',
 				},
@@ -92,7 +92,7 @@ export const seed = async (payload: Payload): Promise<void> => {
 			slug: 'imprint',
 			layout: [
 				{
-					blockType: 'Quote',
+					blockType: 'quote',
 					quoteHeader: 'Legal Information',
 					quoteText: 'This is our imprint page containing legal information.',
 				},
@@ -112,7 +112,7 @@ export const seed = async (payload: Payload): Promise<void> => {
 			publishedAt: new Date().toISOString(),
 			layout: [
 				{
-					blockType: 'Quote',
+					blockType: 'quote',
 					quoteHeader: 'Post 1',
 					quoteText: 'This is a featured quote from post 1.',
 				},
@@ -130,7 +130,7 @@ export const seed = async (payload: Payload): Promise<void> => {
 			publishedAt: new Date().toISOString(),
 			layout: [
 				{
-					blockType: 'Quote',
+					blockType: 'quote',
 					quoteHeader: 'Post 2',
 					quoteText: 'This is a featured quote from post 2.',
 				},
