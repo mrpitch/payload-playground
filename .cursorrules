@@ -199,6 +199,9 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
   - Note edge cases
   - TSDoc for exported functions
 - Create and update *.md refer to markdownlint to ensure valid markdown
+- readme.md
+  - follow markdownlint
+  - only use 2nd and 3rd level heading for ToC
 
 ## Monitoring and Analytics
 
