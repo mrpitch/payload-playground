@@ -8,7 +8,7 @@ export interface IContainerProps {
 
 const Container: React.FC<IContainerProps> = ({ className, as = 'div', children, ...props }) => {
 	const baseStyles = {
-		default: 'mx-auto px-2 md:px-12 lg:px-24',
+		default: 'mx-auto px-2 md:px-8',
 	}
 
 	className = cn(baseStyles.default, className)

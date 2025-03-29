@@ -12,6 +12,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 
 import { QuoteBlock } from '@/payload/blocks/quote-block'
+import { StageBlock } from '../blocks/stage-block'
 
 export const Pages: CollectionConfig = {
 	slug: 'pages',
@@ -84,10 +85,7 @@ export const Pages: CollectionConfig = {
 							type: 'blocks', // required
 							minRows: 1,
 							maxRows: 20,
-							blocks: [
-								// required
-								QuoteBlock,
-							],
+							blocks: [StageBlock, QuoteBlock],
 						},
 					],
 				},

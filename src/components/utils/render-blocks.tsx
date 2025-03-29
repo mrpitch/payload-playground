@@ -2,14 +2,16 @@ import React, { Fragment } from 'react'
 
 import type { Page, Post } from '@payload-types'
 
-import { QuoteBlock } from '@/components/layout/quote-block'
-import { CopyBlock } from '@/components/layout/copy-block'
+import QuoteBlock from '@/components/layout/quote-block'
+import CopyBlock from '@/components/layout/copy-block'
+import Stage from '@/components/layout/stage'
 
 interface IRenderBlocksProps {
 	blocks: Page['layout'] | Post['layout']
 }
 
 const blockComponents = {
+	stage: Stage,
 	quote: QuoteBlock,
 	copy: CopyBlock,
 }
