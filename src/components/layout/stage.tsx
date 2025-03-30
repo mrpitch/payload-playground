@@ -33,7 +33,7 @@ export default function Stage({
 			{/* Background image */}
 			<div className="absolute inset-0 h-full w-full">
 				<Image
-					src={`${imageUrl}${backgroundImage?.filename}` || '/placeholder.svg'}
+					src={`${imageUrl}/${backgroundImage?.filename}` || '/placeholder.svg'}
 					alt={backgroundImage?.alt || ''}
 					fill
 					priority
