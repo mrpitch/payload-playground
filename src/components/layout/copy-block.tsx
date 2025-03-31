@@ -6,9 +6,9 @@ import { Container } from '@/components/ui/custom/container'
 
 import { proseTypography, Typography } from '@/components/ui/custom/typography'
 
-const CopyBlock: React.FC<TCopyBlock> = ({ headline, copy }) => (
+const CopyBlock: React.FC<TCopyBlock> = ({ headline, copy, showHeadline }) => (
 	<Container as="section">
-		<Typography as="h2">{headline}</Typography>
+		{showHeadline ? <Typography as="h2">{headline}</Typography> : null}
 		<div className={cn(proseTypography, 'mt-2')}>{copy ? <RichText data={copy} /> : null}</div>
 	</Container>
 )

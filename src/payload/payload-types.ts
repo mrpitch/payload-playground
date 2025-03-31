@@ -151,7 +151,8 @@ export interface Page {
     image?: (number | null) | Media;
     description?: string | null;
   };
-  layout?: QuoteBlock[] | null;
+  showPageTitle?: boolean | null;
+  layout?: (CopyBlock | StageBlock | QuoteBlock)[] | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -176,6 +177,48 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CopyBlock".
+ */
+export interface CopyBlock {
+  headline: string;
+  showHeadline: boolean;
+  copy?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'copy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StageBlock".
+ */
+export interface StageBlock {
+  tagline?: string | null;
+  headline: string;
+  subline?: string | null;
+  copy?: string | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  backgroundImage?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stage';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -211,31 +254,6 @@ export interface Post {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CopyBlock".
- */
-export interface CopyBlock {
-  headline: string;
-  copy?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'copy';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -472,15 +490,44 @@ export interface PagesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  showPageTitle?: T;
   layout?:
     | T
     | {
+        copy?: T | CopyBlockSelect<T>;
+        stage?: T | StageBlockSelect<T>;
         quote?: T | QuoteBlockSelect<T>;
       };
   publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CopyBlock_select".
+ */
+export interface CopyBlockSelect<T extends boolean = true> {
+  headline?: T;
+  showHeadline?: T;
+  copy?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StageBlock_select".
+ */
+export interface StageBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  headline?: T;
+  subline?: T;
+  copy?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  backgroundImage?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -518,16 +565,6 @@ export interface PostsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CopyBlock_select".
- */
-export interface CopyBlockSelect<T extends boolean = true> {
-  headline?: T;
-  copy?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -19,10 +19,29 @@ export const CopyBlock: Block = {
 	fields: [
 		// required
 		{
-			name: 'headline',
-			type: 'text',
-			required: true,
-			localized: true,
+			type: 'row',
+			fields: [
+				{
+					name: 'headline',
+					label: 'Headline',
+					type: 'text',
+					required: true,
+					localized: true,
+					admin: {
+						width: '80%',
+					},
+				},
+				{
+					name: 'showHeadline',
+					label: 'Show Headline',
+					type: 'checkbox',
+					required: true,
+					defaultValue: false,
+					admin: {
+						width: '20%',
+					},
+				},
+			],
 		},
 		{
 			name: 'copy',
