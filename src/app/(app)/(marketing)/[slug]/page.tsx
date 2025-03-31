@@ -8,7 +8,6 @@ import { getAllPosts, getCollectionBySlug, getSlugs } from '@/lib/utils/getColle
 import type { Page } from '@payload-types'
 import type { TPostMeta, TGenerateMeta } from '@/lib/types'
 
-import { buttonVariants } from '@/components/ui/button'
 import { Typography } from '@/components/ui/custom/typography'
 import { Badge } from '@/components/ui/badge'
 

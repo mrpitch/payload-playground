@@ -11,9 +11,10 @@ import {
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
-import { CopyBlock } from '../blocks/copy-block'
+import { CopyBlock } from '@/payload/blocks/copy-block'
+import { ImageTextBlock } from '@/payload/blocks/image-text-block'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
-import { StageBlock } from '../blocks/stage-block'
+import { StageBlock } from '@/payload/blocks/stage-block'
 
 export const Pages: CollectionConfig = {
 	slug: 'pages',
@@ -92,7 +93,7 @@ export const Pages: CollectionConfig = {
 							type: 'blocks', // required
 							minRows: 1,
 							maxRows: 20,
-							blocks: [CopyBlock, StageBlock, QuoteBlock],
+							blocks: [CopyBlock, ImageTextBlock, QuoteBlock, StageBlock],
 						},
 					],
 				},

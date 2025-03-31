@@ -1,20 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Media } from '@payload-types'
+import { StageBlock as TStage } from '@payload-types'
 
 import { imageUrl } from '@/lib/utils/constants'
 import { Button } from '@/components/ui/button'
 import { Typography } from '@/components/ui/custom/typography'
 
-interface StageProps {
-	tagline?: string
-	headline: string
-	subline?: string
-	copy?: string
-	ctaText?: string
-	ctaLink?: string
-	backgroundImage?: Media
+interface StageProps extends TStage {
 	overlayOpacity?: number
 }
 
@@ -33,8 +26,13 @@ export default function Stage({
 			{/* Background image */}
 			<div className="absolute inset-0 h-full w-full">
 				<Image
-					src={`${imageUrl}/${backgroundImage?.filename}` || '/placeholder.svg'}
-					alt={backgroundImage?.alt || ''}
+					src={
+						`${imageUrl}/${backgroundImage && typeof backgroundImage === 'object' ? backgroundImage.filename : ''}` ||
+						'/placeholder.svg'
+					}
+					alt={
+						backgroundImage && typeof backgroundImage === 'object' ? backgroundImage.alt || '' : ''
+					}
 					fill
 					priority
 					className="object-cover"
