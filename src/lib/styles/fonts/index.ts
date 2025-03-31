@@ -31,3 +31,19 @@ export const typeNextBold: NextFontWithVariable = localFont({
 	display: 'swap',
 	variable: '--font-typeNextBold',
 })
+
+/* Workarround for running pnpm genearte types, this is causes error message: "TypeError: localFont is not a function". No issue during build process.
+uncomment following to run without error
+*/
+// export const typeNextLight = {
+// 	variable: '--font-typeNextLight',
+// }
+// export const typeNextRegular = {
+// 	variable: '--font-typeNextRegular',
+// }
+// export const typeNextSemiBold = {
+// 	variable: '--font-typeNextSemiBold',
+// }
+// export const typeNextBold = {
+// 	variable: '--font-typeNextBold',
+// }

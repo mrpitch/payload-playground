@@ -11,7 +11,9 @@ import {
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
+import { CopyBlock } from '../blocks/copy-block'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
+import { StageBlock } from '../blocks/stage-block'
 
 export const Pages: CollectionConfig = {
 	slug: 'pages',
@@ -80,14 +82,17 @@ export const Pages: CollectionConfig = {
 					description: 'Page Content',
 					fields: [
 						{
+							name: 'showPageTitle',
+							type: 'checkbox',
+							label: 'Show Page Title',
+							defaultValue: false,
+						},
+						{
 							name: 'layout', // required
 							type: 'blocks', // required
 							minRows: 1,
 							maxRows: 20,
-							blocks: [
-								// required
-								QuoteBlock,
-							],
+							blocks: [CopyBlock, StageBlock, QuoteBlock],
 						},
 					],
 				},

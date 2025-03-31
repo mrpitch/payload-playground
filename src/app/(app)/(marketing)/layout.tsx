@@ -38,15 +38,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 					<DrawerNav items={mainNavigation?.navItems ?? undefined} />
 				</div>
 			</header>
-			<main className="p-8">
-				<div>{children}</div>
-				<div className="mt-8 mb-8">
-					{user ? <Link href="/logout">Logout</Link> : <Link href="/login">Login</Link>}
-
-					<h3>Payload CMS Session</h3>
-					<pre>{JSON.stringify(user, null, 2)}</pre>
-				</div>
-			</main>
+			<main>{children}</main>
 			<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
 		</div>
 	)

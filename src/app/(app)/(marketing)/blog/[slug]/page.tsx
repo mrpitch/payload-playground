@@ -10,6 +10,7 @@ import { TGenerateMeta } from '@/lib/types'
 import { RenderBlocks } from '@/components/utils/render-blocks'
 
 import { Badge } from '@/components/ui/badge'
+import { Container } from '@/components/ui/custom/container'
 import { Typography } from '@/components/ui/custom/typography'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
@@ -55,7 +56,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 	const { title, publishedAt, categories, layout } = post as Post
 
 	return (
-		<section>
+		<Container as="section">
 			<Typography as="h1" size="4xl">
 				{title}
 			</Typography>
@@ -76,6 +77,6 @@ export default async function Post({ params: paramsPromise }: Args) {
 			<div className="mt-8">
 				<pre>{JSON.stringify(post, null, 2)}</pre>
 			</div>
-		</section>
+		</Container>
 	)
 }
