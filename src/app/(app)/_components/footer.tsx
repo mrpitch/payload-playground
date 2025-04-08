@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { Container } from '@/components/ui/custom/container'
 import { Typography, typographyVariants } from '@/components/ui/custom/typography'
 
 interface INavItem {
@@ -15,7 +16,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ siteName, legalNavigation }) => {
 	return (
-		<footer className="px-8 py-4">
+		<Container as="footer" className="py-4">
 			<div className="flex">
 				<Typography as="p" size="xs">
 					&copy; {new Date().getFullYear()} {siteName}
@@ -32,6 +33,6 @@ export const Footer: React.FC<FooterProps> = ({ siteName, legalNavigation }) => 
 					))}
 				</nav>
 			</div>
-		</footer>
+		</Container>
 	)
 }

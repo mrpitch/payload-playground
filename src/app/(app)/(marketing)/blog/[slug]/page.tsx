@@ -58,24 +58,12 @@ export default async function Post({ params: paramsPromise }: Args) {
 
 	return (
 		<article className="mt-8">
-			<Container as="section" className="mb-8">
-				{thumbnail && typeof thumbnail !== 'number' ? (
-					<div className="mt-4 mb-8 overflow-hidden rounded-lg">
-						<Image
-							src={thumbnail.url || ''}
-							alt={`Featured image for ${title}`}
-							width={120}
-							height={400}
-							className="h-auto w-full object-cover"
-							priority
-						/>
-					</div>
-				) : null}
+			<Container as="section" className="mb-12">
 				<Typography as="h1" size="4xl">
 					{title}
 				</Typography>
 				<Typography as="p">{publishedAt}</Typography>
-				<div className="flex-start mt-4 flex gap-2">
+				<div className="flex-start mt-4 mb-6 flex gap-2">
 					{categories?.map(
 						(category) =>
 							typeof category !== 'number' && (
@@ -85,16 +73,31 @@ export default async function Post({ params: paramsPromise }: Args) {
 							),
 					)}
 				</div>
+				{thumbnail && typeof thumbnail !== 'number' ? (
+					<div
+						className="relative isolate mb-4 w-full overflow-hidden rounded-lg"
+						style={{ aspectRatio: '10/3' }}
+					>
+						<div className="bg-secondary absolute inset-0 z-10" style={{ opacity: 0.1 }} />
+						<Image
+							src={thumbnail.url || ''}
+							alt={`Featured image for ${title}`}
+							fill
+							className="object-cover"
+							priority
+						/>
+					</div>
+				) : null}
 				{excerpt ? (
-					<Typography as="p" size="lg" className="mt-4">
+					<Typography as="p" size="lg" className="mt-2 italic">
 						{excerpt}
 					</Typography>
 				) : null}
 			</Container>
 			<RenderBlocks blocks={layout} />
-			<div className="mt-8">
+			<Container as="div" className="overflow-x-scroll">
 				<pre>{JSON.stringify(post, null, 2)}</pre>
-			</div>
+			</Container>
 		</article>
 	)
 }

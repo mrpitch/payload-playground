@@ -1,22 +1,35 @@
 import { cn } from '@/lib/utils/cn'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-export interface IContainerProps {
+const containerVariants = cva('mx-auto px-2 md:px-8', {
+	variants: {
+		variant: {
+			default: 'max-w-screen-xl 2xl:max-w-screen-2xl',
+			header: 'max-w-screen-2xl',
+		},
+	},
+	defaultVariants: {
+		variant: 'default',
+	},
+})
+
+export interface IContainerProps
+	extends React.HTMLAttributes<HTMLElement>,
+		VariantProps<typeof containerVariants> {
 	children: React.ReactNode
 	as?: 'div' | 'main' | 'nav' | 'section' | 'footer' | 'header'
-	className?: string
 }
 
 const Container: React.FC<IContainerProps> = ({ className, as = 'div', children, ...props }) => {
-	const baseStyles = {
-		default: 'mx-auto px-2 md:px-8',
-	}
-
-	className = cn(baseStyles.default, className)
-
 	const Component = as === 'div' ? 'div' : as
 
 	return (
-		<Component className={className} {...props}>
+		<Component
+			className={cn(
+				containerVariants({ variant: as === 'header' ? 'header' : 'default', className }),
+			)}
+			{...props}
+		>
 			{children}
 		</Component>
 	)
