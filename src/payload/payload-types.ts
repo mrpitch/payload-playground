@@ -152,7 +152,7 @@ export interface Page {
     description?: string | null;
   };
   showPageTitle?: boolean | null;
-  layout?: (CopyBlock | ImageTextBlock | QuoteBlock | StageBlock)[] | null;
+  layout?: (CopyBlock | ImageTextBlock | QuoteBlock | StageBlock | BlogTeaserBlock)[] | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -251,6 +251,19 @@ export interface StageBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'stage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogTeaserBlock".
+ */
+export interface BlogTeaserBlock {
+  headline: string;
+  subline?: string | null;
+  posts?: (number | Post)[] | null;
+  readMoreText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'blog-teaser';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -521,6 +534,7 @@ export interface PagesSelect<T extends boolean = true> {
         'image-text'?: T | ImageTextBlockSelect<T>;
         quote?: T | QuoteBlockSelect<T>;
         stage?: T | StageBlockSelect<T>;
+        'blog-teaser'?: T | BlogTeaserBlockSelect<T>;
       };
   publishedAt?: T;
   updatedAt?: T;
@@ -580,6 +594,18 @@ export interface StageBlockSelect<T extends boolean = true> {
   ctaText?: T;
   ctaLink?: T;
   backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogTeaserBlock_select".
+ */
+export interface BlogTeaserBlockSelect<T extends boolean = true> {
+  headline?: T;
+  subline?: T;
+  posts?: T;
+  readMoreText?: T;
   id?: T;
   blockName?: T;
 }
