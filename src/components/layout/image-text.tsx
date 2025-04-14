@@ -5,7 +5,8 @@ import { ImageTextBlock as TImageText } from '@payload-types'
 import { imageUrl } from '@/lib/utils/constants'
 
 import { Button } from '@/components/ui/button'
-import { Typography } from '../ui/custom/typography'
+import { Typography } from '@/components/ui/custom/typography'
+import { Container } from '@/components/ui/custom/container'
 
 interface ImageTextProps extends TImageText {
 	overlayOpacity?: number
@@ -17,7 +18,7 @@ export default function ImageText({
 	overlayOpacity = 0.1,
 }: ImageTextProps) {
 	return (
-		<div className="container mx-auto px-4 py-12 md:px-6">
+		<Container as="div" className="px-4 py-12 md:px-6">
 			{items?.map((item, index: number) => {
 				// Determine if image should be on the left
 				const isOdd = index % 2 === 0
@@ -74,6 +75,6 @@ export default function ImageText({
 					</div>
 				)
 			})}
-		</div>
+		</Container>
 	)
 }

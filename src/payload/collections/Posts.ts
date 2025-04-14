@@ -51,6 +51,18 @@ export const Posts: CollectionConfig = {
 			localized: true,
 		},
 		{
+			name: 'excerpt',
+			type: 'textarea',
+			label: 'Excerpt',
+			localized: true,
+		},
+		{
+			name: 'thumbnail',
+			type: 'upload',
+			label: 'Thumbnail',
+			relationTo: 'media',
+		},
+		{
 			type: 'tabs',
 			tabs: [
 				{

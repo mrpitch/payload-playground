@@ -18,10 +18,12 @@
 		"start:postgres": "docker compose -f docker-compose.yml --env-file .env up -d",
 		"stop:postgres": "docker compose -f docker-compose.yml --env-file .env down",
 		"stop:postgres:cleanup": "docker compose -f docker-compose.yml --env-file .env down --volumes",
+		"analyze": "cross-env ANALYZE=true NODE_OPTIONS=--no-deprecation next build",
 		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^4.1.2",
+		"@next/bundle-analyzer": "^15.3.0",
 		"@payloadcms/db-postgres": "^3.31.0",
 		"@payloadcms/email-resend": "^3.31.0",
 		"@payloadcms/next": "^3.31.0",

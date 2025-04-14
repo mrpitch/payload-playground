@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 import { generateMeta } from '@/lib/utils/generateMeta'
@@ -53,30 +54,50 @@ export default async function Post({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories, layout } = post as Post
+	const { title, publishedAt, categories, layout, thumbnail, excerpt } = post as Post
 
 	return (
-		<Container as="section">
-			<Typography as="h1" size="4xl">
-				{title}
-			</Typography>
-			<Typography as="p">{publishedAt}</Typography>
-			<div className="flex-start mt-4 flex gap-2">
-				{categories?.map(
-					(category) =>
-						typeof category !== 'number' && (
-							<Badge key={category.id} variant="outline">
-								{category.title}
-							</Badge>
-						),
-				)}
-			</div>
-			<div className="mt-8">
-				<RenderBlocks blocks={layout} />
-			</div>
-			<div className="mt-8">
+		<article className="mt-8">
+			<Container as="section" className="mb-12">
+				<Typography as="h1" size="4xl">
+					{title}
+				</Typography>
+				<Typography as="p">{publishedAt}</Typography>
+				<div className="flex-start mt-4 mb-6 flex gap-2">
+					{categories?.map(
+						(category) =>
+							typeof category !== 'number' && (
+								<Badge key={category.id} variant="outline">
+									{category.title}
+								</Badge>
+							),
+					)}
+				</div>
+				{thumbnail && typeof thumbnail !== 'number' ? (
+					<div
+						className="relative isolate mb-4 w-full overflow-hidden rounded-lg"
+						style={{ aspectRatio: '10/3' }}
+					>
+						<div className="bg-secondary absolute inset-0 z-10" style={{ opacity: 0.1 }} />
+						<Image
+							src={thumbnail.url || ''}
+							alt={`Featured image for ${title}`}
+							fill
+							className="object-cover"
+							priority
+						/>
+					</div>
+				) : null}
+				{excerpt ? (
+					<Typography as="p" size="lg" className="mt-2 italic">
+						{excerpt}
+					</Typography>
+				) : null}
+			</Container>
+			<RenderBlocks blocks={layout} />
+			<Container as="div" className="overflow-x-scroll">
 				<pre>{JSON.stringify(post, null, 2)}</pre>
-			</div>
-		</Container>
+			</Container>
+		</article>
 	)
 }
