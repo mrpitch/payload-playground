@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Container } from '@/components/ui/custom/container'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Typography } from '@/components/ui/custom/typography'
@@ -10,11 +11,25 @@ import { getPosts } from '@/lib/utils/getCollections'
 
 import type { Post } from '@payload-types'
 
-export async function BlogTeaser() {
+export async function BlogTeaser({
+	headline,
+	subline,
+	readMoreText,
+}: {
+	headline: string
+	subline: string
+	readMoreText?: string
+}) {
 	const { docs: posts } = await getPosts()
 	const overlayOpacity = 0.2
 	return (
 		<Container className="mt-12">
+			<Typography as="h2" className="mb-8">
+				{headline}
+			</Typography>
+			<Typography as="p" className="text-muted-foreground mb-8">
+				{subline}
+			</Typography>
 			<div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
 				{posts?.map((post: Post) => (
 					<Link
@@ -51,12 +66,13 @@ export async function BlogTeaser() {
 											),
 									)}
 								</div>
-								<Typography as="h2" className="mb-2 line-clamp-2">
+								<Typography as="h3" className="mb-2 line-clamp-2">
 									{post.title}
 								</Typography>
 								<Typography as="p" className="text-muted-foreground line-clamp-2 text-sm">
 									{post.excerpt}
 								</Typography>
+								{readMoreText && <Button className="mt-4">{readMoreText}</Button>}
 							</CardContent>
 							<CardFooter className="flex items-center gap-2 border-t p-4 pt-3">
 								{post.publishedAt && (

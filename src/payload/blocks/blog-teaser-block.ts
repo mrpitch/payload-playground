@@ -28,7 +28,6 @@ export const BlogTeaserBlock: Block = {
 		{
 			name: 'readMoreText',
 			type: 'text',
-			required: true,
 			localized: true,
 		},
 	],
