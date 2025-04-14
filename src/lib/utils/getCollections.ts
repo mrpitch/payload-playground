@@ -97,3 +97,15 @@ export const getAllPosts = async (draft?: boolean, limit?: number) => {
 
 	return cached()
 }
+
+export async function getPosts() {
+	const posts = await payload.find({
+		collection: 'posts',
+		draft: false,
+		overrideAccess: true,
+		limit: 10,
+		pagination: false,
+	})
+
+	return posts
+}
