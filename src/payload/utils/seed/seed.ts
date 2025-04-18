@@ -91,7 +91,7 @@ export interface SeedData {
 }
 
 const imagePath =
-	'https://raw.githubusercontent.com/mrpitch/payload-playground/refs/heads/feat/PP-33-create-blog-teaser/src/payload/utils/seed/'
+	'https://raw.githubusercontent.com/mrpitch/payload-playground/refs/heads/feat/main/src/payload/utils/seed/'
 
 export const seed = async (payload: Payload): Promise<void> => {
 	try {
