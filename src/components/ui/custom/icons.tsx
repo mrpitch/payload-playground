@@ -25,6 +25,7 @@ import {
 	GripVertical,
 	Heading3,
 	Heading4,
+	House,
 	ImageIcon,
 	ImagePlus,
 	Info,
@@ -84,6 +85,7 @@ export type IconType =
 	| 'gripVertical'
 	| 'heading3'
 	| 'heading4'
+	| 'house'
 	| 'image'
 	| 'imagePlus'
 	| 'info'
@@ -145,6 +147,7 @@ const Icons = {
 	gripVertical: (props: IconProps) => <GripVertical {...props} />,
 	heading3: (props: IconProps) => <Heading3 {...props} />,
 	heading4: (props: IconProps) => <Heading4 {...props} />,
+	house: (props: IconProps) => <House {...props} />,
 	image: (props: IconProps) => <ImageIcon {...props} />,
 	imagePlus: (props: IconProps) => <ImagePlus {...props} />,
 	info: (props: IconProps) => <Info {...props} />,

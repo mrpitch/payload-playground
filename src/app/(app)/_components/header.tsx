@@ -21,10 +21,10 @@ export async function Header({ mainNavigation, profileNavigation }: HeaderProps)
 	return (
 		<div className="border-foreground-light bg-background w-full border-b">
 			<Container as="header">
-				<div className="flex w-full items-center justify-between px-2 py-2">
+				<div className="flex w-full items-center justify-between py-2">
 					<div className="flex gap-6 md:gap-10">
 						<Link href="/" passHref>
-							<Logo className="text-foreground" name={siteConfig.name} />
+							<Logo className="text-foreground -ml-1" name={siteConfig.name} />
 						</Link>
 						<MainNav items={mainNavigation?.navItems} />
 					</div>

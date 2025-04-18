@@ -11,8 +11,18 @@ import { TGenerateMeta } from '@/lib/types'
 import { RenderBlocks } from '@/components/utils/render-blocks'
 
 import { Badge } from '@/components/ui/badge'
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+
 import { Container } from '@/components/ui/custom/container'
 import { Typography } from '@/components/ui/custom/typography'
+import { Icon } from '@/components/ui/custom/icons'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise
@@ -54,25 +64,11 @@ export default async function Post({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories, layout, thumbnail, excerpt } = post as Post
+	const { title, publishedAt, categories, layout, thumbnail, excerpt, author } = post as Post
 
 	return (
 		<article className="mt-8">
 			<Container as="section" className="mb-12">
-				<Typography as="h1" size="4xl">
-					{title}
-				</Typography>
-				<Typography as="p">{publishedAt}</Typography>
-				<div className="flex-start mt-4 mb-6 flex gap-2">
-					{categories?.map(
-						(category) =>
-							typeof category !== 'number' && (
-								<Badge key={category.id} variant="outline">
-									{category.title}
-								</Badge>
-							),
-					)}
-				</div>
 				{thumbnail && typeof thumbnail !== 'number' ? (
 					<div
 						className="relative isolate mb-4 w-full overflow-hidden rounded-lg"
@@ -88,6 +84,64 @@ export default async function Post({ params: paramsPromise }: Args) {
 						/>
 					</div>
 				) : null}
+			</Container>
+			<Container as="section" className="max-w-5xl 2xl:max-w-5xl">
+				<Breadcrumb className="mb-8">
+					<BreadcrumbList>
+						<BreadcrumbItem>
+							<BreadcrumbLink href="/">
+								<Icon iconName="house" />
+							</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<BreadcrumbPage>{title}</BreadcrumbPage>
+						</BreadcrumbItem>
+					</BreadcrumbList>
+				</Breadcrumb>
+				<div className="flex-start mt-4 mb-2 flex gap-2">
+					{categories?.map(
+						(category) =>
+							typeof category !== 'number' && (
+								<Badge key={category.id} variant="outline">
+									{category.title}
+								</Badge>
+							),
+					)}
+				</div>
+				<Typography as="h1" size="4xl">
+					{title}
+				</Typography>
+				<div className="mb-6 flex items-center gap-2">
+					{typeof author !== 'number' && author?.avatar && typeof author.avatar !== 'number' ? (
+						<Image
+							src={author.avatar.url ?? '/placeholder.png'}
+							alt={author.firstName}
+							width={24}
+							height={24}
+							className="rounded-full"
+						/>
+					) : (
+						<Icon iconName="user" className="border-muted-foreground h-6 w-6 rounded-full border" />
+					)}
+					<span className="text-sm font-medium">
+						{typeof author !== 'number' ? `${author?.firstName} ${author?.lastName}` : ''}
+					</span>
+					<span className="text-muted-foreground text-xs"> • </span>
+					{publishedAt && (
+						<time dateTime={publishedAt} className="text-muted-foreground text-xs">
+							{new Date(publishedAt).toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+							})}
+						</time>
+					)}
+				</div>
 				{excerpt ? (
 					<Typography as="p" size="lg" className="mt-2 italic">
 						{excerpt}
@@ -95,9 +149,9 @@ export default async function Post({ params: paramsPromise }: Args) {
 				) : null}
 			</Container>
 			<RenderBlocks blocks={layout} />
-			<Container as="div" className="overflow-x-scroll">
+			{/* <Container as="div" className="overflow-x-scroll">
 				<pre>{JSON.stringify(post, null, 2)}</pre>
-			</Container>
+			</Container> */}
 		</article>
 	)
 }

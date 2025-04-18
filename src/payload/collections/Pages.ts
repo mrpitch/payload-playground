@@ -15,6 +15,7 @@ import { CopyBlock } from '@/payload/blocks/copy-block'
 import { ImageTextBlock } from '@/payload/blocks/image-text-block'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { StageBlock } from '@/payload/blocks/stage-block'
+import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
 
 export const Pages: CollectionConfig = {
 	slug: 'pages',
@@ -93,7 +94,7 @@ export const Pages: CollectionConfig = {
 							type: 'blocks', // required
 							minRows: 1,
 							maxRows: 20,
-							blocks: [CopyBlock, ImageTextBlock, QuoteBlock, StageBlock],
+							blocks: [CopyBlock, ImageTextBlock, QuoteBlock, StageBlock, BlogTeaserBlock],
 						},
 					],
 				},

@@ -1,15 +1,13 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { generateMeta } from '@/lib/utils/generateMeta'
-import { getAllPosts, getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
+import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
 
 import type { Page } from '@payload-types'
-import type { TPostMeta, TGenerateMeta } from '@/lib/types'
+import type { TGenerateMeta } from '@/lib/types'
 
 import { Typography } from '@/components/ui/custom/typography'
-import { Badge } from '@/components/ui/badge'
 
 import { RenderBlocks } from '@/components/utils/render-blocks'
 import { Container } from '@/components/ui/custom/container'
@@ -55,10 +53,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 	}
 
 	const { title, showPageTitle, layout } = page as Page
-	let posts = { docs: [] as TPostMeta[] }
-	if (slug === 'blog') {
-		posts = (await getAllPosts()) as unknown as { docs: TPostMeta[] }
-	}
 
 	return (
 		<>
@@ -68,33 +62,9 @@ export default async function Page({ params: paramsPromise }: Args) {
 				</Container>
 			) : null}
 			<RenderBlocks blocks={layout} />
-
-			{slug === 'blog' && (
-				<Container as="section">
-					<div className="mt-8">
-						<ul>
-							{posts.docs?.map((post) => (
-								<li key={post.id}>
-									<Link href={`/blog/${post.slug}`}>
-										<Typography as="h3">{post.title}</Typography>
-									</Link>
-									<Typography as="p">{post.publishedAt}</Typography>
-									<div className="flex-start mt-4 flex gap-2">
-										{post.categories?.map(
-											(category) =>
-												typeof category !== 'number' && (
-													<Badge key={category.id} variant="outline">
-														{category.title}
-													</Badge>
-												),
-										)}
-									</div>
-								</li>
-							))}
-						</ul>
-					</div>
-				</Container>
-			)}
+			{/* <Container as="div" className="overflow-x-scroll">
+				<pre>{JSON.stringify(page, null, 2)}</pre>
+			</Container> */}
 		</>
 	)
 }
