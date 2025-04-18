@@ -6,6 +6,7 @@ const containerVariants = cva('mx-auto px-2 md:px-8', {
 		variant: {
 			default: 'max-w-screen-xl 2xl:max-w-screen-2xl',
 			header: 'max-w-screen-2xl',
+			footer: 'max-w-screen-2xl w-full mt-6 py-6',
 		},
 	},
 	defaultVariants: {
@@ -26,7 +27,10 @@ const Container: React.FC<IContainerProps> = ({ className, as = 'div', children,
 	return (
 		<Component
 			className={cn(
-				containerVariants({ variant: as === 'header' ? 'header' : 'default', className }),
+				containerVariants({
+					variant: as === 'header' ? 'header' : as === 'footer' ? 'footer' : 'default',
+					className,
+				}),
 			)}
 			{...props}
 		>

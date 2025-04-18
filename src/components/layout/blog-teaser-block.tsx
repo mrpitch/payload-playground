@@ -7,20 +7,19 @@ import { Container } from '@/components/ui/custom/container'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Typography } from '@/components/ui/custom/typography'
 
-import { getPosts } from '@/lib/utils/getCollections'
-
 import type { Post } from '@payload-types'
 
 export async function BlogTeaser({
 	headline,
 	subline,
 	readMoreText,
+	posts,
 }: {
 	headline: string
 	subline: string
 	readMoreText?: string
+	posts: Post[]
 }) {
-	const { docs: posts } = await getPosts()
 	const overlayOpacity = 0.2
 	return (
 		<Container className="mt-12">
