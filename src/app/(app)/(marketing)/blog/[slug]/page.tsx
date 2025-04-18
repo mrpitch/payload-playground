@@ -149,9 +149,9 @@ export default async function Post({ params: paramsPromise }: Args) {
 				) : null}
 			</Container>
 			<RenderBlocks blocks={layout} />
-			<Container as="div" className="overflow-x-scroll">
+			{/* <Container as="div" className="overflow-x-scroll">
 				<pre>{JSON.stringify(post, null, 2)}</pre>
-			</Container>
+			</Container> */}
 		</article>
 	)
 }

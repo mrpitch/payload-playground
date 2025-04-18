@@ -23,7 +23,7 @@ export const BlogTeaserBlock: Block = {
 			relationTo: 'posts',
 			hasMany: true,
 			minRows: 1,
-			maxRows: 6,
+			maxRows: 9,
 		},
 		{
 			name: 'readMoreText',
