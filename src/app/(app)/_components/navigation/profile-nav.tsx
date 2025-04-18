@@ -31,7 +31,6 @@ interface IMainNavProps {
 export const ProfileNav = ({ items, user }: IMainNavProps) => {
 	const [_, setOpen] = useState(false)
 
-	console.log('avatar:', `${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`)
 	return (
 		<>
 			{user ? (

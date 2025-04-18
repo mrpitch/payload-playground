@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Container } from '@/components/ui/custom/container'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Icon } from '@/components/ui/custom/icons'
 import { Typography } from '@/components/ui/custom/typography'
 
 import type { Post } from '@payload-types'
@@ -74,6 +75,28 @@ export async function BlogTeaser({
 								{readMoreText && <Button className="mt-4">{readMoreText}</Button>}
 							</CardContent>
 							<CardFooter className="flex items-center gap-2 border-t p-4 pt-3">
+								{typeof post.author !== 'number' &&
+								post.author?.avatar &&
+								typeof post.author.avatar !== 'number' ? (
+									<Image
+										src={post.author.avatar.url ?? '/placeholder.svg'}
+										alt={post.author.firstName}
+										width={24}
+										height={24}
+										className="rounded-full"
+									/>
+								) : (
+									<Icon
+										iconName="user"
+										className="border-muted-foreground h-6 w-6 rounded-full border"
+									/>
+								)}
+								<span className="text-sm font-medium">
+									{typeof post.author !== 'number'
+										? `${post.author?.firstName} ${post.author?.lastName}`
+										: ''}
+								</span>
+								<span className="text-muted-foreground text-xs"> • </span>
 								{post.publishedAt && (
 									<time dateTime={post.publishedAt} className="text-muted-foreground text-xs">
 										{new Date(post.publishedAt).toLocaleDateString('en-US', {

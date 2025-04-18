@@ -62,6 +62,9 @@ export default async function Page({ params: paramsPromise }: Args) {
 				</Container>
 			) : null}
 			<RenderBlocks blocks={layout} />
+			{/* <Container as="div" className="overflow-x-scroll">
+				<pre>{JSON.stringify(page, null, 2)}</pre>
+			</Container> */}
 		</>
 	)
 }

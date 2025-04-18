@@ -44,6 +44,7 @@ export const getCollectionBySlug = async ({
 		async () => {
 			const result = await payload.find({
 				collection: collection,
+				depth: 3,
 				draft: draft || false,
 				overrideAccess: true,
 				limit: 1,
@@ -105,6 +106,15 @@ export async function getPosts() {
 		overrideAccess: true,
 		limit: 10,
 		pagination: false,
+		select: {
+			title: true,
+			slug: true,
+			excerpt: true,
+			thumbnail: true,
+			categories: true,
+			author: true,
+			publishedAt: true,
+		},
 	})
 
 	return posts

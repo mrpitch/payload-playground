@@ -287,6 +287,7 @@ export interface Post {
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
   publishedAt?: string | null;
+  author: number | User;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -303,22 +304,6 @@ export interface Category {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "newsletter".
- */
-export interface Newsletter {
-  id: number;
-  title: string;
-  content: {
-    slug: string;
-    subject: string;
-    layout?: QuoteBlock[] | null;
-  };
-  preview?: {};
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -342,6 +327,22 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter".
+ */
+export interface Newsletter {
+  id: number;
+  title: string;
+  content: {
+    slug: string;
+    subject: string;
+    layout?: QuoteBlock[] | null;
+  };
+  preview?: {};
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -634,6 +635,7 @@ export interface PostsSelect<T extends boolean = true> {
   relatedPosts?: T;
   categories?: T;
   publishedAt?: T;
+  author?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

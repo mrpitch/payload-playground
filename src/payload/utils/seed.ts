@@ -109,6 +109,7 @@ export const seed = async (payload: Payload): Promise<void> => {
 			title: 'Post 1',
 			slug: 'post-1',
 			categories: [category1.id],
+			author: 1,
 			publishedAt: new Date().toISOString(),
 			layout: [
 				{
@@ -127,6 +128,7 @@ export const seed = async (payload: Payload): Promise<void> => {
 			title: 'Post 2',
 			slug: 'post-2',
 			categories: [category2.id, category3.id],
+			author: 1,
 			publishedAt: new Date().toISOString(),
 			layout: [
 				{
