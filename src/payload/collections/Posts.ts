@@ -51,6 +51,18 @@ export const Posts: CollectionConfig = {
 			localized: true,
 		},
 		{
+			name: 'excerpt',
+			type: 'textarea',
+			label: 'Excerpt',
+			localized: true,
+		},
+		{
+			name: 'thumbnail',
+			type: 'upload',
+			label: 'Thumbnail',
+			relationTo: 'media',
+		},
+		{
 			type: 'tabs',
 			tabs: [
 				{
@@ -143,6 +155,28 @@ export const Posts: CollectionConfig = {
 					({ siblingData, value }) => {
 						if (siblingData._status === 'published' && !value) {
 							return new Date()
+						}
+						return value
+					},
+				],
+			},
+		},
+		{
+			name: 'author',
+			type: 'relationship',
+			relationTo: 'users',
+			required: true,
+			admin: {
+				position: 'sidebar',
+			},
+			hooks: {
+				beforeChange: [
+					({ req, value }) => {
+						// If there's no author set and we have a user
+						if (!value && req.user) {
+							console.log('value', value)
+							console.log('req', req.user)
+							return req.user.id
 						}
 						return value
 					},

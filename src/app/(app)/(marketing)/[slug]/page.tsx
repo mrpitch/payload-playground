@@ -1,16 +1,16 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { generateMeta } from '@/lib/utils/generateMeta'
-import { getAllPosts, getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
+import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
 
 import type { Page } from '@payload-types'
-import type { TPostMeta, TGenerateMeta } from '@/lib/types'
+import type { TGenerateMeta } from '@/lib/types'
 
-import { buttonVariants } from '@/components/ui/button'
 import { Typography } from '@/components/ui/custom/typography'
-import { Badge } from '@/components/ui/badge'
+
+import { RenderBlocks } from '@/components/utils/render-blocks'
+import { Container } from '@/components/ui/custom/container'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug = 'home' } = await paramsPromise
@@ -52,53 +52,19 @@ export default async function Page({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title } = page as Page
-	let posts = { docs: [] as TPostMeta[] }
-	if (slug === 'blog') {
-		posts = (await getAllPosts()) as unknown as { docs: TPostMeta[] }
-	}
+	const { title, showPageTitle, layout } = page as Page
+
 	return (
-		<section>
-			<Typography as="h1" size="4xl">
-				{title}
-			</Typography>
-			{slug !== 'blog' ? (
-				<div className="mt-8 flex gap-4">
-					<Link href="/blog" className={buttonVariants()}>
-						Blog
-					</Link>
-					<Link href="/example" className={buttonVariants({ variant: 'outline' })}>
-						Example Page
-					</Link>
-				</div>
+		<>
+			{showPageTitle ? (
+				<Container as="section" className="mt-8 mb-8">
+					<Typography as="h1">{title}</Typography>
+				</Container>
 			) : null}
-			{slug === 'blog' && (
-				<div className="mt-8">
-					<ul>
-						{posts.docs?.map((post) => (
-							<li key={post.id}>
-								<Link href={`/blog/${post.slug}`}>
-									<Typography as="h3">{post.title}</Typography>
-								</Link>
-								<Typography as="p">{post.publishedAt}</Typography>
-								<div className="flex-start mt-4 flex gap-2">
-									{post.categories?.map(
-										(category) =>
-											typeof category !== 'number' && (
-												<Badge key={category.id} variant="outline">
-													{category.title}
-												</Badge>
-											),
-									)}
-								</div>
-							</li>
-						))}
-					</ul>
-				</div>
-			)}
-			<div className="mt-8">
-				<pre>{JSON.stringify(posts, null, 2)}</pre>
-			</div>
-		</section>
+			<RenderBlocks blocks={layout} />
+			{/* <Container as="div" className="overflow-x-scroll">
+				<pre>{JSON.stringify(page, null, 2)}</pre>
+			</Container> */}
+		</>
 	)
 }

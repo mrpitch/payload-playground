@@ -151,7 +151,8 @@ export interface Page {
     image?: (number | null) | Media;
     description?: string | null;
   };
-  layout?: QuoteBlock[] | null;
+  showPageTitle?: boolean | null;
+  layout?: (CopyBlock | ImageTextBlock | QuoteBlock | StageBlock | BlogTeaserBlock)[] | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -179,45 +180,11 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "QuoteBlock".
- */
-export interface QuoteBlock {
-  quoteHeader: string;
-  quoteText?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'quote';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  layout?: (QuoteBlock | CopyBlock)[] | null;
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CopyBlock".
  */
 export interface CopyBlock {
   headline: string;
+  showHeadline: boolean;
   copy?: {
     root: {
       type: string;
@@ -239,6 +206,94 @@ export interface CopyBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageTextBlock".
+ */
+export interface ImageTextBlock {
+  imageLeftOnOdd?: boolean | null;
+  items?:
+    | {
+        tagline?: string | null;
+        headline: string;
+        copy?: string | null;
+        ctaText?: string | null;
+        ctaLink?: string | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'image-text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuoteBlock".
+ */
+export interface QuoteBlock {
+  quoteHeader: string;
+  quoteText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quote';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StageBlock".
+ */
+export interface StageBlock {
+  tagline?: string | null;
+  headline: string;
+  subline?: string | null;
+  copy?: string | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  backgroundImage?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stage';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogTeaserBlock".
+ */
+export interface BlogTeaserBlock {
+  headline: string;
+  subline?: string | null;
+  posts?: (number | Post)[] | null;
+  readMoreText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'blog-teaser';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  thumbnail?: (number | null) | Media;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  layout?: (QuoteBlock | CopyBlock)[] | null;
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
+  publishedAt?: string | null;
+  author: number | User;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -249,22 +304,6 @@ export interface Category {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "newsletter".
- */
-export interface Newsletter {
-  id: number;
-  title: string;
-  content: {
-    slug: string;
-    subject: string;
-    layout?: QuoteBlock[] | null;
-  };
-  preview?: {};
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -288,6 +327,22 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "newsletter".
+ */
+export interface Newsletter {
+  id: number;
+  title: string;
+  content: {
+    slug: string;
+    subject: string;
+    layout?: QuoteBlock[] | null;
+  };
+  preview?: {};
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -472,15 +527,51 @@ export interface PagesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  showPageTitle?: T;
   layout?:
     | T
     | {
+        copy?: T | CopyBlockSelect<T>;
+        'image-text'?: T | ImageTextBlockSelect<T>;
         quote?: T | QuoteBlockSelect<T>;
+        stage?: T | StageBlockSelect<T>;
+        'blog-teaser'?: T | BlogTeaserBlockSelect<T>;
       };
   publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CopyBlock_select".
+ */
+export interface CopyBlockSelect<T extends boolean = true> {
+  headline?: T;
+  showHeadline?: T;
+  copy?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageTextBlock_select".
+ */
+export interface ImageTextBlockSelect<T extends boolean = true> {
+  imageLeftOnOdd?: T;
+  items?:
+    | T
+    | {
+        tagline?: T;
+        headline?: T;
+        copy?: T;
+        ctaText?: T;
+        ctaLink?: T;
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -494,11 +585,40 @@ export interface QuoteBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StageBlock_select".
+ */
+export interface StageBlockSelect<T extends boolean = true> {
+  tagline?: T;
+  headline?: T;
+  subline?: T;
+  copy?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogTeaserBlock_select".
+ */
+export interface BlogTeaserBlockSelect<T extends boolean = true> {
+  headline?: T;
+  subline?: T;
+  posts?: T;
+  readMoreText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  excerpt?: T;
+  thumbnail?: T;
   meta?:
     | T
     | {
@@ -515,19 +635,10 @@ export interface PostsSelect<T extends boolean = true> {
   relatedPosts?: T;
   categories?: T;
   publishedAt?: T;
+  author?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CopyBlock_select".
- */
-export interface CopyBlockSelect<T extends boolean = true> {
-  headline?: T;
-  copy?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -3,41 +3,31 @@
 A modern, full-stack web application built with PayloadCMS 3.0 and Next.js 15.
 
 ## Table of Contents
-- [PayloadCMS Playground](#payloadcms-playground)
-  - [Table of Contents](#table-of-contents)
-  - [Project Description](#project-description)
-    - [Cursor AI Optimization](#cursor-ai-optimization)
-    - [Key Features](#key-features)
-    - [Use Cases](#use-cases)
-    - [Target Audience](#target-audience)
-  - [Getting Started](#getting-started)
-  - [Package Configuration](#package-configuration)
-    - [Scripts](#scripts)
-      - [Development Scripts](#development-scripts)
-      - [Database Scripts](#database-scripts)
-      - [Type Generation](#type-generation)
-      - [Code Quality Scripts](#code-quality-scripts)
-      - [Testing](#testing)
-      - [Git Hooks](#git-hooks)
-    - [Dependencies](#dependencies)
-      - [Core Dependencies](#core-dependencies)
-      - [Development Dependencies](#development-dependencies)
-  - [Environment Variables](#environment-variables)
-  - [Project Structure](#project-structure)
-  - [Directory Structure](#directory-structure)
-    - [App Directory (`src/app/`)](#app-directory-srcapp)
-    - [Components (`src/components/`)](#components-srccomponents)
-    - [Library (`src/lib/`)](#library-srclib)
-    - [PayloadCMS (`src/payload/`)](#payloadcms-srcpayload)
-  - [Internationalization (i18n)](#internationalization-i18n)
-    - [Supported Languages](#supported-languages)
-    - [Collection Fields](#collection-fields)
-  - [Technology Stack](#technology-stack)
-    - [Frontend](#frontend)
-    - [Backend \& CMS](#backend--cms)
-    - [Infrastructure](#infrastructure)
-    - [Development Tools](#development-tools)
-  - [License](#license)
+- [Project Description](#project-description)
+  - [Cursor AI Optimization](#cursor-ai-optimization)
+  - [Key Features](#key-features)
+  - [Use Cases](#use-cases)
+  - [Target Audience](#target-audience)
+- [Getting Started](#getting-started)
+- [Package Configuration](#package-configuration)
+  - [Scripts](#scripts)
+  - [Dependencies](#dependencies)
+- [Environment Variables](#environment-variables)
+- [Project Structure](#project-structure)
+- [Directory Structure](#directory-structure)
+  - [App Directory](#app-directory-srcapp)
+  - [Components](#components-srccomponents)
+  - [Library](#library-srclib)
+  - [PayloadCMS](#payloadcms-srcpayload)
+- [Internationalization](#internationalization-i18n)
+  - [Supported Languages](#supported-languages)
+  - [Collection Fields](#collection-fields)
+- [Technology Stack](#technology-stack)
+  - [Frontend](#frontend)
+  - [Backend & CMS](#backend--cms)
+  - [Infrastructure](#infrastructure)
+  - [Development Tools](#development-tools)
+- [License](#license)
 
 ## Project Description
 
@@ -119,10 +109,10 @@ The `.cursorfile` helps Cursor AI understand the project's architecture, coding 
 ### Scripts
 
 #### Development Scripts
-- `pnpm dev`: Starts development server with hot-reloading
-- `pnpm build:payload`: Builds PayloadCMS for production
-- `pnpm build:next`: Builds Next.js application
-- `pnpm build`: Complete production build
+- `pnpm dev`: Start development server with Turbopack
+- `pnpm devsafe`: Clean and start development server
+- `pnpm dev:seed`: Start development server with database seeding
+- `pnpm analyze`: Analyze bundle size and dependencies (requires @next/bundle-analyzer)
 
 #### Database Scripts
 - `pnpm start:postgres`: Starts PostgreSQL Docker container
