@@ -29,7 +29,7 @@ export default function Stage({
 				<Image
 					src={
 						`${imageUrl}/${backgroundImage && typeof backgroundImage === 'object' ? backgroundImage.filename : ''}` ||
-						'/placeholder.svg'
+						'/placeholder_16-9_1x.png'
 					}
 					alt={
 						backgroundImage && typeof backgroundImage === 'object' ? backgroundImage.alt || '' : ''

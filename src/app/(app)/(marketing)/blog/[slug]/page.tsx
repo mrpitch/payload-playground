@@ -119,7 +119,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 				<div className="mb-6 flex items-center gap-2">
 					{typeof author !== 'number' && author?.avatar && typeof author.avatar !== 'number' ? (
 						<Image
-							src={author.avatar.url ?? '/placeholder.svg'}
+							src={author.avatar.url ?? '/placeholder.png'}
 							alt={author.firstName}
 							width={24}
 							height={24}
@@ -149,9 +149,9 @@ export default async function Post({ params: paramsPromise }: Args) {
 				) : null}
 			</Container>
 			<RenderBlocks blocks={layout} />
-			{/* <Container as="div" className="overflow-x-scroll">
+			<Container as="div" className="overflow-x-scroll">
 				<pre>{JSON.stringify(post, null, 2)}</pre>
-			</Container> */}
+			</Container>
 		</article>
 	)
 }

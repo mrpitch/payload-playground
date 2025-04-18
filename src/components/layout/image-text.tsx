@@ -38,11 +38,11 @@ export default function ImageText({
 								/>
 								<Image
 									src={
-										item.Image && typeof item.Image === 'object'
-											? `${imageUrl}/${item.Image.filename}`
-											: '/placeholder.svg'
+										item.image && typeof item.image === 'object'
+											? `${imageUrl}/${item.image.filename}`
+											: '/placeholder.png'
 									}
-									alt={item.Image && typeof item.Image === 'object' ? item.Image.alt : ''}
+									alt={item.image && typeof item.image === 'object' ? item.image.alt : ''}
 									fill
 									className="object-cover"
 								/>

@@ -217,7 +217,7 @@ export interface ImageTextBlock {
         copy?: string | null;
         ctaText?: string | null;
         ctaLink?: string | null;
-        Image?: (number | null) | Media;
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
@@ -567,7 +567,7 @@ export interface ImageTextBlockSelect<T extends boolean = true> {
         copy?: T;
         ctaText?: T;
         ctaLink?: T;
-        Image?: T;
+        image?: T;
         id?: T;
       };
   id?: T;

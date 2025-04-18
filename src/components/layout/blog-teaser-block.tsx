@@ -46,7 +46,7 @@ export async function BlogTeaser({
 											style={{ opacity: overlayOpacity }}
 										/>
 										<Image
-											src={post.thumbnail.url || '/placeholder.svg'}
+											src={post.thumbnail.url || '/placeholder.png'}
 											alt={post.title}
 											fill
 											className="object-cover"
@@ -79,7 +79,7 @@ export async function BlogTeaser({
 								post.author?.avatar &&
 								typeof post.author.avatar !== 'number' ? (
 									<Image
-										src={post.author.avatar.url ?? '/placeholder.svg'}
+										src={post.author.avatar.url ?? '/placeholder.png'}
 										alt={post.author.firstName}
 										width={24}
 										height={24}

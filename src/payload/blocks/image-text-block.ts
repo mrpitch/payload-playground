@@ -43,7 +43,7 @@ export const ImageTextBlock: Block = {
 					localized: true,
 				},
 				{
-					name: 'Image',
+					name: 'image',
 					type: 'upload',
 					relationTo: 'media',
 				},

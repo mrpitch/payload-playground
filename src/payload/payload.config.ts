@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { plugins } from '@/payload/plugins'
-import { seed } from './utils/seed'
+import { seed } from '@/payload/utils/seed/seed'
 
 import { AppShell } from '@/payload/globals/AppShell'
 import { EmailTemplates } from '@/payload/globals/EmailTemplates'
