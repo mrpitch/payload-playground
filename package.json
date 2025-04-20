@@ -10,7 +10,7 @@
 		"devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev --turbopack",
 		"dev:seed": "PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts PAYLOAD_DROP_DATABASE=true PAYLOAD_SEED=true pnpm dev",
 		"generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
-		"generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+		"generate:types": "cross-env NODE_OPTIONS=--no-deprecation IGNORE_LOCAL_FONT=true payload generate:types",
 		"lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
 		"check-types": "tsc --noEmit",
 		"payload": "cross-env NODE_OPTIONS=--no-deprecation payload",

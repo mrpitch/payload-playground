@@ -1,49 +1,49 @@
 import { NextFontWithVariable } from 'next/dist/compiled/@next/font'
 import localFont from 'next/font/local'
 
-/**
- * NOT USED - localFont({src}) requires src to be an explicit written literal, so importing and destructuring is not working
-import fonts from '../fonts.json'
-const {
-	font: { light, regular, semibold, bold },
-} = fonts
+/* Workarround for running pnpm genearte:types, this is causes error message: "TypeError: localFont is not a function". No issue during build process. 
+Function createFont is checking if IGNORE_LOCAL_FONT is true, if so it will return a NextFontWithVariable object with the variable set to the config.variable and not use localFont.
 */
+const ignoreLocalFont = process.env.IGNORE_LOCAL_FONT
 
-export const typeNextLight: NextFontWithVariable = localFont({
-	src: './inter-latin-200.woff2',
-	display: 'swap',
-	variable: '--font-typeNextLight',
-})
+type FontConfig = {
+	src: string
+	variable: `--${string}`
+}
 
-export const typeNextRegular: NextFontWithVariable = localFont({
-	src: './inter-latin-regular.woff2',
-	display: 'swap',
-	variable: '--font-typeNextRegular',
-})
+const fontConfigs: Record<string, FontConfig> = {
+	light: {
+		src: './inter-latin-200.woff2',
+		variable: '--font-typeNextLight',
+	},
+	regular: {
+		src: './inter-latin-regular.woff2',
+		variable: '--font-typeNextRegular',
+	},
+	semiBold: {
+		src: './inter-latin-600.woff2',
+		variable: '--font-typeNextSemiBold',
+	},
+	bold: {
+		src: './inter-latin-800.woff2',
+		variable: '--font-typeNextBold',
+	},
+}
 
-export const typeNextSemiBold: NextFontWithVariable = localFont({
-	src: './inter-latin-600.woff2',
-	display: 'swap',
-	variable: '--font-typeNextSemiBold',
-})
-export const typeNextBold: NextFontWithVariable = localFont({
-	src: './inter-latin-800.woff2',
-	display: 'swap',
-	variable: '--font-typeNextBold',
-})
+const createFont = (config: FontConfig): NextFontWithVariable => {
+	if (ignoreLocalFont) {
+		return {
+			variable: config.variable,
+		} as NextFontWithVariable
+	}
+	return localFont({
+		src: config.src,
+		display: 'swap',
+		variable: config.variable,
+	})
+}
 
-/* Workarround for running pnpm genearte types, this is causes error message: "TypeError: localFont is not a function". No issue during build process.
-uncomment following to run without error
-*/
-// export const typeNextLight = {
-// 	variable: '--font-typeNextLight',
-// }
-// export const typeNextRegular = {
-// 	variable: '--font-typeNextRegular',
-// }
-// export const typeNextSemiBold = {
-// 	variable: '--font-typeNextSemiBold',
-// }
-// export const typeNextBold = {
-// 	variable: '--font-typeNextBold',
-// }
+export const typeNextLight = createFont(fontConfigs.light)
+export const typeNextRegular = createFont(fontConfigs.regular)
+export const typeNextSemiBold = createFont(fontConfigs.semiBold)
+export const typeNextBold = createFont(fontConfigs.bold)
