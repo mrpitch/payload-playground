@@ -1,49 +1,47 @@
 import { NextFontWithVariable } from 'next/dist/compiled/@next/font'
 import localFont from 'next/font/local'
 
-/* Workarround for running pnpm genearte:types, this is causes error message: "TypeError: localFont is not a function". No issue during build process. 
-Function createFont is checking if IGNORE_LOCAL_FONT is true, if so it will return a NextFontWithVariable object with the variable set to the config.variable and not use localFont.
-*/
-const ignoreLocalFont = process.env.IGNORE_LOCAL_FONT
+const shouldIgnoreLocalFont =
+	process.env.IGNORE_LOCAL_FONT === 'true' || typeof window === 'undefined'
 
-type FontConfig = {
-	src: string
-	variable: `--${string}`
-}
+// Create font instances at module scope
+const lightFont = localFont({
+	src: './inter-latin-200.woff2',
+	display: 'swap',
+	variable: '--font-typeNextLight',
+})
 
-const fontConfigs: Record<string, FontConfig> = {
-	light: {
-		src: './inter-latin-200.woff2',
-		variable: '--font-typeNextLight',
-	},
-	regular: {
-		src: './inter-latin-regular.woff2',
-		variable: '--font-typeNextRegular',
-	},
-	semiBold: {
-		src: './inter-latin-600.woff2',
-		variable: '--font-typeNextSemiBold',
-	},
-	bold: {
-		src: './inter-latin-800.woff2',
-		variable: '--font-typeNextBold',
-	},
-}
+const regularFont = localFont({
+	src: './inter-latin-regular.woff2',
+	display: 'swap',
+	variable: '--font-typeNextRegular',
+})
 
-const createFont = (config: FontConfig): NextFontWithVariable => {
-	if (ignoreLocalFont) {
-		return {
-			variable: config.variable,
-		} as NextFontWithVariable
-	}
-	return localFont({
-		src: config.src,
-		display: 'swap',
-		variable: config.variable,
-	})
-}
+const semiBoldFont = localFont({
+	src: './inter-latin-600.woff2',
+	display: 'swap',
+	variable: '--font-typeNextSemiBold',
+})
 
-export const typeNextLight = createFont(fontConfigs.light)
-export const typeNextRegular = createFont(fontConfigs.regular)
-export const typeNextSemiBold = createFont(fontConfigs.semiBold)
-export const typeNextBold = createFont(fontConfigs.bold)
+const boldFont = localFont({
+	src: './inter-latin-800.woff2',
+	display: 'swap',
+	variable: '--font-typeNextBold',
+})
+
+// Export fonts with conditional logic
+export const typeNextLight: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextLight' } as NextFontWithVariable)
+	: lightFont
+
+export const typeNextRegular: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextRegular' } as NextFontWithVariable)
+	: regularFont
+
+export const typeNextSemiBold: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextSemiBold' } as NextFontWithVariable)
+	: semiBoldFont
+
+export const typeNextBold: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextBold' } as NextFontWithVariable)
+	: boldFont
