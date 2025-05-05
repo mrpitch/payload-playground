@@ -1,3 +1,5 @@
+export const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL
+export const previewSecret = process.env.PREVIEW_SECRET
 export const imageUrl = `${process.env.NEXT_PUBLIC_IMAGE_URL}`
 
 export const revalidate = !process.env.NEXT_PUBLIC_REVALIDATE

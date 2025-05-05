@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-
+import { draftMode } from 'next/headers'
 import { generateMeta } from '@/lib/utils/generateMeta'
 import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
 
@@ -13,10 +13,12 @@ import { RenderBlocks } from '@/components/utils/render-blocks'
 import { Container } from '@/components/ui/custom/container'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+	const { isEnabled } = await draftMode()
 	const { slug = 'home' } = await paramsPromise
 	const page = await getCollectionBySlug({
 		collection: 'pages',
 		slug,
+		draft: isEnabled,
 	})
 
 	return generateMeta({ doc: page } as TGenerateMeta)
@@ -41,11 +43,13 @@ type Args = {
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
+	const { isEnabled } = await draftMode()
 	const { slug = 'home' } = await paramsPromise
 
 	const page = await getCollectionBySlug({
 		collection: 'pages',
 		slug,
+		draft: isEnabled,
 	})
 
 	if (!page) {

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-
+import { draftMode } from 'next/headers'
 import { generateMeta } from '@/lib/utils/generateMeta'
 import { getSlugs, getCollectionBySlug } from '@/lib/utils/getCollections'
 
@@ -26,9 +26,12 @@ import { Icon } from '@/components/ui/custom/icons'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise
+	const draft = await draftMode()
+
 	const page = await getCollectionBySlug({
 		collection: 'posts',
 		slug: slug || '',
+		draft: draft.isEnabled,
 	})
 
 	return generateMeta({ doc: page } as TGenerateMeta)
