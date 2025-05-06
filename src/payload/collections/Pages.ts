@@ -17,11 +17,20 @@ import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { StageBlock } from '@/payload/blocks/stage-block'
 import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
 
+import { baseUrl } from '@/lib/utils/constants'
+import { breakpoints } from '@/payload/utils/breakpoints'
+
 export const Pages: CollectionConfig = {
 	slug: 'pages',
 	admin: {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+		livePreview: {
+			url: ({ data }) => {
+				return `${baseUrl}/${data.slug}`
+			},
+			breakpoints: breakpoints,
+		},
 	},
 	versions: {
 		drafts: {

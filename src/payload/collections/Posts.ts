@@ -14,11 +14,20 @@ import {
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { CopyBlock } from '@/payload/blocks/copy-block'
 
+import { baseUrl } from '@/lib/utils/constants'
+import { breakpoints } from '@/payload/utils/breakpoints'
+
 export const Posts: CollectionConfig = {
 	slug: 'posts',
 	admin: {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+		livePreview: {
+			url: ({ data }) => {
+				return `${baseUrl}/blog/${data.slug}`
+			},
+			breakpoints: breakpoints,
+		},
 	},
 	versions: {
 		drafts: {
