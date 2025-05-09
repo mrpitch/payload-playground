@@ -9,6 +9,7 @@ import type { Post } from '@payload-types'
 import { TGenerateMeta } from '@/lib/types'
 
 import { RenderBlocks } from '@/components/utils/render-blocks'
+import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
 
 import { Badge } from '@/components/ui/badge'
 import {
@@ -26,12 +27,12 @@ import { Icon } from '@/components/ui/custom/icons'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise
-	const draft = await draftMode()
+	const { isEnabled } = await draftMode()
 
 	const page = await getCollectionBySlug({
 		collection: 'posts',
 		slug: slug || '',
-		draft: draft.isEnabled,
+		draft: isEnabled,
 	})
 
 	return generateMeta({ doc: page } as TGenerateMeta)
@@ -57,10 +58,11 @@ type Args = {
 
 export default async function Post({ params: paramsPromise }: Args) {
 	const { slug } = await paramsPromise
-
+	const { isEnabled } = await draftMode()
 	const post = await getCollectionBySlug({
 		collection: 'posts',
 		slug: slug || '',
+		draft: isEnabled,
 	})
 
 	if (!post) {
@@ -71,6 +73,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
 	return (
 		<article className="mt-8">
+			<RefreshRouteOnSave />
 			<Container as="section" className="mb-12">
 				{thumbnail && typeof thumbnail !== 'number' ? (
 					<div

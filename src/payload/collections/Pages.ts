@@ -2,6 +2,7 @@ import { CollectionConfig } from 'payload'
 
 import { admin, adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
+import { generateSignedDraftUrl } from '@/payload/utils/generate-signed-draft-urls'
 
 import {
 	MetaDescriptionField,
@@ -17,7 +18,6 @@ import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { StageBlock } from '@/payload/blocks/stage-block'
 import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
 
-import { baseUrl } from '@/lib/utils/constants'
 import { breakpoints } from '@/payload/utils/breakpoints'
 
 export const Pages: CollectionConfig = {
@@ -27,7 +27,7 @@ export const Pages: CollectionConfig = {
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 		livePreview: {
 			url: ({ data }) => {
-				return `${baseUrl}/${data.slug}`
+				return generateSignedDraftUrl(``, data.slug)
 			},
 			breakpoints: breakpoints,
 		},

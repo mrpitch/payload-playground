@@ -14,8 +14,8 @@ import {
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { CopyBlock } from '@/payload/blocks/copy-block'
 
-import { baseUrl } from '@/lib/utils/constants'
 import { breakpoints } from '@/payload/utils/breakpoints'
+import { generateSignedDraftUrl } from '@/payload/utils/generate-signed-draft-urls'
 
 export const Posts: CollectionConfig = {
 	slug: 'posts',
@@ -24,7 +24,7 @@ export const Posts: CollectionConfig = {
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 		livePreview: {
 			url: ({ data }) => {
-				return `${baseUrl}/blog/${data.slug}`
+				return generateSignedDraftUrl(`blog`, data.slug)
 			},
 			breakpoints: breakpoints,
 		},
