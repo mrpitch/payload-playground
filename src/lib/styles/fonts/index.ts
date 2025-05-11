@@ -1,49 +1,47 @@
 import { NextFontWithVariable } from 'next/dist/compiled/@next/font'
 import localFont from 'next/font/local'
 
-/**
- * NOT USED - localFont({src}) requires src to be an explicit written literal, so importing and destructuring is not working
-import fonts from '../fonts.json'
-const {
-	font: { light, regular, semibold, bold },
-} = fonts
-*/
+const shouldIgnoreLocalFont =
+	process.env.IGNORE_LOCAL_FONT === 'true' || typeof window === 'undefined'
 
-export const typeNextLight: NextFontWithVariable = localFont({
+// Create font instances at module scope
+const lightFont = localFont({
 	src: './inter-latin-200.woff2',
 	display: 'swap',
 	variable: '--font-typeNextLight',
 })
 
-export const typeNextRegular: NextFontWithVariable = localFont({
+const regularFont = localFont({
 	src: './inter-latin-regular.woff2',
 	display: 'swap',
 	variable: '--font-typeNextRegular',
 })
 
-export const typeNextSemiBold: NextFontWithVariable = localFont({
+const semiBoldFont = localFont({
 	src: './inter-latin-600.woff2',
 	display: 'swap',
 	variable: '--font-typeNextSemiBold',
 })
-export const typeNextBold: NextFontWithVariable = localFont({
+
+const boldFont = localFont({
 	src: './inter-latin-800.woff2',
 	display: 'swap',
 	variable: '--font-typeNextBold',
 })
 
-/* Workarround for running pnpm genearte types, this is causes error message: "TypeError: localFont is not a function". No issue during build process.
-uncomment following to run without error
-*/
-// export const typeNextLight = {
-// 	variable: '--font-typeNextLight',
-// }
-// export const typeNextRegular = {
-// 	variable: '--font-typeNextRegular',
-// }
-// export const typeNextSemiBold = {
-// 	variable: '--font-typeNextSemiBold',
-// }
-// export const typeNextBold = {
-// 	variable: '--font-typeNextBold',
-// }
+// Export fonts with conditional logic
+export const typeNextLight: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextLight' } as NextFontWithVariable)
+	: lightFont
+
+export const typeNextRegular: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextRegular' } as NextFontWithVariable)
+	: regularFont
+
+export const typeNextSemiBold: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextSemiBold' } as NextFontWithVariable)
+	: semiBoldFont
+
+export const typeNextBold: NextFontWithVariable = shouldIgnoreLocalFont
+	? ({ variable: '--font-typeNextBold' } as NextFontWithVariable)
+	: boldFont
