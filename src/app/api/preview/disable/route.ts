@@ -11,6 +11,5 @@ export async function GET(request: NextRequest) {
 	const draft = await draftMode()
 	draft.disable()
 
-	console.log(redirectUrl)
 	return NextResponse.redirect(new URL(redirectUrl || '/', nextUrl))
 }

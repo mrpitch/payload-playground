@@ -2,7 +2,7 @@ import { CollectionConfig } from 'payload'
 
 import { admin, adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
-import { generateSignedDraftUrl } from '@/payload/utils/generate-signed-draft-urls'
+import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
 import {
 	MetaDescriptionField,
@@ -27,10 +27,11 @@ export const Pages: CollectionConfig = {
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 		livePreview: {
 			url: ({ data }) => {
-				return generateSignedDraftUrl(``, data.slug)
+				return generatePreviewPath(``, data.slug)
 			},
 			breakpoints: breakpoints,
 		},
+		preview: (data) => generatePreviewPath(``, data.slug as string),
 	},
 	versions: {
 		drafts: {
