@@ -1,5 +1,8 @@
 import { CollectionConfig } from 'payload'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
+import { CopyBlock } from '../blocks/copy-block'
+import { BlogTeaserBlock } from '../blocks/blog-teaser-block'
+import { ImageTextBlock } from '../blocks/image-text-block'
 
 export const Newsletter: CollectionConfig = {
 	slug: 'newsletter',
@@ -28,44 +31,44 @@ export const Newsletter: CollectionConfig = {
 							type: 'row',
 							fields: [
 								{
-									name: 'slug',
-									label: 'Slug',
-									type: 'text',
-									required: true,
+									name: 'Template',
+									type: 'group',
+									fields: [
+										{
+											name: 'slug',
+											label: 'Slug',
+											type: 'text',
+											required: true,
+										},
+										{
+											name: 'subject',
+											label: 'Subject',
+											type: 'text',
+											required: true,
+										},
+										{
+											name: 'layout', // required
+											type: 'blocks', // required
+											minRows: 1,
+											maxRows: 20,
+											blocks: [CopyBlock, ImageTextBlock, QuoteBlock, BlogTeaserBlock],
+										},
+									],
+									admin: {
+										width: '50%',
+									},
 								},
 								{
-									name: 'subject',
-									label: 'Subject',
-									type: 'text',
-									required: true,
+									name: 'Preview',
+									type: 'ui',
+									admin: {
+										components: {
+											Field: './components/email-preview#newsletter',
+										},
+										width: '50%',
+									},
 								},
 							],
-						},
-
-						{
-							name: 'layout', // required
-							type: 'blocks', // required
-							minRows: 1,
-							maxRows: 20,
-							blocks: [
-								// required
-								QuoteBlock,
-							],
-						},
-					],
-				},
-				{
-					name: 'preview',
-					label: 'Preview',
-					fields: [
-						{
-							type: 'ui',
-							name: 'my custom component',
-							admin: {
-								components: {
-									Field: './components/email-preview#newsletter',
-								},
-							},
 						},
 					],
 				},

@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils/cn'
 
 import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
 import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
+import { EmailNewsletter } from '@/payload/email-templates/newsletter'
 import { useEmailPreview } from '@/payload/hooks/email-preview'
 import { useAllFormFields } from '@payloadcms/ui'
 import { sendEmail } from '@/payload/actions/send-email'
@@ -33,7 +34,7 @@ export interface EmailTemplate<T extends Record<string, string> = Record<string,
 }
 
 type EmailPreviewProps = {
-	type: 'passwordReset' | 'verifyEmail'
+	type: 'passwordReset' | 'verifyEmail' | 'newsletter'
 }
 
 const TestEmailPopover = ({ html }: { html: string }) => {
@@ -137,12 +138,27 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 					],
 				},
 			},
+			// Newsletter specific props
+			...(type === 'newsletter' && {
+				imageUrl: (fields?.[`${type}.Template.imageUrl`]?.value as string) || '',
+				articleTitle: (fields?.[`${type}.Template.articleTitle`]?.value as string) || '',
+				articleDescription:
+					(fields?.[`${type}.Template.articleDescription`]?.value as string) || '',
+				ctaText: (fields?.[`${type}.Template.ctaText`]?.value as string) || '',
+				ctaUrl: (fields?.[`${type}.Template.ctaUrl`]?.value as string) || '',
+			}),
 		}),
 		[fields, type],
 	)
 
+	const emailComponents = {
+		passwordReset: EmailPasswordReset,
+		verifyEmail: EmailVerifyAccount,
+		newsletter: EmailNewsletter,
+	} as const
+
 	const { html, isLoading } = useEmailPreview({
-		component: type === 'passwordReset' ? EmailPasswordReset : EmailVerifyAccount,
+		component: emailComponents[type],
 		props,
 		templateKey: type,
 	})
@@ -223,7 +239,7 @@ export const passwordReset = () => {
 }
 
 export const newsletter = () => {
-	return <EmailPreview type="passwordReset" />
+	return <EmailPreview type="newsletter" />
 }
 
 export const CodePreview = ({ html }: { html: string }) => {
