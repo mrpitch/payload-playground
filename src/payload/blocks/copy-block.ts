@@ -8,6 +8,7 @@ import {
 	OrderedListFeature,
 	UnderlineFeature,
 	BlockquoteFeature,
+	ParagraphFeature,
 } from '@payloadcms/richtext-lexical'
 import { Block } from 'payload'
 
@@ -52,6 +53,7 @@ export const CopyBlock: Block = {
 					return [
 						...rootFeatures,
 						HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
+						ParagraphFeature(),
 						BoldFeature(),
 						UnderlineFeature(),
 						OrderedListFeature(),

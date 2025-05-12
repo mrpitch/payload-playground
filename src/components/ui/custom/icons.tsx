@@ -37,6 +37,7 @@ import {
 	LogOut,
 	Mail,
 	Monitor,
+	MonitorX,
 	Moon,
 	Menu,
 	MoreHorizontal,
@@ -99,6 +100,7 @@ export type IconType =
 	| 'mail'
 	| 'menu'
 	| 'monitor'
+	| 'monitorX'
 	| 'moon'
 	| 'moreHorizontal'
 	| 'plus'
@@ -160,6 +162,7 @@ const Icons = {
 	logOut: (props: IconProps) => <LogOut {...props} />,
 	mail: (props: IconProps) => <Mail {...props} />,
 	monitor: (props: IconProps) => <Monitor {...props} />,
+	monitorX: (props: IconProps) => <MonitorX {...props} />,
 	moon: (props: IconProps) => <Moon {...props} />,
 	moreHorizontal: (props: IconProps) => <MoreHorizontal {...props} />,
 	phone: (props: IconProps) => <Phone {...props} />,
