@@ -1,8 +1,5 @@
 import { CollectionConfig } from 'payload'
-import { QuoteBlock } from '@/payload/blocks/quote-block'
-import { CopyBlock } from '../blocks/copy-block'
-import { BlogTeaserBlock } from '../blocks/blog-teaser-block'
-import { ImageTextBlock } from '../blocks/image-text-block'
+import { EmailImageTextBlock } from '../blocks/email-image-text-block'
 
 export const Newsletter: CollectionConfig = {
 	slug: 'newsletter',
@@ -51,7 +48,7 @@ export const Newsletter: CollectionConfig = {
 											type: 'blocks', // required
 											minRows: 1,
 											maxRows: 20,
-											blocks: [CopyBlock, ImageTextBlock, QuoteBlock, BlogTeaserBlock],
+											blocks: [EmailImageTextBlock],
 										},
 									],
 									admin: {
