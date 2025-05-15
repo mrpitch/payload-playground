@@ -56,6 +56,7 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 - Utilize Zod for schema validation and type inference
 - Avoid enums; use literal types or maps instead
 - Implement functional components with TypeScript interfaces for props
+- naminconvention for types always start with T{descriptive-type-name}
 
 ## Syntax and Formatting
 
