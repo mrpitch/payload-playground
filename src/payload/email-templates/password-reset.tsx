@@ -23,20 +23,11 @@ import { theme } from '@/lib/styles/v3/theme'
 import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
+import { PasswordResetFields } from '@/payload/types/email-templates'
 
 import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
 
-export type TEmailPasswordResetProps = {
-	username: string
-	url: string
-	email: string
-	previewText: string
-	heading: string
-	salutation: string
-	copy: string
-	buttonLabel: string
-	footer: DefaultTypedEditorState
-}
+export type TEmailPasswordResetProps = PasswordResetFields
 
 export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =

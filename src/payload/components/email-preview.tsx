@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, useCallback, useMemo } from 'react'
+import { Fragment, useState, useCallback, ReactElement } from 'react'
 
 import type { Language } from 'prism-react-renderer'
 import { Highlight } from 'prism-react-renderer'
@@ -9,8 +9,15 @@ import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
 import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
 import { EmailNewsletter } from '@/payload/email-templates/newsletter'
 import { useEmailPreview } from '@/payload/hooks/email-preview'
-import { useAllFormFields } from '@payloadcms/ui'
+import type { EmailComponentProps } from '@/payload/hooks/email-preview'
+import { useEmailFields } from '@/payload/hooks/use-email-fields'
 import { sendEmail } from '@/payload/actions/send-email'
+import { EmailTemplateType } from '@/payload/types/email-templates'
+import {
+	PasswordResetFields,
+	VerifyEmailFields,
+	NewsletterFields,
+} from '@/payload/types/email-templates'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
@@ -20,21 +27,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { toast } from '@/components/ui/custom/toast'
 
-import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
-
-export interface EmailTemplate<T extends Record<string, string> = Record<string, string>> {
-	Template: {
-		previewText: string
-		heading: string
-		salutation: string
-		copy: string
-		buttonLabel: string
-		disclaimer: string
-	} & T
-}
-
 type EmailPreviewProps = {
-	type: 'passwordReset' | 'verifyEmail' | 'newsletter'
+	type: EmailTemplateType
 }
 
 const TestEmailPopover = ({ html }: { html: string }) => {
@@ -111,55 +105,17 @@ const TestEmailPopover = ({ html }: { html: string }) => {
 
 export const EmailPreview = ({ type }: EmailPreviewProps) => {
 	const [viewPort, setViewPort] = useState<'desktop' | 'mobile' | 'code'>('desktop')
-
-	const [fields] = useAllFormFields()
-
-	const props = useMemo(
-		() => ({
-			username: 'John Doe',
-			url: 'https://www.google.com',
-			email: 'john.doe@example.com',
-			previewText: (fields?.[`${type}.Template.previewText`]?.value as string) || '',
-			heading: (fields?.[`${type}.Template.heading`]?.value as string) || '',
-			salutation: (fields?.[`${type}.Template.salutation`]?.value as string) || '',
-			copy: (fields?.[`${type}.Template.copy`]?.value as string) || '',
-			buttonLabel: (fields?.[`${type}.Template.buttonLabel`]?.value as string) || '',
-			footer: (fields?.['footer.content']?.value as DefaultTypedEditorState) || {
-				root: {
-					children: [
-						{
-							children: [{ text: '' }],
-							direction: null,
-							format: '',
-							indent: 0,
-							type: 'paragraph',
-							version: 1,
-						},
-					],
-				},
-			},
-			// Newsletter specific props
-			...(type === 'newsletter' && {
-				imageUrl: (fields?.[`${type}.Template.imageUrl`]?.value as string) || '',
-				articleTitle: (fields?.[`${type}.Template.articleTitle`]?.value as string) || '',
-				articleDescription:
-					(fields?.[`${type}.Template.articleDescription`]?.value as string) || '',
-				ctaText: (fields?.[`${type}.Template.ctaText`]?.value as string) || '',
-				ctaUrl: (fields?.[`${type}.Template.ctaUrl`]?.value as string) || '',
-			}),
-		}),
-		[fields, type],
-	)
+	const fields = useEmailFields(type)
 
 	const emailComponents = {
-		passwordReset: EmailPasswordReset,
-		verifyEmail: EmailVerifyAccount,
-		newsletter: EmailNewsletter,
+		passwordReset: EmailPasswordReset as (props: PasswordResetFields) => ReactElement,
+		verifyEmail: EmailVerifyAccount as (props: VerifyEmailFields) => ReactElement,
+		newsletter: EmailNewsletter as (props: NewsletterFields) => ReactElement,
 	} as const
 
 	const { html, isLoading } = useEmailPreview({
-		component: emailComponents[type],
-		props,
+		component: emailComponents[type] as (props: EmailComponentProps) => ReactElement,
+		props: fields,
 		templateKey: type,
 	})
 
@@ -190,7 +146,7 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 			<div className="mx-auto">
 				{isLoading ? (
 					<div className="bg-background flex h-[calc(100vh_-_140px)] w-[640px]">
-						<div className="border-accent mx-auto my-[40px] w-[465px] rounded border border-solid">
+						<div className="border-accent mx-auto my-[40px] w-[640px] rounded border border-solid">
 							<div className="mx-auto mt-8 mb-8 flex w-10/12 flex-col space-y-3">
 								<Skeleton className="mx-auto h-[25px] w-full rounded-xl" />
 								<Skeleton className="mx-auto h-[250px] w-full rounded-xl" />

@@ -16,25 +16,14 @@ import {
 import { baseUrl } from '@/payload/utils/constants'
 import { cn } from '@/lib/utils/cn'
 
-import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
-
 import { theme } from '@/lib/styles/v3/theme'
 import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
 import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
+import { VerifyEmailFields } from '@/payload/types/email-templates'
 
-export type TEmailVerifyAccountProps = {
-	username: string
-	url: string
-	email: string
-	previewText: string
-	heading: string
-	salutation: string
-	copy: string
-	buttonLabel: string
-	footer: DefaultTypedEditorState
-}
+export type TEmailVerifyAccountProps = VerifyEmailFields
 
 export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =

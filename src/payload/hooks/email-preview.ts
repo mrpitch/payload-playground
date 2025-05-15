@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react'
 import { renderEmailHtml } from '@/payload/utils/render-email'
 import { ReactElement } from 'react'
+import { EmailTemplateType } from '@/payload/types/email-templates'
+import {
+	PasswordResetFields,
+	VerifyEmailFields,
+	NewsletterFields,
+} from '@/payload/types/email-templates'
 
-interface UseEmailPreviewProps<T> {
-	component: (props: T) => Promise<ReactElement> | ReactElement
-	props: T
-	templateKey: string
+export type EmailComponentProps = {
+	passwordReset: PasswordResetFields
+	verifyEmail: VerifyEmailFields
+	newsletter: NewsletterFields
+}[EmailTemplateType]
+
+interface UseEmailPreviewProps {
+	component: (props: EmailComponentProps) => Promise<ReactElement> | ReactElement
+	props: EmailComponentProps
+	templateKey: EmailTemplateType
 }
 
 interface UseEmailPreviewResult {
@@ -13,10 +25,10 @@ interface UseEmailPreviewResult {
 	isLoading: boolean
 }
 
-export function useEmailPreview<T extends object>({
+export function useEmailPreview({
 	component: Component,
 	props,
-}: UseEmailPreviewProps<T>): UseEmailPreviewResult {
+}: UseEmailPreviewProps): UseEmailPreviewResult {
 	const [html, setHtml] = useState('')
 	const [isLoading, setIsLoading] = useState(true)
 

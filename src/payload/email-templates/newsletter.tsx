@@ -18,8 +18,6 @@ import {
 
 import { cn } from '@/lib/utils/cn'
 
-import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
-
 import { baseUrl } from '@/payload/utils/constants'
 
 import { theme } from '@/lib/styles/v3/theme'
@@ -27,30 +25,46 @@ import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '
 
 import { RichText } from '@/components/utils/richtext'
 
-import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
+import { RenderEmailBlocks } from '@/payload/email-templates/render-email-blocks'
+import { NewsletterFields } from '@/payload/types/email-templates'
 
-export type TEmailPasswordResetProps = {
-	footer: DefaultTypedEditorState
-}
+export type TNewsletterProps = NewsletterFields
 
-export function EmailNewsletter(props: TEmailPasswordResetProps) {
-	const { footer } = props
+export function EmailNewsletter(props: TNewsletterProps) {
+	const { subject, previewText, salutation, username, email, footer, blocks } = props
+
+	console.log('EmailNewsletter props:', {
+		blocks,
+		blocksType: typeof blocks,
+		isArray: Array.isArray(blocks),
+		blocksKeys: blocks ? Object.keys(blocks) : [],
+		blocksContent: blocks?.map((block, index) => ({
+			index,
+			blockType: block.blockType,
+			blockKeys: Object.keys(block),
+			blockValues: Object.values(block),
+			fullBlock: block,
+		})),
+	})
+
 	return (
 		<Html>
 			<Tailwind config={theme}>
 				<Head />
 				<Body
 					className={cn(
-						'bg-background mx-auto my-auto px-2 font-sans',
+						'bg-background mx-auto my-auto font-sans',
 						typeNextRegular.variable,
 						typeNextLight.variable,
 						typeNextSemiBold.variable,
 						typeNextBold.variable,
 					)}
 				>
-					<Preview>Preview Text</Preview>
+					<Preview>{previewText}</Preview>
 
-					<Container className="border-secondary-light mx-auto my-[40px] max-w-[465px] rounded border border-solid">
+					<Container className="border-secondary-light mx-auto my-[40px] max-w-[640px] rounded border border-solid">
+						<RenderEmailBlocks blocks={blocks} />
+
 						<Section className="mx-auto mt-8 mb-8 w-10/12">
 							<Img
 								src={`${baseUrl}/images/logo-secondary-light.png`}
@@ -61,7 +75,7 @@ export function EmailNewsletter(props: TEmailPasswordResetProps) {
 							/>
 						</Section>
 
-						<Section className="my-[16px]">
+						<Section className="my-[16px] w-10/12">
 							<Img
 								alt="Herman Miller Chair"
 								className="w-full rounded-[12px] object-cover"
@@ -92,7 +106,11 @@ export function EmailNewsletter(props: TEmailPasswordResetProps) {
 							</Section>
 						</Section>
 
-						<Section className="my-[16px] text-center">
+						<Section className="mx-auto mt-8 mb-8 w-10/12">
+							<Text className="text-foreground text-sm">{salutation}</Text>
+						</Section>
+
+						<Section className="my-[16px] w-10/12 text-center">
 							<Section className="inline-block w-full max-w-[250px] text-left align-top">
 								<Text className="m-0 text-[16px] leading-[24px] font-semibold text-indigo-600">
 									What's new
@@ -120,7 +138,7 @@ export function EmailNewsletter(props: TEmailPasswordResetProps) {
 						</Section>
 
 						<Section className="my-[16px]">
-							<Section className="mt-[42px]">
+							<Section className="mt-[42px] w-10/12">
 								<Row>
 									<Text className="m-0 text-[16px] leading-[24px] font-semibold text-indigo-600">
 										Our products
@@ -135,7 +153,7 @@ export function EmailNewsletter(props: TEmailPasswordResetProps) {
 									</Text>
 								</Row>
 							</Section>
-							<Section className="mt-[16px]">
+							<Section className="mt-[16px] w-10/12">
 								<Row className="mt-[16px]">
 									<Column className="w-[50%] pr-[8px]">
 										<Link href="#">
