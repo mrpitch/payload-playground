@@ -36,6 +36,8 @@ export const variables = {
 		'--sidebar-ring': 'oklch(0.708 0 0)',
 
 		// Custom Colors
+		'--white': 'hsl(0 0 100%)',
+		'--black': 'hsl(0 0 0%)',
 		'--background-dark': 'hsl(221 9% 39%)',
 		'--background-light': 'hsl(225 13% 94%)',
 		'--border-primary': 'hsl(135 40% 42%)',
@@ -112,6 +114,8 @@ export const variables = {
 		'--sidebar-ring': 'oklch(0.556 0 0)',
 
 		// Custom Colors
+		'--white': 'hsl(0 0 100%)',
+		'--black': 'hsl(0 0 0%)',
 		'--background-dark': 'hsl(223 9% 16%)',
 		'--background-light': 'hsl(221 9% 39%)',
 		'--border-primary': 'hsl(135 85% 8%)',

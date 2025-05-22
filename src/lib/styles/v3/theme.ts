@@ -10,6 +10,12 @@ export const theme = {
 			'2xl': '1536px',
 		},
 		colors: {
+			white: {
+				DEFAULT: variables['root']['--white'],
+			},
+			black: {
+				DEFAULT: variables['root']['--black'],
+			},
 			primary: {
 				DEFAULT: variables['root']['--primary'],
 				foreground: variables['root']['--primary-foreground'],
@@ -119,6 +125,12 @@ export const themeDark = {
 		// 	bold: ['hsl(var(----font-typeNextBold))'],
 		// },
 		colors: {
+			white: {
+				DEFAULT: variables['root']['--white'],
+			},
+			black: {
+				DEFAULT: variables['root']['--black'],
+			},
 			primary: {
 				DEFAULT: variables['dark']['--primary'],
 				foreground: variables['dark']['--primary-foreground'],

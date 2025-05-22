@@ -31,7 +31,7 @@ import { NewsletterFields } from '@/payload/types/email-templates'
 export type TNewsletterProps = NewsletterFields
 
 export function EmailNewsletter(props: TNewsletterProps) {
-	const { subject, previewText, salutation, username, email, footer, blocks } = props
+	const { previewText, salutation, footer, blocks } = props
 
 	console.log('EmailNewsletter props:', {
 		blocks,
@@ -63,8 +63,6 @@ export function EmailNewsletter(props: TNewsletterProps) {
 					<Preview>{previewText}</Preview>
 
 					<Container className="border-secondary-light mx-auto my-[40px] max-w-[640px] rounded border border-solid">
-						<RenderEmailBlocks blocks={blocks} />
-
 						<Section className="mx-auto mt-8 mb-8 w-10/12">
 							<Img
 								src={`${baseUrl}/images/logo-secondary-light.png`}
@@ -74,68 +72,7 @@ export function EmailNewsletter(props: TNewsletterProps) {
 								className="mx-auto my-0"
 							/>
 						</Section>
-
-						<Section className="my-[16px] w-10/12">
-							<Img
-								alt="Herman Miller Chair"
-								className="w-full rounded-[12px] object-cover"
-								height="320"
-								src="https://react.email/static/herman-miller-chair.jpg"
-							/>
-							<Section className="mt-[32px] text-center">
-								<Text className="my-[16px] text-[18px] leading-[28px] font-semibold text-indigo-600">
-									Our new article
-								</Text>
-								<Heading
-									as="h1"
-									className="m-0 mt-[8px] text-[36px] leading-[36px] font-semibold text-gray-900"
-								>
-									Designing with Furniture
-								</Heading>
-								<Text className="text-[16px] leading-[24px] text-gray-500">
-									Unleash your inner designer as we explore how furniture plays a vital role in
-									creating stunning interiors, offering insights into choosing the right pieces,
-									arranging them harmoniously, and infusing your space with personality.
-								</Text>
-								<Button
-									className="mt-[16px] rounded-[8px] bg-indigo-600 px-[40px] py-[12px] font-semibold text-white"
-									href="https://react.email"
-								>
-									Read more
-								</Button>
-							</Section>
-						</Section>
-
-						<Section className="mx-auto mt-8 mb-8 w-10/12">
-							<Text className="text-foreground text-sm">{salutation}</Text>
-						</Section>
-
-						<Section className="my-[16px] w-10/12 text-center">
-							<Section className="inline-block w-full max-w-[250px] text-left align-top">
-								<Text className="m-0 text-[16px] leading-[24px] font-semibold text-indigo-600">
-									What's new
-								</Text>
-								<Text className="m-0 mt-[8px] text-[20px] leading-[28px] font-semibold text-gray-900">
-									Versatile Comfort
-								</Text>
-								<Text className="mt-[8px] text-[16px] leading-[24px] text-gray-500">
-									Experience ultimate comfort and versatility with our furniture collection,
-									designed to adapt to your ever-changing needs.
-								</Text>
-								<Link className="text-indigo-600 underline" href="https://react.email">
-									Read more
-								</Link>
-							</Section>
-							<Section className="my-[8px] inline-block w-full max-w-[220px] align-top">
-								<Img
-									alt="An aesthetic picture taken of an Iphone, flowers, glasses and a card that reads 'Gucci, bloom' coming out of a leathered bag with a ziper"
-									className="rounded-[8px] object-cover"
-									height={220}
-									src="https://react.email/static/versatile-comfort.jpg"
-									width={220}
-								/>
-							</Section>
-						</Section>
+						<RenderEmailBlocks blocks={blocks} />
 
 						<Section className="my-[16px]">
 							<Section className="mt-[42px] w-10/12">

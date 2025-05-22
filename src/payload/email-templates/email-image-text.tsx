@@ -1,25 +1,134 @@
-import {
-	Body,
-	Button,
-	Column,
-	Container,
-	Head,
-	Heading,
-	Hr,
-	Html,
-	Img,
-	Link,
-	Preview,
-	Row,
-	Section,
-	Tailwind,
-	Text,
-} from '@react-email/components'
+import React from 'react'
+import { Button, Column, Heading, Img, Link, Row, Section, Text } from '@react-email/components'
 
-import type { EmailImageTextBlock, Media } from '@payload-types'
+import type { EmailImageTextBlock } from '@payload-types'
+
+type LayoutType = 'image-top' | 'image-left' | 'image-right'
+
+interface IImageContentProps {
+	imageUrl: string
+	headline: string
+}
+
+interface IContentProps {
+	tagline?: string
+	headline: string
+	copy?: string
+	ctaText?: string
+	ctaLink?: string
+}
+
+// Image components for different layouts
+const TopImage = ({ imageUrl, headline }: IImageContentProps) => (
+	<Img alt={headline} className="w-full rounded-[12px] object-cover" height="320" src={imageUrl} />
+)
+
+// Content components for different layouts
+const TopContent = ({ tagline, headline, copy, ctaText, ctaLink }: IContentProps) => (
+	<Section className="text-center">
+		{tagline && (
+			<Text className="text-secondary my-[16px] text-[18px] leading-[28px] font-semibold">
+				{tagline}
+			</Text>
+		)}
+		<Heading
+			as="h1"
+			className="text-foreground-dark m-0 mt-[8px] text-[36px] leading-[36px] font-semibold"
+		>
+			{headline}
+		</Heading>
+		{copy && <Text className="text-foreground text-[16px] leading-[24px]">{copy}</Text>}
+		{ctaText && ctaLink && (
+			<Button
+				className="bg-primary mt-[16px] rounded-[8px] px-[40px] py-[12px] font-semibold text-white"
+				href={ctaLink}
+			>
+				{ctaText}
+			</Button>
+		)}
+	</Section>
+)
+
+const SideImage = ({ imageUrl, headline }: IImageContentProps) => (
+	<>
+		<Img
+			alt={headline}
+			className="rounded-[8px] object-cover"
+			height={220}
+			src={imageUrl}
+			width={220}
+		/>
+	</>
+)
+
+const SideContent = ({ tagline, headline, copy, ctaText, ctaLink }: IContentProps) => (
+	<>
+		{tagline && (
+			<Text className="text-secondary m-0 mt-0 text-[16px] leading-[24px] font-semibold">
+				{tagline}
+			</Text>
+		)}
+		<Text className="text-foreground-dark m-0 mt-[8px] text-[20px] leading-[28px] font-semibold">
+			{headline}
+		</Text>
+		{copy && <Text className="text-foreground mt-[8px] text-[16px] leading-[24px]">{copy}</Text>}
+		{ctaText && ctaLink && (
+			<Link className="text-primary underline" href={ctaLink}>
+				{ctaText}
+			</Link>
+		)}
+	</>
+)
+
+type LayoutContainer = (
+	image: React.ReactElement,
+	content: React.ReactElement,
+) => React.ReactElement
+
+interface ILayoutConfig {
+	container: LayoutContainer
+	imageComponent: (props: IImageContentProps) => React.ReactElement
+	contentComponent: (props: IContentProps) => React.ReactElement
+}
+
+const layoutConfigs: Record<LayoutType, ILayoutConfig> = {
+	'image-top': {
+		container: (image, content) => (
+			<Section className="my-16 w-10/12">
+				{image}
+				<Section className="mt-[32px]">{content}</Section>
+			</Section>
+		),
+		imageComponent: TopImage,
+		contentComponent: TopContent,
+	},
+	'image-left': {
+		container: (image, content) => (
+			<Section className="my-16 w-10/12">
+				<Row className="align-top">
+					<Column className="w-[220px] pr-[32px]">{image}</Column>
+					<Column className="w-[250px]">{content}</Column>
+				</Row>
+			</Section>
+		),
+		imageComponent: SideImage,
+		contentComponent: SideContent,
+	},
+	'image-right': {
+		container: (image, content) => (
+			<Section className="my-16 w-10/12">
+				<Row className="align-top">
+					<Column className="w-[250px] pr-[32px]">{content}</Column>
+					<Column className="w-[220px]">{image}</Column>
+				</Row>
+			</Section>
+		),
+		imageComponent: SideImage,
+		contentComponent: SideContent,
+	},
+}
 
 export default function EmailImageText({ block }: { block: EmailImageTextBlock }) {
-	// Destructure the values from the block
 	const {
 		tagline = '',
 		headline = '',
@@ -27,7 +136,7 @@ export default function EmailImageText({ block }: { block: EmailImageTextBlock }
 		image,
 		ctaText = '',
 		ctaLink = '',
-		type = 'image-top', // Add type with default value
+		type = 'image-top',
 	} = block
 
 	console.log('EmailImageText block:', {
@@ -45,36 +154,19 @@ export default function EmailImageText({ block }: { block: EmailImageTextBlock }
 			? image.url
 			: 'https://react.email/static/herman-miller-chair.jpg'
 
-	return (
-		<Section className="my-[16px] w-10/12">
-			<Img
-				alt={headline}
-				className="w-full rounded-[12px] object-cover"
-				height="320"
-				src={imageUrl}
-			/>
-			<Section className="mt-[32px] text-center">
-				{tagline && (
-					<Text className="my-[16px] text-[18px] leading-[28px] font-semibold text-indigo-600">
-						{tagline}
-					</Text>
-				)}
-				<Heading
-					as="h1"
-					className="m-0 mt-[8px] text-[36px] leading-[36px] font-semibold text-gray-900"
-				>
-					{headline}
-				</Heading>
-				{copy && <Text className="text-[16px] leading-[24px] text-gray-500">{copy}</Text>}
-				{ctaText && ctaLink && (
-					<Button
-						className="mt-[16px] rounded-[8px] bg-indigo-600 px-[40px] py-[12px] font-semibold text-white"
-						href={ctaLink}
-					>
-						{ctaText}
-					</Button>
-				)}
-			</Section>
-		</Section>
+	const layout = layoutConfigs[type as LayoutType] || layoutConfigs['image-top']
+
+	const ImageComponent = layout.imageComponent
+	const ContentComponent = layout.contentComponent
+
+	return layout.container(
+		<ImageComponent imageUrl={imageUrl} headline={headline} />,
+		<ContentComponent
+			tagline={tagline || undefined}
+			headline={headline}
+			copy={copy || undefined}
+			ctaText={ctaText || undefined}
+			ctaLink={ctaLink || undefined}
+		/>,
 	)
 }
