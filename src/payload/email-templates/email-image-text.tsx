@@ -139,15 +139,15 @@ export default function EmailImageText({ block }: { block: EmailImageTextBlock }
 		type = 'image-top',
 	} = block
 
-	console.log('EmailImageText block:', {
-		tagline,
-		headline,
-		copy,
-		image,
-		ctaText,
-		ctaLink,
-		type,
-	})
+	// console.log('EmailImageText block:', {
+	// 	tagline,
+	// 	headline,
+	// 	copy,
+	// 	image,
+	// 	ctaText,
+	// 	ctaLink,
+	// 	type,
+	// })
 
 	const imageUrl =
 		typeof image === 'object' && image !== null && image.url

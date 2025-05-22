@@ -33,19 +33,19 @@ export type TNewsletterProps = NewsletterFields
 export function EmailNewsletter(props: TNewsletterProps) {
 	const { previewText, salutation, footer, blocks } = props
 
-	console.log('EmailNewsletter props:', {
-		blocks,
-		blocksType: typeof blocks,
-		isArray: Array.isArray(blocks),
-		blocksKeys: blocks ? Object.keys(blocks) : [],
-		blocksContent: blocks?.map((block, index) => ({
-			index,
-			blockType: block.blockType,
-			blockKeys: Object.keys(block),
-			blockValues: Object.values(block),
-			fullBlock: block,
-		})),
-	})
+	// console.log('EmailNewsletter props:', {
+	// 	blocks,
+	// 	blocksType: typeof blocks,
+	// 	isArray: Array.isArray(blocks),
+	// 	blocksKeys: blocks ? Object.keys(blocks) : [],
+	// 	blocksContent: blocks?.map((block, index) => ({
+	// 		index,
+	// 		blockType: block.blockType,
+	// 		blockKeys: Object.keys(block),
+	// 		blockValues: Object.values(block),
+	// 		fullBlock: block,
+	// 	})),
+	// })
 
 	return (
 		<Html>
