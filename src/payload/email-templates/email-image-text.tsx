@@ -104,11 +104,13 @@ const layoutConfigs: Record<LayoutType, ILayoutConfig> = {
 	},
 	'image-left': {
 		container: (image, content) => (
-			<Section className="my-16 w-10/12">
-				<Row className="align-top">
-					<Column className="w-[220px] pr-[32px]">{image}</Column>
-					<Column className="w-[250px]">{content}</Column>
-				</Row>
+			<Section className="my-16 w-10/12 text-center">
+				<Section className="my-[8px] mr-2 inline-block w-full max-w-[250px] align-top">
+					{image}
+				</Section>
+				<Section className="inline-block w-full max-w-[250px] text-left align-top">
+					{content}
+				</Section>
 			</Section>
 		),
 		imageComponent: SideImage,
@@ -116,11 +118,11 @@ const layoutConfigs: Record<LayoutType, ILayoutConfig> = {
 	},
 	'image-right': {
 		container: (image, content) => (
-			<Section className="my-16 w-10/12">
-				<Row className="align-top">
-					<Column className="w-[250px] pr-[32px]">{content}</Column>
-					<Column className="w-[220px]">{image}</Column>
-				</Row>
+			<Section className="my-16 w-10/12 text-center">
+				<Section className="inline-block w-full max-w-[250px] text-left align-top">
+					{content}
+				</Section>
+				<Section className="my-[8px] inline-block w-full max-w-[250px] align-top">{image}</Section>
 			</Section>
 		),
 		imageComponent: SideImage,

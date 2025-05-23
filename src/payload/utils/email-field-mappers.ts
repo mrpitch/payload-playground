@@ -40,7 +40,6 @@ export const getVerifyEmailFields = (fields: any): VerifyEmailFields => ({
 })
 
 export const getNewsletterFields = (fields: any): NewsletterFields => {
-	console.log('Newsletter fields:', fields)
 	const blocks = fields?.['content.Template.layout']?.rows || []
 
 	// Transform blocks to include their content
@@ -58,7 +57,7 @@ export const getNewsletterFields = (fields: any): NewsletterFields => {
 		}
 	})
 
-	console.log('Transformed blocks:', transformedBlocks)
+	//console.log('Transformed blocks:', transformedBlocks)
 
 	return {
 		...getCommonFields(fields, 'newsletter'),
