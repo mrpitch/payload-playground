@@ -8,8 +8,6 @@ export interface CommonEmailFields {
 	previewText: string
 	salutation: string
 	footer: DefaultTypedEditorState
-	username: string
-	email: string
 }
 
 export interface PasswordResetFields extends CommonEmailFields {
@@ -27,7 +25,7 @@ export interface VerifyEmailFields extends CommonEmailFields {
 }
 
 export interface NewsletterFields extends CommonEmailFields {
-	blocks: EmailImageTextBlock[]
+	layout: EmailImageTextBlock[]
 }
 
 export type EmailTemplateFields =
@@ -57,8 +55,6 @@ export const defaultEmailValues: DefaultEmailValues = {
 	subject: 'Default Subject',
 	previewText: 'Default Preview Text',
 	salutation: 'Dear User,',
-	username: 'John Doe',
-	email: 'john.doe@example.com',
 	footer: {
 		root: {
 			type: 'root',
@@ -101,6 +97,6 @@ export const defaultEmailValues: DefaultEmailValues = {
 		url: 'https://example.com/verify-email',
 	},
 	newsletter: {
-		blocks: [],
+		layout: [],
 	},
 }

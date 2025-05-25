@@ -1,50 +1,58 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useDocumentInfo, usePayloadAPI } from '@payloadcms/ui'
 import { renderEmailHtml } from '@/payload/utils/render-email'
 import { ReactElement } from 'react'
-import { EmailTemplateType } from '@/payload/types/email-templates'
-import {
-	PasswordResetFields,
-	VerifyEmailFields,
-	NewsletterFields,
-} from '@/payload/types/email-templates'
-
-export type EmailComponentProps = {
-	passwordReset: PasswordResetFields
-	verifyEmail: VerifyEmailFields
-	newsletter: NewsletterFields
-}[EmailTemplateType]
-
-interface UseEmailPreviewProps {
-	component: (props: EmailComponentProps) => Promise<ReactElement> | ReactElement
-	props: EmailComponentProps
-	templateKey: EmailTemplateType
-}
 
 interface UseEmailPreviewResult {
 	html: string
 	isLoading: boolean
+	isError: boolean
+}
+
+interface UseEmailPreviewProps {
+	component: (props: any) => Promise<ReactElement> | ReactElement
 }
 
 export function useEmailPreview({
 	component: Component,
-	props,
 }: UseEmailPreviewProps): UseEmailPreviewResult {
 	const [html, setHtml] = useState('')
-	const [isLoading, setIsLoading] = useState(true)
+
+	const { apiURL, collectionSlug, id } = useDocumentInfo()
+
+	const tmp = useDocumentInfo()
+	console.log('tmp', tmp)
+
+	const locale = new URLSearchParams(apiURL?.split('?')[1] || '').get('locale') || 'en'
+	const [{ data, isLoading, isError }] = usePayloadAPI(`/api/${collectionSlug}/${id}` || '', {
+		initialParams: {
+			depth: 2,
+			locale,
+		},
+	})
 
 	useEffect(() => {
 		const renderPreview = async () => {
-			try {
-				setIsLoading(true)
-				const element = await Component(props)
-				const renderedHtml = await renderEmailHtml(element)
-				setHtml(renderedHtml)
-			} finally {
-				setIsLoading(false)
-			}
-		}
-		renderPreview()
-	}, [Component, props])
+			if (!data?.content?.Template) return
 
-	return { html, isLoading }
+			const { subject, salutation, layout } = data.content.Template
+			const props = {
+				subject,
+				salutation,
+				layout,
+			}
+
+			const element = await Component(props)
+			const renderedHtml = await renderEmailHtml(element)
+			setHtml(renderedHtml)
+		}
+
+		renderPreview()
+	}, [Component, data])
+
+	return {
+		html,
+		isLoading,
+		isError,
+	}
 }

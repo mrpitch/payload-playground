@@ -9,15 +9,8 @@ import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
 import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
 import { EmailNewsletter } from '@/payload/email-templates/newsletter'
 import { useEmailPreview } from '@/payload/hooks/email-preview'
-import type { EmailComponentProps } from '@/payload/hooks/email-preview'
-import { useEmailFields } from '@/payload/hooks/use-email-fields'
 import { sendEmail } from '@/payload/actions/send-email'
 import { EmailTemplateType } from '@/payload/types/email-templates'
-import {
-	PasswordResetFields,
-	VerifyEmailFields,
-	NewsletterFields,
-} from '@/payload/types/email-templates'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
@@ -30,6 +23,12 @@ import { toast } from '@/components/ui/custom/toast'
 type EmailPreviewProps = {
 	type: EmailTemplateType
 }
+
+/* 
+	TODO:
+		1. refresh preview on save
+		2. check api call and route for globals/email-template
+*/
 
 const TestEmailPopover = ({ html }: { html: string }) => {
 	const [testEmail, setTestEmail] = useState('')
@@ -105,18 +104,15 @@ const TestEmailPopover = ({ html }: { html: string }) => {
 
 export const EmailPreview = ({ type }: EmailPreviewProps) => {
 	const [viewPort, setViewPort] = useState<'desktop' | 'mobile' | 'code'>('desktop')
-	const fields = useEmailFields(type)
 
 	const emailComponents = {
-		passwordReset: EmailPasswordReset as (props: PasswordResetFields) => ReactElement,
-		verifyEmail: EmailVerifyAccount as (props: VerifyEmailFields) => ReactElement,
-		newsletter: EmailNewsletter as (props: NewsletterFields) => ReactElement,
+		passwordReset: EmailPasswordReset,
+		verifyEmail: EmailVerifyAccount,
+		newsletter: EmailNewsletter,
 	} as const
 
 	const { html, isLoading } = useEmailPreview({
-		component: emailComponents[type] as (props: EmailComponentProps) => ReactElement,
-		props: fields,
-		templateKey: type,
+		component: emailComponents[type],
 	})
 
 	return (

@@ -29,21 +29,7 @@ import { NewsletterFields } from '@/payload/types/email-templates'
 export type TNewsletterProps = NewsletterFields
 
 export function EmailNewsletter(props: TNewsletterProps) {
-	const { previewText, salutation, footer, blocks } = props
-
-	// console.log('EmailNewsletter props:', {
-	// 	blocks,
-	// 	blocksType: typeof blocks,
-	// 	isArray: Array.isArray(blocks),
-	// 	blocksKeys: blocks ? Object.keys(blocks) : [],
-	// 	blocksContent: blocks?.map((block, index) => ({
-	// 		index,
-	// 		blockType: block.blockType,
-	// 		blockKeys: Object.keys(block),
-	// 		blockValues: Object.values(block),
-	// 		fullBlock: block,
-	// 	})),
-	// })
+	const { previewText, footer, layout } = props
 
 	return (
 		<Html>
@@ -70,7 +56,7 @@ export function EmailNewsletter(props: TNewsletterProps) {
 								className="mx-auto my-0"
 							/>
 						</Section>
-						<RenderEmailBlocks blocks={blocks} />
+						<RenderEmailBlocks blocks={layout} />
 
 						<Section className="my-[16px]">
 							<Section className="mt-[42px] w-10/12">
