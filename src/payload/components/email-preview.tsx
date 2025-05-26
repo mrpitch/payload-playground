@@ -27,7 +27,7 @@ type EmailPreviewProps = {
 /* 
 	TODO:
 		1. refresh preview on save
-		2. check api call and route for globals/email-template
+		2. check api call and route for globals/email.template
 */
 
 const TestEmailPopover = ({ html }: { html: string }) => {
@@ -113,6 +113,7 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 
 	const { html, isLoading } = useEmailPreview({
 		component: emailComponents[type],
+		type,
 	})
 
 	return (

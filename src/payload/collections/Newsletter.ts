@@ -8,6 +8,12 @@ export const Newsletter: CollectionConfig = {
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 	},
 	versions: {
+		drafts: {
+			autosave: {
+				interval: 1000, // We set this interval for optimal live preview
+				showSaveDraftButton: true,
+			},
+		},
 		maxPerDoc: 10,
 	},
 	fields: [
