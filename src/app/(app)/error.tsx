@@ -1,10 +1,9 @@
 'use client'
 import { startTransition } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import { FormContainer } from '@/components/auth/form-container'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 export default function Error({ error, reset }: { error: Error; reset: () => void }) {
 	const router = useRouter()
 

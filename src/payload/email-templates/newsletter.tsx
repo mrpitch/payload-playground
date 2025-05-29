@@ -24,11 +24,11 @@ import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '
 import { RichText } from '@/components/utils/richtext'
 
 import { RenderEmailBlocks } from '@/payload/email-templates/render-email-blocks'
-import { NewsletterFields } from '@/payload/types/email-templates'
+import { TNewsletterProps } from '@/payload/types/email-templates'
 
-export type TNewsletterProps = NewsletterFields
+export type TEmailNewsletterProps = TNewsletterProps
 
-export function EmailNewsletter(props: TNewsletterProps) {
+export function EmailNewsletter(props: TEmailNewsletterProps) {
 	const { previewText, footer, layout } = props
 
 	return (

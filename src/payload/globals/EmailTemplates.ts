@@ -1,7 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { admin } from '@/payload/access/admin'
 import { adminAndEditor } from '@/payload/access/admin-and-editor'
-import { EmailImageTextBlock } from '../blocks/email-image-text-block'
 
 import {
 	lexicalEditor,

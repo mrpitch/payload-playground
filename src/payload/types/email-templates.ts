@@ -1,57 +1,57 @@
 import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import type { EmailImageTextBlock } from '@payload-types'
 
-export type EmailTemplateType = 'passwordReset' | 'verifyEmail' | 'newsletter'
+export type TEmailTemplateType = 'passwordReset' | 'verifyEmail' | 'newsletter'
 
-export interface CommonEmailFields {
+export interface TCommonEmailProps {
 	subject: string
 	previewText: string
 	salutation: string
 	footer: DefaultTypedEditorState
 }
 
-export interface PasswordResetFields extends CommonEmailFields {
+export interface TPasswordResetProps extends TCommonEmailProps {
 	heading: string
 	copy: string
 	buttonLabel: string
 	url: string
 }
 
-export interface VerifyEmailFields extends CommonEmailFields {
+export interface TVerifyEmailProps extends TCommonEmailProps {
 	heading: string
 	copy: string
 	buttonLabel: string
 	url: string
 }
 
-export interface NewsletterFields extends CommonEmailFields {
+export interface TNewsletterProps extends TCommonEmailProps {
 	layout: EmailImageTextBlock[]
 }
 
-export type EmailTemplateFields =
-	| { type: 'passwordReset'; fields: PasswordResetFields }
-	| { type: 'verifyEmail'; fields: VerifyEmailFields }
-	| { type: 'newsletter'; fields: NewsletterFields }
+export type TEmailTemplateProps =
+	| { type: 'passwordReset'; props: TPasswordResetProps }
+	| { type: 'verifyEmail'; props: TVerifyEmailProps }
+	| { type: 'newsletter'; props: TNewsletterProps }
 
 // Utility types for field mapping
-export type DefaultEmailValues = Partial<CommonEmailFields> & {
-	passwordReset?: Partial<Omit<PasswordResetFields, keyof CommonEmailFields>>
-	verifyEmail?: Partial<Omit<VerifyEmailFields, keyof CommonEmailFields>>
-	newsletter?: Partial<Omit<NewsletterFields, keyof CommonEmailFields>>
+export type TDefaultEmailValues = Partial<TCommonEmailProps> & {
+	passwordReset?: Partial<Omit<TPasswordResetProps, keyof TCommonEmailProps>>
+	verifyEmail?: Partial<Omit<TVerifyEmailProps, keyof TCommonEmailProps>>
+	newsletter?: Partial<Omit<TNewsletterProps, keyof TCommonEmailProps>>
 }
 
-export type FieldMapper<T extends EmailTemplateType> = (
-	fields: any,
+export type TPropsMapper<T extends TEmailTemplateType> = (
+	props: TPasswordResetProps | TVerifyEmailProps | TNewsletterProps,
 ) => T extends 'passwordReset'
-	? PasswordResetFields
+	? TPasswordResetProps
 	: T extends 'verifyEmail'
-		? VerifyEmailFields
+		? TVerifyEmailProps
 		: T extends 'newsletter'
-			? NewsletterFields
+			? TNewsletterProps
 			: never
 
 // Default values for all fields
-export const defaultEmailValues: DefaultEmailValues = {
+export const defaultEmailValues: TDefaultEmailValues = {
 	subject: 'Default Subject',
 	previewText: 'Default Preview Text',
 	salutation: 'Dear User,',

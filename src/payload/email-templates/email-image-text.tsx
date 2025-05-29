@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Column, Heading, Img, Link, Row, Section, Text } from '@react-email/components'
+import { Button, Heading, Img, Link, Section, Text } from '@react-email/components'
 
 import type { EmailImageTextBlock } from '@payload-types'
 

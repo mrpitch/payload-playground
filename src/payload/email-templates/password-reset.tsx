@@ -15,8 +15,6 @@ import {
 
 import { cn } from '@/lib/utils/cn'
 
-import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
-
 import { baseUrl } from '@/payload/utils/constants'
 
 import { theme } from '@/lib/styles/v3/theme'
