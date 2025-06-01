@@ -19,7 +19,7 @@
 		"stop:postgres": "docker compose -f docker-compose.yml --env-file .env down",
 		"stop:postgres:cleanup": "docker compose -f docker-compose.yml --env-file .env down --volumes",
 		"analyze": "cross-env ANALYZE=true NODE_OPTIONS=--no-deprecation next build",
-		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml"
+		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml; rm -rf .next"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^4.1.2",
@@ -54,7 +54,7 @@
 		"@radix-ui/react-tooltip": "^1.1.7",
 		"@react-email/components": "^0.0.34",
 		"@react-email/preview": "0.0.12",
-		"@react-email/render": "1.0.5",
+		"@react-email/render": "1.1.2",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.0.4",
