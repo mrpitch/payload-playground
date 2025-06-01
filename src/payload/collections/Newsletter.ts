@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload'
-import { EmailImageTextBlock } from '../blocks/email-image-text-block'
+import { EmailImageTextBlock } from '@/payload/blocks/email-image-text-block'
+import { EmailGalleryBlock } from '@/payload/blocks/email-gallery'
 
 export const Newsletter: CollectionConfig = {
 	slug: 'newsletter',
@@ -54,7 +55,7 @@ export const Newsletter: CollectionConfig = {
 											type: 'blocks', // required
 											minRows: 1,
 											maxRows: 20,
-											blocks: [EmailImageTextBlock],
+											blocks: [EmailImageTextBlock, EmailGalleryBlock],
 										},
 									],
 									admin: {

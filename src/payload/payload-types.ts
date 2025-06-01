@@ -339,7 +339,7 @@ export interface Newsletter {
     Template: {
       slug: string;
       subject: string;
-      layout?: EmailImageTextBlock[] | null;
+      layout?: (EmailImageTextBlock | EmailGalleryBlock)[] | null;
     };
   };
   updatedAt: string;
@@ -361,6 +361,25 @@ export interface EmailImageTextBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'email-image-text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailGalleryBlock".
+ */
+export interface EmailGalleryBlock {
+  type?: ('4grid' | '3grid-horizontal' | '3grid-vertical') | null;
+  tagline?: string | null;
+  headline: string;
+  copy?: string | null;
+  gallery?:
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'email-gallery';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -688,6 +707,7 @@ export interface NewsletterSelect<T extends boolean = true> {
                 | T
                 | {
                     'email-image-text'?: T | EmailImageTextBlockSelect<T>;
+                    'email-gallery'?: T | EmailGalleryBlockSelect<T>;
                   };
             };
       };
@@ -707,6 +727,24 @@ export interface EmailImageTextBlockSelect<T extends boolean = true> {
   ctaText?: T;
   ctaLink?: T;
   image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailGalleryBlock_select".
+ */
+export interface EmailGalleryBlockSelect<T extends boolean = true> {
+  type?: T;
+  tagline?: T;
+  headline?: T;
+  copy?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

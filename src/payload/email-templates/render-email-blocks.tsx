@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react'
-import type { EmailImageTextBlock as TEmailImageTextBlock } from '@payload-types'
+import type {
+	EmailImageTextBlock as TEmailImageTextBlock,
+	EmailGalleryBlock as TEmailGalleryBlock,
+} from '@payload-types'
 import EmailImageText from '@/payload/email-templates/email-image-text'
+import EmailGallery from '@/payload/email-templates/email-gallery'
 
 interface IRenderBlocksProps {
 	blocks: TEmailImageTextBlock[]
@@ -8,6 +12,7 @@ interface IRenderBlocksProps {
 
 const EmailBlockComponents = {
 	'email-image-text': EmailImageText,
+	'email-gallery': EmailGallery,
 }
 
 export const RenderEmailBlocks: React.FC<IRenderBlocksProps> = ({ blocks }) => {
