@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react'
 import { useDocumentInfo, usePayloadAPI } from '@payloadcms/ui'
 import { renderEmailHtml } from '@/payload/utils/render-email'
 import { ReactElement } from 'react'
-import { EmailTemplateType } from '../types/email-templates'
+import {
+	TEmailTemplateType,
+	TPasswordResetProps,
+	TVerifyEmailProps,
+	TNewsletterProps,
+} from '@/payload/types/email-templates'
 
 interface UseEmailPreviewResult {
 	html: string
@@ -10,23 +15,23 @@ interface UseEmailPreviewResult {
 	isError: boolean
 }
 
-interface UseEmailPreviewProps {
-	component: (props: any) => Promise<ReactElement> | ReactElement
-	type: EmailTemplateType
+export interface UseEmailPreviewProps<T extends TEmailTemplateType> {
+	component: (
+		props: T extends 'newsletter'
+			? TNewsletterProps
+			: T extends 'verifyEmail'
+				? TVerifyEmailProps
+				: TPasswordResetProps,
+	) => Promise<ReactElement> | ReactElement
+	type: T
 }
 
-interface UseEmailPreviewResult {
-	html: string
-	isLoading: boolean
-	isError: boolean
-}
-
-export function useEmailPreview({
+export function useEmailPreview<T extends TEmailTemplateType>({
 	component: Component,
 	type,
-}: UseEmailPreviewProps): UseEmailPreviewResult {
+}: UseEmailPreviewProps<T>): UseEmailPreviewResult {
 	const [html, setHtml] = useState('')
-	const { apiURL, collectionSlug, id, docConfig } = useDocumentInfo()
+	const { apiURL, collectionSlug, id } = useDocumentInfo()
 	const locale = new URLSearchParams(apiURL?.split('?')[1] || '').get('locale') || 'en'
 
 	const initialParams = { depth: 2, locale, draft: true }
@@ -66,29 +71,38 @@ export function useEmailPreview({
 			const footer = footerData.footer
 
 			if (!template) return
-			console.log('template', template.layout)
 
-			// Map data based on type
+			// Create base props
+			const baseProps = {
+				subject: template.subject,
+				salutation: template.salutation,
+				footer,
+			}
+
+			// Create type-specific props
 			const props =
 				type === 'newsletter'
-					? {
-							subject: template.subject,
-							salutation: template.salutation,
+					? ({
+							...baseProps,
+							previewText: template.previewText,
 							layout: template.layout,
-							footer,
-						}
-					: {
-							subject: template.subject,
-							salutation: template.salutation,
+						} as TNewsletterProps)
+					: ({
+							...baseProps,
 							heading: template.heading,
 							copy: template.copy,
 							buttonLabel: template.buttonLabel,
 							url: template.url,
-							footer,
-						}
+							previewText: template.previewText,
+						} as TPasswordResetProps | TVerifyEmailProps)
 
-			console.log('props', props)
-			const element = await Component(props)
+			const element = await Component(
+				props as T extends 'newsletter'
+					? TNewsletterProps
+					: T extends 'verifyEmail'
+						? TVerifyEmailProps
+						: TPasswordResetProps,
+			)
 			const renderedHtml = await renderEmailHtml(element)
 			setHtml(renderedHtml)
 		}

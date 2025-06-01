@@ -56,7 +56,7 @@ export function EmailNewsletter(props: TEmailNewsletterProps) {
 								className="mx-auto my-0"
 							/>
 						</Section>
-						<RenderEmailBlocks blocks={layout} />
+						<RenderEmailBlocks blocks={layout || []} />
 
 						<Section className="my-[16px]">
 							<Section className="mt-[42px] w-10/12">

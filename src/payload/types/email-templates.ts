@@ -11,6 +11,8 @@ export interface TCommonEmailProps {
 }
 
 export interface TPasswordResetProps extends TCommonEmailProps {
+	email?: string
+	username?: string
 	heading: string
 	copy: string
 	buttonLabel: string
@@ -18,6 +20,8 @@ export interface TPasswordResetProps extends TCommonEmailProps {
 }
 
 export interface TVerifyEmailProps extends TCommonEmailProps {
+	email?: string
+	username?: string
 	heading: string
 	copy: string
 	buttonLabel: string
@@ -25,7 +29,7 @@ export interface TVerifyEmailProps extends TCommonEmailProps {
 }
 
 export interface TNewsletterProps extends TCommonEmailProps {
-	layout: EmailImageTextBlock[]
+	layout?: EmailImageTextBlock[]
 }
 
 export type TEmailTemplateProps =

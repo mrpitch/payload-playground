@@ -21,11 +21,10 @@ import { theme } from '@/lib/styles/v3/theme'
 import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
-import { PasswordResetFields } from '@/payload/types/email-templates'
+import { TPasswordResetProps } from '@/payload/types/email-templates'
 
 import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
-
-export type TEmailPasswordResetProps = PasswordResetFields
+export type TEmailPasswordResetProps = TPasswordResetProps
 
 export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =
@@ -45,7 +44,7 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 					)}
 				>
 					<Preview>
-						{previewText} {email}
+						{previewText} {email || ''}
 					</Preview>
 
 					<Container className="border-secondary-light mx-auto my-[40px] max-w-[640px] rounded border border-solid">

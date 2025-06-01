@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, useCallback, ReactElement } from 'react'
+import { Fragment, useState, useCallback } from 'react'
 
 import type { Language } from 'prism-react-renderer'
 import { Highlight } from 'prism-react-renderer'
@@ -8,9 +8,14 @@ import { cn } from '@/lib/utils/cn'
 import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
 import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
 import { EmailNewsletter } from '@/payload/email-templates/newsletter'
-import { useEmailPreview } from '@/payload/hooks/email-preview'
+import { useEmailPreview, UseEmailPreviewProps } from '@/payload/hooks/email-preview'
 import { sendEmail } from '@/payload/actions/send-email'
-import { EmailTemplateType } from '@/payload/types/email-templates'
+import {
+	TEmailTemplateType,
+	TNewsletterProps,
+	TPasswordResetProps,
+	TVerifyEmailProps,
+} from '@/payload/types/email-templates'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
@@ -20,14 +25,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { toast } from '@/components/ui/custom/toast'
 
-type EmailPreviewProps = {
-	type: EmailTemplateType
+export type TEmailPreviewProps = {
+	type: TEmailTemplateType
 }
 
 /* 
 	TODO:
 		1. refresh preview on save
-		2. check api call and route for globals/email.template
+		
 */
 
 const TestEmailPopover = ({ html }: { html: string }) => {
@@ -102,17 +107,18 @@ const TestEmailPopover = ({ html }: { html: string }) => {
 	)
 }
 
-export const EmailPreview = ({ type }: EmailPreviewProps) => {
+export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 	const [viewPort, setViewPort] = useState<'desktop' | 'mobile' | 'code'>('desktop')
 
+	// In email-preview.tsx
 	const emailComponents = {
-		passwordReset: EmailPasswordReset,
-		verifyEmail: EmailVerifyAccount,
-		newsletter: EmailNewsletter,
+		newsletter: (props: TNewsletterProps) => <EmailNewsletter {...props} />,
+		verifyEmail: (props: TVerifyEmailProps) => <EmailVerifyAccount {...props} />,
+		passwordReset: (props: TPasswordResetProps) => <EmailPasswordReset {...props} />,
 	} as const
 
 	const { html, isLoading } = useEmailPreview({
-		component: emailComponents[type],
+		component: emailComponents[type] as UseEmailPreviewProps<typeof type>['component'],
 		type,
 	})
 
