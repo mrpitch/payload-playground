@@ -39,7 +39,6 @@ export const DrawerNav: React.FC<IDrawerNavProps> = ({ items }) => {
 								{item.icon ? (
 									<Icon iconName={item.icon as IconType} className="h-5 w-5" aria-hidden="true" />
 								) : null}
-
 								{item.label}
 							</Link>
 						)
