@@ -12,7 +12,6 @@ export const Newsletter: CollectionConfig = {
 		drafts: {
 			autosave: {
 				interval: 1000, // We set this interval for optimal live preview
-				showSaveDraftButton: true,
 			},
 		},
 		maxPerDoc: 10,

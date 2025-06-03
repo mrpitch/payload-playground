@@ -16,14 +16,14 @@ const EmailBlockComponents = {
 }
 
 export const RenderEmailBlocks: React.FC<IRenderBlocksProps> = ({ blocks }) => {
-	console.log('RenderEmailBlocks received blocks:', {
-		blocks,
-		isArray: Array.isArray(blocks),
-		length: blocks?.length,
-		blockTypes: blocks?.map((b) => b.blockType),
-		firstBlock: blocks?.[0],
-		firstBlockKeys: blocks?.[0] ? Object.keys(blocks[0]) : [],
-	})
+	// console.log('RenderEmailBlocks received blocks:', {
+	// 	blocks,
+	// 	isArray: Array.isArray(blocks),
+	// 	length: blocks?.length,
+	// 	blockTypes: blocks?.map((b) => b.blockType),
+	// 	firstBlock: blocks?.[0],
+	// 	firstBlockKeys: blocks?.[0] ? Object.keys(blocks[0]) : [],
+	// })
 
 	const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
@@ -36,17 +36,17 @@ export const RenderEmailBlocks: React.FC<IRenderBlocksProps> = ({ blocks }) => {
 		<Fragment>
 			{blocks.map((block, index) => {
 				const { blockType } = block
-				console.log('Processing block:', {
-					index,
-					blockType,
-					block,
-					blockKeys: Object.keys(block),
-					blockValues: Object.values(block),
-				})
+				// console.log('Processing block:', {
+				// 	index,
+				// 	blockType,
+				// 	block,
+				// 	blockKeys: Object.keys(block),
+				// 	blockValues: Object.values(block),
+				// })
 
 				if (blockType && blockType in EmailBlockComponents) {
 					const Block = EmailBlockComponents[blockType]
-					console.log('Found component for block:', { blockType, Block })
+					//console.log('Found component for block:', { blockType, Block })
 
 					if (Block) {
 						return (
@@ -56,7 +56,7 @@ export const RenderEmailBlocks: React.FC<IRenderBlocksProps> = ({ blocks }) => {
 						)
 					}
 				}
-				console.log('No component found for block:', { blockType })
+				//console.log('No component found for block:', { blockType })
 				return null
 			})}
 		</Fragment>

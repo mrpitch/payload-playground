@@ -31,14 +31,16 @@ interface IGalleryItemProps {
 const GalleryItem = ({ imageUrl, alt, isEven }: IGalleryItemProps) => {
 	return (
 		<Column className={cn(isEven ? 'w-[50%] pr-[8px]' : 'w-[50%] pl-[8px]')}>
-			<Link href="#">
-				<Img
-					alt={alt || 'Gallery image'}
-					className="w-full rounded-[12px] object-cover"
-					height={288}
-					src={imageUrl}
-				/>
-			</Link>
+			{imageUrl ? (
+				<Link href="#">
+					<Img
+						alt={alt || 'Gallery image'}
+						className="w-full rounded-[12px] object-cover"
+						height={288}
+						src={imageUrl}
+					/>
+				</Link>
+			) : null}
 		</Column>
 	)
 }
@@ -49,16 +51,31 @@ export function EmailGallery({ block }: { block: EmailGalleryBlock }) {
 	const layout = layoutConfigs[type as GridType] || layoutConfigs['4grid']
 
 	const items = gallery?.map((item, i) => {
+		//console.log('item', item)
 		const isEven = i % 2 === 0
 		return (
 			<React.Fragment key={i}>
 				{isEven && (
 					<Row className="mt-[16px]">
-						<GalleryItem imageUrl={item.image?.url || ''} alt={item.title} isEven={isEven} />
+						<GalleryItem
+							imageUrl={typeof item.image === 'object' && item.image?.url ? item.image.url : ''}
+							alt={typeof item.image === 'object' ? item.image.alt : 'Gallery image'}
+							isEven={isEven}
+						/>
 						{gallery[i + 1] && (
 							<GalleryItem
-								imageUrl={gallery[i + 1].image?.url || ''}
-								alt={gallery[i + 1].title}
+								imageUrl={
+									gallery[i + 1] &&
+									typeof gallery[i + 1].image === 'object' &&
+									gallery[i + 1].image?.url
+										? gallery[i + 1].image.url
+										: ''
+								}
+								alt={
+									gallery[i + 1] && typeof gallery[i + 1].image === 'object'
+										? gallery[i + 1].image.alt
+										: 'Gallery image'
+								}
 								isEven={false}
 							/>
 						)}

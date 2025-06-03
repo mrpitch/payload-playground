@@ -31,10 +31,11 @@ export function useEmailPreview<T extends TEmailTemplateType>({
 	type,
 }: UseEmailPreviewProps<T>): UseEmailPreviewResult {
 	const [html, setHtml] = useState('')
-	const { apiURL, collectionSlug, id } = useDocumentInfo()
+	const { apiURL, collectionSlug, id, savedDocumentData } = useDocumentInfo()
 	const locale = new URLSearchParams(apiURL?.split('?')[1] || '').get('locale') || 'en'
 
 	const initialParams = { depth: 2, locale, draft: true }
+
 	// Determine API path based on type
 	const apiPath =
 		type === 'newsletter' ? `/api/${collectionSlug}/${id}` : `/api/globals/e-mail-templates`
@@ -53,8 +54,9 @@ export function useEmailPreview<T extends TEmailTemplateType>({
 		},
 	)
 
-	// console.log('templateData', templateData)
-	// console.log('footerData', footerData)
+	console.log('templateData', templateData)
+	console.log('savedDocumentData', savedDocumentData)
+	//console.log('footerData', footerData)
 
 	const isLoading = isTemplateLoading || isFooterLoading
 	const isError = isTemplateError || isFooterError

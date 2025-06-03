@@ -20,7 +20,16 @@ interface IContentProps {
 
 // Image components for different layouts
 const TopImage = ({ imageUrl, headline }: IImageContentProps) => (
-	<Img alt={headline} className="w-full rounded-[12px] object-cover" height="320" src={imageUrl} />
+	<>
+		{imageUrl ? (
+			<Img
+				alt={headline}
+				className="w-full rounded-[12px] object-cover"
+				height="320"
+				src={imageUrl}
+			/>
+		) : null}
+	</>
 )
 
 // Content components for different layouts
@@ -51,13 +60,15 @@ const TopContent = ({ tagline, headline, copy, ctaText, ctaLink }: IContentProps
 
 const SideImage = ({ imageUrl, headline }: IImageContentProps) => (
 	<>
-		<Img
-			alt={headline}
-			className="rounded-[8px] object-cover"
-			height={220}
-			src={imageUrl}
-			width={220}
-		/>
+		{imageUrl ? (
+			<Img
+				alt={headline}
+				className="rounded-[8px] object-cover"
+				height={220}
+				src={imageUrl}
+				width={220}
+			/>
+		) : null}
 	</>
 )
 
