@@ -26,12 +26,12 @@ export const Pages: CollectionConfig = {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 		livePreview: {
-			url: ({ data }) => {
+			url: ({ data }: { data: { slug: string } }) => {
 				return generatePreviewPath(``, data.slug)
 			},
 			breakpoints: breakpoints,
 		},
-		preview: (data) => generatePreviewPath(``, data.slug as string),
+		preview: (data: { slug: string }) => generatePreviewPath(``, data.slug as string),
 	},
 	versions: {
 		drafts: {
@@ -121,7 +121,7 @@ export const Pages: CollectionConfig = {
 			},
 			hooks: {
 				beforeChange: [
-					({ siblingData, value }) => {
+					({ siblingData, value }: { siblingData: { _status?: string }; value: unknown }) => {
 						if (siblingData._status === 'published' && !value) {
 							return new Date()
 						}

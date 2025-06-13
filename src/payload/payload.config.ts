@@ -1,9 +1,10 @@
-// storage-adapter-import-placeholder
+import { buildConfig } from 'payload'
+import type { Payload } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor, InlineToolbarFeature } from '@payloadcms/richtext-lexical'
 import { resendAdapter } from '@payloadcms/email-resend'
 import path from 'path'
-import { buildConfig } from 'payload'
+
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
@@ -54,7 +55,7 @@ export default buildConfig({
 	globals: [AppShell, EmailTemplates],
 	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
 	editor: lexicalEditor({
-		features({ rootFeatures }) {
+		features({ rootFeatures }: { rootFeatures: unknown[] }) {
 			return [...rootFeatures, InlineToolbarFeature()]
 		},
 	}),
@@ -85,7 +86,7 @@ export default buildConfig({
 	localization,
 	sharp,
 	plugins: [...plugins],
-	onInit: async (payload) => {
+	onInit: async (payload: Payload) => {
 		if (process.env.PAYLOAD_SEED === 'true') {
 			await seed(payload)
 		}
