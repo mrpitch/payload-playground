@@ -1,4 +1,5 @@
 import { CollectionConfig } from 'payload'
+import type { FieldHookArgs } from 'payload'
 
 import { admin, adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
@@ -26,12 +27,10 @@ export const Pages: CollectionConfig = {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 		livePreview: {
-			url: ({ data }: { data: { slug: string } }) => {
-				return generatePreviewPath(``, data.slug)
-			},
+			url: ({ data }: { data: Record<string, any> }) => generatePreviewPath('', data.slug),
 			breakpoints: breakpoints,
 		},
-		preview: (data: { slug: string }) => generatePreviewPath(``, data.slug as string),
+		preview: (doc: Record<string, unknown>) => generatePreviewPath('', doc.slug as string),
 	},
 	versions: {
 		drafts: {
@@ -121,11 +120,11 @@ export const Pages: CollectionConfig = {
 			},
 			hooks: {
 				beforeChange: [
-					({ siblingData, value }: { siblingData: { _status?: string }; value: unknown }) => {
-						if (siblingData._status === 'published' && !value) {
+					(args: FieldHookArgs<any, any, any>) => {
+						if (args.siblingData?._status === 'published' && !args.value) {
 							return new Date()
 						}
-						return value
+						return args.value
 					},
 				],
 			},
