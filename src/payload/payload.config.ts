@@ -1,7 +1,11 @@
 import { buildConfig } from 'payload'
 import type { Payload } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor, InlineToolbarFeature } from '@payloadcms/richtext-lexical'
+import {
+	FeatureProviderServer,
+	lexicalEditor,
+	InlineToolbarFeature,
+} from '@payloadcms/richtext-lexical'
 import { resendAdapter } from '@payloadcms/email-resend'
 import path from 'path'
 
@@ -54,8 +58,23 @@ export default buildConfig({
 	},
 	globals: [AppShell, EmailTemplates],
 	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
+	folders: {
+		debug: true, // optional
+		collectionOverrides: [
+			async ({ collection }) => {
+				return collection
+			},
+		], // optional
+		fieldName: 'folder', // optional
+		slug: 'payload-folders', // optional
+	},
 	editor: lexicalEditor({
-		features({ rootFeatures }: { rootFeatures: unknown[] }) {
+		features({
+			rootFeatures,
+		}: {
+			defaultFeatures: FeatureProviderServer<any, any, any>[]
+			rootFeatures: FeatureProviderServer<any, any, any>[]
+		}): FeatureProviderServer<any, any, any>[] {
 			return [...rootFeatures, InlineToolbarFeature()]
 		},
 	}),

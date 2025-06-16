@@ -19,6 +19,7 @@ import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
 export const Posts: CollectionConfig = {
 	slug: 'posts',
+	folders: true,
 	admin: {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
