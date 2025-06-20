@@ -1,13 +1,14 @@
 import {
 	Body,
-	Button,
+	Column,
 	Container,
 	Head,
-	Heading,
 	Hr,
 	Html,
 	Img,
+	Link,
 	Preview,
+	Row,
 	Section,
 	Tailwind,
 	Text,
@@ -21,14 +22,14 @@ import { theme } from '@/lib/styles/v3/theme'
 import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
-import { TPasswordResetProps } from '@/payload/types/email-templates'
 
-import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
-export type TEmailPasswordResetProps = TPasswordResetProps
+import { RenderEmailBlocks } from '@/payload/email-templates/render-email-blocks'
+import { TNewsletterProps } from '@/payload/types/email-templates'
 
-export function EmailPasswordReset(props: TEmailPasswordResetProps) {
-	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =
-		props
+export type TEmailNewsletterProps = TNewsletterProps
+
+export function EmailNewsletter(props: TEmailNewsletterProps) {
+	const { previewText, footer, layout } = props
 
 	return (
 		<Html>
@@ -43,9 +44,7 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 						typeNextBold.variable,
 					)}
 				>
-					<Preview>
-						{previewText} {email || ''}
-					</Preview>
+					<Preview>{previewText}</Preview>
 
 					<Container className="border-secondary-light mx-auto my-[40px] max-w-[640px] rounded border border-solid">
 						<Section className="mx-auto mt-8 mb-8 w-10/12">
@@ -57,21 +56,8 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 								className="mx-auto my-0"
 							/>
 						</Section>
+						<RenderEmailBlocks blocks={layout || []} />
 
-						<Heading className="text-secondary mt-8 text-center text-lg leading-2 font-bold">
-							{heading} {email}
-						</Heading>
-						<Section className="mx-auto mb-8 w-10/12">
-							<Text className="text-normal text-foreground leading-1.5">
-								{salutation} {username},
-							</Text>
-							<Text className="text-normal text-foreground leading-1.5">{copy}</Text>
-						</Section>
-						<Section className="mx-auto mb-6 w-10/12 text-center">
-							<Button href={url} className={emailButtonVariants({ variant: 'secondary' })}>
-								{buttonLabel}
-							</Button>
-						</Section>
 						<Section className="mx-auto w-10/12">
 							<Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
 

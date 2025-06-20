@@ -48,7 +48,6 @@ export default function ImageText({
 								/>
 							</div>
 						</div>
-
 						{/* Text Section */}
 						<div className={`w-full md:w-1/2 ${imageOnLeft ? 'md:order-2' : 'md:order-1'}`}>
 							<div className="space-y-4">

@@ -25,7 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	return (
 		<div className="flex h-screen flex-col">
 			<header className="border-foreground-light bg-background flex items-center justify-between border-b py-2">
-				<Link href="/" passHref>
+				<Link href="/">
 					<Logo className="text-foreground" name={siteConfig.name} />
 				</Link>
 				<div className="flex items-center justify-end">

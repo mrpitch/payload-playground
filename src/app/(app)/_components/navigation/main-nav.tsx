@@ -52,11 +52,13 @@ export const MainNav = ({ items }: IMainNavProps) => {
 							</NavigationMenuItem>
 						) : (
 							<NavigationMenuItem key={index}>
-								<Link href={item.href as string} legacyBehavior passHref>
-									<NavigationMenuLink className={navigationMenuTriggerStyle()}>
-										{item.label}
-									</NavigationMenuLink>
-								</Link>
+								<NavigationMenuLink
+									href={item.href as string}
+									asChild
+									className={navigationMenuTriggerStyle()}
+								>
+									<Link href={item.href as string}>{item.label}</Link>
+								</NavigationMenuLink>
 							</NavigationMenuItem>
 						),
 					)}

@@ -73,12 +73,17 @@ export interface Config {
     newsletter: Newsletter;
     users: User;
     media: Media;
+    'payload-folders': FolderInterface;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'payload-folders': {
+      documentsAndFolders: 'payload-folders' | 'posts';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
@@ -86,6 +91,7 @@ export interface Config {
     newsletter: NewsletterSelect<false> | NewsletterSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -288,6 +294,7 @@ export interface Post {
   categories?: (number | Category)[] | null;
   publishedAt?: string | null;
   author: number | User;
+  folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -330,19 +337,81 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders".
+ */
+export interface FolderInterface {
+  id: number;
+  name: string;
+  folder?: (number | null) | FolderInterface;
+  documentsAndFolders?: {
+    docs?: (
+      | {
+          relationTo?: 'payload-folders';
+          value: number | FolderInterface;
+        }
+      | {
+          relationTo?: 'posts';
+          value: number | Post;
+        }
+    )[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "newsletter".
  */
 export interface Newsletter {
   id: number;
   title: string;
   content: {
-    slug: string;
-    subject: string;
-    layout?: QuoteBlock[] | null;
+    Template: {
+      slug: string;
+      subject: string;
+      layout?: (EmailImageTextBlock | EmailGalleryBlock)[] | null;
+    };
   };
-  preview?: {};
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailImageTextBlock".
+ */
+export interface EmailImageTextBlock {
+  type?: ('image-top' | 'image-left' | 'image-right') | null;
+  tagline?: string | null;
+  headline: string;
+  copy?: string | null;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  image?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'email-image-text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailGalleryBlock".
+ */
+export interface EmailGalleryBlock {
+  type?: ('4grid' | '3grid-horizontal' | '3grid-vertical') | null;
+  tagline?: string | null;
+  headline: string;
+  copy?: string | null;
+  gallery?:
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'email-gallery';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -466,6 +535,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'payload-folders';
+        value: number | FolderInterface;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -636,6 +709,7 @@ export interface PostsSelect<T extends boolean = true> {
   categories?: T;
   publishedAt?: T;
   author?: T;
+  folder?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -661,17 +735,55 @@ export interface NewsletterSelect<T extends boolean = true> {
   content?:
     | T
     | {
-        slug?: T;
-        subject?: T;
-        layout?:
+        Template?:
           | T
           | {
-              quote?: T | QuoteBlockSelect<T>;
+              slug?: T;
+              subject?: T;
+              layout?:
+                | T
+                | {
+                    'email-image-text'?: T | EmailImageTextBlockSelect<T>;
+                    'email-gallery'?: T | EmailGalleryBlockSelect<T>;
+                  };
             };
       };
-  preview?: T | {};
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailImageTextBlock_select".
+ */
+export interface EmailImageTextBlockSelect<T extends boolean = true> {
+  type?: T;
+  tagline?: T;
+  headline?: T;
+  copy?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmailGalleryBlock_select".
+ */
+export interface EmailGalleryBlockSelect<T extends boolean = true> {
+  type?: T;
+  tagline?: T;
+  headline?: T;
+  copy?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -712,6 +824,17 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders_select".
+ */
+export interface PayloadFoldersSelect<T extends boolean = true> {
+  name?: T;
+  folder?: T;
+  documentsAndFolders?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

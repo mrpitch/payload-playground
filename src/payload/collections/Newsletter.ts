@@ -1,5 +1,6 @@
 import { CollectionConfig } from 'payload'
-import { QuoteBlock } from '@/payload/blocks/quote-block'
+import { EmailImageTextBlock } from '@/payload/blocks/email-image-text-block'
+import { EmailGalleryBlock } from '@/payload/blocks/email-gallery'
 
 export const Newsletter: CollectionConfig = {
 	slug: 'newsletter',
@@ -8,6 +9,11 @@ export const Newsletter: CollectionConfig = {
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 	},
 	versions: {
+		drafts: {
+			autosave: {
+				interval: 1000, // We set this interval for optimal live preview
+			},
+		},
 		maxPerDoc: 10,
 	},
 	fields: [
@@ -28,44 +34,44 @@ export const Newsletter: CollectionConfig = {
 							type: 'row',
 							fields: [
 								{
-									name: 'slug',
-									label: 'Slug',
-									type: 'text',
-									required: true,
+									name: 'Template',
+									type: 'group',
+									fields: [
+										{
+											name: 'slug',
+											label: 'Slug',
+											type: 'text',
+											required: true,
+										},
+										{
+											name: 'subject',
+											label: 'Subject',
+											type: 'text',
+											required: true,
+										},
+										{
+											name: 'layout', // required
+											type: 'blocks', // required
+											minRows: 1,
+											maxRows: 20,
+											blocks: [EmailImageTextBlock, EmailGalleryBlock],
+										},
+									],
+									admin: {
+										width: '50%',
+									},
 								},
 								{
-									name: 'subject',
-									label: 'Subject',
-									type: 'text',
-									required: true,
+									name: 'Preview',
+									type: 'ui',
+									admin: {
+										components: {
+											Field: './components/email-preview#newsletter',
+										},
+										width: '50%',
+									},
 								},
 							],
-						},
-
-						{
-							name: 'layout', // required
-							type: 'blocks', // required
-							minRows: 1,
-							maxRows: 20,
-							blocks: [
-								// required
-								QuoteBlock,
-							],
-						},
-					],
-				},
-				{
-					name: 'preview',
-					label: 'Preview',
-					fields: [
-						{
-							type: 'ui',
-							name: 'my custom component',
-							admin: {
-								components: {
-									Field: './components/email-preview#newsletter',
-								},
-							},
 						},
 					],
 				},

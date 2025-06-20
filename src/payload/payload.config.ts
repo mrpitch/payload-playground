@@ -1,9 +1,14 @@
-// storage-adapter-import-placeholder
+import { buildConfig } from 'payload'
+import type { Payload } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { lexicalEditor, InlineToolbarFeature } from '@payloadcms/richtext-lexical'
+import {
+	FeatureProviderServer,
+	lexicalEditor,
+	InlineToolbarFeature,
+} from '@payloadcms/richtext-lexical'
 import { resendAdapter } from '@payloadcms/email-resend'
 import path from 'path'
-import { buildConfig } from 'payload'
+
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
@@ -53,8 +58,23 @@ export default buildConfig({
 	},
 	globals: [AppShell, EmailTemplates],
 	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
+	folders: {
+		debug: true, // optional
+		collectionOverrides: [
+			async ({ collection }) => {
+				return collection
+			},
+		], // optional
+		fieldName: 'folder', // optional
+		slug: 'payload-folders', // optional
+	},
 	editor: lexicalEditor({
-		features({ rootFeatures }) {
+		features({
+			rootFeatures,
+		}: {
+			defaultFeatures: FeatureProviderServer<any, any, any>[]
+			rootFeatures: FeatureProviderServer<any, any, any>[]
+		}): FeatureProviderServer<any, any, any>[] {
 			return [...rootFeatures, InlineToolbarFeature()]
 		},
 	}),
@@ -85,7 +105,7 @@ export default buildConfig({
 	localization,
 	sharp,
 	plugins: [...plugins],
-	onInit: async (payload) => {
+	onInit: async (payload: Payload) => {
 		if (process.env.PAYLOAD_SEED === 'true') {
 			await seed(payload)
 		}

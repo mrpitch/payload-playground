@@ -16,25 +16,14 @@ import {
 import { baseUrl } from '@/payload/utils/constants'
 import { cn } from '@/lib/utils/cn'
 
-import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
-
 import { theme } from '@/lib/styles/v3/theme'
 import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
 import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
+import { TVerifyEmailProps } from '@/payload/types/email-templates'
 
-export type TEmailVerifyAccountProps = {
-	username: string
-	url: string
-	email: string
-	previewText: string
-	heading: string
-	salutation: string
-	copy: string
-	buttonLabel: string
-	footer: DefaultTypedEditorState
-}
+export type TEmailVerifyAccountProps = TVerifyEmailProps
 
 export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 	const { email, username, url, previewText, heading, salutation, copy, buttonLabel, footer } =
@@ -46,7 +35,7 @@ export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 				<Head />
 				<Body
 					className={cn(
-						'bg-background mx-auto my-auto px-2 font-sans',
+						'bg-background mx-auto my-auto font-sans',
 						typeNextRegular.variable,
 						typeNextLight.variable,
 						typeNextSemiBold.variable,
@@ -54,10 +43,10 @@ export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 					)}
 				>
 					<Preview>
-						{previewText} {email}
+						{previewText} {email || ''}
 					</Preview>
 
-					<Container className="border-secondary-light mx-auto my-[40px] max-w-[465px] rounded border border-solid">
+					<Container className="border-secondary-light mx-auto my-[40px] max-w-[640px] rounded border border-solid">
 						<Section className="mx-auto mt-8 mb-8 w-10/12">
 							<Img
 								src={`${baseUrl}/images/logo-secondary-light.png`}

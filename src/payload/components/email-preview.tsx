@@ -1,5 +1,5 @@
 'use client'
-import { Fragment, useState, useCallback, useMemo } from 'react'
+import { Fragment, useState, useCallback } from 'react'
 
 import type { Language } from 'prism-react-renderer'
 import { Highlight } from 'prism-react-renderer'
@@ -7,9 +7,15 @@ import { cn } from '@/lib/utils/cn'
 
 import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
 import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
-import { useEmailPreview } from '@/payload/hooks/email-preview'
-import { useAllFormFields } from '@payloadcms/ui'
+import { EmailNewsletter } from '@/payload/email-templates/newsletter'
+import { useEmailPreview, UseEmailPreviewProps } from '@/payload/hooks/email-preview'
 import { sendEmail } from '@/payload/actions/send-email'
+import {
+	TEmailTemplateType,
+	TNewsletterProps,
+	TPasswordResetProps,
+	TVerifyEmailProps,
+} from '@/payload/types/email-templates'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
@@ -19,22 +25,15 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { toast } from '@/components/ui/custom/toast'
 
-import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
-
-export interface EmailTemplate<T extends Record<string, string> = Record<string, string>> {
-	Template: {
-		previewText: string
-		heading: string
-		salutation: string
-		copy: string
-		buttonLabel: string
-		disclaimer: string
-	} & T
+export type TEmailPreviewProps = {
+	type: TEmailTemplateType
 }
 
-type EmailPreviewProps = {
-	type: 'passwordReset' | 'verifyEmail'
-}
+/* 
+	TODO:
+		1. refresh preview on save
+		
+*/
 
 const TestEmailPopover = ({ html }: { html: string }) => {
 	const [testEmail, setTestEmail] = useState('')
@@ -108,43 +107,19 @@ const TestEmailPopover = ({ html }: { html: string }) => {
 	)
 }
 
-export const EmailPreview = ({ type }: EmailPreviewProps) => {
+export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 	const [viewPort, setViewPort] = useState<'desktop' | 'mobile' | 'code'>('desktop')
 
-	const [fields] = useAllFormFields()
-
-	const props = useMemo(
-		() => ({
-			username: 'John Doe',
-			url: 'https://www.google.com',
-			email: 'john.doe@example.com',
-			previewText: (fields?.[`${type}.Template.previewText`]?.value as string) || '',
-			heading: (fields?.[`${type}.Template.heading`]?.value as string) || '',
-			salutation: (fields?.[`${type}.Template.salutation`]?.value as string) || '',
-			copy: (fields?.[`${type}.Template.copy`]?.value as string) || '',
-			buttonLabel: (fields?.[`${type}.Template.buttonLabel`]?.value as string) || '',
-			footer: (fields?.['footer.content']?.value as DefaultTypedEditorState) || {
-				root: {
-					children: [
-						{
-							children: [{ text: '' }],
-							direction: null,
-							format: '',
-							indent: 0,
-							type: 'paragraph',
-							version: 1,
-						},
-					],
-				},
-			},
-		}),
-		[fields, type],
-	)
+	// In email-preview.tsx
+	const emailComponents = {
+		newsletter: (props: TNewsletterProps) => <EmailNewsletter {...props} />,
+		verifyEmail: (props: TVerifyEmailProps) => <EmailVerifyAccount {...props} />,
+		passwordReset: (props: TPasswordResetProps) => <EmailPasswordReset {...props} />,
+	} as const
 
 	const { html, isLoading } = useEmailPreview({
-		component: type === 'passwordReset' ? EmailPasswordReset : EmailVerifyAccount,
-		props,
-		templateKey: type,
+		component: emailComponents[type] as UseEmailPreviewProps<typeof type>['component'],
+		type,
 	})
 
 	return (
@@ -174,7 +149,7 @@ export const EmailPreview = ({ type }: EmailPreviewProps) => {
 			<div className="mx-auto">
 				{isLoading ? (
 					<div className="bg-background flex h-[calc(100vh_-_140px)] w-[640px]">
-						<div className="border-accent mx-auto my-[40px] w-[465px] rounded border border-solid">
+						<div className="border-accent mx-auto my-[40px] w-[640px] rounded border border-solid">
 							<div className="mx-auto mt-8 mb-8 flex w-10/12 flex-col space-y-3">
 								<Skeleton className="mx-auto h-[25px] w-full rounded-xl" />
 								<Skeleton className="mx-auto h-[250px] w-full rounded-xl" />
@@ -223,7 +198,7 @@ export const passwordReset = () => {
 }
 
 export const newsletter = () => {
-	return <EmailPreview type="passwordReset" />
+	return <EmailPreview type="newsletter" />
 }
 
 export const CodePreview = ({ html }: { html: string }) => {

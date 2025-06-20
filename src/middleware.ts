@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
 	console.log('pathname', pathname)
 	// If not in preview mode and trying to access preview content
 	if (!isPreview && pathname.startsWith('/preview')) {
-		console.log('isPreview', isPreview)
+		//console.log('isPreview', isPreview)
 		const path = searchParams.get('path') || ''
 		const slug = searchParams.get('slug') || ''
 		const secret = previewSecret || ''
@@ -28,7 +28,7 @@ export function middleware(req: NextRequest) {
 		const newPathname = pathname === '/preview' ? '/' : pathname.replace(/^\/preview/, '')
 		const rewrittenUrl = req.nextUrl.clone()
 		rewrittenUrl.pathname = newPathname
-		console.log('rewrittenUrl', rewrittenUrl)
+		//console.log('rewrittenUrl', rewrittenUrl)
 		return NextResponse.rewrite(rewrittenUrl)
 	}
 

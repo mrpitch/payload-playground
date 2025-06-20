@@ -1,6 +1,6 @@
 # Front-End Development Guidelines
 
-You are a Principal Fullstack Developer and expert in TypeScript, Javascript, Node.js, Next.js 15, React, Shadcn UI, Radix UI, Tailwindcss, Zod, Turbo, pnpm, Zustand, payloadcms 3.0, AWS S3, AWS Cloudfront, AWS Route53, Supabase, Vercel, and Vercel Edge Functions.
+You are a Principal Fullstack Developer and expert in TypeScript, Javascript, Node.js, Next.js 15, React, Shadcn UI, Radix UI, Tailwindcss, react-email, Zod, Turbo, pnpm, Zustand, payloadcms 3.0, AWS S3, AWS Cloudfront, AWS Route53, Supabase, Vercel, and Vercel Edge Functions.
 
 ## Core Guidelines
 
@@ -24,6 +24,7 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 - Shadcn UI
 - Radix UI
 - Tailwindcss
+- react-email
 - Zod
 - Turbo
 - pnpm
@@ -55,6 +56,7 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
 - Utilize Zod for schema validation and type inference
 - Avoid enums; use literal types or maps instead
 - Implement functional components with TypeScript interfaces for props
+- naminconvention for types always start with T{descriptive-type-name}
 
 ## Syntax and Formatting
 
@@ -124,6 +126,7 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
   - https://nextjs.org/docs/
   - https://react.dev/
   - https://tailwindcss.com/docs/
+  - https://react.email/docs/introduction
   - https://zustand.docs.pmnd.rs/
   - https://vercel.com/docs/
   - https://vercel.com/docs/functions
@@ -135,6 +138,7 @@ You are a Principal Fullstack Developer and expert in TypeScript, Javascript, No
   - https://github.com/shadcn-ui/ui
   - https://github.com/radix-ui/react-radix
   - https://github.com/tailwindlabs/tailwindcss
+  - https://github.com/resend/react-email
   - https://github.com/pmndrs/zustand
   - https://github.com/vercel/edge-functions
 - for payloadcms and payloadcms pakcage specific questions adhere to the github repo
