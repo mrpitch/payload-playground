@@ -17,11 +17,12 @@ import { seed } from '@/payload/utils/seed/seed'
 
 import { AppShell } from '@/payload/globals/AppShell'
 import { EmailTemplates } from '@/payload/globals/EmailTemplates'
+import { Categories } from '@/payload/collections/Categories'
+import { Docs } from '@/payload/collections/Docs'
 import { Users } from '@/payload/collections/Users'
 import { Media } from '@/payload/collections/Media'
 import { Pages } from '@/payload/collections/Pages'
 import { Posts } from '@/payload/collections/Posts'
-import { Categories } from '@/payload/collections/Categories'
 import { Newsletter } from '@/payload/collections/Newsletter'
 
 import { i18n, localization } from '@/payload/i18n/localization'
@@ -57,7 +58,7 @@ export default buildConfig({
 		},
 	},
 	globals: [AppShell, EmailTemplates],
-	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
+	collections: [Categories, Docs, Pages, Posts, Newsletter, Users, Media],
 	folders: {
 		debug: true, // optional
 		collectionOverrides: [

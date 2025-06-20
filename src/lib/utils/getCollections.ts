@@ -119,3 +119,42 @@ export async function getPosts() {
 
 	return posts
 }
+
+export const getAllByCollection = async (
+	collection: TCollection,
+	draft?: boolean,
+	limit?: number,
+) => {
+	const cached = unstable_cache(
+		async () => {
+			return await payload.find({
+				collection: collection,
+				draft: draft || false,
+				limit: limit || 1000,
+				overrideAccess: true,
+				depth: 1,
+				pagination: false,
+				sort: 'title',
+				select: {
+					slug: true,
+					title: true,
+					createdAt: true,
+					updatedAt: true,
+					publishedAt: true,
+					categories: true,
+					relatedPosts: true,
+				},
+				populate: {
+					categories: {
+						title: true,
+						slug: true,
+					},
+				},
+			})
+		},
+		[`all_${collection}`],
+		{ revalidate: revalidate, tags: [`collection_${collection}`] },
+	)
+
+	return cached()
+}

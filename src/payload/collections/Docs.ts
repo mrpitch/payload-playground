@@ -17,18 +17,19 @@ import { CopyBlock } from '@/payload/blocks/copy-block'
 import { breakpoints } from '@/payload/utils/breakpoints'
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
-export const Posts: CollectionConfig = {
-	slug: 'posts',
+export const Docs: CollectionConfig = {
+	slug: 'docs',
+	folders: true,
 	admin: {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 		livePreview: {
 			url: ({ data }) => {
-				return generatePreviewPath(`blog`, data.slug)
+				return generatePreviewPath(`docs`, data.slug)
 			},
 			breakpoints: breakpoints,
 		},
-		preview: (data) => generatePreviewPath(`blog`, data.slug as string),
+		preview: (data) => generatePreviewPath(`docs`, data.slug as string),
 	},
 	versions: {
 		drafts: {

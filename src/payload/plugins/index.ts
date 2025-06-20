@@ -2,6 +2,7 @@ import { Plugin } from 'payload'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage } from '@payloadcms/storage-s3'
+import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 
@@ -38,5 +39,10 @@ export const plugins: Plugin[] = [
 			},
 			region: process.env.AWS_S3_REGION || '',
 		},
+	}),
+	nestedDocsPlugin({
+		collections: ['docs'],
+		generateLabel: (_, doc) => doc.title as string,
+		generateURL: (docs) => docs.reduce((url, doc) => `${url}/${doc.slug}`, ''),
 	}),
 ]

@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { generateMeta } from '@/lib/utils/generateMeta'
-import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
+import { getAllByCollection, getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
 
-import type { Page } from '@payload-types'
+import type { Page, Doc } from '@payload-types'
 import type { TGenerateMeta } from '@/lib/types'
 
 import { Typography } from '@/components/ui/custom/typography'
@@ -12,6 +12,7 @@ import { Typography } from '@/components/ui/custom/typography'
 import { RenderBlocks } from '@/components/utils/render-blocks'
 import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
 import { Container } from '@/components/ui/custom/container'
+import Link from 'next/link'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { isEnabled } = await draftMode()
@@ -59,6 +60,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 	const { title, showPageTitle, layout } = page as Page
 
+	let docs: any[] = []
+	if (slug === 'docs') {
+		const result = await getAllByCollection('docs', isEnabled)
+		docs = result.docs || []
+	}
+
 	return (
 		<>
 			<RefreshRouteOnSave />
@@ -68,6 +75,20 @@ export default async function Page({ params: paramsPromise }: Args) {
 				</Container>
 			) : null}
 			<RenderBlocks blocks={layout} />
+			{slug === 'docs' ? (
+				<>
+					<Container as="div" className="overflow-x-scroll">
+						<ul>
+							{docs.map((doc) => (
+								<li key={doc.id}>
+									<Link href={`/docs/${doc.slug}`}>{doc.title}</Link>
+								</li>
+							))}
+						</ul>
+						{/* <pre>{JSON.stringify(page, null, 2)}</pre> */}
+					</Container>
+				</>
+			) : null}
 			{/* <Container as="div" className="overflow-x-scroll">
 				<pre>{JSON.stringify(page, null, 2)}</pre>
 			</Container> */}
