@@ -26,6 +26,7 @@ import { Posts } from '@/payload/collections/Posts'
 import { Newsletter } from '@/payload/collections/Newsletter'
 
 import { i18n, localization } from '@/payload/i18n/localization'
+import type { CollectionConfig } from 'payload'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -62,7 +63,8 @@ export default buildConfig({
 	folders: {
 		debug: true, // optional
 		collectionOverrides: [
-			async ({ collection }) => {
+			async ({ collection }: { collection: CollectionConfig }) => {
+				//console.log('collection', collection)
 				return collection
 			},
 		], // optional
