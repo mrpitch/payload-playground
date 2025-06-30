@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -25,6 +27,57 @@ import { Container } from '@/components/ui/custom/container'
 import { Typography } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
 
+// Utility function to build breadcrumb trail
+function buildBreadcrumbTrail(folder: any): Array<{ id: number; name: string; slug?: string }> {
+	const trail: Array<{ id: number; name: string; slug?: string }> = []
+
+	// Recursively traverse up the folder hierarchy
+	let currentFolder = folder
+	while (currentFolder) {
+		trail.unshift({
+			id: currentFolder.id,
+			name: currentFolder.name,
+			slug: currentFolder.slug || currentFolder.name?.toLowerCase().replace(/\s+/g, '-'),
+		})
+		currentFolder = currentFolder.folder
+	}
+
+	return trail
+}
+
+// Component to render breadcrumbs
+function FolderBreadcrumb({ folder, pageTitle }: { folder: any; pageTitle: string }) {
+	const breadcrumbTrail = buildBreadcrumbTrail(folder)
+
+	return (
+		<Breadcrumb className="mb-8">
+			<BreadcrumbList>
+				<BreadcrumbItem>
+					<BreadcrumbLink href="/">
+						<Icon iconName="house" />
+					</BreadcrumbLink>
+				</BreadcrumbItem>
+				<BreadcrumbSeparator />
+
+				{/* Render all folders as links */}
+				{breadcrumbTrail.map((item, index) => (
+					<Fragment key={item.id}>
+						<BreadcrumbItem>
+							<BreadcrumbLink href={`/${item.slug}`}>{item.name}</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator />
+					</Fragment>
+				))}
+
+				{/* Always render the current page as the last item */}
+				<BreadcrumbItem>
+					<BreadcrumbPage>{pageTitle}</BreadcrumbPage>
+				</BreadcrumbItem>
+			</BreadcrumbList>
+		</Breadcrumb>
+	)
+}
+
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise
 	const { isEnabled } = await draftMode()
@@ -43,10 +96,10 @@ export async function generateStaticParams() {
 
 	return (
 		docs.docs
-			?.filter((doc) => {
+			?.filter((doc: Doc) => {
 				return doc && 'slug' in doc && typeof doc.slug === 'string'
 			})
-			.map((doc) => ({ slug: (doc as { slug: string }).slug })) || []
+			.map((doc: Doc) => ({ slug: (doc as { slug: string }).slug })) || []
 	)
 }
 
@@ -69,7 +122,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories, layout, thumbnail, excerpt, author } = docs as Doc
+	const { title, publishedAt, categories, layout, thumbnail, excerpt, author, folder } = docs as Doc
 
 	return (
 		<article className="mt-8">
@@ -92,23 +145,9 @@ export default async function Doc({ params: paramsPromise }: Args) {
 				) : null}
 			</Container>
 			<Container as="section" className="max-w-5xl 2xl:max-w-5xl">
-				<Breadcrumb className="mb-8">
-					<BreadcrumbList>
-						<BreadcrumbItem>
-							<BreadcrumbLink href="/">
-								<Icon iconName="house" />
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator />
-						<BreadcrumbItem>
-							<BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator />
-						<BreadcrumbItem>
-							<BreadcrumbPage>{title}</BreadcrumbPage>
-						</BreadcrumbItem>
-					</BreadcrumbList>
-				</Breadcrumb>
+				{folder && typeof folder !== 'number' && (
+					<FolderBreadcrumb folder={folder} pageTitle={title} />
+				)}
 				<div className="flex-start mt-4 mb-2 flex gap-2">
 					{categories?.map(
 						(category) =>

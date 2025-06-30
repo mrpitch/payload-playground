@@ -1,4 +1,6 @@
 import { unstable_cache } from 'next/cache'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 import { getPayload } from 'payload'
 
@@ -8,7 +10,15 @@ import type { Config } from '@payload-types'
 import { revalidate } from '@/lib/utils/constants'
 type TCollection = keyof Config['collections']
 
-const payload = await getPayload({ config: configPromise })
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
+
+const payload = await getPayload({
+	config: configPromise,
+	importMap: {
+		baseDir: path.resolve(dirname),
+	},
+})
 
 export const getSlugs = async (collection: TCollection, draft?: boolean, limit?: number) => {
 	const cached = unstable_cache(
@@ -143,9 +153,14 @@ export const getAllByCollection = async (
 					publishedAt: true,
 					categories: true,
 					relatedPosts: true,
+					folder: true,
 				},
 				populate: {
 					categories: {
+						title: true,
+						slug: true,
+					},
+					folder: {
 						title: true,
 						slug: true,
 					},

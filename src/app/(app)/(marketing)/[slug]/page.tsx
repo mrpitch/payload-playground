@@ -31,10 +31,10 @@ export async function generateStaticParams() {
 
 	return (
 		pages.docs
-			?.filter((doc) => {
+			?.filter((doc: Page) => {
 				return doc && 'slug' in doc && typeof doc.slug === 'string' && doc.slug !== 'home'
 			})
-			.map((doc) => ({ slug: (doc as { slug: string }).slug })) || []
+			.map((doc: Page) => ({ slug: (doc as { slug: string }).slug })) || []
 	)
 }
 
@@ -60,7 +60,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
 	const { title, showPageTitle, layout } = page as Page
 
-	let docs: any[] = []
+	let docs: Doc[] = []
 	if (slug === 'docs') {
 		const result = await getAllByCollection('docs', isEnabled)
 		docs = result.docs || []
