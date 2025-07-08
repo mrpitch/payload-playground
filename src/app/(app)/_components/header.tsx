@@ -22,7 +22,7 @@ export async function Header({ mainNavigation, profileNavigation }: HeaderProps)
 	const { isEnabled } = await draftMode()
 
 	return (
-		<div className="border-foreground-light bg-background w-full border-b">
+		<div className="border-foreground-light bg-background sticky top-0 z-50 w-full border-b">
 			<Container as="header">
 				<div className="flex w-full items-center justify-between py-2">
 					<div className="flex gap-6 md:gap-10">

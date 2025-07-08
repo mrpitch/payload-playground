@@ -26,6 +26,7 @@ import {
 import { Container } from '@/components/ui/custom/container'
 import { Typography } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
+import { Toc } from '@/components/layout/toc'
 
 // Utility function to build breadcrumb trail
 function buildBreadcrumbTrail(folder: any): Array<{ id: number; name: string; slug?: string }> {
@@ -125,78 +126,128 @@ export default async function Doc({ params: paramsPromise }: Args) {
 	const { title, publishedAt, categories, layout, thumbnail, excerpt, author, folder } = docs as Doc
 
 	return (
-		<article className="mt-8">
-			<RefreshRouteOnSave />
-			<Container as="section" className="mb-12">
-				{thumbnail && typeof thumbnail !== 'number' ? (
-					<div
-						className="relative isolate mb-4 w-full overflow-hidden rounded-lg"
-						style={{ aspectRatio: '10/3' }}
-					>
-						<div className="bg-secondary absolute inset-0 z-10" style={{ opacity: 0.1 }} />
-						<Image
-							src={thumbnail.url || ''}
-							alt={`Featured image for ${title}`}
-							fill
-							className="object-cover"
-							priority
-						/>
+		<>
+			<article className="mt-8" id="content-view">
+				<RefreshRouteOnSave />
+				<Container as="section" className="max-w-5xl 2xl:max-w-5xl">
+					{folder && typeof folder !== 'number' && (
+						<FolderBreadcrumb folder={folder} pageTitle={title} />
+					)}
+					<div className="flex-start mt-4 mb-2 flex gap-2">
+						{categories?.map(
+							(category) =>
+								typeof category !== 'number' && (
+									<Badge key={category.id} variant="outline">
+										{category.title}
+									</Badge>
+								),
+						)}
 					</div>
-				) : null}
-			</Container>
-			<Container as="section" className="max-w-5xl 2xl:max-w-5xl">
-				{folder && typeof folder !== 'number' && (
-					<FolderBreadcrumb folder={folder} pageTitle={title} />
-				)}
-				<div className="flex-start mt-4 mb-2 flex gap-2">
-					{categories?.map(
-						(category) =>
-							typeof category !== 'number' && (
-								<Badge key={category.id} variant="outline">
-									{category.title}
-								</Badge>
-							),
-					)}
-				</div>
-				<Typography as="h1" size="4xl">
-					{title}
-				</Typography>
-				<div className="mb-6 flex items-center gap-2">
-					{typeof author !== 'number' && author?.avatar && typeof author.avatar !== 'number' ? (
-						<Image
-							src={author.avatar.url ?? '/placeholder.png'}
-							alt={author.firstName}
-							width={24}
-							height={24}
-							className="rounded-full"
-						/>
-					) : (
-						<Icon iconName="user" className="border-muted-foreground h-6 w-6 rounded-full border" />
-					)}
-					<span className="text-sm font-medium">
-						{typeof author !== 'number' ? `${author?.firstName} ${author?.lastName}` : ''}
-					</span>
-					<span className="text-muted-foreground text-xs"> • </span>
-					{publishedAt && (
-						<time dateTime={publishedAt} className="text-muted-foreground text-xs">
-							{new Date(publishedAt).toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric',
-							})}
-						</time>
-					)}
-				</div>
-				{excerpt ? (
-					<Typography as="p" size="lg" className="mt-2 italic">
-						{excerpt}
+					<Typography as="h1" size="4xl">
+						{title}
 					</Typography>
-				) : null}
-			</Container>
-			{/* <RenderBlocks blocks={layout} /> */}
-			<Container as="div" className="overflow-x-scroll">
-				<pre>{JSON.stringify(docs, null, 2)}</pre>
-			</Container>
-		</article>
+					<div className="mb-6 flex items-center gap-2">
+						{typeof author !== 'number' && author?.avatar && typeof author.avatar !== 'number' ? (
+							<Image
+								src={author.avatar.url ?? '/placeholder.png'}
+								alt={author.firstName}
+								width={24}
+								height={24}
+								className="rounded-full"
+							/>
+						) : (
+							<Icon
+								iconName="user"
+								className="border-muted-foreground h-6 w-6 rounded-full border"
+							/>
+						)}
+						<span className="text-sm font-medium">
+							{typeof author !== 'number' ? `${author?.firstName} ${author?.lastName}` : ''}
+						</span>
+						<span className="text-muted-foreground text-xs"> • </span>
+						{publishedAt && (
+							<time dateTime={publishedAt} className="text-muted-foreground text-xs">
+								{new Date(publishedAt).toLocaleDateString('en-US', {
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+								})}
+							</time>
+						)}
+					</div>
+					{excerpt ? (
+						<Typography as="p" size="lg" className="mt-2 italic">
+							{excerpt}
+						</Typography>
+					) : null}
+				</Container>
+				<Container as="section" id="content" className="max-w-5xl overflow-y-scroll 2xl:max-w-5xl">
+					<Typography as="h2" size="2xl" className="mb-4">
+						Headline 1
+					</Typography>
+					<Typography as="p" size="lg">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deleniti possimus at
+						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
+						similique excepturi provident!
+					</Typography>
+					<Typography as="h3" size="2xl" className="mb-4">
+						Sub Headline 1
+					</Typography>
+					<Typography as="p" size="lg">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deleniti possimus at
+						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
+						similique excepturi provident!
+					</Typography>
+
+					<Typography as="h3" size="2xl" className="mb-4">
+						Sub Headline 2
+					</Typography>
+					<Typography as="p" size="lg">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deleniti possimus at
+						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
+						similique excepturi provident!
+					</Typography>
+					<Typography as="h2" size="2xl" className="mb-4">
+						Headline 2
+					</Typography>
+					<Typography as="p" size="lg">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deleniti possimus at
+						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
+						similique excepturi provident!
+					</Typography>
+					<Typography as="h2" size="2xl" className="mb-4">
+						Headline 3
+					</Typography>
+					<Typography as="p" size="lg">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deleniti possimus at
+						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
+						similique excepturi provident!
+					</Typography>
+					<Typography as="h2" size="2xl" className="mb-4">
+						Headline 4
+					</Typography>
+					<Typography as="p" size="lg">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deleniti possimus at
+						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
+						similique excepturi provident!
+					</Typography>
+					<Typography as="h2" size="2xl" className="mb-4">
+						Headline 5
+					</Typography>
+					<Typography as="p" size="lg">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deleniti possimus at
+						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
+						similique excepturi provident!
+					</Typography>
+				</Container>
+				{/* <RenderBlocks blocks={layout} /> */}
+				<Container as="div" className="overflow-x-scroll">
+					<pre>{JSON.stringify(docs, null, 2)}</pre>
+				</Container>
+			</article>
+			<aside className="relative mt-8 flex flex-col gap-4">
+				<Toc contentId="content" containerId="content" />
+			</aside>
+		</>
 	)
 }
