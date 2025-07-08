@@ -9,7 +9,7 @@ type Heading = {
 /**
  * Hook to generate a table of contents from headings in a container
  * and track the active heading based on scroll position.
- *
+ * https://github.com/dninomiya/use-toc
  * @param contentId The ID of the container element containing the headings
  * @param containerId The ID of the container element to observe for scroll events
  * @param targetSelectors The selectors to use to find the headings
