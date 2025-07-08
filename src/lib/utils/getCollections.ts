@@ -153,14 +153,9 @@ export const getAllByCollection = async (
 					publishedAt: true,
 					categories: true,
 					relatedPosts: true,
-					folder: true,
 				},
 				populate: {
 					categories: {
-						title: true,
-						slug: true,
-					},
-					folder: {
 						title: true,
 						slug: true,
 					},

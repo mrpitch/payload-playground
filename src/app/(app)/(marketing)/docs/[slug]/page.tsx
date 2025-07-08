@@ -82,13 +82,13 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 	const { slug } = await paramsPromise
 	const { isEnabled } = await draftMode()
 
-	const page = await getCollectionBySlug({
+	const doc: Doc = await getCollectionBySlug({
 		collection: 'docs',
 		slug: slug || '',
 		draft: isEnabled,
 	})
 
-	return generateMeta({ doc: page } as TGenerateMeta)
+	return generateMeta({ doc: doc } as TGenerateMeta)
 }
 
 export async function generateStaticParams() {
