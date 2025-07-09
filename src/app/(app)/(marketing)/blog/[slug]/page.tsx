@@ -43,10 +43,10 @@ export async function generateStaticParams() {
 
 	return (
 		posts.docs
-			?.filter((doc: Post) => {
+			?.filter((doc) => {
 				return doc && 'slug' in doc && typeof doc.slug === 'string'
 			})
-			.map((doc: Post) => ({ slug: (doc as { slug: string }).slug })) || []
+			.map((doc) => ({ slug: (doc as { slug: string }).slug })) || []
 	)
 }
 

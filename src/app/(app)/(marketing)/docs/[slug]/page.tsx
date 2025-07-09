@@ -55,7 +55,7 @@ function FolderBreadcrumb({ folder, pageTitle }: { folder: any; pageTitle: strin
 			<BreadcrumbList>
 				<BreadcrumbItem>
 					<BreadcrumbLink href="/">
-						<Icon iconName="house" />
+						<Icon iconName="house" className="h-4 w-4" />
 					</BreadcrumbLink>
 				</BreadcrumbItem>
 				<BreadcrumbSeparator />
@@ -83,7 +83,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 	const { slug } = await paramsPromise
 	const { isEnabled } = await draftMode()
 
-	const doc: Doc = await getCollectionBySlug({
+	const doc = await getCollectionBySlug({
 		collection: 'docs',
 		slug: slug || '',
 		draft: isEnabled,
@@ -97,10 +97,10 @@ export async function generateStaticParams() {
 
 	return (
 		docs.docs
-			?.filter((doc: Doc) => {
+			?.filter((doc) => {
 				return doc && 'slug' in doc && typeof doc.slug === 'string'
 			})
-			.map((doc: Doc) => ({ slug: (doc as { slug: string }).slug })) || []
+			.map((doc) => ({ slug: (doc as { slug: string }).slug })) || []
 	)
 }
 
