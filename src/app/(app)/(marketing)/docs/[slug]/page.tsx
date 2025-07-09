@@ -130,6 +130,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 			<article className="mt-8" id="content-view">
 				<RefreshRouteOnSave />
 				<Container as="section" className="max-w-5xl 2xl:max-w-5xl">
+					<Toc contentId="content" containerId="content" type="mobile" />
 					{folder && typeof folder !== 'number' && (
 						<FolderBreadcrumb folder={folder} pageTitle={title} />
 					)}
@@ -181,7 +182,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 						</Typography>
 					) : null}
 				</Container>
-				<Container as="section" id="content" className="max-w-5xl overflow-y-scroll 2xl:max-w-5xl">
+				<Container as="section" id="content" className="max-w-5xl 2xl:max-w-5xl">
 					<Typography as="h2" size="2xl" className="mb-4">
 						Headline 1
 					</Typography>
@@ -241,13 +242,12 @@ export default async function Doc({ params: paramsPromise }: Args) {
 					</Typography>
 				</Container>
 				{/* <RenderBlocks blocks={layout} /> */}
-				<Container as="div" className="overflow-x-scroll">
+				{/* <Container as="div" className="overflow-x-scroll">
 					<pre>{JSON.stringify(docs, null, 2)}</pre>
-				</Container>
+				</Container> */}
 			</article>
-			<aside className="relative mt-8 flex flex-col gap-4">
-				<Toc contentId="content" containerId="content" />
-			</aside>
+
+			<Toc contentId="content" containerId="content" type="desktop" />
 		</>
 	)
 }

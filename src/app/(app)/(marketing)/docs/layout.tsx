@@ -1,27 +1,19 @@
 import { AppSidebar } from '@/app/_components/navigation/sidebar-nav1'
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { SideBarNav } from '../../_components/navigation/sidebar-nav'
+
+import { Container } from '@/components/ui/custom/container'
+import { SidebarProvider } from '@/components/ui/sidebar'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
 	return (
-		<SidebarProvider>
-			<div className="flex flex-1">
-				<aside className="border-foreground-light mt-4 hidden w-auto border-r px-4 md:block">
-					<div className="sticky top-15 h-screen">
+		<Container>
+			<div className="flex min-h-screen">
+				<aside className="border-foreground-light sticky top-[60px] mt-4 hidden w-auto self-start border-r px-4 md:block">
+					<SidebarProvider>
 						<AppSidebar />
-					</div>
+					</SidebarProvider>
 				</aside>
-				<div className="flex flex-1">{children}</div>
+				{children}
 			</div>
-		</SidebarProvider>
+		</Container>
 	)
 }
