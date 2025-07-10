@@ -9,6 +9,7 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Icon } from '@/components/ui/custom/icons'
+import { cn } from '@/lib/utils/cn'
 
 interface TocProps {
 	contentId: string
@@ -17,12 +18,14 @@ interface TocProps {
 }
 
 interface TocComponentProps {
-	headings: { id: string; text: string }[]
+	headings: { id: string; text: string; level: number }[]
 	activeId: string
 }
 
 export const Toc = ({ contentId, containerId, type = 'desktop' }: TocProps) => {
 	const { headings, activeId } = useToc({ contentId, containerId })
+
+	console.log('headings', headings)
 
 	const TocComponent = type === 'desktop' ? DesktopToc : MobileToc
 
@@ -37,14 +40,17 @@ const DesktopToc = ({ headings, activeId }: TocComponentProps) => {
 			</Typography>
 			<ul>
 				{headings.map((heading) => (
-					<li key={heading.id}>
-						<Button
-							className="w-full justify-start"
-							variant={activeId === heading.id ? 'link' : 'neutral'}
-							asChild
+					<li key={heading.id} className={`pl-${(heading.level - 2) * 2} pb-2`}>
+						<a
+							href={`#${heading.id}`}
+							className={cn(
+								'cursor-pointer hover:underline',
+
+								activeId === heading.id ? 'text-primary' : 'text-foreground hover:text-primary',
+							)}
 						>
-							<a href={`#${heading.id}`}>{heading.text}</a>
-						</Button>
+							{heading.text}
+						</a>
 					</li>
 				))}
 			</ul>
@@ -54,28 +60,31 @@ const DesktopToc = ({ headings, activeId }: TocComponentProps) => {
 
 const MobileToc = ({ headings, activeId }: TocComponentProps) => {
 	return (
-		<>
-			<div className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10 border-b backdrop-blur md:hidden">
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="w-full justify-between px-4 py-3">
-							<span className="text-sm font-medium">On this page</span>
-							<Icon iconName="arrowDown" className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent className="w-[calc(100vw-2rem)] max-w-sm">
-						{headings.map((heading) => (
-							<DropdownMenuItem
-								key={heading.id}
-								asChild
-								variant={activeId === heading.id ? 'default' : 'destructive'}
-							>
-								<a href={`#${heading.id}`}>{heading.text}</a>
-							</DropdownMenuItem>
-						))}
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</div>
-		</>
+		<div className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-10 border-b backdrop-blur lg:hidden">
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button variant="ghost" className="w-full justify-between px-4 py-3">
+						<span className="-ml-1.5 text-sm font-normal">On this page</span>
+						<Icon iconName="chevronDown" className="h-4 w-4" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent className="bg-background w-[calc(100vw-2rem)] rounded-none border-none">
+					{headings.map((heading) => (
+						<DropdownMenuItem
+							key={heading.id}
+							asChild
+							className={cn(
+								'cursor-pointer hover:underline',
+								activeId === heading.id ? 'text-primary' : 'text-foreground hover:text-primary',
+							)}
+						>
+							<a href={`#${heading.id}`} className={`pl-${(heading.level - 2) * 2} pb-2`}>
+								{heading.text}
+							</a>
+						</DropdownMenuItem>
+					))}
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</div>
 	)
 }

@@ -14,70 +14,11 @@ import { RenderBlocks } from '@/components/utils/render-blocks'
 import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
 
 import { Badge } from '@/components/ui/badge'
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbLink,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-
+import { BreadcrumbNav } from '@/components/layout/breadcrumb-nav'
 import { Container } from '@/components/ui/custom/container'
 import { Typography } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
 import { Toc } from '@/components/layout/toc'
-
-// Utility function to build breadcrumb trail
-function buildBreadcrumbTrail(folder: any): Array<{ id: number; name: string; slug?: string }> {
-	const trail: Array<{ id: number; name: string; slug?: string }> = []
-
-	// Recursively traverse up the folder hierarchy
-	let currentFolder = folder
-	while (currentFolder) {
-		trail.unshift({
-			id: currentFolder.id,
-			name: currentFolder.name,
-			slug: currentFolder.slug || currentFolder.name?.toLowerCase().replace(/\s+/g, '-'),
-		})
-		currentFolder = currentFolder.folder
-	}
-
-	return trail
-}
-
-// Component to render breadcrumbs
-function FolderBreadcrumb({ folder, pageTitle }: { folder: any; pageTitle: string }) {
-	const breadcrumbTrail = buildBreadcrumbTrail(folder)
-
-	return (
-		<Breadcrumb className="mb-8">
-			<BreadcrumbList>
-				<BreadcrumbItem>
-					<BreadcrumbLink href="/">
-						<Icon iconName="house" className="h-4 w-4" />
-					</BreadcrumbLink>
-				</BreadcrumbItem>
-				<BreadcrumbSeparator />
-
-				{/* Render all folders as links */}
-				{breadcrumbTrail.map((item, index) => (
-					<Fragment key={item.id}>
-						<BreadcrumbItem>
-							<BreadcrumbLink href={`/${item.slug}`}>{item.name}</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator />
-					</Fragment>
-				))}
-
-				{/* Always render the current page as the last item */}
-				<BreadcrumbItem>
-					<BreadcrumbPage>{pageTitle}</BreadcrumbPage>
-				</BreadcrumbItem>
-			</BreadcrumbList>
-		</Breadcrumb>
-	)
-}
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise
@@ -130,10 +71,12 @@ export default async function Doc({ params: paramsPromise }: Args) {
 			<article className="mt-8" id="content-view">
 				<RefreshRouteOnSave />
 				<Container as="section" className="max-w-5xl 2xl:max-w-5xl">
-					<Toc contentId="content" containerId="content" type="mobile" />
-					{folder && typeof folder !== 'number' && (
-						<FolderBreadcrumb folder={folder} pageTitle={title} />
-					)}
+					<div className="mb-8">
+						{folder && typeof folder !== 'number' && (
+							<BreadcrumbNav folder={folder} pageTitle={title} />
+						)}
+						<Toc contentId="content" containerId="content" type="mobile" />
+					</div>
 					<div className="flex-start mt-4 mb-2 flex gap-2">
 						{categories?.map(
 							(category) =>

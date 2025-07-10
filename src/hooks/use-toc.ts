@@ -40,9 +40,19 @@ export const useToc = ({
 	const [headings, setHeadings] = useState<Heading[]>([])
 	const [activeId, setActiveId] = useState('')
 
+	const tocCache: Record<string, Heading[]> = {}
+
 	useEffect(() => {
 		if (!('IntersectionObserver' in window)) {
 			console.warn('IntersectionObserver is not supported by your browser.')
+			return
+		}
+
+		const cacheKey = `${contentId}:${targetSelectors}`
+
+		// Check cache first
+		if (tocCache[cacheKey]) {
+			setHeadings(tocCache[cacheKey])
 			return
 		}
 
@@ -79,13 +89,14 @@ export const useToc = ({
 			allElements = allElements.filter((heading) => !ignoreIds.includes(heading.id))
 		}
 
-		setHeadings(
-			headingElements.map((heading) => ({
-				id: heading.id || heading.textContent!,
-				text: heading.textContent!,
-				level: Number(heading.tagName.replace('H', '')),
-			})),
-		)
+		const headingsList = headingElements.map((heading) => ({
+			id: heading.id || heading.textContent!,
+			text: heading.textContent!,
+			level: Number(heading.tagName.replace('H', '')),
+		}))
+
+		tocCache[cacheKey] = headingsList
+		setHeadings(headingsList)
 
 		const container = containerId && document.getElementById(containerId)
 
