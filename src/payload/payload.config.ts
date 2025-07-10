@@ -64,8 +64,19 @@ export default buildConfig({
 		debug: true, // optional
 		collectionOverrides: [
 			async ({ collection }: { collection: CollectionConfig }) => {
-				//console.log('collection', collection)
-				return collection
+				const folderCollection: CollectionConfig = {
+					...collection,
+					fields: [
+						...(collection.fields || []),
+						{
+							name: 'order',
+							type: 'number',
+							label: 'Order',
+						},
+					],
+				}
+
+				return folderCollection
 			},
 		], // optional
 		fieldName: 'folder', // optional

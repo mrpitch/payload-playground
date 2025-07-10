@@ -320,6 +320,7 @@ export interface FolderInterface {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -910,6 +911,7 @@ export interface PayloadFoldersSelect<T extends boolean = true> {
   name?: T;
   folder?: T;
   documentsAndFolders?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }

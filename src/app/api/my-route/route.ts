@@ -6,8 +6,11 @@ export const GET = async () => {
 		config: configPromise,
 	})
 
+	// const data = await payload.find({
+	// 	collection: 'users',
+	// }
 	const data = await payload.find({
-		collection: 'users',
+		collection: 'payload-folders',
 	})
 
 	return Response.json(data)

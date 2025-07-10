@@ -15,7 +15,7 @@ const generateURL: GenerateURL<Page> = ({ doc }: { doc: Page }) => {
 	return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
-export const plugins: Plugin[] = [
+export const plugins = [
 	seoPlugin({
 		generateTitle,
 		generateURL,
