@@ -6,8 +6,8 @@ export function middleware(req: NextRequest) {
 
 	// Check for preview mode
 	const isPreview = req.cookies.get('__next_preview_data') || req.cookies.get('__prerender_bypass')
-	console.log('isPreview', !isPreview)
-	console.log('pathname', pathname)
+	//console.log('isPreview', !isPreview)
+	//console.log('pathname', pathname)
 	// If not in preview mode and trying to access preview content
 	if (!isPreview && pathname.startsWith('/preview')) {
 		//console.log('isPreview', isPreview)
