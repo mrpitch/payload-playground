@@ -82,7 +82,7 @@ export interface Config {
   };
   collectionsJoins: {
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'docs';
+      documentsAndFolders: 'payload-folders' | 'docs' | 'media';
     };
   };
   collectionsSelect: {
@@ -175,10 +175,9 @@ export interface Doc {
     description?: string | null;
   };
   layout?: (QuoteBlock | CopyBlock)[] | null;
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
   publishedAt?: string | null;
   author: number | User;
+  categories?: (number | Category)[] | null;
   folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -192,6 +191,7 @@ export interface Media {
   id: number;
   alt: string;
   prefix?: string | null;
+  folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -203,6 +203,36 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders".
+ */
+export interface FolderInterface {
+  id: number;
+  name: string;
+  folder?: (number | null) | FolderInterface;
+  documentsAndFolders?: {
+    docs?: (
+      | {
+          relationTo?: 'payload-folders';
+          value: number | FolderInterface;
+        }
+      | {
+          relationTo?: 'docs';
+          value: number | Doc;
+        }
+      | {
+          relationTo?: 'media';
+          value: number | Media;
+        }
+    )[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -243,33 +273,6 @@ export interface CopyBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt?: string | null;
-  thumbnail?: (number | null) | Media;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  layout?: (QuoteBlock | CopyBlock)[] | null;
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
-  publishedAt?: string | null;
-  author: number | User;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -297,32 +300,6 @@ export interface User {
       }[]
     | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-folders".
- */
-export interface FolderInterface {
-  id: number;
-  name: string;
-  folder?: (number | null) | FolderInterface;
-  documentsAndFolders?: {
-    docs?: (
-      | {
-          relationTo?: 'payload-folders';
-          value: number | FolderInterface;
-        }
-      | {
-          relationTo?: 'docs';
-          value: number | Doc;
-        }
-    )[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -396,6 +373,33 @@ export interface BlogTeaserBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'blog-teaser';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  thumbnail?: (number | null) | Media;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  layout?: (QuoteBlock | CopyBlock)[] | null;
+  publishedAt?: string | null;
+  author: number | User;
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -661,10 +665,9 @@ export interface DocsSelect<T extends boolean = true> {
         quote?: T | QuoteBlockSelect<T>;
         copy?: T | CopyBlockSelect<T>;
       };
-  relatedPosts?: T;
-  categories?: T;
   publishedAt?: T;
   author?: T;
+  categories?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -789,10 +792,10 @@ export interface PostsSelect<T extends boolean = true> {
         quote?: T | QuoteBlockSelect<T>;
         copy?: T | CopyBlockSelect<T>;
       };
-  relatedPosts?: T;
-  categories?: T;
   publishedAt?: T;
   author?: T;
+  relatedPosts?: T;
+  categories?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -891,6 +894,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   prefix?: T;
+  folder?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

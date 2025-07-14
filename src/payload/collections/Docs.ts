@@ -23,14 +23,14 @@ export const Docs: CollectionConfig = {
 	folders: true,
 	admin: {
 		useAsTitle: 'title',
-		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+		defaultColumns: ['title', 'folder', 'slug', 'publishedAt', 'status'],
 		livePreview: {
-			url: ({ data }: { data: { slug: string } }) => {
+			url: ({ data }) => {
 				return generatePreviewPath(`docs`, data.slug)
 			},
 			breakpoints: breakpoints,
 		},
-		preview: (data: { slug: string }) => generatePreviewPath(`docs`, data.slug),
+		preview: (data) => generatePreviewPath(`docs`, data.slug as string),
 	},
 	versions: {
 		drafts: {
@@ -121,36 +121,6 @@ export const Docs: CollectionConfig = {
 						},
 					],
 				},
-				{
-					label: 'Meta',
-					fields: [
-						{
-							name: 'relatedPosts',
-							type: 'relationship',
-							admin: {
-								position: 'sidebar',
-							},
-							filterOptions: ({ id }: { id: string }) => {
-								return {
-									id: {
-										not_in: [id],
-									},
-								}
-							},
-							hasMany: true,
-							relationTo: 'posts',
-						},
-						{
-							name: 'categories',
-							type: 'relationship',
-							admin: {
-								position: 'sidebar',
-							},
-							hasMany: true,
-							relationTo: 'categories',
-						},
-					],
-				},
 			],
 		},
 		{
@@ -194,6 +164,15 @@ export const Docs: CollectionConfig = {
 					},
 				],
 			},
+		},
+		{
+			name: 'categories',
+			type: 'relationship',
+			admin: {
+				position: 'sidebar',
+			},
+			hasMany: true,
+			relationTo: 'categories',
 		},
 	],
 	hooks: {

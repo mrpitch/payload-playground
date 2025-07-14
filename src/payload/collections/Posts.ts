@@ -119,36 +119,6 @@ export const Posts: CollectionConfig = {
 						},
 					],
 				},
-				{
-					label: 'Meta',
-					fields: [
-						{
-							name: 'relatedPosts',
-							type: 'relationship',
-							admin: {
-								position: 'sidebar',
-							},
-							filterOptions: ({ id }) => {
-								return {
-									id: {
-										not_in: [id],
-									},
-								}
-							},
-							hasMany: true,
-							relationTo: 'posts',
-						},
-						{
-							name: 'categories',
-							type: 'relationship',
-							admin: {
-								position: 'sidebar',
-							},
-							hasMany: true,
-							relationTo: 'categories',
-						},
-					],
-				},
 			],
 		},
 		{
@@ -192,6 +162,31 @@ export const Posts: CollectionConfig = {
 					},
 				],
 			},
+		},
+		{
+			name: 'relatedPosts',
+			type: 'relationship',
+			admin: {
+				position: 'sidebar',
+			},
+			filterOptions: ({ id }) => {
+				return {
+					id: {
+						not_in: [id],
+					},
+				}
+			},
+			hasMany: true,
+			relationTo: 'posts',
+		},
+		{
+			name: 'categories',
+			type: 'relationship',
+			admin: {
+				position: 'sidebar',
+			},
+			hasMany: true,
+			relationTo: 'categories',
 		},
 	],
 	hooks: {

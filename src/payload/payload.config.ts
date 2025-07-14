@@ -42,7 +42,7 @@ export default buildConfig({
 			views: {
 				customView: {
 					path: '/my-custom-view',
-					Component: './components/views/my-custom-view.tsx',
+					Component: './views/my-custom-view.tsx',
 					meta: {
 						title: 'My Custom View',
 						description: 'The best Custom View in the world',
@@ -66,12 +66,20 @@ export default buildConfig({
 			async ({ collection }: { collection: CollectionConfig }) => {
 				const folderCollection: CollectionConfig = {
 					...collection,
+					admin: {
+						...collection.admin,
+						defaultColumns: ['name', 'order', 'createdAt', 'updatedAt'],
+					},
+					defaultSort: 'order',
+					orderable: true,
 					fields: [
 						...(collection.fields || []),
 						{
 							name: 'order',
 							type: 'number',
 							label: 'Order',
+							defaultValue: 0,
+							required: false,
 						},
 					],
 				}
