@@ -40,9 +40,9 @@ export const useToc = ({
 	const [headings, setHeadings] = useState<Heading[]>([])
 	const [activeId, setActiveId] = useState('')
 
-	const tocCache: Record<string, Heading[]> = {}
-
 	useEffect(() => {
+		const tocCache: Record<string, Heading[]> = {}
+
 		if (!('IntersectionObserver' in window)) {
 			console.warn('IntersectionObserver is not supported by your browser.')
 			return

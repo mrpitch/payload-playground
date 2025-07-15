@@ -1,5 +1,4 @@
 import { CollectionConfig } from 'payload'
-import type { FieldHookArgs } from 'payload'
 
 import { adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
@@ -134,11 +133,11 @@ export const Docs: CollectionConfig = {
 			},
 			hooks: {
 				beforeChange: [
-					(args: FieldHookArgs<any, any, any>) => {
-						if (args.siblingData?._status === 'published' && !args.value) {
+					({ siblingData, value }) => {
+						if (siblingData?._status === 'published' && !value) {
 							return new Date()
 						}
-						return args.value
+						return value
 					},
 				],
 			},
@@ -153,14 +152,14 @@ export const Docs: CollectionConfig = {
 			},
 			hooks: {
 				beforeChange: [
-					(args: FieldHookArgs<any, any, any>) => {
+					({ req, value }) => {
 						// If there's no author set and we have a user
-						if (!args.value && args.req.user) {
-							console.log('value', args.value)
-							console.log('req', args.req.user)
-							return args.req.user.id
+						if (!value && req.user) {
+							console.log('value', value)
+							console.log('req', req.user)
+							return req.user.id
 						}
-						return args.value
+						return value
 					},
 				],
 			},

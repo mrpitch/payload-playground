@@ -45,37 +45,41 @@ const GalleryItem = ({ imageUrl, alt, isEven }: IGalleryItemProps) => {
 	)
 }
 
+// Type guard to check if image is valid
+const isValidImage = (image: any): image is { url: string; alt?: string } => {
+	return image && typeof image === 'object' && typeof image.url === 'string'
+}
+
+// Helper function to safely get image URL
+const getImageUrl = (image: any): string => {
+	return isValidImage(image) ? image.url : ''
+}
+
+// Helper function to safely get image alt
+const getImageAlt = (image: any): string => {
+	return isValidImage(image) ? image.alt || 'Gallery image' : 'Gallery image'
+}
+
 export function EmailGallery({ block }: { block: EmailGalleryBlock }) {
 	const { headline, type = '4grid', gallery, tagline, copy } = block
 
 	const layout = layoutConfigs[type as GridType] || layoutConfigs['4grid']
 
 	const items = gallery?.map((item, i) => {
-		//console.log('item', item)
 		const isEven = i % 2 === 0
 		return (
 			<React.Fragment key={i}>
 				{isEven && (
 					<Row className="mt-[16px]">
 						<GalleryItem
-							imageUrl={typeof item.image === 'object' && item.image?.url ? item.image.url : ''}
-							alt={typeof item.image === 'object' ? item.image.alt : 'Gallery image'}
+							imageUrl={isValidImage(item.image) ? item.image.url : ''}
+							alt={isValidImage(item.image) ? item.image.alt || 'Gallery image' : 'Gallery image'}
 							isEven={isEven}
 						/>
-						{gallery[i + 1] && (
+						{gallery?.[i + 1] && (
 							<GalleryItem
-								imageUrl={
-									gallery[i + 1] &&
-									typeof gallery[i + 1].image === 'object' &&
-									gallery[i + 1].image?.url
-										? gallery[i + 1].image.url
-										: ''
-								}
-								alt={
-									gallery[i + 1] && typeof gallery[i + 1].image === 'object'
-										? gallery[i + 1].image.alt
-										: 'Gallery image'
-								}
+								imageUrl={getImageUrl(gallery[i + 1]?.image)}
+								alt={getImageAlt(gallery[i + 1]?.image)}
 								isEven={false}
 							/>
 						)}

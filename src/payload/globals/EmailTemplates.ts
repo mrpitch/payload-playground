@@ -10,6 +10,7 @@ import {
 	UnorderedListFeature,
 	OrderedListFeature,
 	UnderlineFeature,
+	type FeatureProviderServer,
 } from '@payloadcms/richtext-lexical'
 
 export const EmailTemplates: GlobalConfig = {
@@ -167,7 +168,7 @@ export const EmailTemplates: GlobalConfig = {
 							type: 'richText',
 							required: true,
 							editor: lexicalEditor({
-								features({ rootFeatures }) {
+								features({ rootFeatures }: { rootFeatures: FeatureProviderServer[] }) {
 									return [
 										...rootFeatures,
 										BoldFeature(),
