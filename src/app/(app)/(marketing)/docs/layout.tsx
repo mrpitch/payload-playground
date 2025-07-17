@@ -1,7 +1,7 @@
 import { AppSidebar } from '@/app/_components/navigation/sidebar-nav1'
 
 import { Container } from '@/components/ui/custom/container'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
 	return (

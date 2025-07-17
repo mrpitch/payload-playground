@@ -8,11 +8,13 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { Icon } from '@/components/ui/custom/icons'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import type { FolderInterface } from '@/payload/payload-types'
 
 // Utility function to build breadcrumb trail
-function buildBreadcrumbTrail(folder: any): Array<{ id: number; name: string; slug?: string }> {
+function buildBreadcrumbTrail(
+	folder: FolderInterface | null,
+): Array<{ id: number; name: string; slug?: string }> {
 	const trail: Array<{ id: number; name: string; slug?: string }> = []
 
 	// Recursively traverse up the folder hierarchy
@@ -21,16 +23,22 @@ function buildBreadcrumbTrail(folder: any): Array<{ id: number; name: string; sl
 		trail.unshift({
 			id: currentFolder.id,
 			name: currentFolder.name,
-			slug: currentFolder.slug || currentFolder.name?.toLowerCase().replace(/\s+/g, '-'),
+			slug: currentFolder.name?.toLowerCase().replace(/\s+/g, '-'),
 		})
-		currentFolder = currentFolder.folder
+		currentFolder = currentFolder.folder as FolderInterface | null
 	}
 
 	return trail
 }
 
 // Component to render breadcrumbs
-export function BreadcrumbNav({ folder, pageTitle }: { folder: any; pageTitle: string }) {
+export function BreadcrumbNav({
+	folder,
+	pageTitle,
+}: {
+	folder: FolderInterface | null
+	pageTitle: string
+}) {
 	const breadcrumbTrail = buildBreadcrumbTrail(folder)
 
 	return (
@@ -42,7 +50,7 @@ export function BreadcrumbNav({ folder, pageTitle }: { folder: any; pageTitle: s
 				<BreadcrumbSeparator>|</BreadcrumbSeparator>
 
 				{/* Render all folders as links */}
-				{breadcrumbTrail.map((item, index) => (
+				{breadcrumbTrail.map((item) => (
 					<Fragment key={item.id}>
 						<BreadcrumbItem>
 							<BreadcrumbLink href={`/${item.slug}`}>{item.name}</BreadcrumbLink>

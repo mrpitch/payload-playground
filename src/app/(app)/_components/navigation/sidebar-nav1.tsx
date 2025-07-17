@@ -10,12 +10,9 @@ import {
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
-	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarRail,
-	SidebarTrigger,
 } from '@/components/ui/sidebar'
 
 // This is sample data.

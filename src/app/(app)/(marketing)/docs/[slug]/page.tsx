@@ -64,7 +64,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories, layout, thumbnail, excerpt, author, folder } = docs as Doc
+	const { title, publishedAt, categories, layout, excerpt, author, folder } = docs as Doc
 
 	return (
 		<>
@@ -184,7 +184,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 						similique excepturi provident!
 					</Typography>
 				</Container>
-				{/* <RenderBlocks blocks={layout} /> */}
+				<RenderBlocks blocks={layout} />
 				{/* <Container as="div" className="overflow-x-scroll">
 					<pre>{JSON.stringify(docs, null, 2)}</pre>
 				</Container> */}

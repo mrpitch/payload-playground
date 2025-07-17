@@ -1,17 +1,13 @@
 import {
 	Body,
-	Column,
 	Container,
 	Head,
 	Hr,
 	Html,
 	Img,
-	Link,
 	Preview,
-	Row,
 	Section,
 	Tailwind,
-	Text,
 } from '@react-email/components'
 
 import { cn } from '@/lib/utils/cn'
