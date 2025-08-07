@@ -15,7 +15,7 @@ export const getSlugs = async (collection: TCollection, draft?: boolean, limit?:
 		async () => {
 			return await payload.find({
 				collection: collection,
-				draft: draft || false,
+				draft: true,
 				limit: limit || 1000,
 				overrideAccess: true,
 				pagination: false,

@@ -1,7 +1,9 @@
 import { CollectionConfig } from 'payload'
+import type { FieldHookArgs } from 'payload'
 
 import { admin, adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
+import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
 import {
 	MetaDescriptionField,
@@ -17,11 +19,18 @@ import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { StageBlock } from '@/payload/blocks/stage-block'
 import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
 
+import { breakpoints } from '@/payload/utils/breakpoints'
+
 export const Pages: CollectionConfig = {
 	slug: 'pages',
 	admin: {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+		livePreview: {
+			url: ({ data }: { data: Record<string, any> }) => generatePreviewPath('', data.slug),
+			breakpoints: breakpoints,
+		},
+		preview: (doc: Record<string, unknown>) => generatePreviewPath('', doc.slug as string),
 	},
 	versions: {
 		drafts: {
@@ -111,11 +120,11 @@ export const Pages: CollectionConfig = {
 			},
 			hooks: {
 				beforeChange: [
-					({ siblingData, value }) => {
-						if (siblingData._status === 'published' && !value) {
+					(args: FieldHookArgs<any, any, any>) => {
+						if (args.siblingData?._status === 'published' && !args.value) {
 							return new Date()
 						}
-						return value
+						return args.value
 					},
 				],
 			},

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { draftMode } from 'next/headers'
 
 import { siteConfig } from '@/lib/config'
 import { getSession } from '@/lib/actions/get-session'
@@ -9,6 +10,7 @@ import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
 import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
 import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
+import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
 
 interface HeaderProps {
 	mainNavigation?: AppShell['mainNavigation']
@@ -17,6 +19,7 @@ interface HeaderProps {
 
 export async function Header({ mainNavigation, profileNavigation }: HeaderProps) {
 	const user = await getSession()
+	const { isEnabled } = await draftMode()
 
 	return (
 		<div className="border-foreground-light bg-background w-full border-b">
@@ -31,6 +34,7 @@ export async function Header({ mainNavigation, profileNavigation }: HeaderProps)
 					<div className="flex items-center justify-end">
 						<ProfileNav items={profileNavigation?.navItems ?? undefined} user={user} />
 						<ThemeToggle />
+						{isEnabled ? <DisablePreviewButton /> : null}
 						<DrawerNav items={mainNavigation?.navItems ?? undefined} />
 					</div>
 				</div>

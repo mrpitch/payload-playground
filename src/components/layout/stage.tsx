@@ -40,7 +40,6 @@ export default function Stage({
 				/>
 				<div className="bg-secondary absolute inset-0" style={{ opacity: overlayOpacity }} />
 			</div>
-
 			{/* Content */}
 			<Container className="relative flex h-full w-full items-center">
 				<div className="px-4 py-12 md:px-6">

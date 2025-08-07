@@ -14,11 +14,22 @@ import {
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { CopyBlock } from '@/payload/blocks/copy-block'
 
+import { breakpoints } from '@/payload/utils/breakpoints'
+import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
+
 export const Posts: CollectionConfig = {
 	slug: 'posts',
+	folders: true,
 	admin: {
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+		livePreview: {
+			url: ({ data }) => {
+				return generatePreviewPath(`blog`, data.slug)
+			},
+			breakpoints: breakpoints,
+		},
+		preview: (data) => generatePreviewPath(`blog`, data.slug as string),
 	},
 	versions: {
 		drafts: {
