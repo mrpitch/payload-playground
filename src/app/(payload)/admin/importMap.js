@@ -17,8 +17,9 @@ import { ParagraphFeatureClient as ParagraphFeatureClient_e70f5e05f09f93e00b997e
 import { HeadingFeatureClient as HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { InlineToolbarFeatureClient as InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { FolderTableCell as FolderTableCell_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
-import { FolderEditField as FolderEditField_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
+import { FolderField as FolderField_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 import { newsletter as newsletter_19d2147f71e562776f0451fb668e198d } from '../../../payload/components/email-preview'
+import { FolderTypeField as FolderTypeField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { verifyEmail as verifyEmail_19d2147f71e562776f0451fb668e198d } from '../../../payload/components/email-preview'
 import { passwordReset as passwordReset_19d2147f71e562776f0451fb668e198d } from '../../../payload/components/email-preview'
 import { default as default_89d0e8c6334958a20a07ea2a5169e3e8 } from '../../../payload/components/avatar.tsx'
@@ -26,7 +27,7 @@ import { default as default_3d54692f952a4077fdcf382e43745351 } from '../../../pa
 import { default as default_a00caba113209666e61d893d06127258 } from '../../../payload/components/logo.tsx'
 import { LinkToCustomView as LinkToCustomView_467709ff245671dd3f36b52036d3076b } from '../../../payload/components/nav-links'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
-import { default as default_6df7f71a5b7b20c4cb9ba0ed621793a2 } from '../../../payload/components/views/my-custom-view.tsx'
+import { default as default_1e2964ad239735bf50e5e57739acfc0d } from '../../../payload/views/my-custom-view.tsx'
 
 export const importMap = {
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
@@ -48,8 +49,9 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#HeadingFeatureClient": HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient": InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/ui/rsc#FolderTableCell": FolderTableCell_ab83ff7e88da8d3530831f296ec4756a,
-  "@payloadcms/ui/rsc#FolderEditField": FolderEditField_ab83ff7e88da8d3530831f296ec4756a,
+  "@payloadcms/ui/rsc#FolderField": FolderField_ab83ff7e88da8d3530831f296ec4756a,
   "./components/email-preview#newsletter": newsletter_19d2147f71e562776f0451fb668e198d,
+  "@payloadcms/ui#FolderTypeField": FolderTypeField_3817bf644402e67bfe6577f60ef982de,
   "./components/email-preview#verifyEmail": verifyEmail_19d2147f71e562776f0451fb668e198d,
   "./components/email-preview#passwordReset": passwordReset_19d2147f71e562776f0451fb668e198d,
   "./components/avatar.tsx#default": default_89d0e8c6334958a20a07ea2a5169e3e8,
@@ -57,5 +59,5 @@ export const importMap = {
   "./components/logo.tsx#default": default_a00caba113209666e61d893d06127258,
   "./components/nav-links#LinkToCustomView": LinkToCustomView_467709ff245671dd3f36b52036d3076b,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
-  "./components/views/my-custom-view.tsx#default": default_6df7f71a5b7b20c4cb9ba0ed621793a2
+  "./views/my-custom-view.tsx#default": default_1e2964ad239735bf50e5e57739acfc0d
 }

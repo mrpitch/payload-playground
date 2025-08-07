@@ -10,17 +10,10 @@ import {
 } from '@/lib/styles/fonts/index'
 import '@/lib/styles/globals.css'
 
-import { siteConfig } from '@/lib/config'
-
 import { ThemeProvider } from '@/components/utils/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { useThemeStore } from '@/lib/store/theme-store'
 export const metadata: Metadata = {
-	title: {
-		default: siteConfig.name,
-		template: `%s - ${siteConfig.name}`,
-	},
-	description: siteConfig.description,
 	icons: {
 		icon: '/favicon.ico',
 		shortcut: '/favicon-16x16.png',

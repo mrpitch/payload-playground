@@ -17,14 +17,16 @@ import { seed } from '@/payload/utils/seed/seed'
 
 import { AppShell } from '@/payload/globals/AppShell'
 import { EmailTemplates } from '@/payload/globals/EmailTemplates'
+import { Categories } from '@/payload/collections/Categories'
+import { Docs } from '@/payload/collections/Docs'
 import { Users } from '@/payload/collections/Users'
 import { Media } from '@/payload/collections/Media'
 import { Pages } from '@/payload/collections/Pages'
 import { Posts } from '@/payload/collections/Posts'
-import { Categories } from '@/payload/collections/Categories'
 import { Newsletter } from '@/payload/collections/Newsletter'
 
 import { i18n, localization } from '@/payload/i18n/localization'
+import type { CollectionConfig } from 'payload'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -40,7 +42,7 @@ export default buildConfig({
 			views: {
 				customView: {
 					path: '/my-custom-view',
-					Component: './components/views/my-custom-view.tsx',
+					Component: './views/my-custom-view.tsx',
 					meta: {
 						title: 'My Custom View',
 						description: 'The best Custom View in the world',
@@ -57,12 +59,32 @@ export default buildConfig({
 		},
 	},
 	globals: [AppShell, EmailTemplates],
-	collections: [Pages, Posts, Categories, Newsletter, Users, Media],
+	collections: [Categories, Docs, Pages, Posts, Newsletter, Users, Media],
 	folders: {
 		debug: true, // optional
 		collectionOverrides: [
-			async ({ collection }) => {
-				return collection
+			async ({ collection }: { collection: CollectionConfig }) => {
+				const folderCollection: CollectionConfig = {
+					...collection,
+					admin: {
+						...collection.admin,
+						defaultColumns: ['name', 'order', 'createdAt', 'updatedAt'],
+					},
+					defaultSort: 'order',
+					orderable: true,
+					fields: [
+						...(collection.fields || []),
+						{
+							name: 'order',
+							type: 'number',
+							label: 'Order',
+							defaultValue: 0,
+							required: false,
+						},
+					],
+				}
+
+				return folderCollection
 			},
 		], // optional
 		fieldName: 'folder', // optional
@@ -72,9 +94,9 @@ export default buildConfig({
 		features({
 			rootFeatures,
 		}: {
-			defaultFeatures: FeatureProviderServer<any, any, any>[]
-			rootFeatures: FeatureProviderServer<any, any, any>[]
-		}): FeatureProviderServer<any, any, any>[] {
+			defaultFeatures: FeatureProviderServer[]
+			rootFeatures: FeatureProviderServer[]
+		}) {
 			return [...rootFeatures, InlineToolbarFeature()]
 		},
 	}),
@@ -85,12 +107,13 @@ export default buildConfig({
 	db: postgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || '',
-			ssl:
-				process.env.NODE_ENV === 'production'
-					? {
-							rejectUnauthorized: false,
-						}
-					: false,
+			ssl: false,
+			// ssl:
+			// 	process.env.NODE_ENV === 'production'
+			// 		? {
+			// 				rejectUnauthorized: false,
+			// 			}
+			// 		: false,
 			max: 20, // Maximum number of connections in the pool
 			idleTimeoutMillis: 30000, // How long a connection can be idle before being closed
 			connectionTimeoutMillis: 2000, // How long to wait for a connection

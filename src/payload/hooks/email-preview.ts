@@ -59,7 +59,7 @@ export function useEmailPreview<T extends TEmailTemplateType>({
 	// State for storing the rendered HTML
 	const [html, setHtml] = useState('')
 	// State for tracking previous saved data to prevent infinite loops
-	const [prevSavedData, setPrevSavedData] = useState<any>(null)
+	const [prevSavedData, setPrevSavedData] = useState<typeof savedDocumentData | null>(null)
 
 	// Get document info from PayloadCMS
 	const { apiURL, collectionSlug, id, savedDocumentData } = useDocumentInfo()
@@ -157,7 +157,7 @@ export function useEmailPreview<T extends TEmailTemplateType>({
 		}
 
 		renderPreview()
-	}, [Component, templateData, footerData, type, savedDocumentData])
+	}, [Component, templateData, footerData, type, savedDocumentData, prevSavedData, setParams])
 
 	return {
 		html,

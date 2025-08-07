@@ -102,6 +102,7 @@ export const seed = async (payload: Payload): Promise<void> => {
 			})
 		} catch (error) {
 			console.error('Database not initialized. Please run migrations first.')
+			console.error('Error details:', error)
 			process.exit(1)
 		}
 
