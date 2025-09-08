@@ -30,7 +30,9 @@ export const Logo: React.FC<ILogoProps> = ({ name, className }) => {
 					fill="currentColor"
 				/>
 			</svg>
-			{name ? <span className="hidden font-semibold md:inline-block">{name}</span> : null}
+			{name ? (
+				<span className="text-foreground hidden font-semibold md:inline-block">{name}</span>
+			) : null}
 		</div>
 	)
 }

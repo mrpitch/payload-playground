@@ -91,7 +91,7 @@ export async function BlogTeaser({
 										className="border-muted-foreground h-6 w-6 rounded-full border"
 									/>
 								)}
-								<span className="text-sm font-medium">
+								<span className="text-foreground text-sm font-medium">
 									{typeof post.author !== 'number'
 										? `${post.author?.firstName} ${post.author?.lastName}`
 										: ''}

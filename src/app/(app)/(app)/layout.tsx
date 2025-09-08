@@ -24,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 	}
 	return (
 		<div className="flex h-screen flex-col">
-			<header className="border-foreground-light bg-background flex items-center justify-between border-b py-2">
+			<header className="bg-background flex items-center justify-between border-b py-2">
 				<Link href="/">
 					<Logo className="text-foreground" name={siteConfig.name} />
 				</Link>
@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				</div>
 			</header>
 			<div className="flex flex-1 overflow-hidden">
-				<aside className="border-foreground-light mt-4 hidden h-screen w-14 self-start overflow-y-auto border-r px-4 md:block">
+				<aside className="mt-4 hidden h-screen w-14 self-start overflow-y-auto border-r px-4 md:block">
 					<SideBarNav items={sideBarNavigation?.navItems ?? undefined} />
 				</aside>
 				<div className="flex flex-1 overflow-y-auto p-8">{children}</div>
