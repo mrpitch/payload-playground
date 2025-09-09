@@ -7,8 +7,8 @@ import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'
 import React from 'react'
 
 import { importMap } from './admin/importMap.js'
-import './payloadShadcn.css'
 import './custom.scss'
+import './payloadShadcn.css'
 
 import { Toaster } from '@/components/ui/custom/toast'
 
