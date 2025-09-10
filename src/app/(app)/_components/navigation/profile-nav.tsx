@@ -66,7 +66,7 @@ export const ProfileNav = ({ items, user }: IMainNavProps) => {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			) : (
-				<Link href="/login" className={cn(buttonVariants({ variant: 'neutral', size: 'icon' }))}>
+				<Link href="/login" className={cn(buttonVariants({ variant: 'link', size: 'icon' }))}>
 					<Icon iconName="logIn" className="h-5 w-5" />
 					<span className="sr-only">log in</span>
 				</Link>

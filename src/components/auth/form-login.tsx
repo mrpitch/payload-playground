@@ -105,7 +105,7 @@ export function FormLogin() {
 								)}
 							/>
 							<Link
-								className={cn(buttonVariants({ variant: 'neutral' }), 'px-0')}
+								className={cn(buttonVariants({ variant: 'link' }), 'px-0')}
 								href="/reset-password"
 							>
 								Forgot password?
@@ -124,7 +124,7 @@ export function FormLogin() {
 				</form>
 			</Form>
 			<div className="mt-6 space-y-6">
-				<Link className={cn(buttonVariants({ variant: 'neutral' }), 'w-full')} href="/register">
+				<Link className={cn(buttonVariants({ variant: 'link' }), 'w-full')} href="/register">
 					Create new Account
 				</Link>
 			</div>

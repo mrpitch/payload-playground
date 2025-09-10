@@ -22,7 +22,7 @@ export const DrawerNav: React.FC<IDrawerNavProps> = ({ items }) => {
 	return (
 		<Sheet>
 			<SheetTrigger asChild>
-				<Button size="icon" variant="neutral" className="md:hidden">
+				<Button size="icon" variant="link" className="md:hidden">
 					<Icon iconName="menu" className="h-5 w-5" />
 					<span className="sr-only">Toggle Menu</span>
 				</Button>

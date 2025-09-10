@@ -1,4 +1,4 @@
-import { variables } from './variables-bubblegum'
+import { variables } from './variables-nature'
 
 export const theme = {
 	theme: {
