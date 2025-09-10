@@ -14,7 +14,10 @@ import '@/lib/styles/globals.css'
 
 import { ThemeProvider } from '@/components/utils/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { CookieConsent } from '@/components/layout/cookie-consent'
+
 import { useThemeStore } from '@/lib/store/theme-store'
+
 export const metadata: Metadata = {
 	icons: {
 		icon: '/favicon.ico',
@@ -37,6 +40,7 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
 	const cookieStore = await cookies()
 	const currentTheme = cookieStore.get('theme')
+	const hasConsent = cookieStore.get('cookie_consent')?.value
 
 	return (
 		<html
@@ -55,6 +59,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 				<body className={cn('bg-background h-full min-h-screen font-sans antialiased')}>
 					{children}
 					<Toaster position="bottom-right" />
+
+					{!hasConsent && <CookieConsent variant="default" />}
 				</body>
 			</ThemeProvider>
 		</html>

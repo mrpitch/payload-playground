@@ -16,6 +16,7 @@ import {
 	Circle,
 	Clipboard,
 	Code,
+	Cookie,
 	Copy,
 	Download,
 	Dumbbell,
@@ -77,6 +78,7 @@ export type IconType =
 	| 'circle'
 	| 'clipboard'
 	| 'code'
+	| 'cookie'
 	| 'copy'
 	| 'download'
 	| 'dumbbell'
@@ -140,6 +142,7 @@ const Icons = {
 	circle: (props: IconProps) => <Circle {...props} />,
 	clipboard: (props: IconProps) => <Clipboard {...props} />,
 	code: (props: IconProps) => <Code {...props} />,
+	cookie: (props: IconProps) => <Cookie {...props} />,
 	copy: (props: IconProps) => <Copy {...props} />,
 	download: (props: IconProps) => <Download {...props} />,
 	dumbbell: (props: IconProps) => <Dumbbell {...props} />,
