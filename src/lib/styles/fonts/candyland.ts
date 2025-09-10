@@ -6,7 +6,9 @@ export const sans = Poppins({
 	subsets: ['latin'],
 	variable: '--font-sans',
 })
-export const serif = Lora()
+export const serif = Lora({
+	variable: '--font-serif',
+})
 export const mono = Roboto_Mono({
 	display: 'swap',
 	weight: ['400', '700'],
