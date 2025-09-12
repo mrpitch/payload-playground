@@ -2,17 +2,22 @@ import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { cn } from '@/lib/utils/cn'
 
-import {
-	typeNextRegular,
-	typeNextLight,
-	typeNextSemiBold,
-	typeNextBold,
-} from '@/lib/styles/fonts/index'
+// import {
+// 	typeNextRegular,
+// 	typeNextLight,
+// 	typeNextSemiBold,
+// 	typeNextBold,
+// } from '@/lib/styles/fonts/index'
+
+import { sans, serif, mono } from '@/lib/styles/fonts'
 import '@/lib/styles/globals.css'
 
 import { ThemeProvider } from '@/components/utils/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { CookieConsent } from '@/components/layout/cookie-consent'
+
 import { useThemeStore } from '@/lib/store/theme-store'
+
 export const metadata: Metadata = {
 	icons: {
 		icon: '/favicon.ico',
@@ -35,26 +40,27 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
 	const cookieStore = await cookies()
 	const currentTheme = cookieStore.get('theme')
+	const hasConsent = cookieStore.get('cookie_consent')?.value
 
 	return (
 		<html
 			lang="en"
 			data-mode={currentTheme?.value || useThemeStore.getState().theme}
-			className={cn(currentTheme?.value || useThemeStore.getState().theme, 'h-full')}
+			className={cn(
+				currentTheme?.value || useThemeStore.getState().theme,
+				'h-full',
+				sans.variable,
+				serif.variable,
+				mono.variable,
+			)}
 		>
 			<head />
 			<ThemeProvider>
-				<body
-					className={cn(
-						'h-full min-h-screen font-sans antialiased',
-						typeNextRegular.variable,
-						typeNextLight.variable,
-						typeNextSemiBold.variable,
-						typeNextBold.variable,
-					)}
-				>
+				<body className={cn('bg-background h-full min-h-screen font-sans antialiased')}>
 					{children}
 					<Toaster position="bottom-right" />
+
+					{!hasConsent && <CookieConsent variant="default" />}
 				</body>
 			</ThemeProvider>
 		</html>

@@ -18,7 +18,8 @@ import { cn } from '@/lib/utils/cn'
 import { baseUrl } from '@/payload/utils/constants'
 
 import { theme } from '@/lib/styles/v3/theme'
-import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
+import { sans, serif, mono } from '@/lib/styles/fonts'
+//import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
 import { TPasswordResetProps } from '@/payload/types/email-templates'
@@ -37,10 +38,9 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 				<Body
 					className={cn(
 						'bg-background mx-auto my-auto font-sans',
-						typeNextRegular.variable,
-						typeNextLight.variable,
-						typeNextSemiBold.variable,
-						typeNextBold.variable,
+						sans.variable,
+						serif.variable,
+						mono.variable,
 					)}
 				>
 					<Preview>

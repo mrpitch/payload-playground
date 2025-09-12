@@ -1,5 +1,5 @@
 'use client'
-import { useToc } from '@/hooks/use-toc'
+import { useToc } from '@/lib/hooks/use-toc'
 import { Typography } from '@/components/ui/custom/typography'
 import { Button } from '@/components/ui/button'
 import {

@@ -148,7 +148,7 @@ export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 			</div>
 			<div className="mx-auto">
 				{isLoading ? (
-					<div className="bg-background flex h-[calc(100vh_-_140px)] w-[640px]">
+					<div className="bg-background mt-[40px] flex h-[calc(100vh_-_140px)] w-[640px] rounded border border-solid">
 						<div className="border-accent mx-auto my-[40px] w-[640px] rounded border border-solid">
 							<div className="mx-auto mt-8 mb-8 flex w-10/12 flex-col space-y-3">
 								<Skeleton className="mx-auto h-[25px] w-full rounded-xl" />
@@ -169,14 +169,14 @@ export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 					<>
 						{viewPort === 'desktop' ? (
 							<iframe
-								className="bg-background h-[calc(100vh_-_140px)] w-[640px] border-none lg:h-[calc(100vh_-_70px)]"
+								className="h-[calc(100vh_-_140px)] w-[640px] border-none lg:h-[calc(100vh_-_70px)]"
 								srcDoc={html}
 								title="Desktop"
 							/>
 						) : null}
 						{viewPort === 'mobile' ? (
 							<iframe
-								className="bg-background mx-auto h-[calc(100vh_-_140px)] w-[360px] border-none lg:h-[calc(100vh_-_70px)]"
+								className="mx-auto h-[calc(100vh_-_140px)] w-[360px] border-none lg:h-[calc(100vh_-_70px)]"
 								srcDoc={html}
 								title="Mobile"
 							/>
