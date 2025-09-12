@@ -23,6 +23,7 @@ import {
 	Edit,
 	Eye,
 	Fingerprint,
+	FolderKanban,
 	GripVertical,
 	Heading3,
 	Heading4,
@@ -48,6 +49,7 @@ import {
 	Rocket,
 	Save,
 	Search,
+	Settings,
 	Smartphone,
 	SunMedium,
 	Tag,
@@ -85,6 +87,7 @@ export type IconType =
 	| 'edit'
 	| 'eye'
 	| 'fingerprint'
+	| 'folderKanban'
 	| 'gripVertical'
 	| 'heading3'
 	| 'heading4'
@@ -111,6 +114,7 @@ export type IconType =
 	| 'rocket'
 	| 'save'
 	| 'search'
+	| 'settings'
 	| 'smartphone'
 	| 'sun'
 	| 'tag'
@@ -149,6 +153,7 @@ const Icons = {
 	edit: (props: IconProps) => <Edit {...props} />,
 	eye: (props: IconProps) => <Eye {...props} />,
 	fingerprint: (props: IconProps) => <Fingerprint {...props} />,
+	folderKanban: (props: IconProps) => <FolderKanban {...props} />,
 	gripVertical: (props: IconProps) => <GripVertical {...props} />,
 	heading3: (props: IconProps) => <Heading3 {...props} />,
 	heading4: (props: IconProps) => <Heading4 {...props} />,
@@ -174,6 +179,7 @@ const Icons = {
 	rocket: (props: IconProps) => <Rocket {...props} />,
 	save: (props: IconProps) => <Save {...props} />,
 	search: (props: IconProps) => <Search {...props} />,
+	settings: (props: IconProps) => <Settings {...props} />,
 	smartphone: (props: IconProps) => <Smartphone {...props} />,
 	sun: (props: IconProps) => <SunMedium {...props} />,
 	tag: (props: IconProps) => <Tag {...props} />,

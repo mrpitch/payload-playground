@@ -104,6 +104,12 @@ export const AppShell: GlobalConfig = {
 									type: 'text',
 									required: true,
 								},
+								{
+									name: 'icon',
+									type: 'select',
+									required: true,
+									options: ['layoutDashboard', 'settings', 'folderKanban'],
+								},
 							],
 							minRows: 1,
 							maxRows: 5,

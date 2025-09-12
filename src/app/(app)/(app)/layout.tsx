@@ -9,7 +9,7 @@ import type { AppShell } from '@payload-types'
 import { Footer } from '../_components/footer'
 import { Logo } from '@/components/ui/custom/logo'
 import { SideBarNav, ProfileNav, DrawerNav } from '@/app/_components/navigation'
-import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
+import { NavThreedots } from '../_components/nav-threedots'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const appShell = (await getGlobals('app-shell')) as AppShell
@@ -29,9 +29,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					<Logo className="text-foreground" name={siteConfig.name} />
 				</Link>
 				<div className="flex items-center justify-end">
-					<ProfileNav items={profileNavigation?.navItems ?? undefined} user={user} />
-					<ThemeToggle />
-					<DrawerNav items={sideBarNavigation?.navItems ?? undefined} />
+					<NavThreedots
+						profileItems={profileNavigation?.navItems ?? undefined}
+						mainItems={sideBarNavigation?.navItems ?? undefined}
+						user={user}
+					/>
 				</div>
 			</header>
 			<div className="flex flex-1 overflow-hidden">

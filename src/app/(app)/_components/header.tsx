@@ -9,8 +9,8 @@ import type { AppShell } from '@payload-types'
 import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
 import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
-import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
+import { NavThreedots } from '@/app/_components/nav-threedots'
 
 interface HeaderProps {
 	mainNavigation?: AppShell['mainNavigation']
@@ -32,10 +32,12 @@ export async function Header({ mainNavigation, profileNavigation }: HeaderProps)
 						<MainNav items={mainNavigation?.navItems} />
 					</div>
 					<div className="flex items-center justify-end">
-						<ProfileNav items={profileNavigation?.navItems ?? undefined} user={user} />
-						<ThemeToggle />
+						<NavThreedots
+							profileItems={profileNavigation?.navItems ?? undefined}
+							mainItems={mainNavigation?.navItems ?? undefined}
+							user={user}
+						/>
 						{isEnabled ? <DisablePreviewButton /> : null}
-						<DrawerNav items={mainNavigation?.navItems ?? undefined} />
 					</div>
 				</div>
 			</Container>
