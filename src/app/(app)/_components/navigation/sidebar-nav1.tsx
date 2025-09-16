@@ -159,7 +159,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 	return (
-		<Sidebar {...props} variant="sidebar" collapsible="drawer">
+		<Sidebar {...props} variant="floating" collapsible="icon">
 			<SidebarContent className="gap-0">
 				{/* We create a collapsible SidebarGroup for each parent. */}
 				{data.navMain.map((item) => (
