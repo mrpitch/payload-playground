@@ -10,7 +10,7 @@ import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
 import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
-import { NavThreedots } from '@/app/_components/nav-threedots'
+import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
 
 interface HeaderProps {
 	mainNavigation?: AppShell['mainNavigation']
@@ -32,7 +32,7 @@ export async function Header({ mainNavigation, profileNavigation }: HeaderProps)
 						<MainNav items={mainNavigation?.navItems} />
 					</div>
 					<div className="flex items-center justify-end">
-						<NavThreedots
+						<ThreedotsNav
 							profileItems={profileNavigation?.navItems ?? undefined}
 							mainItems={mainNavigation?.navItems ?? undefined}
 							user={user}

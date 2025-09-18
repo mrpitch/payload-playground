@@ -2,12 +2,11 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
 import { getSession } from '@/lib/actions/get-session'
-import { siteConfig } from '@/lib/config'
 import { getGlobals } from '@/lib/utils/getGlobals'
 import type { AppShell } from '@payload-types'
 
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { AppSidebar } from '@/components/layout/app-sidebar'
+import { SidebarNavApp } from '@/components/layout/nav/sidebar-nav-app'
 
 import {
 	Breadcrumb,
@@ -18,7 +17,7 @@ import {
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
-import { NavThreedots } from '../_components/nav-threedots'
+import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const appShell = (await getGlobals('app-shell')) as AppShell
@@ -34,7 +33,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	}
 	return (
 		<SidebarProvider defaultOpen={false}>
-			<AppSidebar items={sideBarNavigation?.navItems ?? undefined} />
+			<SidebarNavApp
+				profileItems={profileNavigation?.navItems ?? []}
+				sideBarItems={sideBarNavigation?.navItems ?? []}
+				user={user}
+			/>
 			<SidebarInset>
 				<header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4">
 					<SidebarTrigger className="-ml-1" />
@@ -51,10 +54,10 @@ export default async function Layout({ children }: { children: React.ReactNode }
 						</BreadcrumbList>
 					</Breadcrumb>
 					<div className="ml-auto">
-						<NavThreedots
-							profileItems={profileNavigation?.navItems ?? undefined}
+						<ThreedotsNav
 							mainItems={mainNavigation?.navItems ?? undefined}
 							user={user}
+							context="app"
 						/>
 					</div>
 				</header>

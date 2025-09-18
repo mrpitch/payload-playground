@@ -9,7 +9,7 @@ import type { AppShell } from '@payload-types'
 import { Footer } from '../_components/footer'
 import { Logo } from '@/components/ui/custom/logo'
 import { SideBarNav, ProfileNav, DrawerNav } from '@/app/_components/navigation'
-import { NavThreedots } from '../_components/nav-threedots'
+import { NavThreedots } from '../../../components/layout/nav/threedots-nav'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const appShell = (await getGlobals('app-shell')) as AppShell

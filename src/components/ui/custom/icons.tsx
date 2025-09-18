@@ -11,6 +11,7 @@ import {
 	CalendarCheck,
 	ChevronDown,
 	ChevronRight,
+	ChevronsUpDown,
 	Check,
 	CheckCircle2,
 	Circle,
@@ -75,6 +76,7 @@ export type IconType =
 	| 'calendarCheck'
 	| 'check'
 	| 'checkCircle'
+	| 'chevronsUpDown'
 	| 'chevronDown'
 	| 'chevronRight'
 	| 'circle'
@@ -141,6 +143,7 @@ const Icons = {
 	calendarCheck: (props: IconProps) => <CalendarCheck {...props} />,
 	check: (props: IconProps) => <Check {...props} />,
 	checkCircle: (props: IconProps) => <CheckCircle2 {...props} />,
+	chevronsUpDown: (props: IconProps) => <ChevronsUpDown {...props} />,
 	chevronDown: (props: IconProps) => <ChevronDown {...props} />,
 	chevronRight: (props: IconProps) => <ChevronRight {...props} />,
 	circle: (props: IconProps) => <Circle {...props} />,

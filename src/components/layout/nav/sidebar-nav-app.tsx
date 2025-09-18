@@ -1,7 +1,10 @@
 'use client'
+
+import { ReactNode } from 'react'
 import {
 	Sidebar,
 	SidebarContent,
+	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
@@ -11,15 +14,18 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 
-import { AppShell } from '@/payload/payload-types'
+import { User } from '@/payload/payload-types'
 
 import { Icon, IconType } from '@/components/ui/custom/icons'
 import { Logo } from '@/components/ui/custom/logo'
 
 import { siteConfig } from '@/lib/config'
+import { UserNav } from './user-nav'
 
 export interface ISideBarNavProps {
-	items?: INavItem[]
+	profileItems: INavItem[]
+	sideBarItems: INavItem[]
+	user: User | null
 	children?: React.ReactNode
 	className?: string
 }
@@ -27,11 +33,13 @@ export interface ISideBarNavProps {
 interface INavItem {
 	label: string
 	href?: string
-	icon: NonNullable<NonNullable<AppShell['sideBarNavigation']>['navItems']>[number]['icon']
+	icon?: ReactNode
 }
 
-export function AppSidebar({
-	items,
+export function SidebarNavApp({
+	profileItems,
+	sideBarItems,
+	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
@@ -47,7 +55,7 @@ export function AppSidebar({
 					<SidebarGroupContent>
 						{state === 'collapsed' ? null : <SidebarGroupLabel>Training</SidebarGroupLabel>}
 						<SidebarMenu>
-							{items?.map((item) => (
+							{sideBarItems?.map((item) => (
 								<SidebarMenuItem key={item.label}>
 									<SidebarMenuButton asChild>
 										<a href={item.href as string}>
@@ -61,6 +69,9 @@ export function AppSidebar({
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarContent>
+			<SidebarFooter>
+				<UserNav profileItems={profileItems} user={user} />
+			</SidebarFooter>
 		</Sidebar>
 	)
 }
