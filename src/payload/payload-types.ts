@@ -1017,6 +1017,7 @@ export interface AppShell {
       | {
           label: string;
           href: string;
+          icon: 'layoutDashboard' | 'settings' | 'folderKanban';
           id?: string | null;
         }[]
       | null;
@@ -1123,6 +1124,7 @@ export interface AppShellSelect<T extends boolean = true> {
           | {
               label?: T;
               href?: T;
+              icon?: T;
               id?: T;
             };
       };

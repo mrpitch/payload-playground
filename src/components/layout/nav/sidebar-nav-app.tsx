@@ -22,10 +22,11 @@ import { Logo } from '@/components/ui/custom/logo'
 
 import { siteConfig } from '@/lib/config'
 import { UserNav } from './user-nav'
+import { useNavigation } from '@/components/utils/nav-provider'
 
 export interface ISideBarNavProps {
-	profileItems: INavItem[]
-	sideBarItems: INavItem[]
+	// profileItems: INavItem[]
+	// sideBarItems: INavItem[]
 	user: User | null
 	children?: React.ReactNode
 	className?: string
@@ -38,12 +39,13 @@ interface INavItem {
 }
 
 export function SidebarNavApp({
-	profileItems,
-	sideBarItems,
+	// profileItems,
+	// sideBarItems,
 	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
+	const { appNav } = useNavigation()
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
 			<SidebarContent className="gap-0">
@@ -56,11 +58,11 @@ export function SidebarNavApp({
 					<SidebarGroupContent>
 						{state === 'collapsed' ? null : <SidebarGroupLabel>Training</SidebarGroupLabel>}
 						<SidebarMenu>
-							{sideBarItems?.map((item) => (
+							{appNav?.navItems?.map((item) => (
 								<SidebarMenuItem key={item.label}>
 									<SidebarMenuButton asChild tooltip={item.label}>
 										<a href={item.href as string}>
-											{item.icon ? <Icon iconName={item.icon as IconType} /> : null}
+											{item?.icon ? <Icon iconName={item.icon as IconType} /> : null}
 											<span>{item.label}</span>
 										</a>
 									</SidebarMenuButton>
@@ -71,7 +73,7 @@ export function SidebarNavApp({
 				</SidebarGroup>
 			</SidebarContent>
 			<SidebarFooter>
-				<UserNav profileItems={profileItems} user={user} />
+				<UserNav user={user} context="app" />
 			</SidebarFooter>
 		</Sidebar>
 	)

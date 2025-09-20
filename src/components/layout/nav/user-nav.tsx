@@ -1,6 +1,5 @@
 'use client'
 
-import { ReactNode } from 'react'
 import Link from 'next/link'
 
 import { imageUrl } from '@/lib/utils/constants'
@@ -26,69 +25,20 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from '@/components/ui/sidebar'
-
-interface INavItem {
-	label: string
-	href?: string
-	icon?: ReactNode
-}
+import { useNavigation } from '@/components/utils/nav-provider'
 
 interface INavProps {
-	profileItems: INavItem[]
 	user: User | null
 	context?: 'marketing' | 'app'
 }
 
-export function UserNav({ profileItems, user, context = 'app' }: INavProps) {
+export function UserNav({ user, context = 'app' }: INavProps) {
 	const { isMobile } = useSidebar()
-
-	if (!user || !profileItems) return null
+	if (!user) return null
 
 	return (
 		<>
-			{context === 'marketing' ? (
-				<SidebarGroup className="min-w-56 border-t">
-					<SidebarGroupLabel>Profile</SidebarGroupLabel>
-					<SidebarGroupContent className="gap-0">
-						<SidebarMenu>
-							{user ? (
-								<SidebarMenuItem className="mb-2 flex items-center gap-2">
-									<Avatar className="ml-2 h-8 w-8">
-										{user?.avatar ? (
-											<AvatarImage
-												src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
-											/>
-										) : null}
-										<AvatarFallback>
-											<Icon iconName="user" className="h-5 w-5" />
-										</AvatarFallback>
-									</Avatar>
-									<span className="text-sm font-medium">{user?.email}</span>
-									<span className="sr-only">My Account</span>
-								</SidebarMenuItem>
-							) : null}
-							{profileItems.map((item, index) => (
-								<SidebarMenuItem key={index}>
-									<SidebarMenuButton asChild>
-										<Link href={item.href as string}>
-											{item.icon ? <Icon iconName={item.icon as IconType} /> : null}
-											<span>{item.label}</span>
-										</Link>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							))}
-							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
-									<LogoutButton>
-										<Icon iconName="logOut" />
-										Sign Out
-									</LogoutButton>
-								</SidebarMenuButton>
-							</SidebarMenuItem>
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
-			) : null}
+			{context === 'marketing' ? <UserProfile user={user} /> : null}
 			{context === 'app' ? (
 				<SidebarMenu>
 					<SidebarMenuItem>
@@ -120,51 +70,62 @@ export function UserNav({ profileItems, user, context = 'app' }: INavProps) {
 								align="end"
 								sideOffset={4}
 							>
-								<Sidebar collapsible="none" className="bg-transparent">
-									<SidebarContent>
-										<SidebarGroup className="border-b last:border-none">
-											<SidebarGroupContent className="gap-0">
-												<SidebarGroupLabel className="flex items-center gap-2 px-2 py-1.5 text-left text-sm">
-													<Avatar className="mr-2 h-8 w-8">
-														{user?.avatar ? (
-															<AvatarImage
-																src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
-															/>
-														) : null}
-														<AvatarFallback>
-															<Icon iconName="user" className="h-5 w-5" />
-														</AvatarFallback>
-													</Avatar>
-													<div className="grid flex-1 text-left text-sm leading-tight">
-														<span className="truncate text-xs">{user.email}</span>
-													</div>
-												</SidebarGroupLabel>
-												<SidebarMenu>
-													{profileItems.map((item, index) => (
-														<SidebarMenuItem key={index}>
-															<SidebarMenuButton asChild>
-																<Link href={item.href as string}>
-																	<Icon iconName={item.icon as IconType} />
-																	<span>{item.label}</span>
-																</Link>
-															</SidebarMenuButton>
-														</SidebarMenuItem>
-													))}
-													<SidebarMenuItem>
-														<SidebarMenuButton asChild>
-															<LogoutButton icon>Sign Out</LogoutButton>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
-												</SidebarMenu>
-											</SidebarGroupContent>
-										</SidebarGroup>
-									</SidebarContent>
-								</Sidebar>
+								<UserProfile user={user} />
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			) : null}
 		</>
+	)
+}
+
+export function UserProfile({ user }: { user: User | null }) {
+	const { userNav } = useNavigation()
+
+	if (!user || !userNav || !userNav.navItems) return null
+
+	return (
+		<SidebarGroup className="min-w-56 border-t">
+			<SidebarGroupLabel>Profile</SidebarGroupLabel>
+			<SidebarGroupContent className="gap-0">
+				<SidebarMenu>
+					{user ? (
+						<SidebarMenuItem className="mb-2 flex items-center gap-2">
+							<Avatar className="ml-2 h-8 w-8">
+								{user?.avatar ? (
+									<AvatarImage
+										src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
+									/>
+								) : null}
+								<AvatarFallback>
+									<Icon iconName="user" className="h-5 w-5" />
+								</AvatarFallback>
+							</Avatar>
+							<span className="text-sm font-medium">{user?.email}</span>
+							<span className="sr-only">My Account</span>
+						</SidebarMenuItem>
+					) : null}
+					{userNav.navItems.map((item, index) => (
+						<SidebarMenuItem key={index}>
+							<SidebarMenuButton asChild>
+								<Link href={item.href as string}>
+									{item?.icon ? <Icon iconName={item.icon as IconType} /> : null}
+									<span>{item.label}</span>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
+					))}
+					<SidebarMenuItem>
+						<SidebarMenuButton asChild>
+							<LogoutButton>
+								<Icon iconName="logOut" />
+								Sign Out
+							</LogoutButton>
+						</SidebarMenuButton>
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarGroupContent>
+		</SidebarGroup>
 	)
 }

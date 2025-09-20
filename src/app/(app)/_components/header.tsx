@@ -11,36 +11,42 @@ import { Logo } from '@/components/ui/custom/logo'
 import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
 import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
+import { NavigationProvider, useNavigation } from '@/components/utils/nav-provider'
+import { getGlobals } from '@/lib/utils/getGlobals'
+import { notFound } from 'next/navigation'
 
-interface HeaderProps {
-	mainNavigation?: AppShell['mainNavigation']
-	profileNavigation?: AppShell['profileNavigation']
-}
+// interface HeaderProps {
+// 	mainNavigation?: AppShell['mainNavigation']
+// 	profileNavigation?: AppShell['profileNavigation']
+// }
 
-export async function Header({ mainNavigation, profileNavigation }: HeaderProps) {
+export async function Header() {
 	const user = await getSession()
 	const { isEnabled } = await draftMode()
+	const appShell = (await getGlobals('app-shell')) as AppShell
+	if (!appShell) {
+		notFound()
+	}
+	const { mainNavigation, profileNavigation } = appShell
 
 	return (
-		<div className="bg-background sticky top-0 z-50 w-full border-b">
-			<Container as="header">
-				<div className="flex w-full items-center justify-between py-2">
-					<div className="flex gap-6 md:gap-10">
-						<Link href="/" passHref>
-							<Logo className="text-foreground -ml-1" name={siteConfig.name} />
-						</Link>
-						<MainNav items={mainNavigation?.navItems} />
+		<NavigationProvider data={{ mainNav: mainNavigation, userNav: profileNavigation }}>
+			<div className="bg-background sticky top-0 z-50 w-full border-b">
+				<Container as="header">
+					<div className="flex w-full items-center justify-between py-2">
+						<div className="flex gap-6 md:gap-10">
+							<Link href="/" passHref>
+								<Logo className="text-foreground -ml-1" name={siteConfig.name} />
+							</Link>
+							<MainNav items={mainNavigation?.navItems} />
+						</div>
+						<div className="flex items-center justify-end">
+							<ThreedotsNav user={user} context="marketing" />
+							{isEnabled ? <DisablePreviewButton /> : null}
+						</div>
 					</div>
-					<div className="flex items-center justify-end">
-						<ThreedotsNav
-							profileItems={profileNavigation?.navItems ?? undefined}
-							mainItems={mainNavigation?.navItems ?? undefined}
-							user={user}
-						/>
-						{isEnabled ? <DisablePreviewButton /> : null}
-					</div>
-				</div>
-			</Container>
-		</div>
+				</Container>
+			</div>
+		</NavigationProvider>
 	)
 }

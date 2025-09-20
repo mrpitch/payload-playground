@@ -1,12 +1,16 @@
 'use client'
 
-import { ReactNode } from 'react'
 import Link from 'next/link'
 
 import type { User } from '@payload-types'
 
+import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
+import { cn } from '@/lib/utils/cn'
+import { UserNav } from './user-nav'
+import { useNavigation } from '@/components/utils/nav-provider'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Icon, IconType } from '@/components/ui/custom/icons'
+import { Icon } from '@/components/ui/custom/icons'
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -23,24 +27,15 @@ import {
 	SidebarGroupLabel,
 	SidebarProvider,
 } from '@/components/ui/sidebar'
-import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
-import { cn } from '@/lib/utils/cn'
-import { UserNav } from './user-nav'
-
-interface INavItem {
-	label: string
-	href?: string
-	icon?: ReactNode
-}
 
 interface INavProps {
-	profileItems?: INavItem[]
-	mainItems?: INavItem[]
 	user: User | null
 	context?: 'marketing' | 'app'
 }
 
-export function ThreedotsNav({ profileItems, mainItems, user, context = 'marketing' }: INavProps) {
+export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
+	const { mainNav } = useNavigation()
+	console.log('mainNav.navItems', mainNav?.navItems)
 	return (
 		<div className="flex items-center gap-1">
 			{!user ? (
@@ -70,16 +65,15 @@ export function ThreedotsNav({ profileItems, mainItems, user, context = 'marketi
 						<Sidebar collapsible="none" className="bg-transparent">
 							<SidebarContent>
 								{/* Main Navigation Items Group */}
-								{mainItems && mainItems.length > 0 ? (
+								{mainNav && mainNav.navItems ? (
 									<SidebarGroup className={cn(context === 'marketing' ? 'md:hidden' : '')}>
 										<SidebarGroupLabel>Main</SidebarGroupLabel>
 										<SidebarGroupContent className="gap-0">
 											<SidebarMenu>
-												{mainItems.map((item, index) => (
+												{mainNav.navItems.map((item, index) => (
 													<SidebarMenuItem key={index}>
 														<SidebarMenuButton asChild>
 															<Link href={item.href as string}>
-																{item.icon ? <Icon iconName={item.icon as IconType} /> : null}
 																<span>{item.label}</span>
 															</Link>
 														</SidebarMenuButton>
@@ -89,11 +83,8 @@ export function ThreedotsNav({ profileItems, mainItems, user, context = 'marketi
 										</SidebarGroupContent>
 									</SidebarGroup>
 								) : null}
-
 								{/* User/Profile Items Group */}
-								{user && profileItems && profileItems.length > 0 ? (
-									<UserNav profileItems={profileItems} user={user} context={context} />
-								) : null}
+								{context === 'marketing' ? <UserNav user={user} context={context} /> : null}
 							</SidebarContent>
 						</Sidebar>
 					</SidebarProvider>
