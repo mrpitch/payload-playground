@@ -8,17 +8,12 @@ import type { AppShell } from '@payload-types'
 
 import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
-import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
+import { MainNav } from '@/app/_components/navigation'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
 import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
-import { NavigationProvider, useNavigation } from '@/components/utils/nav-provider'
+import { NavigationProvider } from '@/components/utils/nav-provider'
 import { getGlobals } from '@/lib/utils/getGlobals'
 import { notFound } from 'next/navigation'
-
-// interface HeaderProps {
-// 	mainNavigation?: AppShell['mainNavigation']
-// 	profileNavigation?: AppShell['profileNavigation']
-// }
 
 export async function Header() {
 	const user = await getSession()

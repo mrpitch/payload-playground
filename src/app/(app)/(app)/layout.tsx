@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
 import { getSession } from '@/lib/actions/get-session'

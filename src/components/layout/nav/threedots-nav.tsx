@@ -35,7 +35,7 @@ interface INavProps {
 
 export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 	const { mainNav } = useNavigation()
-	console.log('mainNav.navItems', mainNav?.navItems)
+
 	return (
 		<div className="flex items-center gap-1">
 			{!user ? (

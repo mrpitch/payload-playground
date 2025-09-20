@@ -25,22 +25,12 @@ import { UserNav } from './user-nav'
 import { useNavigation } from '@/components/utils/nav-provider'
 
 export interface ISideBarNavProps {
-	// profileItems: INavItem[]
-	// sideBarItems: INavItem[]
 	user: User | null
 	children?: React.ReactNode
 	className?: string
 }
 
-interface INavItem {
-	label: string
-	href?: string
-	icon?: ReactNode
-}
-
 export function SidebarNavApp({
-	// profileItems,
-	// sideBarItems,
 	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {

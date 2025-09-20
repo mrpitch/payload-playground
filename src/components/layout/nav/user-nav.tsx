@@ -15,8 +15,6 @@ import {
 import { Icon, IconType } from '@/components/ui/custom/icons'
 import { LogoutButton } from '@/components/auth/logout-button'
 import {
-	Sidebar,
-	SidebarContent,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
