@@ -1,6 +1,7 @@
 'use client'
 
 import { ReactNode } from 'react'
+
 import {
 	Sidebar,
 	SidebarContent,
@@ -57,7 +58,7 @@ export function SidebarNavApp({
 						<SidebarMenu>
 							{sideBarItems?.map((item) => (
 								<SidebarMenuItem key={item.label}>
-									<SidebarMenuButton asChild>
+									<SidebarMenuButton asChild tooltip={item.label}>
 										<a href={item.href as string}>
 											{item.icon ? <Icon iconName={item.icon as IconType} /> : null}
 											<span>{item.label}</span>

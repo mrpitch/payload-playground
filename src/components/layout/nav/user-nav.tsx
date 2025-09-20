@@ -1,36 +1,29 @@
 'use client'
 
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 import Link from 'next/link'
 
 import { imageUrl } from '@/lib/utils/constants'
-import { cn } from '@/lib/utils/cn'
 
 import type { User } from '@payload-types'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button, buttonVariants } from '@/components/ui/button'
 import {
-	DropdownMenuLabel,
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Icon, IconType } from '@/components/ui/custom/icons'
 import { LogoutButton } from '@/components/auth/logout-button'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarGroup,
 	SidebarGroupContent,
+	SidebarGroupLabel,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarProvider,
 	useSidebar,
 } from '@/components/ui/sidebar'
 
@@ -47,23 +40,20 @@ interface INavProps {
 }
 
 export function UserNav({ profileItems, user, context = 'app' }: INavProps) {
-	const [isOpen, setIsOpen] = useState(false)
 	const { isMobile } = useSidebar()
-	useEffect(() => {
-		setIsOpen(false)
-	}, [])
 
 	if (!user || !profileItems) return null
 
 	return (
 		<>
 			{context === 'marketing' ? (
-				<SidebarGroup className="border-b last:border-none">
+				<SidebarGroup className="min-w-56 border-t">
+					<SidebarGroupLabel>Profile</SidebarGroupLabel>
 					<SidebarGroupContent className="gap-0">
 						<SidebarMenu>
 							{user ? (
-								<SidebarMenuItem className="flex items-center gap-2">
-									<Avatar className="mr-2 h-8 w-8">
+								<SidebarMenuItem className="mb-2 flex items-center gap-2">
+									<Avatar className="ml-2 h-8 w-8">
 										{user?.avatar ? (
 											<AvatarImage
 												src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
@@ -125,43 +115,51 @@ export function UserNav({ profileItems, user, context = 'app' }: INavProps) {
 								</SidebarMenuButton>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent
-								className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+								className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg p-0"
 								side={isMobile ? 'bottom' : 'right'}
 								align="end"
 								sideOffset={4}
 							>
-								<DropdownMenuLabel className="p-0 font-normal">
-									<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-										<Avatar className="mr-2 h-8 w-8">
-											{user?.avatar ? (
-												<AvatarImage
-													src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
-												/>
-											) : null}
-											<AvatarFallback>
-												<Icon iconName="user" className="h-5 w-5" />
-											</AvatarFallback>
-										</Avatar>
-										<div className="grid flex-1 text-left text-sm leading-tight">
-											<span className="truncate text-xs">{user.email}</span>
-										</div>
-									</div>
-								</DropdownMenuLabel>
-								<DropdownMenuSeparator />
-								<DropdownMenuGroup>
-									{profileItems.map((item, index) => (
-										<DropdownMenuItem key={index} asChild>
-											<Link href={item.href as string}>
-												<Icon iconName={item.icon as IconType} />
-												{item.label}
-											</Link>
-										</DropdownMenuItem>
-									))}
-								</DropdownMenuGroup>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem asChild>
-									<LogoutButton icon>Sign Out</LogoutButton>
-								</DropdownMenuItem>
+								<Sidebar collapsible="none" className="bg-transparent">
+									<SidebarContent>
+										<SidebarGroup className="border-b last:border-none">
+											<SidebarGroupContent className="gap-0">
+												<SidebarGroupLabel className="flex items-center gap-2 px-2 py-1.5 text-left text-sm">
+													<Avatar className="mr-2 h-8 w-8">
+														{user?.avatar ? (
+															<AvatarImage
+																src={`${imageUrl}/${(user?.avatar as { filename?: string })?.filename}`}
+															/>
+														) : null}
+														<AvatarFallback>
+															<Icon iconName="user" className="h-5 w-5" />
+														</AvatarFallback>
+													</Avatar>
+													<div className="grid flex-1 text-left text-sm leading-tight">
+														<span className="truncate text-xs">{user.email}</span>
+													</div>
+												</SidebarGroupLabel>
+												<SidebarMenu>
+													{profileItems.map((item, index) => (
+														<SidebarMenuItem key={index}>
+															<SidebarMenuButton asChild>
+																<Link href={item.href as string}>
+																	<Icon iconName={item.icon as IconType} />
+																	<span>{item.label}</span>
+																</Link>
+															</SidebarMenuButton>
+														</SidebarMenuItem>
+													))}
+													<SidebarMenuItem>
+														<SidebarMenuButton asChild>
+															<LogoutButton icon>Sign Out</LogoutButton>
+														</SidebarMenuButton>
+													</SidebarMenuItem>
+												</SidebarMenu>
+											</SidebarGroupContent>
+										</SidebarGroup>
+									</SidebarContent>
+								</Sidebar>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</SidebarMenuItem>
