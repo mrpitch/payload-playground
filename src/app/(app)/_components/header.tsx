@@ -8,7 +8,7 @@ import type { AppShell } from '@payload-types'
 
 import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
-import { MainNav } from '@/app/_components/navigation'
+import { MainNav } from '@/components/layout/nav/main-nav'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
 import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
 import { NavigationProvider } from '@/components/utils/nav-provider'
