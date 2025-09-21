@@ -13,15 +13,12 @@ import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-but
 import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
 import { NavigationProvider } from '@/components/utils/nav-provider'
 import { getGlobals } from '@/lib/utils/getGlobals'
-import { notFound } from 'next/navigation'
 
 export async function Header() {
 	const user = await getSession()
 	const { isEnabled } = await draftMode()
 	const appShell = (await getGlobals('app-shell')) as AppShell
-	if (!appShell) {
-		notFound()
-	}
+
 	const { mainNavigation, profileNavigation } = appShell
 
 	return (

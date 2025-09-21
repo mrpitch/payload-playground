@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 		<div className="flex h-screen flex-col">
 			<Header />
 			<main>{children}</main>
-			<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
+			<Footer />
 		</div>
 	)
 }

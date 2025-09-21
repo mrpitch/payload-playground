@@ -18,6 +18,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
 import { NavigationProvider } from '@/components/utils/nav-provider'
+import { Footer } from '@/app/_components/footer'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const appShell = (await getGlobals('app-shell')) as AppShell
@@ -56,6 +57,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 						</div>
 					</header>
 					<div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+					<Footer />
 				</SidebarInset>
 			</SidebarProvider>
 		</NavigationProvider>
