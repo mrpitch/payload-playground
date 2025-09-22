@@ -17,10 +17,19 @@ export default async function RootLayout({ children }: { children: React.JSX.Ele
 	const { mainNavigation, settings, legalNavigation, profileNavigation } = appShell
 
 	return (
-		<div className="flex h-screen flex-col">
-			<Header />
-			<main>{children}</main>
-			<Footer />
-		</div>
+		<NavigationProvider
+			data={{
+				mainNav: mainNavigation,
+				userNav: profileNavigation,
+				footerNav: legalNavigation,
+				settings: settings,
+			}}
+		>
+			<div className="flex h-screen flex-col">
+				<Header />
+				<main>{children}</main>
+				<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
+			</div>
+		</NavigationProvider>
 	)
 }

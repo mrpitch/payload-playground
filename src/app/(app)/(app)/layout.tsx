@@ -25,7 +25,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	if (!appShell) {
 		notFound()
 	}
-	const { profileNavigation, sideBarNavigation, mainNavigation } = appShell
+	const { profileNavigation, sideBarNavigation, legalNavigation, settings, mainNavigation } =
+		appShell
 
 	const user = await getSession()
 	if (!user) {
@@ -57,7 +58,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 						</div>
 					</header>
 					<div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
-					<Footer />
+					<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
 				</SidebarInset>
 			</SidebarProvider>
 		</NavigationProvider>

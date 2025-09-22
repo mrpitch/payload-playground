@@ -14,54 +14,25 @@ import {
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { Typography } from '@/components/ui/custom/typography'
+import { useNavigation } from '@/components/utils/nav-provider'
 
-interface INavItem {
-	label: string
-	href?: string
-	children?: INavChildItem[]
-}
-
-interface INavChildItem {
-	label: string
-	href: string
-	description: string
-}
-
-interface IMainNavProps {
-	items?: INavItem[] | null
-}
-
-export const MainNav = ({ items }: IMainNavProps) => {
+export const MainNav = () => {
+	const { mainNav } = useNavigation()
 	return (
 		<NavigationMenu className="hidden md:flex">
-			{items?.length ? (
+			{mainNav?.navItems?.length ? (
 				<NavigationMenuList>
-					{items?.map((item, index) =>
-						item.children ? (
-							<NavigationMenuItem key={index}>
-								<NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
-								<NavigationMenuContent>
-									<ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-										{item.children.map((child) => (
-											<ListItem key={child.label} title={child.label} href={child.href}>
-												{child.description}
-											</ListItem>
-										))}
-									</ul>
-								</NavigationMenuContent>
-							</NavigationMenuItem>
-						) : (
-							<NavigationMenuItem key={index}>
-								<NavigationMenuLink
-									href={item.href as string}
-									asChild
-									className={navigationMenuTriggerStyle()}
-								>
-									<Link href={item.href as string}>{item.label}</Link>
-								</NavigationMenuLink>
-							</NavigationMenuItem>
-						),
-					)}
+					{mainNav?.navItems?.map((item, index) => (
+						<NavigationMenuItem key={index}>
+							<NavigationMenuLink
+								href={item.href as string}
+								asChild
+								className={navigationMenuTriggerStyle()}
+							>
+								<Link href={item.href as string}>{item.label}</Link>
+							</NavigationMenuLink>
+						</NavigationMenuItem>
+					))}
 				</NavigationMenuList>
 			) : null}
 		</NavigationMenu>

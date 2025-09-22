@@ -7,6 +7,8 @@ type NavigationData = {
 	mainNav?: AppShell['mainNavigation']
 	appNav?: AppShell['sideBarNavigation']
 	userNav?: AppShell['profileNavigation']
+	footerNav?: AppShell['legalNavigation']
+	settings?: AppShell['settings']
 }
 
 const NavigationContext = createContext<NavigationData | null>(null)
