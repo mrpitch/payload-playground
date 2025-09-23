@@ -10,6 +10,7 @@ import { UserNav } from './user-nav'
 import { useNavigation } from '@/components/utils/nav-provider'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import {
 	DropdownMenu,
@@ -33,9 +34,18 @@ interface INavProps {
 	context?: 'marketing' | 'app'
 }
 
+export function ThreedotsNavSkeleton() {
+	return (
+		<div className="flex items-center gap-2">
+			<Skeleton className="h-8 w-8 rounded-md" />
+			<Skeleton className="h-8 w-8 rounded-md" />
+		</div>
+	)
+}
+
 export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 	const { mainNav } = useNavigation()
-
+	console.log('rerender ThreedotsNav')
 	return (
 		<div className="flex items-center gap-1">
 			{!user ? (

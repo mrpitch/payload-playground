@@ -17,6 +17,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { CookieConsent } from '@/components/layout/cookie-consent'
 
 import { useThemeStore } from '@/lib/store/theme-store'
+// Navigation provider is scoped closer to consumers to enable Suspense fallbacks
 
 export const metadata: Metadata = {
 	icons: {

@@ -23,6 +23,7 @@ import { Logo } from '@/components/ui/custom/logo'
 import { siteConfig } from '@/lib/config'
 import { UserNav } from './user-nav'
 import { useNavigation } from '@/components/utils/nav-provider'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export interface ISideBarNavProps {
 	user: User | null
@@ -36,6 +37,8 @@ export function SidebarNavApp({
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
 	const { appNav } = useNavigation()
+
+	console.log('rerender SidebarNavApp')
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
 			<SidebarContent className="gap-0">
@@ -64,6 +67,38 @@ export function SidebarNavApp({
 			</SidebarContent>
 			<SidebarFooter>
 				<UserNav user={user} context="app" />
+			</SidebarFooter>
+		</Sidebar>
+	)
+}
+
+export function SidebarNavAppSkeleton() {
+	return (
+		<Sidebar variant="sidebar" collapsible="icon">
+			<SidebarContent className="gap-0">
+				<SidebarGroup>
+					<SidebarGroupContent>
+						<Skeleton className="h-10 w-10 rounded-lg" />
+					</SidebarGroupContent>
+				</SidebarGroup>
+				<SidebarGroup>
+					<SidebarGroupContent>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<Skeleton className="mt-1 h-8 w-8 rounded-md" />
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<Skeleton className="mt-1 h-8 w-8 rounded-md" />
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<Skeleton className="mt-1 h-8 w-8 rounded-md" />
+							</SidebarMenuItem>
+						</SidebarMenu>
+					</SidebarGroupContent>
+				</SidebarGroup>
+			</SidebarContent>
+			<SidebarFooter>
+				<Skeleton className="h-10 w-10 rounded-full" />
 			</SidebarFooter>
 		</Sidebar>
 	)

@@ -4,15 +4,13 @@ import { draftMode } from 'next/headers'
 import { siteConfig } from '@/lib/config'
 import { getSession } from '@/lib/actions/get-session'
 
-import type { AppShell } from '@payload-types'
-
 import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
-import { MainNav } from '@/components/layout/nav/main-nav'
+import { MainNav, MainNavSkeleton } from '@/components/layout/nav/main-nav'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
-import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
-import { NavigationProvider } from '@/components/utils/nav-provider'
-import { getGlobals } from '@/lib/utils/getGlobals'
+import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
+import { Suspense } from 'react'
+import { NavProviderServer } from '@/components/utils/nav-provider.server'
 
 export async function Header() {
 	const user = await getSession()
@@ -26,10 +24,18 @@ export async function Header() {
 						<Link href="/" passHref>
 							<Logo className="text-foreground -ml-1" name={siteConfig.name} />
 						</Link>
-						<MainNav />
+						<Suspense fallback={<MainNavSkeleton />}>
+							<NavProviderServer>
+								<MainNav />
+							</NavProviderServer>
+						</Suspense>
 					</div>
 					<div className="flex items-center justify-end">
-						<ThreedotsNav user={user} context="marketing" />
+						<Suspense fallback={<ThreedotsNavSkeleton />}>
+							<NavProviderServer>
+								<ThreedotsNav user={user} context="marketing" />
+							</NavProviderServer>
+						</Suspense>
 						{isEnabled ? <DisablePreviewButton /> : null}
 					</div>
 				</div>

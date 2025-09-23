@@ -1,25 +1,19 @@
 // providers/navigation-provider.tsx
 'use client'
-import { createContext, useContext } from 'react'
-import type { AppShell } from '@payload-types'
+import { createContext, useContext, use } from 'react'
+import type { Usable } from 'react'
+import type { TNavData } from '@/lib/utils/getNavData'
 
-type NavigationData = {
-	mainNav?: AppShell['mainNavigation']
-	appNav?: AppShell['sideBarNavigation']
-	userNav?: AppShell['profileNavigation']
-	footerNav?: AppShell['legalNavigation']
-	settings?: AppShell['settings']
-}
-
-const NavigationContext = createContext<NavigationData | null>(null)
+const NavigationContext = createContext<TNavData | null>(null)
 
 export function NavigationProvider({
-	data,
+	value,
 	children,
 }: {
-	data: NavigationData
+	value: Usable<TNavData>
 	children: React.ReactNode
 }) {
+	const data = use(value)
 	return <NavigationContext.Provider value={data}>{children}</NavigationContext.Provider>
 }
 

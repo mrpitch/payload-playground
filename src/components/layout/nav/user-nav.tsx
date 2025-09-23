@@ -6,6 +6,7 @@ import { imageUrl } from '@/lib/utils/constants'
 
 import type { User } from '@payload-types'
 
+import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	DropdownMenu,
@@ -34,6 +35,7 @@ export function UserNav({ user, context = 'app' }: INavProps) {
 	const { isMobile } = useSidebar()
 	if (!user) return null
 
+	console.log('rerender UserNav')
 	return (
 		<>
 			{context === 'marketing' ? <UserProfile user={user} /> : null}
@@ -125,5 +127,20 @@ export function UserProfile({ user }: { user: User | null }) {
 				</SidebarMenu>
 			</SidebarGroupContent>
 		</SidebarGroup>
+	)
+}
+
+export function UserNavSkeleton() {
+	return (
+		<div className="min-w-56">
+			<div className="flex items-center gap-2 p-2">
+				<Skeleton className="bg-sidebar-accent h-8 w-8 rounded-full" />
+				<Skeleton className="bg-sidebar-accent h-4 w-24" />
+			</div>
+			<div className="space-y-2 p-2">
+				<Skeleton className="bg-sidebar-accent h-8 w-full rounded-md" />
+				<Skeleton className="bg-sidebar-accent h-8 w-full rounded-md" />
+			</div>
+		</div>
 	)
 }

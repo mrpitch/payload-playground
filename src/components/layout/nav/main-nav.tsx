@@ -4,13 +4,12 @@ import * as React from 'react'
 import Link from 'next/link'
 
 import { cn } from '@/lib/utils/cn'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
 	NavigationMenu,
-	NavigationMenuContent,
 	NavigationMenuItem,
 	NavigationMenuLink,
 	NavigationMenuList,
-	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { Typography } from '@/components/ui/custom/typography'
@@ -18,6 +17,8 @@ import { useNavigation } from '@/components/utils/nav-provider'
 
 export const MainNav = () => {
 	const { mainNav } = useNavigation()
+
+	console.log('rerender MainNav')
 	return (
 		<NavigationMenu className="hidden md:flex">
 			{mainNav?.navItems?.length ? (
@@ -36,6 +37,16 @@ export const MainNav = () => {
 				</NavigationMenuList>
 			) : null}
 		</NavigationMenu>
+	)
+}
+
+export function MainNavSkeleton() {
+	return (
+		<div className="flex items-center gap-2">
+			<Skeleton className="h-8 w-16 rounded-md" />
+			<Skeleton className="h-8 w-20 rounded-md" />
+			<Skeleton className="h-8 w-24 rounded-md" />
+		</div>
 	)
 }
 
