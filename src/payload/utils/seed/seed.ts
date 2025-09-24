@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Payload } from 'payload'
 import type {
 	Post,

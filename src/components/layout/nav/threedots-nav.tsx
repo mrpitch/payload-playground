@@ -4,19 +4,17 @@ import Link from 'next/link'
 
 import type { User } from '@payload-types'
 
-import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
 import { cn } from '@/lib/utils/cn'
-import { UserNav } from './user-nav'
-import { useNavigation } from '@/components/utils/nav-provider'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Icon } from '@/components/ui/custom/icons'
-import { Skeleton } from '@/components/ui/skeleton'
 
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Icon } from '@/components/ui/custom/icons'
+import { useNavigation } from '@/components/utils/nav-provider'
+import { UserNav } from './user-nav'
 import {
 	Sidebar,
 	SidebarContent,
@@ -28,6 +26,8 @@ import {
 	SidebarGroupLabel,
 	SidebarProvider,
 } from '@/components/ui/sidebar'
+import { Skeleton } from '@/components/ui/skeleton'
+import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
 
 interface INavProps {
 	user: User | null
@@ -45,7 +45,7 @@ export function ThreedotsNavSkeleton() {
 
 export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 	const { mainNav } = useNavigation()
-	console.log('rerender ThreedotsNav')
+
 	return (
 		<div className="flex items-center gap-1">
 			{!user ? (
@@ -60,7 +60,7 @@ export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 					<Button
 						variant="ghost"
 						size="icon"
-						className={cn('data-[state=open]:bg-accent', !user ? 'md:hidden' : '')}
+						className={cn('text-foreground data-[state=open]:bg-accent', !user ? 'md:hidden' : '')}
 					>
 						<Icon iconName="moreHorizontal" />
 					</Button>

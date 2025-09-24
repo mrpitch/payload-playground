@@ -1,11 +1,11 @@
+import { Suspense } from 'react'
 import { notFound, redirect } from 'next/navigation'
+
+import type { AppShell } from '@payload-types'
 
 import { getSession } from '@/lib/actions/get-session'
 import { getGlobals } from '@/lib/utils/getGlobals'
-import type { AppShell } from '@payload-types'
-
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { SidebarNavApp, SidebarNavAppSkeleton } from '@/components/layout/nav/sidebar-nav-app'
+import { NavigationProvider } from '@/components/utils/nav-provider.server'
 
 import {
 	Breadcrumb,
@@ -16,18 +16,21 @@ import {
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
-import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
-import { Footer } from '@/app/_components/footer'
-import { Suspense } from 'react'
-import { NavProviderServer } from '@/components/utils/nav-provider.server'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import {
+	SidebarNavApp,
+	SidebarNavAppSkeleton,
+	ThreedotsNav,
+	ThreedotsNavSkeleton,
+} from '@/components/layout/nav'
+import { Footer } from '@/components/layout/footer'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const appShell = (await getGlobals('app-shell')) as AppShell
 	if (!appShell) {
 		notFound()
 	}
-	const { profileNavigation, sideBarNavigation, legalNavigation, settings, mainNavigation } =
-		appShell
+	const { legalNavigation, settings } = appShell
 
 	const user = await getSession()
 	if (!user) {
@@ -36,13 +39,13 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	return (
 		<SidebarProvider defaultOpen={false}>
 			<Suspense fallback={<SidebarNavAppSkeleton />}>
-				<NavProviderServer>
+				<NavigationProvider>
 					<SidebarNavApp user={user} />
-				</NavProviderServer>
+				</NavigationProvider>
 			</Suspense>
 			<SidebarInset>
 				<header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4">
-					<SidebarTrigger className="-ml-1" />
+					<SidebarTrigger className="text-foreground -ml-1" />
 					<Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
 					<Breadcrumb>
 						<BreadcrumbList>
@@ -57,9 +60,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
 					</Breadcrumb>
 					<div className="ml-auto">
 						<Suspense fallback={<ThreedotsNavSkeleton />}>
-							<NavProviderServer>
+							<NavigationProvider>
 								<ThreedotsNav user={user} context="app" />
-							</NavProviderServer>
+							</NavigationProvider>
 						</Suspense>
 					</div>
 				</header>

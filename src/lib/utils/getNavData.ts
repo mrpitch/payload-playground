@@ -1,4 +1,4 @@
-import { unstable_cache } from 'next/cache'
+import { cache } from 'react'
 
 import type { AppShell } from '@payload-types'
 
@@ -12,7 +12,7 @@ export interface TNavData {
 	settings?: AppShell['settings']
 }
 
-export const getNavData = async (): Promise<TNavData> => {
+export const getNavData = cache(async (): Promise<TNavData> => {
 	const appShell = (await getGlobals('app-shell')) as AppShell
 	return {
 		mainNav: appShell?.mainNavigation,
@@ -21,4 +21,4 @@ export const getNavData = async (): Promise<TNavData> => {
 		footerNav: appShell?.legalNavigation,
 		settings: appShell?.settings,
 	}
-}
+})

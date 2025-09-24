@@ -1,7 +1,11 @@
 'use client'
 
-import { ReactNode } from 'react'
+import Link from 'next/link'
 
+import { User } from '@/payload/payload-types'
+
+import { Icon, IconType } from '@/components/ui/custom/icons'
+import { Logo } from '@/components/ui/custom/logo'
 import {
 	Sidebar,
 	SidebarContent,
@@ -14,16 +18,10 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from '@/components/ui/sidebar'
-
-import { User } from '@/payload/payload-types'
-
-import { Icon, IconType } from '@/components/ui/custom/icons'
-import { Logo } from '@/components/ui/custom/logo'
-
-import { siteConfig } from '@/lib/config'
-import { UserNav } from './user-nav'
-import { useNavigation } from '@/components/utils/nav-provider'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useNavigation } from '@/components/utils/nav-provider'
+
+import { UserNav } from './user-nav'
 
 export interface ISideBarNavProps {
 	user: User | null
@@ -36,15 +34,14 @@ export function SidebarNavApp({
 	...props
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
-	const { appNav } = useNavigation()
+	const { appNav, settings } = useNavigation()
 
-	console.log('rerender SidebarNavApp')
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
 			<SidebarContent className="gap-0">
 				<SidebarGroup>
 					<SidebarGroupContent>
-						<Logo name={state === 'collapsed' ? '' : siteConfig.name} />
+						<Logo name={state === 'collapsed' ? '' : settings?.siteName} />
 					</SidebarGroupContent>
 				</SidebarGroup>
 				<SidebarGroup>
@@ -54,10 +51,10 @@ export function SidebarNavApp({
 							{appNav?.navItems?.map((item) => (
 								<SidebarMenuItem key={item.label}>
 									<SidebarMenuButton asChild tooltip={item.label}>
-										<a href={item.href as string}>
+										<Link href={item.href as string}>
 											{item?.icon ? <Icon iconName={item.icon as IconType} /> : null}
 											<span>{item.label}</span>
-										</a>
+										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
 							))}

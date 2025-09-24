@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { draftMode } from 'next/headers'
 
-import { siteConfig } from '@/lib/config'
 import { getSession } from '@/lib/actions/get-session'
 
 import { Container } from '@/components/ui/custom/container'
@@ -10,9 +9,13 @@ import { MainNav, MainNavSkeleton } from '@/components/layout/nav/main-nav'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
 import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
 import { Suspense } from 'react'
-import { NavProviderServer } from '@/components/utils/nav-provider.server'
+import { NavigationProvider } from '@/components/utils/nav-provider.server'
 
-export async function Header() {
+interface HeaderProps {
+	siteName?: string
+}
+
+export async function Header({ siteName }: HeaderProps) {
 	const user = await getSession()
 	const { isEnabled } = await draftMode()
 
@@ -22,19 +25,19 @@ export async function Header() {
 				<div className="flex w-full items-center justify-between py-2">
 					<div className="flex gap-6 md:gap-10">
 						<Link href="/" passHref>
-							<Logo className="text-foreground -ml-1" name={siteConfig.name} />
+							<Logo className="text-foreground -ml-1" name={siteName} />
 						</Link>
 						<Suspense fallback={<MainNavSkeleton />}>
-							<NavProviderServer>
+							<NavigationProvider>
 								<MainNav />
-							</NavProviderServer>
+							</NavigationProvider>
 						</Suspense>
 					</div>
 					<div className="flex items-center justify-end">
 						<Suspense fallback={<ThreedotsNavSkeleton />}>
-							<NavProviderServer>
+							<NavigationProvider>
 								<ThreedotsNav user={user} context="marketing" />
-							</NavProviderServer>
+							</NavigationProvider>
 						</Suspense>
 						{isEnabled ? <DisablePreviewButton /> : null}
 					</div>

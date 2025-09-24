@@ -18,7 +18,6 @@ import { useNavigation } from '@/components/utils/nav-provider'
 export const MainNav = () => {
 	const { mainNav } = useNavigation()
 
-	console.log('rerender MainNav')
 	return (
 		<NavigationMenu className="hidden md:flex">
 			{mainNav?.navItems?.length ? (

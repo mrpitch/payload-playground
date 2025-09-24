@@ -1,4 +1,5 @@
 import { Fragment } from 'react'
+import Link from 'next/link'
 
 import {
 	Breadcrumb,
@@ -52,8 +53,10 @@ export function BreadcrumbNav({
 				{/* Render all folders as links */}
 				{breadcrumbTrail.map((item) => (
 					<Fragment key={item.id}>
-						<BreadcrumbItem>
-							<BreadcrumbLink href={`/${item.slug}`}>{item.name}</BreadcrumbLink>
+						<BreadcrumbItem key={item.id}>
+							<BreadcrumbLink asChild>
+								<Link href={`/${item.slug}`}>{item.name}</Link>
+							</BreadcrumbLink>
 						</BreadcrumbItem>
 						<BreadcrumbSeparator />
 					</Fragment>

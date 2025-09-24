@@ -6,7 +6,7 @@ import type { TNavData } from '@/lib/utils/getNavData'
 
 const NavigationContext = createContext<TNavData | null>(null)
 
-export function NavigationProvider({
+export function NavigationProviderClient({
 	value,
 	children,
 }: {

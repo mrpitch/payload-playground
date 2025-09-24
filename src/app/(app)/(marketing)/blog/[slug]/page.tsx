@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
+
 import { generateMeta } from '@/lib/utils/generateMeta'
 import { getSlugs, getCollectionBySlug } from '@/lib/utils/getCollections'
 
@@ -95,13 +97,17 @@ export default async function Post({ params: paramsPromise }: Args) {
 				<Breadcrumb className="mb-8">
 					<BreadcrumbList>
 						<BreadcrumbItem>
-							<BreadcrumbLink href="/">
-								<Icon iconName="house" />
+							<BreadcrumbLink asChild>
+								<Link href="/">
+									<Icon iconName="house" />
+								</Link>
 							</BreadcrumbLink>
 						</BreadcrumbItem>
 						<BreadcrumbSeparator />
 						<BreadcrumbItem>
-							<BreadcrumbLink href="/blog">Blog</BreadcrumbLink>
+							<BreadcrumbLink asChild>
+								<Link href="/blog">Blog</Link>
+							</BreadcrumbLink>
 						</BreadcrumbItem>
 						<BreadcrumbSeparator />
 						<BreadcrumbItem>
@@ -122,7 +128,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 				<Typography as="h1" size="4xl">
 					{title}
 				</Typography>
-				<div className="mb-6 flex items-center gap-2">
+				<div className="text-muted-foreground mb-6 flex items-center gap-2">
 					{typeof author !== 'number' && author?.avatar && typeof author.avatar !== 'number' ? (
 						<Image
 							src={author.avatar.url ?? '/placeholder.png'}
@@ -137,9 +143,9 @@ export default async function Post({ params: paramsPromise }: Args) {
 					<span className="text-sm font-medium">
 						{typeof author !== 'number' ? `${author?.firstName} ${author?.lastName}` : ''}
 					</span>
-					<span className="text-muted-foreground text-xs"> • </span>
+					<span className="text-xs"> • </span>
 					{publishedAt && (
-						<time dateTime={publishedAt} className="text-muted-foreground text-xs">
+						<time dateTime={publishedAt} className="text-xs">
 							{new Date(publishedAt).toLocaleDateString('en-US', {
 								year: 'numeric',
 								month: 'short',

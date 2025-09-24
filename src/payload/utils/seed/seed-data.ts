@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { SeedData } from './seed'
 
 export const seedData: SeedData = {
