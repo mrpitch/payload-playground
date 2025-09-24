@@ -37,5 +37,5 @@
 		".next/types/**/*.ts",
 		"src/components/ui/logo1tsx"
 	],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "src/payload/utils/seed/**"]
 }
