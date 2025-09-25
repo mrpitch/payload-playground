@@ -18,7 +18,7 @@ export interface IContainerProps
 	extends React.HTMLAttributes<HTMLElement>,
 		VariantProps<typeof containerVariants> {
 	children: React.ReactNode
-	as?: 'div' | 'main' | 'nav' | 'section' | 'footer' | 'header'
+	as?: 'div' | 'main' | 'nav' | 'section' | 'footer' | 'header' | 'article'
 }
 
 const Container: React.FC<IContainerProps> = ({ className, as = 'div', children, ...props }) => {

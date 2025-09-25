@@ -1,9 +1,14 @@
+import { Suspense } from 'react'
+
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
+
 import { generateMeta } from '@/lib/utils/generateMeta'
 import { getSlugs, getCollectionBySlug } from '@/lib/utils/getCollections'
+
+import { getSession } from '@/lib/actions/get-session'
 
 import type { Doc } from '@payload-types'
 import { TGenerateMeta } from '@/lib/types'
@@ -16,6 +21,9 @@ import { BreadcrumbNav } from '@/components/layout/breadcrumb-nav'
 import { Container } from '@/components/ui/custom/container'
 import { Typography } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
+import { NavigationProvider } from '@/components/utils/nav-provider.server'
+import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
+import { ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
 import { Toc } from '@/components/layout/toc'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
@@ -52,6 +60,7 @@ type Args = {
 export default async function Doc({ params: paramsPromise }: Args) {
 	const { slug } = await paramsPromise
 	const { isEnabled } = await draftMode()
+	const user = await getSession()
 	const docs = await getCollectionBySlug({
 		collection: 'docs',
 		slug: slug || '',
@@ -66,15 +75,22 @@ export default async function Doc({ params: paramsPromise }: Args) {
 
 	return (
 		<>
-			<article className="mt-8" id="content-view">
-				<RefreshRouteOnSave />
-				<Container as="section" className="max-w-5xl 2xl:max-w-5xl">
-					<div className="mb-8">
-						{folder && typeof folder !== 'number' && (
-							<BreadcrumbNav folder={folder} pageTitle={title} />
-						)}
-						<Toc contentId="content" containerId="content" type="mobile" />
-					</div>
+			<RefreshRouteOnSave />
+			<header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4">
+				{folder && typeof folder !== 'number' && (
+					<BreadcrumbNav folder={folder} pageTitle={title} />
+				)}
+				<div className="ml-auto">
+					<Suspense fallback={<ThreedotsNavSkeleton />}>
+						<NavigationProvider>
+							<ThreedotsNav user={user} context="app" />
+						</NavigationProvider>
+					</Suspense>
+				</div>
+			</header>
+			<div className="flex gap-4 p-4">
+				<Container as="article" id="content">
+					<Toc contentId="content" containerId="content" type="mobile" />
 					<div className="flex-start mt-4 mb-2 flex gap-2">
 						{categories?.map(
 							(category) =>
@@ -122,8 +138,6 @@ export default async function Doc({ params: paramsPromise }: Args) {
 							{excerpt}
 						</Typography>
 					) : null}
-				</Container>
-				<Container as="section" id="content" className="max-w-5xl 2xl:max-w-5xl">
 					<Typography as="h2" size="2xl" className="mb-4">
 						Headline 1
 					</Typography>
@@ -181,14 +195,15 @@ export default async function Doc({ params: paramsPromise }: Args) {
 						harum delectus quo quia non hic totam! Fuga ullam quaerat velit eum ea omnis itaque
 						similique excepturi provident!
 					</Typography>
-				</Container>
-				<RenderBlocks blocks={layout} />
-				{/* <Container as="div" className="overflow-x-scroll">
+					<RenderBlocks blocks={layout} />
+					{/* <Container as="div" className="overflow-x-scroll">
 					<pre>{JSON.stringify(docs, null, 2)}</pre>
 				</Container> */}
-			</article>
-
-			<Toc contentId="content" containerId="content" type="desktop" />
+				</Container>
+				<aside>
+					<Toc contentId="content" containerId="content" type="desktop" />
+				</aside>
+			</div>
 		</>
 	)
 }
