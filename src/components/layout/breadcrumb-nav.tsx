@@ -49,6 +49,12 @@ export function BreadcrumbNav({
 					<SidebarTrigger />
 				</BreadcrumbItem>
 				<BreadcrumbSeparator>|</BreadcrumbSeparator>
+				<BreadcrumbItem>
+					<BreadcrumbLink asChild>
+						<Link href="/docs">Docs</Link>
+					</BreadcrumbLink>
+				</BreadcrumbItem>
+				<BreadcrumbSeparator />
 
 				{/* Render all folders as links */}
 				{breadcrumbTrail.map((item) => (
