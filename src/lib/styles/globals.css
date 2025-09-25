@@ -45,4 +45,10 @@
 	}
 }
 
+/* Base layer after tokens are defined */
+@layer base {
+  body { @apply bg-background text-foreground; }
+  * { @apply border-border; }
+}
+
 

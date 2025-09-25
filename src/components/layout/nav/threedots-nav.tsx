@@ -66,7 +66,7 @@ export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent
-					className="w-56 overflow-hidden rounded-lg p-0"
+					className="min-w-56 overflow-hidden rounded-lg p-0"
 					align="end"
 					side="bottom"
 					sideOffset={8}
@@ -78,7 +78,7 @@ export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 								{mainNav && mainNav.navItems ? (
 									<SidebarGroup className={cn(context === 'marketing' ? 'md:hidden' : '')}>
 										<SidebarGroupLabel>Main</SidebarGroupLabel>
-										<SidebarGroupContent className="gap-0">
+										<SidebarGroupContent className="min-w-56 gap-0">
 											<SidebarMenu>
 												{mainNav.navItems.map((item, index) => (
 													<SidebarMenuItem key={index}>
