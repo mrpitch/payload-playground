@@ -19,6 +19,8 @@ import { InlineToolbarFeatureClient as InlineToolbarFeatureClient_e70f5e05f09f93
 import { FolderTableCell as FolderTableCell_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 import { FolderField as FolderField_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 import { newsletter as newsletter_19d2147f71e562776f0451fb668e198d } from '../../../payload/components/email-preview'
+import { MenuLinkChildLabel as MenuLinkChildLabel_9abb96d3b6fc77782ab22d4755df0421 } from 'src/payload/components/menu-labels.ts'
+import { MenuLinkLabel as MenuLinkLabel_9abb96d3b6fc77782ab22d4755df0421 } from 'src/payload/components/menu-labels.ts'
 import { FolderTypeField as FolderTypeField_3817bf644402e67bfe6577f60ef982de } from '@payloadcms/ui'
 import { verifyEmail as verifyEmail_19d2147f71e562776f0451fb668e198d } from '../../../payload/components/email-preview'
 import { passwordReset as passwordReset_19d2147f71e562776f0451fb668e198d } from '../../../payload/components/email-preview'
@@ -51,6 +53,8 @@ export const importMap = {
   "@payloadcms/ui/rsc#FolderTableCell": FolderTableCell_ab83ff7e88da8d3530831f296ec4756a,
   "@payloadcms/ui/rsc#FolderField": FolderField_ab83ff7e88da8d3530831f296ec4756a,
   "./components/email-preview#newsletter": newsletter_19d2147f71e562776f0451fb668e198d,
+  "src/payload/components/menu-labels.ts#MenuLinkChildLabel": MenuLinkChildLabel_9abb96d3b6fc77782ab22d4755df0421,
+  "src/payload/components/menu-labels.ts#MenuLinkLabel": MenuLinkLabel_9abb96d3b6fc77782ab22d4755df0421,
   "@payloadcms/ui#FolderTypeField": FolderTypeField_3817bf644402e67bfe6577f60ef982de,
   "./components/email-preview#verifyEmail": verifyEmail_19d2147f71e562776f0451fb668e198d,
   "./components/email-preview#passwordReset": passwordReset_19d2147f71e562776f0451fb668e198d,

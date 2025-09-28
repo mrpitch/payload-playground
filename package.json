@@ -9,7 +9,7 @@
 		"dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --turbopack",
 		"devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev --turbopack",
 		"dev:seed": "PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts PAYLOAD_DROP_DATABASE=true PAYLOAD_SEED=true pnpm dev",
-		"generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation IGNORE_LOCAL_FONT=true payload generate:importmap",
+		"generate:importmap": "node scripts/generate-importmap.js",
 		"generate:types": "node scripts/generate-types.js",
 		"lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
 		"check-types": "tsc --noEmit",

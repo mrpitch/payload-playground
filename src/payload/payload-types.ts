@@ -74,6 +74,7 @@ export interface Config {
     newsletter: Newsletter;
     users: User;
     media: Media;
+    menus: Menu;
     'payload-jobs': PayloadJob;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -93,6 +94,7 @@ export interface Config {
     newsletter: NewsletterSelect<false> | NewsletterSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    menus: MenusSelect<false> | MenusSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -103,10 +105,12 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
+    settings: Setting;
     'app-shell': AppShell;
     'e-mail-templates': EMailTemplate;
   };
   globalsSelect: {
+    settings: SettingsSelect<false> | SettingsSelect<true>;
     'app-shell': AppShellSelect<false> | AppShellSelect<true>;
     'e-mail-templates': EMailTemplatesSelect<false> | EMailTemplatesSelect<true>;
   };
@@ -233,14 +237,6 @@ export interface Media {
       filename?: string | null;
     };
     medium?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    large?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -411,9 +407,6 @@ export interface StageBlock {
   copy?: string | null;
   ctaText?: string | null;
   ctaLink?: string | null;
-  /**
-   * Image must be at least 1920x1080
-   */
   backgroundImage?: (number | null) | Media;
   id?: string | null;
   blockName?: string | null;
@@ -523,6 +516,87 @@ export interface EmailGalleryBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'email-gallery';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menus".
+ */
+export interface Menu {
+  id: number;
+  name: string;
+  menuItems?:
+    | {
+        link: {
+          type?: ('nolink' | 'folder' | 'pages' | 'docs' | 'external') | null;
+          icon?:
+            | (
+                | 'layoutDashboard'
+                | 'folderKanban'
+                | 'image'
+                | 'bookOpen'
+                | 'database'
+                | 'shield'
+                | 'zap'
+                | 'rocket'
+                | 'dumbbell'
+                | 'tag'
+                | 'user'
+                | 'settings'
+                | 'code'
+              )
+            | null;
+          label: string;
+          docs?: {
+            relationTo: 'docs';
+            value: number | Doc;
+          } | null;
+          pages?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          url?: string | null;
+          menuChildLinks?:
+            | {
+                link: {
+                  type?: ('pages' | 'docs' | 'external') | null;
+                  icon?:
+                    | (
+                        | 'layoutDashboard'
+                        | 'folderKanban'
+                        | 'image'
+                        | 'bookOpen'
+                        | 'database'
+                        | 'shield'
+                        | 'zap'
+                        | 'rocket'
+                        | 'dumbbell'
+                        | 'tag'
+                        | 'user'
+                        | 'settings'
+                        | 'code'
+                      )
+                    | null;
+                  label: string;
+                  docs?: {
+                    relationTo: 'docs';
+                    value: number | Doc;
+                  } | null;
+                  pages?: {
+                    relationTo: 'pages';
+                    value: number | Page;
+                  } | null;
+                  url?: string | null;
+                };
+                id?: string | null;
+              }[]
+            | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -650,6 +724,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'menus';
+        value: number | Menu;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -1021,16 +1099,6 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        large?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
         hero?:
           | T
           | {
@@ -1042,6 +1110,46 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menus_select".
+ */
+export interface MenusSelect<T extends boolean = true> {
+  name?: T;
+  menuItems?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              label?: T;
+              docs?: T;
+              pages?: T;
+              url?: T;
+              menuChildLinks?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          icon?: T;
+                          label?: T;
+                          docs?: T;
+                          pages?: T;
+                          url?: T;
+                        };
+                    id?: T;
+                  };
+            };
+        id?: T;
+      };
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1118,6 +1226,26 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: number;
+  settings: {
+    siteName: string;
+    siteDescription: string;
+  };
+  mainNav?: {};
+  footerNav?: {};
+  profielNav?: {};
+  appNav?: {};
+  docsNav?: {};
+  publishedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1217,6 +1345,28 @@ export interface EMailTemplate {
   };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  settings?:
+    | T
+    | {
+        siteName?: T;
+        siteDescription?: T;
+      };
+  mainNav?: T | {};
+  footerNav?: T | {};
+  profielNav?: T | {};
+  appNav?: T | {};
+  docsNav?: T | {};
+  publishedAt?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1348,7 +1498,7 @@ export interface TaskSchedulePublish {
           relationTo: 'posts';
           value: number | Post;
         } | null);
-    global?: 'app-shell' | null;
+    global?: ('settings' | 'app-shell') | null;
     user?: (number | null) | User;
   };
   output?: unknown;

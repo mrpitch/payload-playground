@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload'
 import { adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
+import { createParentMenuLink } from '@/payload/fields/menu-items'
 
 export const Menus: CollectionConfig = {
 	slug: 'menus',
@@ -24,6 +25,24 @@ export const Menus: CollectionConfig = {
 			name: 'name',
 			type: 'text',
 			required: true,
+		},
+		{
+			name: 'menuItems',
+			type: 'array',
+			label: 'Menu Items',
+			admin: {
+				initCollapsed: true,
+				components: {
+					RowLabel: {
+						path: 'src/payload/components/menu-labels.ts',
+						exportName: 'MenuLinkLabel',
+					},
+				},
+			},
+			fields: [createParentMenuLink()],
+			dbName: 'menuSections',
+			minRows: 1,
+			maxRows: 15,
 		},
 		{
 			name: 'publishedAt',

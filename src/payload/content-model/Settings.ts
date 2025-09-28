@@ -22,50 +22,44 @@ export const Settings: GlobalConfig = {
 	},
 	fields: [
 		{
-			type: 'tabs',
-			tabs: [
-				{
-					name: 'settings',
-					label: 'Settings',
-					fields: [
-						{
-							name: 'siteName',
-							type: 'text',
-							required: true,
-						},
-						{
-							name: 'siteDescription',
-							type: 'text',
-							required: true,
-						},
-					],
-				},
-				{
-					name: 'mainNav',
-					label: 'Main Navigation',
-					fields: [],
-				},
-				{
-					name: 'footerNav',
-					label: 'Footer Navigation',
-					fields: [],
-				},
-				{
-					name: 'profielNav',
-					label: 'Profile Navigation',
-					fields: [],
-				},
-				{
-					name: 'appNav',
-					label: 'App Navigation',
-					fields: [],
-				},
-				{
-					name: 'docsNav',
-					label: 'Docs Navigation',
-					fields: [],
-				},
-			],
+			name: 'siteName',
+			type: 'text',
+			required: true,
+		},
+		{
+			name: 'siteDescription',
+			type: 'text',
+			required: true,
+		},
+		{
+			name: 'mainMenu',
+			label: 'Main Menu',
+			type: 'relationship',
+			relationTo: 'menus',
+		},
+		{
+			name: 'footerMenu',
+			label: 'Footer Menu',
+			type: 'relationship',
+			relationTo: 'menus',
+		},
+		{
+			name: 'profileMenu',
+			label: 'Profile Menu',
+			type: 'relationship',
+			relationTo: 'menus',
+		},
+		{
+			name: 'docsMenu',
+			label: 'Docs Menu',
+			type: 'relationship',
+			relationTo: 'menus',
+		},
+		{
+			name: 'appMenu',
+			label: 'App Menu',
+			type: 'relationship',
+			relationTo: 'menus',
 		},
 		{
 			name: 'publishedAt',
