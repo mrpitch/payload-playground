@@ -3,6 +3,9 @@ import { CollectionConfig } from 'payload'
 export const Media: CollectionConfig = {
 	slug: 'media',
 	folders: true,
+	admin: {
+		group: 'Content',
+	},
 	access: {
 		read: () => true,
 	},

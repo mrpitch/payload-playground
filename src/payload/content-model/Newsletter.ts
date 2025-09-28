@@ -5,6 +5,7 @@ import { EmailGalleryBlock } from '@/payload/blocks/email-gallery'
 export const Newsletter: CollectionConfig = {
 	slug: 'newsletter',
 	admin: {
+		group: 'Content',
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 	},

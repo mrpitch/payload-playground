@@ -15,15 +15,17 @@ import sharp from 'sharp'
 import { plugins } from '@/payload/plugins'
 import { seed } from '@/payload/utils/seed/seed'
 
-import { AppShell } from '@/payload/globals/AppShell'
-import { EmailTemplates } from '@/payload/globals/EmailTemplates'
-import { Categories } from '@/payload/collections/Categories'
-import { Docs } from '@/payload/collections/Docs'
-import { Users } from '@/payload/collections/Users'
-import { Media } from '@/payload/collections/Media'
-import { Pages } from '@/payload/collections/Pages'
-import { Posts } from '@/payload/collections/Posts'
-import { Newsletter } from '@/payload/collections/Newsletter'
+import { Settings } from '@/payload/content-model/Settings'
+import { AppShell } from '@/payload/content-model/AppShell'
+import { EmailTemplates } from '@/payload/content-model/EmailTemplates'
+import { Categories } from '@/payload/content-model/Categories'
+import { Docs } from '@/payload/content-model/Docs'
+import { Users } from '@/payload/content-model/Users'
+import { Media } from '@/payload/content-model/Media'
+import { Menus } from '@/payload/content-model/Menus'
+import { Pages } from '@/payload/content-model/Pages'
+import { Posts } from '@/payload/content-model/Posts'
+import { Newsletter } from '@/payload/content-model/Newsletter'
 
 import { i18n, localization } from '@/payload/i18n/localization'
 import type { CollectionConfig } from 'payload'
@@ -58,8 +60,8 @@ export default buildConfig({
 			baseDir: path.resolve(dirname),
 		},
 	},
-	globals: [AppShell, EmailTemplates],
-	collections: [Categories, Docs, Pages, Posts, Newsletter, Users, Media],
+	globals: [Settings, AppShell, EmailTemplates],
+	collections: [Categories, Docs, Pages, Posts, Newsletter, Users, Media, Menus],
 	folders: {
 		debug: true, // optional
 		collectionOverrides: [
@@ -67,6 +69,7 @@ export default buildConfig({
 				const folderCollection: CollectionConfig = {
 					...collection,
 					admin: {
+						group: 'Content',
 						...collection.admin,
 						defaultColumns: ['name', 'order', 'createdAt', 'updatedAt'],
 					},

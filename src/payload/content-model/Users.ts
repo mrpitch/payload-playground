@@ -62,6 +62,7 @@ export const Users: CollectionConfig = {
 		},
 	},
 	admin: {
+		group: 'Admin',
 		useAsTitle: 'email',
 	},
 	access: {

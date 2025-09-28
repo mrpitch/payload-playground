@@ -4,7 +4,9 @@ import { adminAndEditor } from '@/payload/access/admin-and-editor'
 
 export const AppShell: GlobalConfig = {
 	slug: 'app-shell',
-	admin: {},
+	admin: {
+		group: 'Admin',
+	},
 	access: {
 		read: adminAndEditor,
 		update: admin,

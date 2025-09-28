@@ -15,7 +15,9 @@ import {
 
 export const EmailTemplates: GlobalConfig = {
 	slug: 'e-mail-templates',
-	admin: {},
+	admin: {
+		group: 'Admin',
+	},
 	access: {
 		read: adminAndEditor,
 		update: admin,

@@ -5,6 +5,7 @@ import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/rev
 export const Categories: CollectionConfig = {
 	slug: 'categories',
 	admin: {
+		group: 'Content',
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 	},
