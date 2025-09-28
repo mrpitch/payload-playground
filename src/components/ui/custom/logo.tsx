@@ -12,7 +12,7 @@ export const Logo: React.FC<ILogoProps> = ({ name, className }) => {
 	className = cn(baseStyles.default, className)
 
 	return (
-		<div className="flex items-center space-x-2">
+		<div className="text-foreground flex items-center space-x-2">
 			<svg
 				width="82"
 				height="100"
@@ -30,9 +30,7 @@ export const Logo: React.FC<ILogoProps> = ({ name, className }) => {
 					fill="currentColor"
 				/>
 			</svg>
-			{name ? (
-				<span className="text-foreground hidden font-semibold md:inline-block">{name}</span>
-			) : null}
+			{name ? <span className="hidden font-semibold md:inline-block">{name}</span> : null}
 		</div>
 	)
 }

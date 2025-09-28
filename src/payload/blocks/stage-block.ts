@@ -40,6 +40,20 @@ export const StageBlock: Block = {
 		{
 			name: 'backgroundImage',
 			type: 'upload',
+			// admin: {
+			// 	description: 'Image must be at least 1920x1080',
+			// },
+			// validate: (value: any) => {
+			// 	if (value.width / value.height !== 16 / 9) {
+			// 		return 'Image must be 16:9'
+			// 	}
+			// 	return true
+			// },
+			// filterOptions: {
+			// 	width: { greater_than_equal: 1920 },
+			// 	height: { greater_than_equal: 1080 },
+			// 	mimeType: { contains: 'image' },
+			// },
 			relationTo: 'media',
 		},
 	],

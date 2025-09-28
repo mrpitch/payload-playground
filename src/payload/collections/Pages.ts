@@ -17,6 +17,7 @@ import { ImageTextBlock } from '@/payload/blocks/image-text-block'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { StageBlock } from '@/payload/blocks/stage-block'
 import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
+import { DocsTeaserBlock } from '@/payload/blocks/docs-teaser-block'
 
 import { breakpoints } from '@/payload/utils/breakpoints'
 
@@ -104,7 +105,14 @@ export const Pages: CollectionConfig = {
 							type: 'blocks', // required
 							minRows: 1,
 							maxRows: 20,
-							blocks: [CopyBlock, ImageTextBlock, QuoteBlock, StageBlock, BlogTeaserBlock],
+							blocks: [
+								CopyBlock,
+								ImageTextBlock,
+								QuoteBlock,
+								StageBlock,
+								BlogTeaserBlock,
+								DocsTeaserBlock,
+							],
 						},
 					],
 				},

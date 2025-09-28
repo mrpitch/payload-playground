@@ -165,7 +165,19 @@ export interface Doc {
   title: string;
   slug: string;
   excerpt?: string | null;
-  thumbnail?: (number | null) | Media;
+  icon:
+    | 'layoutDashboard'
+    | 'rocket'
+    | 'dumbbell'
+    | 'tag'
+    | 'image'
+    | 'user'
+    | 'settings'
+    | 'code'
+    | 'bookOpen'
+    | 'database'
+    | 'shield'
+    | 'zap';
   meta?: {
     title?: string | null;
     /**
@@ -203,6 +215,48 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    small?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    medium?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -319,7 +373,7 @@ export interface Page {
     description?: string | null;
   };
   showPageTitle?: boolean | null;
-  layout?: (CopyBlock | ImageTextBlock | QuoteBlock | StageBlock | BlogTeaserBlock)[] | null;
+  layout?: (CopyBlock | ImageTextBlock | QuoteBlock | StageBlock | BlogTeaserBlock | DocsTeaserBlock)[] | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -357,6 +411,9 @@ export interface StageBlock {
   copy?: string | null;
   ctaText?: string | null;
   ctaLink?: string | null;
+  /**
+   * Image must be at least 1920x1080
+   */
   backgroundImage?: (number | null) | Media;
   id?: string | null;
   blockName?: string | null;
@@ -401,6 +458,18 @@ export interface Post {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DocsTeaserBlock".
+ */
+export interface DocsTeaserBlock {
+  headline: string;
+  subline?: string | null;
+  docs?: (number | Doc)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'docs-teaser';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -652,7 +721,7 @@ export interface DocsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   excerpt?: T;
-  thumbnail?: T;
+  icon?: T;
   meta?:
     | T
     | {
@@ -718,6 +787,7 @@ export interface PagesSelect<T extends boolean = true> {
         quote?: T | QuoteBlockSelect<T>;
         stage?: T | StageBlockSelect<T>;
         'blog-teaser'?: T | BlogTeaserBlockSelect<T>;
+        'docs-teaser'?: T | DocsTeaserBlockSelect<T>;
       };
   publishedAt?: T;
   updatedAt?: T;
@@ -768,6 +838,17 @@ export interface BlogTeaserBlockSelect<T extends boolean = true> {
   subline?: T;
   posts?: T;
   readMoreText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DocsTeaserBlock_select".
+ */
+export interface DocsTeaserBlockSelect<T extends boolean = true> {
+  headline?: T;
+  subline?: T;
+  docs?: T;
   id?: T;
   blockName?: T;
 }
@@ -907,6 +988,60 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        small?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1017,6 +1152,7 @@ export interface AppShell {
       | {
           label: string;
           href: string;
+          icon: 'layoutDashboard' | 'settings' | 'folderKanban';
           id?: string | null;
         }[]
       | null;
@@ -1123,6 +1259,7 @@ export interface AppShellSelect<T extends boolean = true> {
           | {
               label?: T;
               href?: T;
+              icon?: T;
               id?: T;
             };
       };

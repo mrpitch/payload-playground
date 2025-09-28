@@ -2,10 +2,10 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
-
-@import "./variables-nature.css";
+@import "./variables-candyland.css";
 @import "./theme.css";
-
+/*---break---*/
+@custom-variant dark (&:is(.dark *));
 
 /*override prose styles*/
 @layer utilities {
@@ -50,4 +50,5 @@
   body { @apply bg-background text-foreground; }
   * { @apply border-border; }
 }
+
 

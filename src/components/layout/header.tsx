@@ -1,23 +1,21 @@
 import Link from 'next/link'
 import { draftMode } from 'next/headers'
 
-import { siteConfig } from '@/lib/config'
 import { getSession } from '@/lib/actions/get-session'
-
-import type { AppShell } from '@payload-types'
 
 import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
-import { MainNav, DrawerNav, ProfileNav } from '@/app/_components/navigation'
-import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
+import { MainNav, MainNavSkeleton } from '@/components/layout/nav/main-nav'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
+import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
+import { Suspense } from 'react'
+import { NavigationProvider } from '@/components/utils/nav-provider.server'
 
 interface HeaderProps {
-	mainNavigation?: AppShell['mainNavigation']
-	profileNavigation?: AppShell['profileNavigation']
+	siteName?: string
 }
 
-export async function Header({ mainNavigation, profileNavigation }: HeaderProps) {
+export async function Header({ siteName }: HeaderProps) {
 	const user = await getSession()
 	const { isEnabled } = await draftMode()
 
@@ -27,15 +25,21 @@ export async function Header({ mainNavigation, profileNavigation }: HeaderProps)
 				<div className="flex w-full items-center justify-between py-2">
 					<div className="flex gap-6 md:gap-10">
 						<Link href="/" passHref>
-							<Logo className="text-foreground -ml-1" name={siteConfig.name} />
+							<Logo className="text-foreground -ml-1" name={siteName} />
 						</Link>
-						<MainNav items={mainNavigation?.navItems} />
+						<Suspense fallback={<MainNavSkeleton />}>
+							<NavigationProvider>
+								<MainNav />
+							</NavigationProvider>
+						</Suspense>
 					</div>
 					<div className="flex items-center justify-end">
-						<ProfileNav items={profileNavigation?.navItems ?? undefined} user={user} />
-						<ThemeToggle />
+						<Suspense fallback={<ThreedotsNavSkeleton />}>
+							<NavigationProvider>
+								<ThreedotsNav user={user} context="marketing" />
+							</NavigationProvider>
+						</Suspense>
 						{isEnabled ? <DisablePreviewButton /> : null}
-						<DrawerNav items={mainNavigation?.navItems ?? undefined} />
 					</div>
 				</div>
 			</Container>

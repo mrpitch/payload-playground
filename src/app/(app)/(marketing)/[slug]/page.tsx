@@ -75,20 +75,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 				</Container>
 			) : null}
 			<RenderBlocks blocks={layout} />
-			{slug === 'docs' ? (
-				<>
-					<Container as="div" className="overflow-x-scroll">
-						<ul>
-							{docs.map((doc) => (
-								<li key={doc.id}>
-									<Link href={`/docs/${doc.slug}`}>{doc.title}</Link>
-								</li>
-							))}
-						</ul>
-						{/* <pre>{JSON.stringify(page, null, 2)}</pre> */}
-					</Container>
-				</>
-			) : null}
 			{/* <Container as="div" className="overflow-x-scroll">
 				<pre>{JSON.stringify(page, null, 2)}</pre>
 			</Container> */}

@@ -7,6 +7,7 @@ import CopyBlock from '@/components/layout/copy-block'
 import Stage from '@/components/layout/stage'
 import ImageText from '@/components/layout/image-text'
 import BlogTeaser from '@/components/layout//blog-teaser-block'
+import DocsTeaser from '@/components/layout/docs-teaser-block'
 
 interface IRenderBlocksProps {
 	blocks: Page['layout'] | Post['layout']
@@ -18,6 +19,7 @@ const blockComponents = {
 	quote: QuoteBlock,
 	stage: Stage,
 	'blog-teaser': BlogTeaser,
+	'docs-teaser': DocsTeaser,
 }
 
 export const RenderBlocks: React.FC<IRenderBlocksProps> = ({ blocks }) => {
