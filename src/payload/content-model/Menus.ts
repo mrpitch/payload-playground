@@ -40,7 +40,6 @@ export const Menus: CollectionConfig = {
 				},
 			},
 			fields: [createParentMenuLink()],
-			dbName: 'menuSections',
 			minRows: 1,
 			maxRows: 15,
 		},

@@ -15,7 +15,7 @@ import sharp from 'sharp'
 import { plugins } from '@/payload/plugins'
 import { seed } from '@/payload/utils/seed/seed'
 
-import { Settings } from '@/payload/content-model/Settings'
+import { AppSettings } from '@/payload/content-model/AppSettings'
 import { AppShell } from '@/payload/content-model/AppShell'
 import { EmailTemplates } from '@/payload/content-model/EmailTemplates'
 import { Categories } from '@/payload/content-model/Categories'
@@ -60,7 +60,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname),
 		},
 	},
-	globals: [Settings, AppShell, EmailTemplates],
+	globals: [AppShell, EmailTemplates, AppSettings],
 	collections: [Categories, Docs, Pages, Posts, Newsletter, Users, Media, Menus],
 	folders: {
 		debug: true, // optional

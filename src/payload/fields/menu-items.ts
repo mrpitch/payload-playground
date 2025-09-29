@@ -1,6 +1,8 @@
 import type { Field, GroupField } from 'payload'
 import deepMerge from '@/payload/utils/deepMerge'
 
+import { ContentItemsIconOptions } from '@/payload/fields/content-items-icons'
+
 // Types
 export type TMenuLinkType = 'nolink' | 'folder' | 'pages' | 'docs' | 'external'
 
@@ -54,61 +56,6 @@ export const menuLinkTypeOptions: { label: string; value: TMenuLinkType }[] = [
 	{
 		label: 'External link',
 		value: 'external',
-	},
-]
-
-export const menuLinkIconOptions: { label: string; value: string }[] = [
-	{
-		label: 'Layout Dashboard',
-		value: 'layoutDashboard',
-	},
-	{
-		label: 'Folder Kanban',
-		value: 'folderKanban',
-	},
-	{
-		label: 'Image',
-		value: 'image',
-	},
-	{
-		label: 'Book Open',
-		value: 'bookOpen',
-	},
-	{
-		label: 'Database',
-		value: 'database',
-	},
-	{
-		label: 'Shield',
-		value: 'shield',
-	},
-	{
-		label: 'Zap',
-		value: 'zap',
-	},
-	{
-		label: 'Rocket',
-		value: 'rocket',
-	},
-	{
-		label: 'Dumbbell',
-		value: 'dumbbell',
-	},
-	{
-		label: 'Tag',
-		value: 'tag',
-	},
-	{
-		label: 'User',
-		value: 'user',
-	},
-	{
-		label: 'Settings',
-		value: 'settings',
-	},
-	{
-		label: 'Code',
-		value: 'code',
 	},
 ]
 
@@ -172,7 +119,7 @@ export const createIconField = (): Field => ({
 		width: '10%',
 		condition: (_, siblingData) => siblingData?.type === 'pages' || siblingData?.type === 'folder',
 	},
-	options: menuLinkIconOptions,
+	options: ContentItemsIconOptions,
 })
 
 /**
@@ -305,7 +252,7 @@ export const createChildMenuLink = (config: TMenuLinkFieldConfig = {}): GroupFie
 			width: '10%',
 			condition: (_, siblingData) => siblingData?.type === 'pages', // Only show for pages
 		},
-		options: menuLinkIconOptions,
+		options: ContentItemsIconOptions,
 	}
 
 	const childLabelField: Field = {

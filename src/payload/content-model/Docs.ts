@@ -11,6 +11,7 @@ import {
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
+import { ContentItemsIconOptions } from '@/payload/fields/content-items-icons'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { CopyBlock } from '@/payload/blocks/copy-block'
 
@@ -72,20 +73,7 @@ export const Docs: CollectionConfig = {
 			name: 'icon',
 			type: 'select',
 			required: true,
-			options: [
-				'layoutDashboard',
-				'rocket',
-				'dumbbell',
-				'tag',
-				'image',
-				'user',
-				'settings',
-				'code',
-				'bookOpen',
-				'database',
-				'shield',
-				'zap',
-			],
+			options: ContentItemsIconOptions,
 		},
 		{
 			type: 'tabs',
