@@ -49,24 +49,36 @@ export const AppSettings: GlobalConfig = {
 							label: 'Main Menu',
 							type: 'relationship',
 							relationTo: 'menus',
+							filterOptions: {
+								menuType: { equals: 'main' },
+							},
 						},
 						{
 							name: 'footerMenu',
 							label: 'Footer Menu',
 							type: 'relationship',
 							relationTo: 'menus',
+							filterOptions: {
+								menuType: { equals: 'footer' },
+							},
 						},
 						{
 							name: 'profileMenu',
 							label: 'User Profile Menu',
 							type: 'relationship',
 							relationTo: 'menus',
+							filterOptions: {
+								menuType: { equals: 'profile' },
+							},
 						},
 						{
 							name: 'dashboardMenu',
 							label: 'Dashboard Sidebar Menu',
 							type: 'relationship',
 							relationTo: 'menus',
+							filterOptions: {
+								menuType: { equals: 'dashboard' },
+							},
 						},
 						{
 							name: 'docsMenu',
@@ -74,6 +86,9 @@ export const AppSettings: GlobalConfig = {
 							type: 'relationship',
 							hasMany: true,
 							relationTo: 'menus',
+							filterOptions: {
+								menuType: { equals: 'docs' },
+							},
 						},
 					],
 				},

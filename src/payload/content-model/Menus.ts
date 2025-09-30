@@ -3,6 +3,14 @@ import { adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
 import { createParentMenuLink } from '@/payload/fields/menu-items'
 
+export const MenuTypes = [
+	{ label: 'Main', value: 'mainMenu' },
+	{ label: 'Footer', value: 'footerMenu' },
+	{ label: 'Profile', value: 'profileMenu' },
+	{ label: 'Dashboard', value: 'dashboardMenu' },
+	{ label: 'Docs', value: 'docsMenu' },
+]
+
 export const Menus: CollectionConfig = {
 	slug: 'menus',
 	labels: {
@@ -22,9 +30,24 @@ export const Menus: CollectionConfig = {
 	},
 	fields: [
 		{
+			name: 'menuType',
+			type: 'select',
+			label: 'Menu Type',
+			required: true,
+			options: MenuTypes,
+		},
+		{
 			name: 'name',
 			type: 'text',
 			required: true,
+		},
+		{
+			name: 'shortDescription',
+			type: 'text',
+			label: 'Short Description',
+			admin: {
+				condition: (data) => data?.menuType === 'docsMenu',
+			},
 		},
 		{
 			name: 'menuItems',
