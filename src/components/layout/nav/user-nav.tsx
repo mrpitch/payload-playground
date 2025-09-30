@@ -64,7 +64,7 @@ export function UserNav({ user, context = 'app' }: INavProps) {
 								</SidebarMenuButton>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent
-								className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg p-0"
+								className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg p-0"
 								side={isMobile ? 'bottom' : 'right'}
 								align="end"
 								sideOffset={4}
