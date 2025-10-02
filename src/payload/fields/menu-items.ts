@@ -109,6 +109,33 @@ export const createTypeSelectorField = (): Field => ({
 	options: menuLinkTypeOptions,
 })
 
+export const createTypeSelectorFieldArray = (): Field[] => {
+	return [
+		{
+			name: 'type',
+			type: 'radio',
+			admin: {
+				layout: 'horizontal',
+				width: '50%',
+				//hidden: true,
+			},
+			options: menuLinkTypeOptions,
+		},
+		{
+			name: 'typePages',
+			type: 'ui',
+			admin: {
+				components: {
+					Field: {
+						path: 'src/payload/fields/custom-radio.tsx',
+						exportName: 'CustomRadioFieldClient',
+					},
+				},
+			},
+		},
+	]
+}
+
 /**
  * Creates the icon selector field
  */
@@ -151,7 +178,8 @@ export const createBaseMenuLink = (config: TMenuLinkFieldConfig = {}): GroupFiel
 		fields: [
 			{
 				type: 'row',
-				fields: [createTypeSelectorField()],
+				//fields: [createTypeSelectorField()],
+				fields: createTypeSelectorFieldArray(),
 			},
 		],
 	}

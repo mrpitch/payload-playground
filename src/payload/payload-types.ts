@@ -105,14 +105,14 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    settings: Setting;
     'app-shell': AppShell;
     'e-mail-templates': EMailTemplate;
+    'app-settings': AppSetting;
   };
   globalsSelect: {
-    settings: SettingsSelect<false> | SettingsSelect<true>;
     'app-shell': AppShellSelect<false> | AppShellSelect<true>;
     'e-mail-templates': EMailTemplatesSelect<false> | EMailTemplatesSelect<true>;
+    'app-settings': AppSettingsSelect<false> | AppSettingsSelect<true>;
   };
   locale: 'en' | 'de';
   user: User & {
@@ -171,17 +171,18 @@ export interface Doc {
   excerpt?: string | null;
   icon:
     | 'layoutDashboard'
-    | 'rocket'
-    | 'dumbbell'
-    | 'tag'
+    | 'folderKanban'
     | 'image'
-    | 'user'
-    | 'settings'
-    | 'code'
     | 'bookOpen'
     | 'database'
     | 'shield'
-    | 'zap';
+    | 'zap'
+    | 'rocket'
+    | 'dumbbell'
+    | 'tag'
+    | 'user'
+    | 'settings'
+    | 'code';
   meta?: {
     title?: string | null;
     /**
@@ -523,7 +524,9 @@ export interface EmailGalleryBlock {
  */
 export interface Menu {
   id: number;
+  menuType: 'mainMenu' | 'footerMenu' | 'profileMenu' | 'dashboardMenu' | 'docsMenu';
   name: string;
+  shortDescription?: string | null;
   menuItems?:
     | {
         link: {
@@ -1116,7 +1119,9 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "menus_select".
  */
 export interface MenusSelect<T extends boolean = true> {
+  menuType?: T;
   name?: T;
+  shortDescription?: T;
   menuItems?:
     | T
     | {
@@ -1229,26 +1234,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "settings".
- */
-export interface Setting {
-  id: number;
-  settings: {
-    siteName: string;
-    siteDescription: string;
-  };
-  mainNav?: {};
-  footerNav?: {};
-  profielNav?: {};
-  appNav?: {};
-  docsNav?: {};
-  publishedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "app-shell".
  */
 export interface AppShell {
@@ -1348,25 +1333,25 @@ export interface EMailTemplate {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "settings_select".
+ * via the `definition` "app-settings".
  */
-export interface SettingsSelect<T extends boolean = true> {
-  settings?:
-    | T
-    | {
-        siteName?: T;
-        siteDescription?: T;
-      };
-  mainNav?: T | {};
-  footerNav?: T | {};
-  profielNav?: T | {};
-  appNav?: T | {};
-  docsNav?: T | {};
-  publishedAt?: T;
-  _status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
+export interface AppSetting {
+  id: number;
+  settings: {
+    siteName: string;
+    siteDescription: string;
+  };
+  menus?: {
+    mainMenu?: (number | null) | Menu;
+    footerMenu?: (number | null) | Menu;
+    profileMenu?: (number | null) | Menu;
+    dashboardMenu?: (number | null) | Menu;
+    docsMenu?: (number | Menu)[] | null;
+  };
+  publishedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1475,6 +1460,32 @@ export interface EMailTemplatesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-settings_select".
+ */
+export interface AppSettingsSelect<T extends boolean = true> {
+  settings?:
+    | T
+    | {
+        siteName?: T;
+        siteDescription?: T;
+      };
+  menus?:
+    | T
+    | {
+        mainMenu?: T;
+        footerMenu?: T;
+        profileMenu?: T;
+        dashboardMenu?: T;
+        docsMenu?: T;
+      };
+  publishedAt?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -1498,7 +1509,7 @@ export interface TaskSchedulePublish {
           relationTo: 'posts';
           value: number | Post;
         } | null);
-    global?: ('settings' | 'app-shell') | null;
+    global?: ('app-shell' | 'app-settings') | null;
     user?: (number | null) | User;
   };
   output?: unknown;
