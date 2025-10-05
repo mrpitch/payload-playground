@@ -95,31 +95,21 @@ export const createLinkTypeFields = (): Field[] => [
 	},
 ]
 
+/**
+ * Creates the type selector field
+ */
 export const createTypeSelectorField = (): Field => ({
 	name: 'type',
 	type: 'text',
 	admin: {
 		components: {
 			Field: {
-				path: 'src/payload/fields/custom-radio.tsx',
+				path: 'src/payload/fields/menu-items-type-radio.tsx',
 				exportName: 'CustomRadioFieldClient',
 			},
 		},
 	},
 })
-/**
- * Creates the type selector field
- */
-// export const createTypeSelectorField = (): Field => ({
-// 	name: 'type',
-// 	type: 'radio',
-// 	admin: {
-// 		layout: 'horizontal',
-// 		width: '50%',
-// 	},
-// 	defaultValue: 'pages',
-// 	options: menuLinkTypeOptions,
-// })
 
 /**
  * Creates the icon selector field
@@ -245,24 +235,13 @@ export const createChildMenuLink = (config: TMenuLinkFieldConfig = {}): GroupFie
 		(option) => option.value === 'pages' || option.value === 'docs' || option.value === 'external',
 	)
 
-	// const childTypeSelectorField: Field = {
-	// 	name: 'type',
-	// 	type: 'radio',
-	// 	admin: {
-	// 		layout: 'horizontal',
-	// 		width: '50%',
-	// 	},
-	// 	defaultValue: 'pages',
-	// 	options: childLinkTypeOptions,
-	// }
-
 	const childTypeSelectorField: Field = {
 		name: 'type',
 		type: 'text',
 		admin: {
 			components: {
 				Field: {
-					path: 'src/payload/fields/custom-radio.tsx',
+					path: 'src/payload/fields/menu-items-type-radio.tsx',
 					exportName: 'CustomRadioFieldClient',
 				},
 			},

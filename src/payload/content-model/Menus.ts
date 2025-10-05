@@ -2,6 +2,7 @@ import { CollectionConfig } from 'payload'
 import { adminAndEditor } from '@/payload/access'
 import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
 import { createParentMenuLink } from '@/payload/fields/menu-items'
+import { MenuTypeSelectField } from '@/payload/fields/menu-type-select'
 
 export const MenuTypes = [
 	{ label: 'Main', value: 'mainMenu' },
@@ -35,6 +36,14 @@ export const Menus: CollectionConfig = {
 			label: 'Menu Type',
 			required: true,
 			options: MenuTypes,
+			admin: {
+				components: {
+					Field: {
+						path: 'src/payload/fields/menu-type-select.tsx',
+						exportName: 'MenuTypeSelectField',
+					},
+				},
+			},
 		},
 		{
 			name: 'name',

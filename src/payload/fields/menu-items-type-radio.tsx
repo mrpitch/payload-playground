@@ -1,6 +1,6 @@
 'use client'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { RadioGroupField, useField, useFormFields } from '@payloadcms/ui'
+import { RadioGroupField, useField } from '@payloadcms/ui'
 
 import type { RadioFieldClientComponent, RadioFieldClientProps } from 'payload'
 
@@ -62,8 +62,8 @@ export const CustomRadioFieldClient: RadioFieldClientComponent = (props: RadioFi
 	const { value, setValue } = useField<string>({ path })
 	const [options, setOptions] = useState<{ label: string; value: TMenuLinkType }[]>([])
 
-	// Only subscribe to menuType changes, not all form fields
-	const { value: menuType } = useFormFields(([fields]) => fields.menuType)
+	// Read the top-level menuType field (single source of truth)
+	const { value: menuType } = useField<string>({ path: 'menuType' })
 
 	// Memoize the filtered options to prevent unnecessary recalculations
 	const filteredOptions = useMemo(() => {
