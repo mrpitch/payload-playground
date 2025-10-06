@@ -122,6 +122,7 @@ export const createIconField = (): Field => ({
 		condition: (_, siblingData) => siblingData?.type === 'pages' || siblingData?.type === 'folder',
 	},
 	options: ContentItemsIconOptions,
+	dbName: 'menu_link_icon',
 })
 
 /**
@@ -209,6 +210,7 @@ export const createParentMenuLink = (config: TMenuLinkFieldConfig = {}): GroupFi
 				},
 			},
 			fields: [createChildMenuLink()],
+			dbName: 'menu_child_links',
 		}
 
 		baseLink.fields.push({
@@ -257,6 +259,7 @@ export const createChildMenuLink = (config: TMenuLinkFieldConfig = {}): GroupFie
 			condition: (_, siblingData) => siblingData?.type === 'pages', // Only show for pages
 		},
 		options: ContentItemsIconOptions,
+		dbName: 'menu_child_link_icon',
 	}
 
 	const childLabelField: Field = {
@@ -289,21 +292,4 @@ export const createChildMenuLink = (config: TMenuLinkFieldConfig = {}): GroupFie
 	}
 
 	return deepMerge(childLinkResult, overrides)
-}
-
-// Legacy compatibility
-type TMenuLink = (options?: { disableLabel?: boolean; overrides?: Partial<GroupField> }) => Field
-
-/**
- * @deprecated Use createParentMenuLink or createChildMenuLink instead
- * This function is kept for backward compatibility
- */
-export const menuLink: TMenuLink = ({ disableLabel = false, overrides = {} } = {}) => {
-	const config: TMenuLinkFieldConfig = {
-		disableLabel,
-		disableChildren: disableLabel, // If no label, assume no children
-		overrides,
-	}
-
-	return createParentMenuLink(config)
 }

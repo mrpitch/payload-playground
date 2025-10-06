@@ -23,6 +23,15 @@ export const Menus: CollectionConfig = {
 		useAsTitle: 'name',
 		defaultColumns: ['name', 'publishedAt', 'status'],
 	},
+	versions: {
+		drafts: {
+			autosave: {
+				interval: 1000, // We set this interval for optimal live preview
+			},
+			schedulePublish: true,
+		},
+		maxPerDoc: 10,
+	},
 	access: {
 		create: adminAndEditor,
 		read: adminAndEditor,
@@ -74,6 +83,7 @@ export const Menus: CollectionConfig = {
 			fields: [createParentMenuLink()],
 			minRows: 1,
 			maxRows: 15,
+			dbName: 'menu_items',
 		},
 		{
 			name: 'publishedAt',
