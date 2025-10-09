@@ -5,8 +5,8 @@ import { getGlobals } from '@/lib/utils/getGlobals'
 import type { AppShell } from '@payload-types'
 
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
-import { SidebarNavApp, SidebarNavAppSkeleton } from '@/components/layout/nav/sidebar-nav-app'
 
+import { DocsNavApp, DocsNavAppSkeleton } from '@/components/layout/nav'
 import { NavigationProvider } from '@/components/utils/nav-provider.server'
 import { Suspense } from 'react'
 import { Footer } from '@/components/layout/footer'
@@ -22,9 +22,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
 	return (
 		<SidebarProvider defaultOpen={false}>
-			<Suspense fallback={<SidebarNavAppSkeleton />}>
+			<Suspense fallback={<DocsNavAppSkeleton />}>
 				<NavigationProvider>
-					<SidebarNavApp user={user} />
+					<DocsNavApp user={user} />
 				</NavigationProvider>
 			</Suspense>
 			<SidebarInset>

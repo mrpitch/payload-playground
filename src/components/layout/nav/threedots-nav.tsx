@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Icon } from '@/components/ui/custom/icons'
 import { useNavigation } from '@/components/utils/nav-provider'
-import { UserNav } from './user-nav'
+import { UserNav } from './profile-nav'
 import {
 	Sidebar,
 	SidebarContent,
@@ -41,6 +41,25 @@ export function ThreedotsNavSkeleton() {
 			<Skeleton className="h-8 w-8 rounded-md" />
 		</div>
 	)
+}
+
+// Helper function to get the correct href for threedots menu items (pages only)
+function getThreedotsMenuItemHref(
+	item: NonNullable<NonNullable<ReturnType<typeof useNavigation>['mainNav']>['menuItems']>[0],
+): string {
+	if (!item?.link) return '#'
+
+	const { type, pages } = item.link
+
+	// Only handle pages, ignore other types
+	if (type === 'pages' && pages && typeof pages === 'object' && 'value' in pages) {
+		const page = pages.value
+		if (typeof page === 'object' && page?.slug) {
+			return `/${page.slug}`
+		}
+	}
+
+	return '#'
 }
 
 export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
@@ -75,20 +94,35 @@ export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 						<Sidebar collapsible="none" className="bg-transparent">
 							<SidebarContent>
 								{/* Main Navigation Items Group */}
-								{mainNav && mainNav.navItems ? (
+								{mainNav && mainNav.menuItems ? (
 									<SidebarGroup className={cn(context === 'marketing' ? 'md:hidden' : '')}>
 										<SidebarGroupLabel>Main</SidebarGroupLabel>
 										<SidebarGroupContent className="min-w-56 gap-0">
 											<SidebarMenu>
-												{mainNav.navItems.map((item, index) => (
-													<SidebarMenuItem key={index}>
-														<SidebarMenuButton asChild>
-															<Link href={item.href as string}>
-																<span>{item.label}</span>
-															</Link>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
-												))}
+												{mainNav.menuItems.map((item, index) => {
+													// Only show pages, ignore other types
+													if (item.link?.type !== 'pages') {
+														return null
+													}
+
+													const href = getThreedotsMenuItemHref(item)
+													const label = item.link?.label || 'Link'
+
+													// Skip if no valid href
+													if (href === '#') {
+														return null
+													}
+
+													return (
+														<SidebarMenuItem key={index}>
+															<SidebarMenuButton asChild>
+																<Link href={href}>
+																	<span>{label}</span>
+																</Link>
+															</SidebarMenuButton>
+														</SidebarMenuItem>
+													)
+												})}
 											</SidebarMenu>
 										</SidebarGroupContent>
 									</SidebarGroup>

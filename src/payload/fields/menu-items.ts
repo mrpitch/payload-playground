@@ -4,7 +4,7 @@ import deepMerge from '@/payload/utils/deepMerge'
 import { ContentItemsIconOptions } from '@/payload/fields/content-items-icons'
 
 // Types
-export type TMenuLinkType = 'nolink' | 'folder' | 'pages' | 'docs' | 'external'
+export type TMenuLinkType = 'nolink' | 'folder' | 'pages' | 'docs' | 'url'
 
 export type TMenuLinkBase = {
 	type: TMenuLinkType
@@ -54,8 +54,8 @@ export const menuLinkTypeOptions: { label: string; value: TMenuLinkType }[] = [
 		value: 'docs',
 	},
 	{
-		label: 'External link',
-		value: 'external',
+		label: 'URL',
+		value: 'url',
 	},
 ]
 
@@ -88,9 +88,9 @@ export const createLinkTypeFields = (): Field[] => [
 		name: 'url',
 		type: 'text',
 		admin: {
-			condition: (_, siblingData) => siblingData?.type === 'external',
+			condition: (_, siblingData) => siblingData?.type === 'url',
 		},
-		label: 'External URL',
+		label: 'URL',
 		required: true,
 	},
 ]
@@ -119,7 +119,10 @@ export const createIconField = (): Field => ({
 	type: 'select',
 	admin: {
 		width: '20%',
-		condition: (_, siblingData) => siblingData?.type === 'pages' || siblingData?.type === 'folder',
+		condition: (_, siblingData) =>
+			siblingData?.type === 'pages' ||
+			siblingData?.type === 'folder' ||
+			siblingData?.type === 'url',
 	},
 	options: ContentItemsIconOptions,
 	dbName: 'menu_link_icon',
@@ -227,14 +230,14 @@ export const createParentMenuLink = (config: TMenuLinkFieldConfig = {}): GroupFi
 
 /**
  * Creates a child menu link (simplified version without children)
- * Only allows: pages, docs, external - no folders or nolink
+ * Only allows: pages, docs, url - no folders or nolink
  */
 export const createChildMenuLink = (config: TMenuLinkFieldConfig = {}): GroupField => {
 	const { overrides = {} } = config
 
 	// Child links only support pages, docs, and external - no folders or nolink
 	const childLinkTypeOptions = menuLinkTypeOptions.filter(
-		(option) => option.value === 'pages' || option.value === 'docs' || option.value === 'external',
+		(option) => option.value === 'pages' || option.value === 'docs' || option.value === 'url',
 	)
 
 	const childTypeSelectorField: Field = {

@@ -1,24 +1,26 @@
 import { cache } from 'react'
 
-import type { AppShell } from '@payload-types'
+import type { AppSetting, Menu } from '@payload-types'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
 
 export interface TNavData {
-	mainNav?: AppShell['mainNavigation']
-	appNav?: AppShell['sideBarNavigation']
-	userNav?: AppShell['profileNavigation']
-	footerNav?: AppShell['legalNavigation']
-	settings?: AppShell['settings']
+	mainNav?: Menu
+	footerNav?: Menu
+	profileNav?: Menu
+	dashboardNav?: Menu
+	docsNav?: Menu[]
+	settings?: AppSetting['settings']
 }
 
 export const getNavData = cache(async (): Promise<TNavData> => {
-	const appShell = (await getGlobals('app-shell')) as AppShell
+	const appSettings = (await getGlobals('app-settings')) as AppSetting
 	return {
-		mainNav: appShell?.mainNavigation,
-		appNav: appShell?.sideBarNavigation,
-		userNav: appShell?.profileNavigation,
-		footerNav: appShell?.legalNavigation,
-		settings: appShell?.settings,
+		mainNav: appSettings?.menus?.mainMenu as Menu,
+		footerNav: appSettings?.menus?.footerMenu as Menu,
+		profileNav: appSettings?.menus?.profileMenu as Menu,
+		dashboardNav: appSettings?.menus?.dashboardMenu as Menu,
+		docsNav: appSettings?.menus?.docsMenu as Menu[],
+		settings: appSettings?.settings,
 	}
 })

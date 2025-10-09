@@ -79,10 +79,26 @@ export function UserNav({ user, context = 'app' }: INavProps) {
 	)
 }
 
-export function UserProfile({ user }: { user: User | null }) {
-	const { userNav } = useNavigation()
+// Helper function to get the correct href for profile menu items (URL only)
+function getProfileMenuItemHref(
+	item: NonNullable<NonNullable<ReturnType<typeof useNavigation>['profileNav']>['menuItems']>[0],
+): string {
+	if (!item?.link) return '#'
 
-	if (!user || !userNav || !userNav.navItems) return null
+	const { type, url } = item.link
+
+	// Only handle URLs, ignore other types
+	if (type === 'url') {
+		return url || '#'
+	}
+
+	return '#'
+}
+
+export function UserProfile({ user }: { user: User | null }) {
+	const { profileNav } = useNavigation()
+
+	if (!user || !profileNav || !profileNav.menuItems) return null
 
 	return (
 		<SidebarGroup className="min-w-56 border-t">
@@ -105,16 +121,32 @@ export function UserProfile({ user }: { user: User | null }) {
 							<span className="sr-only">My Account</span>
 						</SidebarMenuItem>
 					) : null}
-					{userNav.navItems.map((item, index) => (
-						<SidebarMenuItem key={index}>
-							<SidebarMenuButton asChild>
-								<Link href={item.href as string}>
-									{item?.icon ? <Icon iconName={item.icon as IconType} /> : null}
-									<span>{item.label}</span>
-								</Link>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
-					))}
+					{profileNav.menuItems.map((item, index) => {
+						// Only show URL items, ignore other types
+						if (item.link?.type !== 'url') {
+							return null
+						}
+
+						const href = getProfileMenuItemHref(item)
+						const label = item.link?.label || 'Link'
+						const icon = item.link?.icon as IconType
+
+						// Skip if no valid href
+						if (href === '#') {
+							return null
+						}
+
+						return (
+							<SidebarMenuItem key={index}>
+								<SidebarMenuButton asChild>
+									<Link href={href}>
+										{icon ? <Icon iconName={icon} /> : null}
+										<span>{label}</span>
+									</Link>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+						)
+					})}
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
 							<LogoutButton>

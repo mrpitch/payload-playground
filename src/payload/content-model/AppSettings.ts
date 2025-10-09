@@ -50,7 +50,7 @@ export const AppSettings: GlobalConfig = {
 							type: 'relationship',
 							relationTo: 'menus',
 							filterOptions: {
-								menuType: { equals: 'main' },
+								menuType: { equals: 'mainMenu' },
 							},
 						},
 						{
@@ -59,7 +59,7 @@ export const AppSettings: GlobalConfig = {
 							type: 'relationship',
 							relationTo: 'menus',
 							filterOptions: {
-								menuType: { equals: 'footer' },
+								menuType: { equals: 'footerMenu' },
 							},
 						},
 						{
@@ -68,7 +68,7 @@ export const AppSettings: GlobalConfig = {
 							type: 'relationship',
 							relationTo: 'menus',
 							filterOptions: {
-								menuType: { equals: 'profile' },
+								menuType: { equals: 'profileMenu' },
 							},
 						},
 						{
@@ -77,7 +77,7 @@ export const AppSettings: GlobalConfig = {
 							type: 'relationship',
 							relationTo: 'menus',
 							filterOptions: {
-								menuType: { equals: 'dashboard' },
+								menuType: { equals: 'dashboardMenu' },
 							},
 						},
 						{
@@ -87,7 +87,7 @@ export const AppSettings: GlobalConfig = {
 							hasMany: true,
 							relationTo: 'menus',
 							filterOptions: {
-								menuType: { equals: 'docs' },
+								menuType: { equals: 'docsMenu' },
 							},
 						},
 					],

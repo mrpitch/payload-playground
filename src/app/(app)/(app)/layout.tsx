@@ -18,8 +18,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import {
-	SidebarNavApp,
-	SidebarNavAppSkeleton,
+	DashboardNavApp,
+	DashboardNavAppSkeleton,
 	ThreedotsNav,
 	ThreedotsNavSkeleton,
 } from '@/components/layout/nav'
@@ -38,9 +38,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	}
 	return (
 		<SidebarProvider defaultOpen={false}>
-			<Suspense fallback={<SidebarNavAppSkeleton />}>
+			<Suspense fallback={<DashboardNavAppSkeleton />}>
 				<NavigationProvider>
-					<SidebarNavApp user={user} />
+					<DashboardNavApp user={user} />
 				</NavigationProvider>
 			</Suspense>
 			<SidebarInset>
@@ -67,7 +67,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 					</div>
 				</header>
 				<div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
-				<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
+				<Footer siteName={settings?.siteName} />
 			</SidebarInset>
 		</SidebarProvider>
 	)

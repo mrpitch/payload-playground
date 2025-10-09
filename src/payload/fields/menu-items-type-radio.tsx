@@ -3,38 +3,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { RadioGroupField, useField } from '@payloadcms/ui'
 
 import type { RadioFieldClientComponent, RadioFieldClientProps } from 'payload'
-
-// Types
-export type TMenuLinkType = 'nolink' | 'folder' | 'pages' | 'docs' | 'external'
-export const menuLinkTypeOptions: { label: string; value: TMenuLinkType }[] = [
-	{
-		label: 'Label',
-		value: 'nolink',
-	},
-	{
-		label: 'Folder',
-		value: 'folder',
-	},
-	{
-		label: 'Pages',
-		value: 'pages',
-	},
-	{
-		label: 'Docs',
-		value: 'docs',
-	},
-	{
-		label: 'External link',
-		value: 'external',
-	},
-]
+import { TMenuLinkType, menuLinkTypeOptions } from '@/payload/fields/menu-items'
 
 // Define allowed options for each menu type
 const menuTypeAllowedOptions: Record<string, TMenuLinkType[]> = {
 	mainMenu: ['nolink', 'folder', 'pages'],
 	footerMenu: ['nolink', 'folder', 'pages'],
-	profileMenu: ['nolink', 'folder', 'pages'],
-	dashboardMenu: ['nolink', 'folder', 'pages'],
+	profileMenu: ['nolink', 'folder', 'url'],
+	dashboardMenu: ['nolink', 'folder', 'url'],
 	docsMenu: ['nolink', 'folder', 'docs'],
 }
 

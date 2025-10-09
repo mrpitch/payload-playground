@@ -530,7 +530,7 @@ export interface Menu {
   menuItems?:
     | {
         link: {
-          type?: ('nolink' | 'folder' | 'pages' | 'docs' | 'external') | null;
+          type?: string | null;
           icon?:
             | (
                 | 'layoutDashboard'
@@ -561,7 +561,7 @@ export interface Menu {
           menuChildLinks?:
             | {
                 link: {
-                  type?: ('pages' | 'docs' | 'external') | null;
+                  type?: string | null;
                   icon?:
                     | (
                         | 'layoutDashboard'
@@ -600,6 +600,7 @@ export interface Menu {
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1155,6 +1156,7 @@ export interface MenusSelect<T extends boolean = true> {
   publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1508,6 +1510,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'posts';
           value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'menus';
+          value: number | Menu;
         } | null);
     global?: ('app-shell' | 'app-settings') | null;
     user?: (number | null) | User;

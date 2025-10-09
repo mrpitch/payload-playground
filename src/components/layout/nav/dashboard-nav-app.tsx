@@ -21,7 +21,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { useNavigation } from '@/components/utils/nav-provider'
 
-import { UserNav } from './user-nav'
+import { UserNav } from './profile-nav'
 
 export interface ISideBarNavProps {
 	user: User | null
@@ -29,12 +29,55 @@ export interface ISideBarNavProps {
 	className?: string
 }
 
-export function SidebarNavApp({
+// Helper function to get the correct href for sidebar menu items
+function getSidebarMenuItemHref(
+	item: NonNullable<NonNullable<ReturnType<typeof useNavigation>['dashboardNav']>['menuItems']>[0],
+): string {
+	if (!item?.link) {
+		console.log('No link found for item:', item)
+		return '#'
+	}
+
+	const { type, pages, docs, url } = item.link
+	console.log('Processing item:', { type, pages, docs, url })
+
+	switch (type) {
+		case 'pages':
+			if (pages && typeof pages === 'object' && 'value' in pages) {
+				const page = pages.value
+				if (typeof page === 'object' && page?.slug) {
+					console.log('Found page slug:', page.slug)
+					return `/${page.slug}`
+				}
+			}
+			console.log('Pages relationship not found or invalid')
+			break
+		case 'docs':
+			if (docs && typeof docs === 'object' && 'value' in docs) {
+				const doc = docs.value
+				if (typeof doc === 'object' && doc?.slug) {
+					console.log('Found doc slug:', doc.slug)
+					return `/docs/${doc.slug}`
+				}
+			}
+			console.log('Docs relationship not found or invalid')
+			break
+		case 'url':
+			console.log('Found URL:', url)
+			return url || '#'
+		default:
+			console.log('Unknown link type:', type)
+	}
+
+	return '#'
+}
+
+export function DashboardNavApp({
 	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
-	const { appNav, settings } = useNavigation()
+	const { dashboardNav, settings } = useNavigation()
 
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
@@ -48,16 +91,30 @@ export function SidebarNavApp({
 					<SidebarGroupContent>
 						{state === 'collapsed' ? null : <SidebarGroupLabel>Training</SidebarGroupLabel>}
 						<SidebarMenu>
-							{appNav?.navItems?.map((item) => (
-								<SidebarMenuItem key={item.label}>
-									<SidebarMenuButton asChild tooltip={item.label}>
-										<Link href={item.href as string}>
-											{item?.icon ? <Icon iconName={item.icon as IconType} /> : null}
-											<span>{item.label}</span>
-										</Link>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							))}
+							{dashboardNav?.menuItems?.map((item, index) => {
+								const href = getSidebarMenuItemHref(item)
+								const label = item.link?.label || 'Link'
+								const icon = item.link?.icon as IconType
+
+								// Skip if no valid href
+								if (href === '#') {
+									console.log('Skipping item with invalid href:', { label, href })
+									return null
+								}
+
+								console.log('Rendering item:', { label, href, icon })
+
+								return (
+									<SidebarMenuItem key={index}>
+										<SidebarMenuButton asChild tooltip={label}>
+											<Link href={href}>
+												{icon ? <Icon iconName={icon} /> : null}
+												<span>{label}</span>
+											</Link>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								)
+							})}
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>
@@ -69,7 +126,7 @@ export function SidebarNavApp({
 	)
 }
 
-export function SidebarNavAppSkeleton() {
+export function DashboardNavAppSkeleton() {
 	return (
 		<Sidebar variant="sidebar" collapsible="icon">
 			<SidebarContent className="gap-0">

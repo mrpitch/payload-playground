@@ -15,24 +15,54 @@ import {
 import { Typography } from '@/components/ui/custom/typography'
 import { useNavigation } from '@/components/utils/nav-provider'
 
+// Helper function to get the correct href for menu items (pages only)
+function getMenuItemHref(
+	item: NonNullable<NonNullable<ReturnType<typeof useNavigation>['mainNav']>['menuItems']>[0],
+): string {
+	if (!item?.link) return '#'
+
+	const { type, pages } = item.link
+
+	// Only handle pages, ignore other types
+	if (type === 'pages' && pages && typeof pages === 'object' && 'value' in pages) {
+		const page = pages.value
+		if (typeof page === 'object' && page?.slug) {
+			return `/${page.slug}`
+		}
+	}
+
+	return '#'
+}
+
 export const MainNav = () => {
 	const { mainNav } = useNavigation()
 
 	return (
 		<NavigationMenu className="hidden md:flex">
-			{mainNav?.navItems?.length ? (
+			{mainNav?.menuItems?.length ? (
 				<NavigationMenuList>
-					{mainNav?.navItems?.map((item, index) => (
-						<NavigationMenuItem key={index}>
-							<NavigationMenuLink
-								href={item.href as string}
-								asChild
-								className={navigationMenuTriggerStyle()}
-							>
-								<Link href={item.href as string}>{item.label}</Link>
-							</NavigationMenuLink>
-						</NavigationMenuItem>
-					))}
+					{mainNav?.menuItems?.map((item, index) => {
+						// Only show pages, ignore other types
+						if (item.link?.type !== 'pages') {
+							return null
+						}
+
+						const href = getMenuItemHref(item)
+						const label = item.link?.label || 'Link'
+
+						// Skip if no valid href
+						if (href === '#') {
+							return null
+						}
+
+						return (
+							<NavigationMenuItem key={index}>
+								<NavigationMenuLink href={href} asChild className={navigationMenuTriggerStyle()}>
+									<Link href={href}>{label}</Link>
+								</NavigationMenuLink>
+							</NavigationMenuItem>
+						)
+					})}
 				</NavigationMenuList>
 			) : null}
 		</NavigationMenu>
