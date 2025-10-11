@@ -5,7 +5,7 @@ import { getSession } from '@/lib/actions/get-session'
 
 import { Container } from '@/components/ui/custom/container'
 import { Logo } from '@/components/ui/custom/logo'
-import { MainNav, MainNavSkeleton } from '@/components/layout/nav/main-nav'
+import { MainNav, MainNavSkeleton } from '@/components/layout/nav'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
 import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
 import { Suspense } from 'react'

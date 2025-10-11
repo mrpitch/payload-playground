@@ -1,10 +1,8 @@
 import { Suspense } from 'react'
 import { notFound, redirect } from 'next/navigation'
 
-import type { AppShell } from '@payload-types'
-
 import { getSession } from '@/lib/actions/get-session'
-import { getGlobals } from '@/lib/utils/getGlobals'
+import { getNavData } from '@/lib/utils/getNavData'
 import { NavigationProvider } from '@/components/utils/nav-provider.server'
 
 import {
@@ -26,11 +24,8 @@ import {
 import { Footer } from '@/components/layout/footer'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-	const appShell = (await getGlobals('app-shell')) as AppShell
-	if (!appShell) {
-		notFound()
-	}
-	const { legalNavigation, settings } = appShell
+	const navData = await getNavData()
+	const { settings, footerNav } = navData
 
 	const user = await getSession()
 	if (!user) {
@@ -67,7 +62,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 					</div>
 				</header>
 				<div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
-				<Footer siteName={settings?.siteName} />
+				<Footer siteName={settings?.siteName} navigation={footerNav?.menuItems} />
 			</SidebarInset>
 		</SidebarProvider>
 	)

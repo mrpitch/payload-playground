@@ -1,8 +1,5 @@
-import { notFound } from 'next/navigation'
-
 import { getSession } from '@/lib/actions/get-session'
-import { getGlobals } from '@/lib/utils/getGlobals'
-import type { AppShell } from '@payload-types'
+import { getNavData } from '@/lib/utils/getNavData'
 
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 
@@ -12,11 +9,8 @@ import { Suspense } from 'react'
 import { Footer } from '@/components/layout/footer'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-	const appShell = (await getGlobals('app-shell')) as AppShell
-	if (!appShell) {
-		notFound()
-	}
-	// appShell fetched to ensure existence; navigation is provided via NavProviderServer
+	const navData = await getNavData()
+	const { settings, footerNav } = navData
 
 	const user = await getSession()
 
@@ -29,7 +23,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 			</Suspense>
 			<SidebarInset>
 				{children}
-				<Footer />
+				<Footer siteName={settings?.siteName} navigation={footerNav?.menuItems} />
 			</SidebarInset>
 		</SidebarProvider>
 	)

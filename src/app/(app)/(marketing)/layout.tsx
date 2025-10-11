@@ -7,10 +7,7 @@ import { Header } from '@/components/layout/header'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
 	const navData = await getNavData()
-	if (!navData) {
-		notFound()
-	}
-	const { settings, mainNav, footerNav } = navData
+	const { settings, footerNav } = navData
 
 	return (
 		<div className="flex h-screen flex-col">

@@ -1,6 +1,5 @@
 export { DashboardNavApp, DashboardNavAppSkeleton } from './dashboard-nav-app'
 export { DocsNavApp, DocsNavAppSkeleton } from './docs-nav-app'
-export { ThreedotsNav } from './threedots-nav'
-export { ThreedotsNavSkeleton } from './threedots-nav'
+export { ThreedotsNav, ThreedotsNavSkeleton } from './threedots-nav'
 export { UserNav, UserNavSkeleton } from './profile-nav'
-export { MainNavSkeleton } from './main-nav'
+export { MainNav, MainNavSkeleton } from './main-nav'
