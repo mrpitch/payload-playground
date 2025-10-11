@@ -9,6 +9,8 @@ export interface TProcessedNavItem {
 	label: string
 	href: string
 	icon?: IconType
+	type?: 'link' | 'label' | 'folder'
+	children?: TProcessedNavItem[]
 }
 
 export interface TProcessedNavGroup {
@@ -73,7 +75,18 @@ function processMenuItem(item: any): TProcessedNavItem | null {
 	// If no link object, return null
 	if (!item?.link) return null
 
-	const { type, pages, docs, url, label, icon } = item.link
+	const { type, pages, docs, url, label, icon, menuChildLinks } = item.link
+
+	// Process child links if they exist
+	const childItems: TProcessedNavItem[] = []
+	if (menuChildLinks && Array.isArray(menuChildLinks)) {
+		menuChildLinks.forEach((childItem: any) => {
+			const processedChild = processMenuItem(childItem)
+			if (processedChild) {
+				childItems.push(processedChild)
+			}
+		})
+	}
 
 	switch (type) {
 		case 'pages':
@@ -84,6 +97,8 @@ function processMenuItem(item: any): TProcessedNavItem | null {
 						label: label || 'Link',
 						href: `/${page.slug}`,
 						icon: icon as IconType,
+						type: 'link',
+						children: childItems.length > 0 ? childItems : undefined,
 					}
 				}
 			}
@@ -97,6 +112,8 @@ function processMenuItem(item: any): TProcessedNavItem | null {
 						href: `/docs/${doc.slug}`,
 						// For docs, the icon comes from the referenced document, not the menu item
 						icon: doc.icon as IconType,
+						type: 'link',
+						children: childItems.length > 0 ? childItems : undefined,
 					}
 				}
 			}
@@ -106,6 +123,8 @@ function processMenuItem(item: any): TProcessedNavItem | null {
 				label: label || 'Link',
 				href: url || '#',
 				icon: icon as IconType,
+				type: 'link',
+				children: childItems.length > 0 ? childItems : undefined,
 			}
 		case 'nolink':
 			// Handle label-only items (group headers)
@@ -113,6 +132,17 @@ function processMenuItem(item: any): TProcessedNavItem | null {
 				label: label || 'Section',
 				href: '', // Empty href indicates this is a group label
 				icon: icon as IconType,
+				type: 'label',
+				children: childItems.length > 0 ? childItems : undefined,
+			}
+		case 'folder':
+			// Handle folder items (collapsible groups)
+			return {
+				label: label || 'Folder',
+				href: '', // Empty href indicates this is a folder
+				icon: icon as IconType,
+				type: 'folder',
+				children: childItems.length > 0 ? childItems : undefined,
 			}
 	}
 
@@ -171,6 +201,7 @@ export function useNavigation(
 
 		case NavigationType.DocsNav: {
 			const { docsNav, settings } = ctx
+			console.log('docsNav', docsNav)
 			const processedDocsNav =
 				docsNav?.map((menu) => ({
 					name: menu.name,
