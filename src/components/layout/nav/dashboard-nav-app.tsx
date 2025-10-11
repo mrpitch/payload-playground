@@ -1,10 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-
 import { User } from '@/payload/payload-types'
 
-import { Icon, IconType } from '@/components/ui/custom/icons'
+import { Icon } from '@/components/ui/custom/icons'
 import { Logo } from '@/components/ui/custom/logo'
 import {
 	Sidebar,
@@ -19,7 +18,7 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
+import { useNavigation, NavigationType, isActive } from '@/lib/hooks/use-navigation'
 
 import { UserNav } from './profile-nav'
 
@@ -50,7 +49,7 @@ export function DashboardNavApp({
 						<SidebarMenu>
 							{dashboardNav.map((item, index) => (
 								<SidebarMenuItem key={index}>
-									<SidebarMenuButton asChild tooltip={item.label}>
+									<SidebarMenuButton asChild tooltip={item.label} isActive={isActive(item.href)}>
 										<Link href={item.href}>
 											{item.icon ? <Icon iconName={item.icon} /> : null}
 											<span>{item.label}</span>

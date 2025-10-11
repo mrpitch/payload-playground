@@ -1,4 +1,6 @@
 import { useContext } from 'react'
+import { usePathname } from 'next/navigation'
+
 import { NavigationContext } from '@/components/utils/nav-provider'
 import type { IconType } from '@/components/ui/custom/icons'
 
@@ -202,4 +204,9 @@ export function useNavigation(
 		default:
 			throw new Error(`Unknown navigation type: ${type}`)
 	}
+}
+
+export function isActive(href: string) {
+	const pathname = usePathname()
+	return href === pathname
 }
