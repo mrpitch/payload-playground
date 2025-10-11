@@ -25,7 +25,7 @@ interface TocComponentProps {
 export const Toc = ({ contentId, containerId, type = 'desktop' }: TocProps) => {
 	const { headings, activeId } = useToc({ contentId, containerId })
 
-	console.log('headings', headings)
+	//console.log('headings', headings)
 
 	const TocComponent = type === 'desktop' ? DesktopToc : MobileToc
 

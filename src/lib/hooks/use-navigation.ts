@@ -61,6 +61,16 @@ export interface TProfileNavContext {
 
 // Utility function to process menu items based on link type
 function processMenuItem(item: any): TProcessedNavItem | null {
+	// Handle items that are just labels (group headers) without links
+	if (!item?.link && item?.label) {
+		return {
+			label: item.label,
+			href: '', // Empty href indicates this is a group label
+			icon: item.icon as IconType,
+		}
+	}
+
+	// If no link object, return null
 	if (!item?.link) return null
 
 	const { type, pages, docs, url, label, icon } = item.link
@@ -95,6 +105,13 @@ function processMenuItem(item: any): TProcessedNavItem | null {
 			return {
 				label: label || 'Link',
 				href: url || '#',
+				icon: icon as IconType,
+			}
+		case 'nolink':
+			// Handle label-only items (group headers)
+			return {
+				label: label || 'Section',
+				href: '', // Empty href indicates this is a group label
 				icon: icon as IconType,
 			}
 	}

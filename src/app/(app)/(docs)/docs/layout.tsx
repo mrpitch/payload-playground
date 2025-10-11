@@ -15,7 +15,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 	const user = await getSession()
 
 	return (
-		<SidebarProvider defaultOpen={false}>
+		<SidebarProvider defaultOpen={true}>
 			<Suspense fallback={<DocsNavAppSkeleton />}>
 				<NavigationProvider>
 					<DocsNavApp user={user} />
