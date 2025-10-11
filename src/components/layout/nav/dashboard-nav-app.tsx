@@ -19,7 +19,7 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNavigation } from '@/components/utils/nav-provider'
+import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
 
 import { UserNav } from './profile-nav'
 
@@ -29,55 +29,12 @@ export interface ISideBarNavProps {
 	className?: string
 }
 
-// Helper function to get the correct href for sidebar menu items
-function getSidebarMenuItemHref(
-	item: NonNullable<NonNullable<ReturnType<typeof useNavigation>['dashboardNav']>['menuItems']>[0],
-): string {
-	if (!item?.link) {
-		console.log('No link found for item:', item)
-		return '#'
-	}
-
-	const { type, pages, docs, url } = item.link
-	console.log('Processing item:', { type, pages, docs, url })
-
-	switch (type) {
-		case 'pages':
-			if (pages && typeof pages === 'object' && 'value' in pages) {
-				const page = pages.value
-				if (typeof page === 'object' && page?.slug) {
-					console.log('Found page slug:', page.slug)
-					return `/${page.slug}`
-				}
-			}
-			console.log('Pages relationship not found or invalid')
-			break
-		case 'docs':
-			if (docs && typeof docs === 'object' && 'value' in docs) {
-				const doc = docs.value
-				if (typeof doc === 'object' && doc?.slug) {
-					console.log('Found doc slug:', doc.slug)
-					return `/docs/${doc.slug}`
-				}
-			}
-			console.log('Docs relationship not found or invalid')
-			break
-		case 'url':
-			console.log('Found URL:', url)
-			return url || '#'
-		default:
-			console.log('Unknown link type:', type)
-	}
-
-	return '#'
-}
-
 export function DashboardNavApp({
 	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
-	const { dashboardNav, settings } = useNavigation()
+	const { dashboardNav, settings } = useNavigation(NavigationType.DashboardNav)
 
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
@@ -91,30 +48,16 @@ export function DashboardNavApp({
 					<SidebarGroupContent>
 						{state === 'collapsed' ? null : <SidebarGroupLabel>Training</SidebarGroupLabel>}
 						<SidebarMenu>
-							{dashboardNav?.menuItems?.map((item, index) => {
-								const href = getSidebarMenuItemHref(item)
-								const label = item.link?.label || 'Link'
-								const icon = item.link?.icon as IconType
-
-								// Skip if no valid href
-								if (href === '#') {
-									console.log('Skipping item with invalid href:', { label, href })
-									return null
-								}
-
-								console.log('Rendering item:', { label, href, icon })
-
-								return (
-									<SidebarMenuItem key={index}>
-										<SidebarMenuButton asChild tooltip={label}>
-											<Link href={href}>
-												{icon ? <Icon iconName={icon} /> : null}
-												<span>{label}</span>
-											</Link>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								)
-							})}
+							{dashboardNav.map((item, index) => (
+								<SidebarMenuItem key={index}>
+									<SidebarMenuButton asChild tooltip={item.label}>
+										<Link href={item.href}>
+											{item.icon ? <Icon iconName={item.icon} /> : null}
+											<span>{item.label}</span>
+										</Link>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							))}
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>

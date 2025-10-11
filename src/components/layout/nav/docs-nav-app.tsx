@@ -19,7 +19,7 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNavigation } from '@/components/utils/nav-provider'
+import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
 
 import { UserNav } from './profile-nav'
 
@@ -29,39 +29,12 @@ export interface ISideBarNavProps {
 	className?: string
 }
 
-/**
- *
- * tbd: move this to a utils file or something
- */
-// Helper function to get the correct href for docs menu items
-function getDocsMenuItem(
-	item: NonNullable<NonNullable<ReturnType<typeof useNavigation>['docsNav']>[0]['menuItems']>[0],
-): { href: string; icon: IconType } | null {
-	if (!item?.link) {
-		console.log('No link found for item:', item)
-		return null
-	}
-
-	const { docs } = item.link
-	console.log('Processing docs item:')
-
-	if (docs && typeof docs === 'object' && 'value' in docs) {
-		const doc = docs.value
-		if (typeof doc === 'object' && doc?.slug) {
-			console.log('Found doc slug:', doc.slug)
-			return { href: `/docs/${doc.slug}`, icon: doc.icon as IconType }
-		}
-	}
-
-	return null
-}
-
 export function DocsNavApp({
 	user,
 	...props
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
-	const { docsNav, settings } = useNavigation()
+	const { docsNav, settings } = useNavigation(NavigationType.DocsNav)
 
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
@@ -71,7 +44,7 @@ export function DocsNavApp({
 						<Logo name={state === 'collapsed' ? '' : settings?.siteName} />
 					</SidebarGroupContent>
 				</SidebarGroup>
-				{docsNav?.map((menu, menuIndex) => (
+				{docsNav.map((menu, menuIndex) => (
 					<SidebarGroup key={menuIndex}>
 						<SidebarGroupContent>
 							{/* {state === 'collapsed' ? null : (
@@ -85,33 +58,16 @@ export function DocsNavApp({
 								</SidebarGroupLabel>
 							)} */}
 							<SidebarMenu>
-								{menu.menuItems?.map((navItem, index) => {
-									//get href and icon from navItem
-									const docItem = getDocsMenuItem(navItem)
-									const href = docItem?.href
-									const icon = docItem?.icon as IconType
-									//get label from navItem
-									const label = navItem.link?.label || 'Link'
-
-									// Skip if no valid href
-									if (docItem === null) {
-										console.log('Skipping item with invalid href:', { label, docItem })
-										return null
-									}
-
-									console.log('Rendering docs item:', { label, docItem, icon })
-
-									return (
-										<SidebarMenuItem key={index}>
-											<SidebarMenuButton asChild tooltip={label}>
-												<Link href={href || '#'}>
-													{icon ? <Icon iconName={icon} /> : null}
-													<span>{label}</span>
-												</Link>
-											</SidebarMenuButton>
-										</SidebarMenuItem>
-									)
-								})}
+								{menu.menuItems.map((item, index) => (
+									<SidebarMenuItem key={index}>
+										<SidebarMenuButton asChild tooltip={item.label}>
+											<Link href={item.href}>
+												{item.icon ? <Icon iconName={item.icon} /> : null}
+												<span>{item.label}</span>
+											</Link>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								))}
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>
