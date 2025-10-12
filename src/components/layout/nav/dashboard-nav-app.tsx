@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { User } from '@/payload/payload-types'
 
 import { Icon } from '@/components/ui/custom/icons'
@@ -34,6 +35,7 @@ export function DashboardNavApp({
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
 	const { dashboardNav, settings } = useNavigation(NavigationType.DashboardNav)
+	const pathname = usePathname()
 
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
@@ -43,23 +45,29 @@ export function DashboardNavApp({
 						<Logo name={state === 'collapsed' ? '' : settings?.siteName} />
 					</SidebarGroupContent>
 				</SidebarGroup>
-				<SidebarGroup>
-					<SidebarGroupContent>
-						{state === 'collapsed' ? null : <SidebarGroupLabel>Training</SidebarGroupLabel>}
-						<SidebarMenu>
-							{dashboardNav.map((item, index) => (
-								<SidebarMenuItem key={index}>
-									<SidebarMenuButton asChild tooltip={item.label} isActive={isActive(item.href)}>
-										<Link href={item.href}>
-											{item.icon ? <Icon iconName={item.icon} /> : null}
-											<span>{item.label}</span>
-										</Link>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							))}
-						</SidebarMenu>
-					</SidebarGroupContent>
-				</SidebarGroup>
+				{dashboardNav.map((group, groupIndex) => (
+					<SidebarGroup key={groupIndex}>
+						<SidebarGroupContent>
+							{state === 'collapsed' ? null : <SidebarGroupLabel>{group.name}</SidebarGroupLabel>}
+							<SidebarMenu>
+								{group.items.map((item, itemIndex) => (
+									<SidebarMenuItem key={`${groupIndex}-${itemIndex}`}>
+										<SidebarMenuButton
+											asChild
+											tooltip={item.label}
+											isActive={isActive(item.href, pathname)}
+										>
+											<Link href={item.href}>
+												{item.icon ? <Icon iconName={item.icon} /> : null}
+												<span>{item.label}</span>
+											</Link>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								))}
+							</SidebarMenu>
+						</SidebarGroupContent>
+					</SidebarGroup>
+				))}
 			</SidebarContent>
 			<SidebarFooter>
 				<UserNav user={user} context="app" />

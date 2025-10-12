@@ -75,24 +75,29 @@ export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 						<Sidebar collapsible="none" className="bg-transparent">
 							<SidebarContent>
 								{/* Main Navigation Items Group */}
-								{mainNav.length ? (
-									<SidebarGroup className={cn(context === 'marketing' ? 'md:hidden' : '')}>
-										<SidebarGroupLabel>Main</SidebarGroupLabel>
-										<SidebarGroupContent className="min-w-56 gap-0">
-											<SidebarMenu>
-												{mainNav.map((item, index) => (
-													<SidebarMenuItem key={index}>
-														<SidebarMenuButton asChild>
-															<Link href={item.href}>
-																<span>{item.label}</span>
-															</Link>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
-												))}
-											</SidebarMenu>
-										</SidebarGroupContent>
-									</SidebarGroup>
-								) : null}
+								{mainNav.length
+									? mainNav.map((group, groupIndex) => (
+											<SidebarGroup
+												key={groupIndex}
+												className={cn(context === 'marketing' ? 'md:hidden' : '')}
+											>
+												<SidebarGroupLabel>{group.name}</SidebarGroupLabel>
+												<SidebarGroupContent className="min-w-56 gap-0">
+													<SidebarMenu>
+														{group.items.map((item, itemIndex) => (
+															<SidebarMenuItem key={`${groupIndex}-${itemIndex}`}>
+																<SidebarMenuButton asChild>
+																	<Link href={item.href}>
+																		<span>{item.label}</span>
+																	</Link>
+																</SidebarMenuButton>
+															</SidebarMenuItem>
+														))}
+													</SidebarMenu>
+												</SidebarGroupContent>
+											</SidebarGroup>
+										))
+									: null}
 								{/* User/Profile Items Group */}
 								{context === 'marketing' ? <UserNav user={user} context={context} /> : null}
 							</SidebarContent>

@@ -18,16 +18,26 @@ import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
 export const MainNav = () => {
 	const { mainNav } = useNavigation(NavigationType.MainNav)
 
+	console.log('mainNav', mainNav)
 	return (
 		<NavigationMenu className="hidden md:flex">
 			{mainNav.length ? (
 				<NavigationMenuList>
-					{mainNav.map((item, index) => (
-						<NavigationMenuItem key={index}>
-							<NavigationMenuLink href={item.href} asChild className={navigationMenuTriggerStyle()}>
-								<Link href={item.href}>{item.label}</Link>
-							</NavigationMenuLink>
-						</NavigationMenuItem>
+					{mainNav.map((group, groupIndex) => (
+						<React.Fragment key={groupIndex}>
+							{/* Render group items */}
+							{group.items.map((item, itemIndex) => (
+								<NavigationMenuItem key={`${groupIndex}-${itemIndex}`}>
+									<NavigationMenuLink
+										href={item.href}
+										asChild
+										className={navigationMenuTriggerStyle()}
+									>
+										<Link href={item.href}>{item.label}</Link>
+									</NavigationMenuLink>
+								</NavigationMenuItem>
+							))}
+						</React.Fragment>
 					))}
 				</NavigationMenuList>
 			) : null}

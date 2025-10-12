@@ -1,6 +1,8 @@
 'use client'
 
+import * as React from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { User } from '@/payload/payload-types'
 
 import { Icon } from '@/components/ui/custom/icons'
@@ -15,6 +17,9 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -35,6 +40,7 @@ export function DocsNavApp({
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
 	const { docsNav, settings } = useNavigation(NavigationType.DocsNav)
+	const pathname = usePathname()
 
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
@@ -44,103 +50,65 @@ export function DocsNavApp({
 						<Logo name={state === 'collapsed' ? '' : settings?.siteName} />
 					</SidebarGroupContent>
 				</SidebarGroup>
-				{docsNav.map((menu, menuIndex) => {
-					console.log('Processing menu:', menu.name, 'menuItems:', menu.menuItems)
-
-					// Process each menu item and its children
-					const processedItems = menu.menuItems.map((item, itemIndex) => {
-						console.log(
-							`Processing item ${itemIndex}:`,
-							item,
-							'type:',
-							item.type,
-							'children:',
-							item.children,
-						)
-						return item
-					})
-
-					console.log('Processed items:', processedItems)
-
-					return processedItems.map((item, itemIndex) => (
-						<SidebarGroup key={`${menuIndex}-${itemIndex}`}>
-							{item.type === 'folder' && (
-								<Collapsible defaultOpen={true} className="group/collapsible">
-									<CollapsibleTrigger asChild>
-										<SidebarGroupLabel className="hover:bg-sidebar-accent cursor-pointer">
-											{item.label}
-											<Icon
-												iconName="chevronRight"
-												className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90"
-											/>
-										</SidebarGroupLabel>
-									</CollapsibleTrigger>
-									<CollapsibleContent>
-										<SidebarGroupContent>
-											<SidebarMenu>
-												{item.children?.map((child, childIndex) => (
-													<SidebarMenuItem key={childIndex}>
-														<SidebarMenuButton
-															asChild
-															tooltip={child.label}
-															isActive={isActive(child.href)}
-														>
-															<Link href={child.href}>
-																{child.icon ? <Icon iconName={child.icon} /> : null}
-																<span>{child.label}</span>
-															</Link>
-														</SidebarMenuButton>
-													</SidebarMenuItem>
-												))}
-											</SidebarMenu>
-										</SidebarGroupContent>
-									</CollapsibleContent>
-								</Collapsible>
-							)}
-							{item.type === 'label' && (
-								<>
-									<SidebarGroupLabel>{item.label}</SidebarGroupLabel>
-									<SidebarGroupContent>
-										<SidebarMenu>
-											{item.children?.map((child, childIndex) => (
-												<SidebarMenuItem key={childIndex}>
-													<SidebarMenuButton
-														asChild
-														tooltip={child.label}
-														isActive={isActive(child.href)}
-													>
-														<Link href={child.href}>
-															{child.icon ? <Icon iconName={child.icon} /> : null}
-															<span>{child.label}</span>
-														</Link>
-													</SidebarMenuButton>
-												</SidebarMenuItem>
-											))}
-										</SidebarMenu>
-									</SidebarGroupContent>
-								</>
-							)}
-							{item.type === 'link' && (
+				{docsNav.map((menu, menuIndex) => (
+					<React.Fragment key={menuIndex}>
+						{menu.navGroups.map((group, groupIndex) => (
+							<SidebarGroup key={`${menuIndex}-${groupIndex}`}>
+								<SidebarGroupLabel>{group.name}</SidebarGroupLabel>
 								<SidebarGroupContent>
 									<SidebarMenu>
-										<SidebarMenuItem>
-											<SidebarMenuButton
-												asChild
-												tooltip={item.label}
-												isActive={isActive(item.href)}
-											>
-												<Link href={item.href}>
-													{item.icon ? <Icon iconName={item.icon} /> : null}
-													<span>{item.label}</span>
-												</Link>
-											</SidebarMenuButton>
-										</SidebarMenuItem>
+										{group.items.map((item, itemIndex) => (
+											<SidebarMenuItem key={`${menuIndex}-${groupIndex}-${itemIndex}`}>
+												{item.type === 'folder' && item.children ? (
+													<Collapsible defaultOpen={true} className="group/collapsible">
+														<CollapsibleTrigger asChild>
+															<SidebarMenuButton className="hover:bg-sidebar-accent cursor-pointer">
+																{item.icon ? <Icon iconName={item.icon} /> : null}
+																<span>{item.label}</span>
+																<Icon
+																	iconName="chevronRight"
+																	className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90"
+																/>
+															</SidebarMenuButton>
+														</CollapsibleTrigger>
+														<CollapsibleContent>
+															<SidebarMenuSub>
+																{item.children.map((child, childIndex) => (
+																	<SidebarMenuSubItem key={childIndex}>
+																		<SidebarMenuSubButton
+																			asChild
+																			isActive={isActive(child.href, pathname)}
+																		>
+																			<Link href={child.href}>
+																				{child.icon ? <Icon iconName={child.icon} /> : null}
+																				<span>{child.label}</span>
+																			</Link>
+																		</SidebarMenuSubButton>
+																	</SidebarMenuSubItem>
+																))}
+															</SidebarMenuSub>
+														</CollapsibleContent>
+													</Collapsible>
+												) : (
+													<SidebarMenuButton
+														asChild
+														tooltip={item.label}
+														isActive={isActive(item.href, pathname)}
+													>
+														<Link href={item.href}>
+															{item.icon ? <Icon iconName={item.icon} /> : null}
+															<span>{item.label}</span>
+														</Link>
+													</SidebarMenuButton>
+												)}
+											</SidebarMenuItem>
+										))}
 									</SidebarMenu>
 								</SidebarGroupContent>
-							)}
-						</SidebarGroup>
-					))
-				})}
+							</SidebarGroup>
+						))}
+					</React.Fragment>
+				))}
 			</SidebarContent>
 			<SidebarFooter>
 				<UserNav user={user} context="app" />

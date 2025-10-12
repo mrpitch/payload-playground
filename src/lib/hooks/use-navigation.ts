@@ -1,10 +1,48 @@
+/**
+ * useNavigation Hook - High-Performance Navigation Data Access
+ *
+ * This hook provides instant access to pre-processed navigation data through
+ * context-level caching. All expensive processing operations have been moved
+ * to the NavigationProvider, making this hook extremely fast and efficient.
+ *
+ * ## Why This Approach?
+ *
+ * **Before**: This hook processed raw navigation data on every render, causing
+ * expensive operations like createNavigationGroups() and processMenuItem() to
+ * run multiple times across different components.
+ *
+ * **After**: This hook simply returns pre-processed data from context,
+ * eliminating all client-side processing overhead.
+ *
+ * ## Performance Benefits:
+ * - ✅ Zero processing overhead - data arrives ready to use
+ * - ✅ No re-renders from processing logic
+ * - ✅ Instant data access - no computation needed
+ * - ✅ Type-safe navigation data with overloaded function signatures
+ *
+ * ## Usage:
+ * ```typescript
+ * const { mainNav, settings } = useNavigation(NavigationType.MainNav)
+ * const { dashboardNav } = useNavigation(NavigationType.DashboardNav)
+ * const { docsNav } = useNavigation(NavigationType.DocsNav)
+ * ```
+ */
+
 import { useContext } from 'react'
 import { usePathname } from 'next/navigation'
 
 import { NavigationContext } from '@/components/utils/nav-provider'
 import type { IconType } from '@/components/ui/custom/icons'
 
-// Base types for processed navigation items
+/**
+ * Base types for processed navigation items
+ *
+ * These interfaces define the structure of navigation data after processing.
+ * All items are standardized with consistent properties regardless of their
+ * original source (pages, docs, URLs, etc.).
+ */
+
+/** Legacy interface for backward compatibility */
 export interface TProcessedNavItem {
 	label: string
 	href: string
@@ -13,143 +51,110 @@ export interface TProcessedNavItem {
 	children?: TProcessedNavItem[]
 }
 
+/** Legacy interface for backward compatibility */
 export interface TProcessedNavGroup {
 	name: string
 	shortDescription?: string | null
 	menuItems: TProcessedNavItem[]
 }
 
-// Navigation type enum
+/**
+ * New grouped navigation structure
+ *
+ * This is the modern structure used throughout the application.
+ * Navigation items are organized into logical groups based on 'nolink' items.
+ */
+
+/** Individual navigation item with standardized properties */
+export interface TGroupedNavItem {
+	label: string
+	href: string
+	icon?: IconType
+	type?: 'link' | 'label' | 'folder'
+	children?: TGroupedNavItem[]
+}
+
+/** Navigation group containing multiple items */
+export interface TNavGroup {
+	name: string
+	items: TGroupedNavItem[]
+}
+
+/**
+ * Navigation type enum
+ *
+ * Defines the different types of navigation available in the application.
+ * Each type corresponds to a specific use case and returns appropriately
+ * filtered and processed data.
+ */
 export enum NavigationType {
+	/** Main header navigation (all items grouped) */
 	MainNav = 'mainNav',
+	/** Dashboard sidebar navigation (all items grouped) */
 	DashboardNav = 'dashboardNav',
+	/** Documentation navigation (multiple menus with groups) */
 	DocsNav = 'docsNav',
+	/** Three dots/hamburger menu navigation (pages only) */
 	ThreedotsNav = 'threedotsNav',
+	/** Profile/user menu navigation (URLs only) */
 	ProfileNav = 'profileNav',
 }
 
-// Context-specific return types
+/**
+ * Context-specific return types
+ *
+ * These interfaces define the exact structure returned by each navigation type.
+ * TypeScript uses these for compile-time type checking and IntelliSense support.
+ */
+
+/** Main navigation context - header navigation with site settings */
 export interface TMainNavContext {
-	mainNav: TProcessedNavItem[]
+	mainNav: TNavGroup[]
 	settings: {
 		siteName?: string
 		siteDescription?: string
 	}
 }
 
+/** Dashboard navigation context - sidebar navigation with site settings */
 export interface TDashboardNavContext {
-	dashboardNav: TProcessedNavItem[]
+	dashboardNav: TNavGroup[]
 	settings: {
 		siteName?: string
 		siteDescription?: string
 	}
 }
 
+/** Documentation navigation context - multiple docs menus with groups */
 export interface TDocsNavContext {
-	docsNav: TProcessedNavGroup[]
+	docsNav: Array<{
+		name: string
+		shortDescription?: string | null
+		navGroups: TNavGroup[]
+	}>
 	settings: {
 		siteName?: string
 		siteDescription?: string
 	}
 }
 
+/** Three dots navigation context - mobile/hamburger menu (pages only) */
 export interface TThreedotsNavContext {
-	mainNav: TProcessedNavItem[]
+	mainNav: TNavGroup[]
 }
 
+/** Profile navigation context - user menu items (URLs only) */
 export interface TProfileNavContext {
-	profileNav: TProcessedNavItem[]
+	profileNav: TNavGroup[]
 }
 
-// Utility function to process menu items based on link type
-function processMenuItem(item: any): TProcessedNavItem | null {
-	// Handle items that are just labels (group headers) without links
-	if (!item?.link && item?.label) {
-		return {
-			label: item.label,
-			href: '', // Empty href indicates this is a group label
-			icon: item.icon as IconType,
-		}
-	}
-
-	// If no link object, return null
-	if (!item?.link) return null
-
-	const { type, pages, docs, url, label, icon, menuChildLinks } = item.link
-
-	// Process child links if they exist
-	const childItems: TProcessedNavItem[] = []
-	if (menuChildLinks && Array.isArray(menuChildLinks)) {
-		menuChildLinks.forEach((childItem: any) => {
-			const processedChild = processMenuItem(childItem)
-			if (processedChild) {
-				childItems.push(processedChild)
-			}
-		})
-	}
-
-	switch (type) {
-		case 'pages':
-			if (pages && typeof pages === 'object' && 'value' in pages) {
-				const page = pages.value
-				if (typeof page === 'object' && page?.slug) {
-					return {
-						label: label || 'Link',
-						href: `/${page.slug}`,
-						icon: icon as IconType,
-						type: 'link',
-						children: childItems.length > 0 ? childItems : undefined,
-					}
-				}
-			}
-			break
-		case 'docs':
-			if (docs && typeof docs === 'object' && 'value' in docs) {
-				const doc = docs.value
-				if (typeof doc === 'object' && doc?.slug) {
-					return {
-						label: label || 'Link',
-						href: `/docs/${doc.slug}`,
-						// For docs, the icon comes from the referenced document, not the menu item
-						icon: doc.icon as IconType,
-						type: 'link',
-						children: childItems.length > 0 ? childItems : undefined,
-					}
-				}
-			}
-			break
-		case 'url':
-			return {
-				label: label || 'Link',
-				href: url || '#',
-				icon: icon as IconType,
-				type: 'link',
-				children: childItems.length > 0 ? childItems : undefined,
-			}
-		case 'nolink':
-			// Handle label-only items (group headers)
-			return {
-				label: label || 'Section',
-				href: '', // Empty href indicates this is a group label
-				icon: icon as IconType,
-				type: 'label',
-				children: childItems.length > 0 ? childItems : undefined,
-			}
-		case 'folder':
-			// Handle folder items (collapsible groups)
-			return {
-				label: label || 'Folder',
-				href: '', // Empty href indicates this is a folder
-				icon: icon as IconType,
-				type: 'folder',
-				children: childItems.length > 0 ? childItems : undefined,
-			}
-	}
-
-	return null
-}
-
-// Overloaded function signatures for type safety
+/**
+ * Overloaded function signatures for type safety
+ *
+ * These overloads provide compile-time type checking and IntelliSense support.
+ * TypeScript will automatically infer the correct return type based on the
+ * NavigationType parameter passed to the function.
+ */
 export function useNavigation(type: NavigationType.MainNav): TMainNavContext
 export function useNavigation(type: NavigationType.DashboardNav): TDashboardNavContext
 export function useNavigation(type: NavigationType.DocsNav): TDocsNavContext
@@ -163,98 +168,85 @@ export function useNavigation(
 	| TDocsNavContext
 	| TThreedotsNavContext
 	| TProfileNavContext {
+	/**
+	 * Get navigation context from React Context
+	 *
+	 * This context contains all pre-processed navigation data that was
+	 * computed once in the NavigationProvider using useMemo.
+	 */
 	const ctx = useContext(NavigationContext)
 	if (!ctx) throw new Error('useNavigation must be used within NavigationProvider')
 
+	/**
+	 * Return pre-processed data based on navigation type
+	 *
+	 * This is the core of the performance optimization. Instead of processing
+	 * raw data on every render, we simply return the pre-processed data from
+	 * context. All expensive operations have already been completed.
+	 *
+	 * ## Data Flow:
+	 * 1. NavigationProvider processes all data once using useMemo
+	 * 2. Processed data is stored in NavigationContext
+	 * 3. This hook simply returns the appropriate data based on type
+	 * 4. Components receive instant, processed navigation data
+	 */
 	switch (type) {
-		case NavigationType.MainNav: {
-			const { mainNav, settings } = ctx
-			const processedMainNav =
-				mainNav?.menuItems
-					?.map(processMenuItem)
-					.filter((item): item is TProcessedNavItem => item !== null) || []
-
+		case NavigationType.MainNav:
 			return {
-				mainNav: processedMainNav,
-				settings: {
-					siteName: settings?.siteName,
-					siteDescription: settings?.siteDescription,
-				},
+				mainNav: ctx.mainNav,
+				settings: ctx.settings,
 			}
-		}
 
-		case NavigationType.DashboardNav: {
-			const { dashboardNav, settings } = ctx
-			const processedDashboardNav =
-				dashboardNav?.menuItems
-					?.map(processMenuItem)
-					.filter((item): item is TProcessedNavItem => item !== null) || []
-
+		case NavigationType.DashboardNav:
 			return {
-				dashboardNav: processedDashboardNav,
-				settings: {
-					siteName: settings?.siteName,
-					siteDescription: settings?.siteDescription,
-				},
+				dashboardNav: ctx.dashboardNav,
+				settings: ctx.settings,
 			}
-		}
 
-		case NavigationType.DocsNav: {
-			const { docsNav, settings } = ctx
-			console.log('docsNav', docsNav)
-			const processedDocsNav =
-				docsNav?.map((menu) => ({
-					name: menu.name,
-					shortDescription: menu.shortDescription,
-					menuItems:
-						menu.menuItems
-							?.map(processMenuItem)
-							.filter((item): item is TProcessedNavItem => item !== null) || [],
-				})) || []
-
+		case NavigationType.DocsNav:
 			return {
-				docsNav: processedDocsNav,
-				settings: {
-					siteName: settings?.siteName,
-					siteDescription: settings?.siteDescription,
-				},
+				docsNav: ctx.docsNav,
+				settings: ctx.settings,
 			}
-		}
 
-		case NavigationType.ThreedotsNav: {
-			const { mainNav } = ctx
-			// Only process pages for threedots nav
-			const processedMainNav =
-				mainNav?.menuItems
-					?.filter((item) => item.link?.type === 'pages')
-					.map(processMenuItem)
-					.filter((item): item is TProcessedNavItem => item !== null) || []
-
+		case NavigationType.ThreedotsNav:
+			/**
+			 * Note: ThreedotsNav returns ctx.threedotsNav but maps to mainNav
+			 * in the return type. This is because threedots navigation is
+			 * filtered from main navigation (pages only) but uses the same
+			 * structure as main navigation.
+			 */
 			return {
-				mainNav: processedMainNav,
+				mainNav: ctx.threedotsNav,
 			}
-		}
 
-		case NavigationType.ProfileNav: {
-			const { profileNav } = ctx
-			// Only process URL items for profile nav
-			const processedProfileNav =
-				profileNav?.menuItems
-					?.filter((item) => item.link?.type === 'url')
-					.map(processMenuItem)
-					.filter((item): item is TProcessedNavItem => item !== null) || []
-
+		case NavigationType.ProfileNav:
 			return {
-				profileNav: processedProfileNav,
+				profileNav: ctx.profileNav,
 			}
-		}
 
 		default:
 			throw new Error(`Unknown navigation type: ${type}`)
 	}
 }
 
-export function isActive(href: string) {
-	const pathname = usePathname()
+/**
+ * Utility function to check if a navigation item is currently active
+ *
+ * This is a pure function that compares a pathname with a navigation item's href
+ * to determine if the item should be highlighted as active.
+ *
+ * @param href - The href of the navigation item to check
+ * @param pathname - The current pathname (obtained from usePathname() in component)
+ * @returns true if the pathname matches the href, false otherwise
+ *
+ * ## Usage:
+ * ```typescript
+ * const pathname = usePathname()
+ * const isCurrentPage = isActive('/dashboard', pathname)
+ * // Use this to conditionally apply active styles
+ * ```
+ */
+export function isActive(href: string, pathname: string) {
 	return href === pathname
 }

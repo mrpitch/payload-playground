@@ -1,6 +1,8 @@
 'use client'
 
+import * as React from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import { imageUrl } from '@/lib/utils/constants'
 
@@ -24,7 +26,7 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
+import { useNavigation, NavigationType, isActive } from '@/lib/hooks/use-navigation'
 
 interface INavProps {
 	user: User | null
@@ -81,6 +83,7 @@ export function UserNav({ user, context = 'app' }: INavProps) {
 
 export function UserProfile({ user }: { user: User | null }) {
 	const { profileNav } = useNavigation(NavigationType.ProfileNav)
+	const pathname = usePathname()
 
 	if (!user || !profileNav.length) return null
 
@@ -105,15 +108,20 @@ export function UserProfile({ user }: { user: User | null }) {
 							<span className="sr-only">My Account</span>
 						</SidebarMenuItem>
 					) : null}
-					{profileNav.map((item, index) => (
-						<SidebarMenuItem key={index}>
-							<SidebarMenuButton asChild>
-								<Link href={item.href}>
-									{item.icon ? <Icon iconName={item.icon} /> : null}
-									<span>{item.label}</span>
-								</Link>
-							</SidebarMenuButton>
-						</SidebarMenuItem>
+					{profileNav.map((group, groupIndex) => (
+						<React.Fragment key={groupIndex}>
+							{/* Render group items */}
+							{group.items.map((item, itemIndex) => (
+								<SidebarMenuItem key={`${groupIndex}-${itemIndex}`}>
+									<SidebarMenuButton asChild isActive={isActive(item.href, pathname)}>
+										<Link href={item.href}>
+											{item.icon ? <Icon iconName={item.icon} /> : null}
+											<span>{item.label}</span>
+										</Link>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							))}
+						</React.Fragment>
 					))}
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
