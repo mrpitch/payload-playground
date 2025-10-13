@@ -2,23 +2,7 @@
  * useNavigation Hook - High-Performance Navigation Data Access
  *
  * This hook provides instant access to pre-processed navigation data through
- * context-level caching. All expensive processing operations have been moved
- * to the NavigationProvider, making this hook extremely fast and efficient.
- *
- * ## Why This Approach?
- *
- * **Before**: This hook processed raw navigation data on every render, causing
- * expensive operations like createNavigationGroups() and processMenuItem() to
- * run multiple times across different components.
- *
- * **After**: This hook simply returns pre-processed data from context,
- * eliminating all client-side processing overhead.
- *
- * ## Performance Benefits:
- * - ✅ Zero processing overhead - data arrives ready to use
- * - ✅ No re-renders from processing logic
- * - ✅ Instant data access - no computation needed
- * - ✅ Type-safe navigation data with overloaded function signatures
+ * context-level caching. All expensive processing operations are done in NavigationProvider.
  *
  * ## Usage:
  * ```typescript

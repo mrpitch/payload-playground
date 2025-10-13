@@ -62,7 +62,10 @@ export function DocsNavApp({
 												{item.type === 'folder' && item.children ? (
 													<Collapsible defaultOpen={true} className="group/collapsible">
 														<CollapsibleTrigger asChild>
-															<SidebarMenuButton className="hover:bg-sidebar-accent cursor-pointer">
+															<SidebarMenuButton
+																className="hover:bg-sidebar-accent cursor-pointer"
+																tooltip={item.label}
+															>
 																{item.icon ? <Icon iconName={item.icon} /> : null}
 																<span>{item.label}</span>
 																<Icon

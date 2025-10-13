@@ -5,22 +5,6 @@
  * All navigation data processing happens once per request and is cached for the entire
  * component tree, eliminating redundant processing on every render.
  *
- * ## Why This Approach?
- *
- * **Problem**: The original useNavigation hook processed raw navigation data on every render,
- * causing expensive operations like createNavigationGroups() and processMenuItem() to run
- * multiple times for the same data across different components.
- *
- * **Solution**: Move all processing logic to the NavigationProvider and use useMemo to cache
- * the processed results. Components now receive pre-processed data instantly.
- *
- * ## Performance Benefits:
- * - ✅ Zero client-side processing - data arrives ready to use
- * - ✅ No re-renders from processing logic
- * - ✅ Better caching - processed data cached at request level
- * - ✅ Eliminated redundant processing - same data processed once
- * - ✅ Smaller bundle - processing logic runs server-side
- *
  * ## Architecture:
  * 1. Raw navigation data fetched server-side (cached with React's cache())
  * 2. NavigationProvider processes all data once using useMemo
