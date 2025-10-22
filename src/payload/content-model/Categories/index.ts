@@ -1,6 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { admin, adminAndEditor } from '@/payload/access'
-import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
+import {
+	revalidateCache,
+	revalidateCacheAfterDelete,
+} from '@/payload/content-model/shared/hooks/revalidate-cache'
 
 export const Categories: CollectionConfig = {
 	slug: 'categories',

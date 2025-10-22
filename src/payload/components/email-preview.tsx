@@ -8,7 +8,10 @@ import { cn } from '@/lib/utils/cn'
 import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
 import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
 import { EmailNewsletter } from '@/payload/email-templates/newsletter'
-import { useEmailPreview, UseEmailPreviewProps } from '@/payload/hooks/email-preview'
+import {
+	useEmailPreview,
+	UseEmailPreviewProps,
+} from '@/payload/content-model/shared/hooks/email-preview'
 import { sendEmail } from '@/payload/actions/send-email'
 import {
 	TEmailTemplateType,

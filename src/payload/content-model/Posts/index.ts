@@ -1,8 +1,10 @@
 import { CollectionConfig } from 'payload'
 
-import { admin, adminAndEditor } from '@/payload/access'
-import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
-import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
+import { adminAndEditor } from '@/payload/access'
+import {
+	revalidateCache,
+	revalidateCacheAfterDelete,
+} from '@/payload/content-model/shared/hooks/revalidate-cache'
 
 import {
 	MetaDescriptionField,
@@ -12,28 +14,25 @@ import {
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
-import { CopyBlock } from '@/payload/blocks/copy-block'
-import { ImageTextBlock } from '@/payload/blocks/image-text-block'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
-import { StageBlock } from '@/payload/blocks/stage-block'
-import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
-import { DocsTeaserBlock } from '@/payload/blocks/docs-teaser-block'
+import { CopyBlock } from '@/payload/blocks/copy-block'
 
 import { breakpoints } from '@/payload/utils/breakpoints'
+import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
-export const Pages: CollectionConfig = {
-	slug: 'pages',
+export const Posts: CollectionConfig = {
+	slug: 'posts',
 	admin: {
 		group: 'Content',
 		useAsTitle: 'title',
 		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
 		livePreview: {
 			url: ({ data }) => {
-				return generatePreviewPath(`docs`, data.slug)
+				return generatePreviewPath(`blog`, data.slug)
 			},
 			breakpoints: breakpoints,
 		},
-		preview: (data) => generatePreviewPath(`docs`, data.slug as string),
+		preview: (data) => generatePreviewPath(`blog`, data.slug as string),
 	},
 	versions: {
 		drafts: {
@@ -45,10 +44,10 @@ export const Pages: CollectionConfig = {
 		maxPerDoc: 10,
 	},
 	access: {
-		create: admin,
+		create: adminAndEditor,
 		read: adminAndEditor,
 		update: adminAndEditor,
-		delete: admin,
+		delete: adminAndEditor,
 	},
 	fields: [
 		{
@@ -66,11 +65,23 @@ export const Pages: CollectionConfig = {
 			localized: true,
 		},
 		{
+			name: 'excerpt',
+			type: 'textarea',
+			label: 'Excerpt',
+			localized: true,
+		},
+		{
+			name: 'thumbnail',
+			type: 'upload',
+			label: 'Thumbnail',
+			relationTo: 'media',
+		},
+		{
 			type: 'tabs',
 			tabs: [
 				{
 					name: 'meta',
-					label: 'Meta',
+					label: 'SEO',
 					fields: [
 						OverviewField({
 							titlePath: 'meta.title',
@@ -83,9 +94,13 @@ export const Pages: CollectionConfig = {
 						MetaImageField({
 							relationTo: 'media',
 						}),
+
 						MetaDescriptionField({}),
 						PreviewField({
+							// if the `generateUrl` function is configured
 							hasGenerateFn: true,
+
+							// field paths to match the target field for data
 							titlePath: 'meta.title',
 							descriptionPath: 'meta.description',
 						}),
@@ -96,23 +111,14 @@ export const Pages: CollectionConfig = {
 					description: 'Page Content',
 					fields: [
 						{
-							name: 'showPageTitle',
-							type: 'checkbox',
-							label: 'Show Page Title',
-							defaultValue: false,
-						},
-						{
 							name: 'layout', // required
 							type: 'blocks', // required
 							minRows: 1,
 							maxRows: 20,
 							blocks: [
-								CopyBlock,
-								ImageTextBlock,
+								// required
 								QuoteBlock,
-								StageBlock,
-								BlogTeaserBlock,
-								DocsTeaserBlock,
+								CopyBlock,
 							],
 						},
 					],
@@ -131,13 +137,60 @@ export const Pages: CollectionConfig = {
 			hooks: {
 				beforeChange: [
 					({ siblingData, value }) => {
-						if (siblingData?._status === 'published' && !value) {
+						if (siblingData._status === 'published' && !value) {
 							return new Date()
 						}
 						return value
 					},
 				],
 			},
+		},
+		{
+			name: 'author',
+			type: 'relationship',
+			relationTo: 'users',
+			required: true,
+			admin: {
+				position: 'sidebar',
+			},
+			hooks: {
+				beforeChange: [
+					({ req, value }) => {
+						// If there's no author set and we have a user
+						if (!value && req.user) {
+							console.log('value', value)
+							console.log('req', req.user)
+							return req.user.id
+						}
+						return value
+					},
+				],
+			},
+		},
+		{
+			name: 'relatedPosts',
+			type: 'relationship',
+			admin: {
+				position: 'sidebar',
+			},
+			filterOptions: ({ id }) => {
+				return {
+					id: {
+						not_in: [id],
+					},
+				}
+			},
+			hasMany: true,
+			relationTo: 'posts',
+		},
+		{
+			name: 'categories',
+			type: 'relationship',
+			admin: {
+				position: 'sidebar',
+			},
+			hasMany: true,
+			relationTo: 'categories',
 		},
 	],
 	hooks: {

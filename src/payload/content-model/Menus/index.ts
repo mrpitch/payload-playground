@@ -1,8 +1,6 @@
-import { CollectionConfig } from 'payload'
-import { adminAndEditor } from '@/payload/access'
-import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
-import { createParentMenuLink } from '@/payload/fields/menu-items'
-import { MenuTypeSelectField } from '@/payload/fields/menu-type-select'
+import type { CollectionConfig } from 'payload'
+
+import { createMenuItem } from './fields/menu-items'
 
 export const MenuTypes = [
 	{ label: 'Main', value: 'mainMenu' },
@@ -14,10 +12,6 @@ export const MenuTypes = [
 
 export const Menus: CollectionConfig = {
 	slug: 'menus',
-	labels: {
-		singular: 'Menu',
-		plural: 'Menus',
-	},
 	admin: {
 		group: 'Content',
 		useAsTitle: 'name',
@@ -30,13 +24,7 @@ export const Menus: CollectionConfig = {
 			},
 			schedulePublish: true,
 		},
-		maxPerDoc: 10,
-	},
-	access: {
-		create: adminAndEditor,
-		read: adminAndEditor,
-		update: adminAndEditor,
-		delete: adminAndEditor,
+		maxPerDoc: 3,
 	},
 	fields: [
 		{
@@ -48,7 +36,7 @@ export const Menus: CollectionConfig = {
 			admin: {
 				components: {
 					Field: {
-						path: 'src/payload/fields/menu-type-select.tsx',
+						path: 'src/payload/content-model/Menus/fields/menu-type-select.tsx',
 						exportName: 'MenuTypeSelectField',
 					},
 				},
@@ -57,7 +45,7 @@ export const Menus: CollectionConfig = {
 		{
 			name: 'name',
 			type: 'text',
-			required: true,
+			localized: true,
 		},
 		{
 			name: 'shortDescription',
@@ -75,16 +63,15 @@ export const Menus: CollectionConfig = {
 				initCollapsed: true,
 				components: {
 					RowLabel: {
-						path: 'src/payload/components/menu-labels.ts',
-						exportName: 'MenuLinkLabel',
+						path: 'src/payload/content-model/Menus/fields/menu-labels.ts',
+						exportName: 'MenuItemLabel',
 					},
 				},
 			},
-			fields: [createParentMenuLink()],
-			minRows: 1,
-			maxRows: 15,
+			fields: [createMenuItem()],
 			dbName: 'menu_items',
 		},
+
 		{
 			name: 'publishedAt',
 			type: 'date',
@@ -97,7 +84,7 @@ export const Menus: CollectionConfig = {
 			hooks: {
 				beforeChange: [
 					({ siblingData, value }) => {
-						if (siblingData?._status === 'published' && !value) {
+						if (siblingData._status === 'published' && !value) {
 							return new Date()
 						}
 						return value
@@ -106,8 +93,4 @@ export const Menus: CollectionConfig = {
 			},
 		},
 	],
-	hooks: {
-		afterChange: [revalidateCache],
-		afterDelete: [revalidateCacheAfterDelete],
-	},
 }

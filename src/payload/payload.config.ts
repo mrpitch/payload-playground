@@ -16,7 +16,6 @@ import { plugins } from '@/payload/plugins'
 import { seed } from '@/payload/utils/seed/seed'
 
 import { AppSettings } from '@/payload/content-model/AppSettings'
-import { AppShell } from '@/payload/content-model/AppShell'
 import { EmailTemplates } from '@/payload/content-model/EmailTemplates'
 import { Categories } from '@/payload/content-model/Categories'
 import { Docs } from '@/payload/content-model/Docs'
@@ -60,7 +59,7 @@ export default buildConfig({
 			baseDir: path.resolve(dirname),
 		},
 	},
-	globals: [AppShell, EmailTemplates, AppSettings],
+	globals: [EmailTemplates, AppSettings],
 	collections: [Categories, Docs, Pages, Posts, Newsletter, Users, Media, Menus],
 	folders: {
 		debug: true, // optional

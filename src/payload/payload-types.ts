@@ -105,12 +105,10 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    'app-shell': AppShell;
     'e-mail-templates': EMailTemplate;
     'app-settings': AppSetting;
   };
   globalsSelect: {
-    'app-shell': AppShellSelect<false> | AppShellSelect<true>;
     'e-mail-templates': EMailTemplatesSelect<false> | EMailTemplatesSelect<true>;
     'app-settings': AppSettingsSelect<false> | AppSettingsSelect<true>;
   };
@@ -525,11 +523,11 @@ export interface EmailGalleryBlock {
 export interface Menu {
   id: number;
   menuType: 'mainMenu' | 'footerMenu' | 'profileMenu' | 'dashboardMenu' | 'docsMenu';
-  name: string;
+  name?: string | null;
   shortDescription?: string | null;
   menuItems?:
     | {
-        link: {
+        menuItems?: {
           type?: string | null;
           icon?:
             | (
@@ -548,19 +546,19 @@ export interface Menu {
                 | 'code'
               )
             | null;
-          label: string;
-          docs?: {
-            relationTo: 'docs';
-            value: number | Doc;
-          } | null;
-          pages?: {
+          label?: string | null;
+          page?: {
             relationTo: 'pages';
             value: number | Page;
           } | null;
+          doc?: {
+            relationTo: 'docs';
+            value: number | Doc;
+          } | null;
           url?: string | null;
-          menuChildLinks?:
+          groupItems?:
             | {
-                link: {
+                groupItem?: {
                   type?: string | null;
                   icon?:
                     | (
@@ -579,16 +577,50 @@ export interface Menu {
                         | 'code'
                       )
                     | null;
-                  label: string;
-                  docs?: {
-                    relationTo: 'docs';
-                    value: number | Doc;
-                  } | null;
-                  pages?: {
+                  label?: string | null;
+                  page?: {
                     relationTo: 'pages';
                     value: number | Page;
                   } | null;
+                  doc?: {
+                    relationTo: 'docs';
+                    value: number | Doc;
+                  } | null;
                   url?: string | null;
+                  folderItems?:
+                    | {
+                        folderItem?: {
+                          type?: string | null;
+                          icon?:
+                            | (
+                                | 'layoutDashboard'
+                                | 'folderKanban'
+                                | 'image'
+                                | 'bookOpen'
+                                | 'database'
+                                | 'shield'
+                                | 'zap'
+                                | 'rocket'
+                                | 'dumbbell'
+                                | 'tag'
+                                | 'user'
+                                | 'settings'
+                                | 'code'
+                              )
+                            | null;
+                          label?: string | null;
+                          page?: {
+                            relationTo: 'pages';
+                            value: number | Page;
+                          } | null;
+                          doc?: {
+                            relationTo: 'docs';
+                            value: number | Doc;
+                          } | null;
+                        };
+                        id?: string | null;
+                      }[]
+                    | null;
                 };
                 id?: string | null;
               }[]
@@ -1126,27 +1158,41 @@ export interface MenusSelect<T extends boolean = true> {
   menuItems?:
     | T
     | {
-        link?:
+        menuItems?:
           | T
           | {
               type?: T;
               icon?: T;
               label?: T;
-              docs?: T;
-              pages?: T;
+              page?: T;
+              doc?: T;
               url?: T;
-              menuChildLinks?:
+              groupItems?:
                 | T
                 | {
-                    link?:
+                    groupItem?:
                       | T
                       | {
                           type?: T;
                           icon?: T;
                           label?: T;
-                          docs?: T;
-                          pages?: T;
+                          page?: T;
+                          doc?: T;
                           url?: T;
+                          folderItems?:
+                            | T
+                            | {
+                                folderItem?:
+                                  | T
+                                  | {
+                                      type?: T;
+                                      icon?: T;
+                                      label?: T;
+                                      page?: T;
+                                      doc?: T;
+                                    };
+                                id?: T;
+                              };
                         };
                     id?: T;
                   };
@@ -1236,59 +1282,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "app-shell".
- */
-export interface AppShell {
-  id: number;
-  settings: {
-    siteName: string;
-    siteDescription: string;
-  };
-  mainNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  legalNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  profileNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          icon: 'layoutDashboard' | 'settings' | 'folderKanban';
-          id?: string | null;
-        }[]
-      | null;
-  };
-  sideBarNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          icon: 'layoutDashboard' | 'rocket' | 'dumbbell' | 'tag' | 'image' | 'user' | 'settings' | 'logout';
-          id?: string | null;
-        }[]
-      | null;
-  };
-  publishedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "e-mail-templates".
  */
 export interface EMailTemplate {
@@ -1354,69 +1347,6 @@ export interface AppSetting {
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "app-shell_select".
- */
-export interface AppShellSelect<T extends boolean = true> {
-  settings?:
-    | T
-    | {
-        siteName?: T;
-        siteDescription?: T;
-      };
-  mainNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              id?: T;
-            };
-      };
-  legalNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              id?: T;
-            };
-      };
-  profileNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              icon?: T;
-              id?: T;
-            };
-      };
-  sideBarNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              icon?: T;
-              id?: T;
-            };
-      };
-  publishedAt?: T;
-  _status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1515,7 +1445,7 @@ export interface TaskSchedulePublish {
           relationTo: 'menus';
           value: number | Menu;
         } | null);
-    global?: ('app-shell' | 'app-settings') | null;
+    global?: 'app-settings' | null;
     user?: (number | null) | User;
   };
   output?: unknown;

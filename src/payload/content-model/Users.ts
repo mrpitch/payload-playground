@@ -8,8 +8,8 @@ import type { TEmailPasswordResetProps } from '@/payload/email-templates/passwor
 import { admin } from '@/payload/access/admin'
 import { adminAndEditor } from '@/payload/access/admin-and-editor'
 import { anyone } from '@/payload/access/anyone'
-import { checkRole } from '@/payload/hooks/check-role'
-import { protectRoles } from '@/payload/hooks/protect-roles'
+import { checkRole } from '@/payload/content-model/shared/hooks/check-role'
+import { protectRoles } from '@/payload/content-model/shared/hooks/protect-roles'
 import { tokenExpiration } from '@/lib/utils/constants'
 
 import { EmailPasswordReset } from '@/payload/email-templates/password-reset'

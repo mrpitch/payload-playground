@@ -1,7 +1,10 @@
 import { CollectionConfig } from 'payload'
 
 import { adminAndEditor } from '@/payload/access'
-import { revalidateCache, revalidateCacheAfterDelete } from '@/payload/hooks/revalidate-cache'
+import {
+	revalidateCache,
+	revalidateCacheAfterDelete,
+} from '@/payload/content-model/shared/hooks/revalidate-cache'
 
 import {
 	MetaDescriptionField,
@@ -11,25 +14,27 @@ import {
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 
+import { ContentItemsIconOptions } from '@/payload/content-model/shared/fields/content-items-icons'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { CopyBlock } from '@/payload/blocks/copy-block'
 
 import { breakpoints } from '@/payload/utils/breakpoints'
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
-export const Posts: CollectionConfig = {
-	slug: 'posts',
+export const Docs: CollectionConfig = {
+	slug: 'docs',
+	folders: true,
 	admin: {
 		group: 'Content',
 		useAsTitle: 'title',
-		defaultColumns: ['title', 'slug', 'publishedAt', 'status'],
+		defaultColumns: ['title', 'folder', 'slug', 'publishedAt', 'status'],
 		livePreview: {
 			url: ({ data }) => {
-				return generatePreviewPath(`blog`, data.slug)
+				return generatePreviewPath(`docs`, data.slug)
 			},
 			breakpoints: breakpoints,
 		},
-		preview: (data) => generatePreviewPath(`blog`, data.slug as string),
+		preview: (data) => generatePreviewPath(`docs`, data.slug as string),
 	},
 	versions: {
 		drafts: {
@@ -68,10 +73,10 @@ export const Posts: CollectionConfig = {
 			localized: true,
 		},
 		{
-			name: 'thumbnail',
-			type: 'upload',
-			label: 'Thumbnail',
-			relationTo: 'media',
+			name: 'icon',
+			type: 'select',
+			required: true,
+			options: ContentItemsIconOptions,
 		},
 		{
 			type: 'tabs',
@@ -134,7 +139,7 @@ export const Posts: CollectionConfig = {
 			hooks: {
 				beforeChange: [
 					({ siblingData, value }) => {
-						if (siblingData._status === 'published' && !value) {
+						if (siblingData?._status === 'published' && !value) {
 							return new Date()
 						}
 						return value
@@ -163,22 +168,6 @@ export const Posts: CollectionConfig = {
 					},
 				],
 			},
-		},
-		{
-			name: 'relatedPosts',
-			type: 'relationship',
-			admin: {
-				position: 'sidebar',
-			},
-			filterOptions: ({ id }) => {
-				return {
-					id: {
-						not_in: [id],
-					},
-				}
-			},
-			hasMany: true,
-			relationTo: 'posts',
 		},
 		{
 			name: 'categories',
