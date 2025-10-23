@@ -23,7 +23,6 @@ import {
 	SidebarMenu,
 	SidebarMenuItem,
 	SidebarMenuButton,
-	SidebarGroupLabel,
 	SidebarProvider,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -74,30 +73,31 @@ export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 					<SidebarProvider className="min-h-auto w-full">
 						<Sidebar collapsible="none" className="bg-transparent">
 							<SidebarContent>
-								{/* Main Navigation Items Group */}
-								{mainNav.length
-									? mainNav.map((group, groupIndex) => (
-											<SidebarGroup
-												key={groupIndex}
-												className={cn(context === 'marketing' ? 'md:hidden' : '')}
-											>
-												<SidebarGroupLabel>{group.name}</SidebarGroupLabel>
-												<SidebarGroupContent className="min-w-56 gap-0">
-													<SidebarMenu>
-														{group.items.map((item, itemIndex) => (
-															<SidebarMenuItem key={`${groupIndex}-${itemIndex}`}>
-																<SidebarMenuButton asChild>
-																	<Link href={item.href}>
-																		<span>{item.label}</span>
-																	</Link>
-																</SidebarMenuButton>
-															</SidebarMenuItem>
-														))}
-													</SidebarMenu>
-												</SidebarGroupContent>
-											</SidebarGroup>
-										))
-									: null}
+								{/* Main Navigation Items */}
+								{mainNav.length ? (
+									<SidebarGroup className={cn(context === 'marketing' ? 'md:hidden' : '')}>
+										<SidebarGroupContent className="min-w-56 gap-0">
+											<SidebarMenu>
+												{mainNav.map((item) => (
+													<SidebarMenuItem key={item.href}>
+														<SidebarMenuButton asChild>
+															<Link href={item.href} className="flex items-center gap-2">
+																{item.icon ? (
+																	<Icon
+																		iconName={item.icon}
+																		className="h-4 w-4"
+																		aria-hidden="true"
+																	/>
+																) : null}
+																<span>{item.label}</span>
+															</Link>
+														</SidebarMenuButton>
+													</SidebarMenuItem>
+												))}
+											</SidebarMenu>
+										</SidebarGroupContent>
+									</SidebarGroup>
+								) : null}
 								{/* User/Profile Items Group */}
 								{context === 'marketing' ? <UserNav user={user} context={context} /> : null}
 							</SidebarContent>

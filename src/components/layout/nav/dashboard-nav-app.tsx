@@ -36,7 +36,6 @@ export function DashboardNavApp({
 	const { state } = useSidebar()
 	const { dashboardNav, settings } = useNavigation(NavigationType.DashboardNav)
 	const pathname = usePathname()
-
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">
 			<SidebarContent className="gap-0">
@@ -45,29 +44,36 @@ export function DashboardNavApp({
 						<Logo name={state === 'collapsed' ? '' : settings?.siteName} />
 					</SidebarGroupContent>
 				</SidebarGroup>
-				{dashboardNav.map((group, groupIndex) => (
-					<SidebarGroup key={groupIndex}>
-						<SidebarGroupContent>
-							{state === 'collapsed' ? null : <SidebarGroupLabel>{group.name}</SidebarGroupLabel>}
-							<SidebarMenu>
-								{group.items.map((item, itemIndex) => (
-									<SidebarMenuItem key={`${groupIndex}-${itemIndex}`}>
-										<SidebarMenuButton
-											asChild
-											tooltip={item.label}
-											isActive={isActive(item.href, pathname)}
-										>
-											<Link href={item.href}>
-												{item.icon ? <Icon iconName={item.icon} /> : null}
-												<span>{item.label}</span>
-											</Link>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								))}
-							</SidebarMenu>
-						</SidebarGroupContent>
-					</SidebarGroup>
-				))}
+				{dashboardNav.map((group, groupIndex) => {
+					if (!group.items.length) return null
+					return (
+						<SidebarGroup key={`${group.label || 'group'}-${groupIndex}`}>
+							<SidebarGroupContent>
+								{state === 'collapsed' || !group.label ? null : (
+									<SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+								)}
+								<SidebarMenu>
+									{group.items.map((item) => (
+										<SidebarMenuItem key={item.href}>
+											<SidebarMenuButton
+												asChild
+												tooltip={item.label}
+												isActive={isActive(item.href, pathname)}
+											>
+												<Link href={item.href}>
+													{item.icon ? (
+														<Icon iconName={item.icon} className="h-4 w-4" aria-hidden="true" />
+													) : null}
+													<span>{item.label}</span>
+												</Link>
+											</SidebarMenuButton>
+										</SidebarMenuItem>
+									))}
+								</SidebarMenu>
+							</SidebarGroupContent>
+						</SidebarGroup>
+					)
+				})}
 			</SidebarContent>
 			<SidebarFooter>
 				<UserNav user={user} context="app" />
@@ -75,7 +81,6 @@ export function DashboardNavApp({
 		</Sidebar>
 	)
 }
-
 export function DashboardNavAppSkeleton() {
 	return (
 		<Sidebar variant="sidebar" collapsible="icon">

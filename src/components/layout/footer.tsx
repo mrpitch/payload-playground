@@ -1,52 +1,41 @@
+'use client'
+
 import Link from 'next/link'
 
 import { Container } from '@/components/ui/custom/container'
 import { Typography, typographyVariants } from '@/components/ui/custom/typography'
+import { Icon } from '@/components/ui/custom/icons'
+import { cn } from '@/lib/utils/cn'
+import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
 
-import type { Menu } from '@payload-types'
-
-interface FooterProps {
+type FooterProps = {
 	siteName?: string
-	siteDescription?: string
-	navigation?: Menu['menuItems'] | null
 }
 
-// Helper function to get the correct href for menu items
-function getMenuItemHref(item: NonNullable<Menu['menuItems']>[0]): string {
-	if (!item?.link) return '#'
+export function Footer({ siteName }: FooterProps) {
+	const { footerNav } = useNavigation(NavigationType.FooterNav)
 
-	const { type, pages, docs, url } = item.link
-
-	switch (type) {
-		case 'pages':
-			return pages || '#'
-		case 'docs':
-			return docs || '#'
-		case 'url':
-			return url || '#'
-		case 'nolink':
-		case 'folder':
-		default:
-			return '#'
-	}
-}
-
-export const Footer: React.FC<FooterProps> = ({ siteName, navigation }) => {
 	return (
 		<Container as="footer">
 			<div className="mx-auto max-w-screen-2xl">
-				<div className="flex flex-col space-y-4 md:flex-row md:justify-between md:space-y-0">
+				<div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
 					<Typography as="p" size="xs" className="w-auto">
 						&copy; {new Date().getFullYear()} {siteName}
 					</Typography>
-					<nav className="flex gap-4">
-						{navigation?.map((item, index) => (
+					<nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
+						{footerNav.map((item) => (
 							<Link
-								key={index}
-								href={getMenuItemHref(item)}
-								className={`underline hover:no-underline ${typographyVariants({ size: 'xs' })}`}
+								key={item.href}
+								href={item.href}
+								className={cn(
+									typographyVariants({ size: 'xs' }),
+									'text-muted-foreground hover:text-foreground flex items-center gap-1 underline decoration-dotted underline-offset-4 transition hover:no-underline',
+								)}
 							>
-								{item.link?.label || 'Link'}
+								{item.icon ? (
+									<Icon iconName={item.icon} className="h-4 w-4" aria-hidden="true" />
+								) : null}
+								<span>{item.label}</span>
 							</Link>
 						))}
 					</nav>

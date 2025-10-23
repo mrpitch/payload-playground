@@ -1,6 +1,5 @@
 'use client'
 
-import * as React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -14,7 +13,7 @@ import {
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Icon, IconType } from '@/components/ui/custom/icons'
+import { Icon } from '@/components/ui/custom/icons'
 import { LogoutButton } from '@/components/auth/logout-button'
 import {
 	SidebarGroup,
@@ -108,20 +107,15 @@ export function UserProfile({ user }: { user: User | null }) {
 							<span className="sr-only">My Account</span>
 						</SidebarMenuItem>
 					) : null}
-					{profileNav.map((group, groupIndex) => (
-						<React.Fragment key={groupIndex}>
-							{/* Render group items */}
-							{group.items.map((item, itemIndex) => (
-								<SidebarMenuItem key={`${groupIndex}-${itemIndex}`}>
-									<SidebarMenuButton asChild isActive={isActive(item.href, pathname)}>
-										<Link href={item.href}>
-											{item.icon ? <Icon iconName={item.icon} /> : null}
-											<span>{item.label}</span>
-										</Link>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-							))}
-						</React.Fragment>
+					{profileNav.map((item) => (
+						<SidebarMenuItem key={item.href}>
+							<SidebarMenuButton asChild isActive={isActive(item.href, pathname)}>
+								<Link href={item.href}>
+									{item.icon ? <Icon iconName={item.icon} /> : null}
+									<span>{item.label}</span>
+								</Link>
+							</SidebarMenuButton>
+						</SidebarMenuItem>
 					))}
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>

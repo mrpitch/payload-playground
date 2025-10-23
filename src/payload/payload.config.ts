@@ -13,7 +13,6 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { plugins } from '@/payload/plugins'
-import { seed } from '@/payload/utils/seed/seed'
 
 import { AppSettings } from '@/payload/content-model/AppSettings'
 import { EmailTemplates } from '@/payload/content-model/EmailTemplates'
@@ -132,7 +131,7 @@ export default buildConfig({
 	plugins: [...plugins],
 	onInit: async (payload: Payload) => {
 		if (process.env.PAYLOAD_SEED === 'true') {
-			await seed(payload)
+			//await seed(payload)
 		}
 	},
 })

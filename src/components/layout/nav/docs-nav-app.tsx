@@ -17,12 +17,8 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarMenuSub,
-	SidebarMenuSubButton,
-	SidebarMenuSubItem,
 	useSidebar,
 } from '@/components/ui/sidebar'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useNavigation, NavigationType, isActive } from '@/lib/hooks/use-navigation'
 
@@ -51,65 +47,39 @@ export function DocsNavApp({
 					</SidebarGroupContent>
 				</SidebarGroup>
 				{docsNav.map((menu, menuIndex) => (
-					<React.Fragment key={menuIndex}>
-						{menu.navGroups.map((group, groupIndex) => (
-							<SidebarGroup key={`${menuIndex}-${groupIndex}`}>
-								<SidebarGroupLabel>{group.name}</SidebarGroupLabel>
-								<SidebarGroupContent>
-									<SidebarMenu>
-										{group.items.map((item, itemIndex) => (
-											<SidebarMenuItem key={`${menuIndex}-${groupIndex}-${itemIndex}`}>
-												{item.type === 'folder' && item.children ? (
-													<Collapsible defaultOpen={true} className="group/collapsible">
-														<CollapsibleTrigger asChild>
-															<SidebarMenuButton
-																className="hover:bg-sidebar-accent cursor-pointer"
-																tooltip={item.label}
-															>
-																{item.icon ? <Icon iconName={item.icon} /> : null}
-																<span>{item.label}</span>
-																<Icon
-																	iconName="chevronRight"
-																	className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90"
-																/>
-															</SidebarMenuButton>
-														</CollapsibleTrigger>
-														<CollapsibleContent>
-															<SidebarMenuSub>
-																{item.children.map((child, childIndex) => (
-																	<SidebarMenuSubItem key={childIndex}>
-																		<SidebarMenuSubButton
-																			asChild
-																			isActive={isActive(child.href, pathname)}
-																		>
-																			<Link href={child.href}>
-																				{child.icon ? <Icon iconName={child.icon} /> : null}
-																				<span>{child.label}</span>
-																			</Link>
-																		</SidebarMenuSubButton>
-																	</SidebarMenuSubItem>
-																))}
-															</SidebarMenuSub>
-														</CollapsibleContent>
-													</Collapsible>
-												) : (
+					<React.Fragment key={`menu-${menuIndex}`}>
+						{menu.navGroups.map((group, groupIndex) => {
+							if (!group.items.length) return null
+							const groupLabel = group.label || menu.name || ''
+
+							return (
+								<SidebarGroup key={`menu-${menuIndex}-group-${groupIndex}`}>
+									<SidebarGroupContent>
+										{state === 'collapsed' || !groupLabel ? null : (
+											<SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>
+										)}
+										<SidebarMenu>
+											{group.items.map((item) => (
+												<SidebarMenuItem key={item.href}>
 													<SidebarMenuButton
 														asChild
 														tooltip={item.label}
 														isActive={isActive(item.href, pathname)}
 													>
 														<Link href={item.href}>
-															{item.icon ? <Icon iconName={item.icon} /> : null}
+															{item.icon ? (
+																<Icon iconName={item.icon} className="h-4 w-4" aria-hidden="true" />
+															) : null}
 															<span>{item.label}</span>
 														</Link>
 													</SidebarMenuButton>
-												)}
-											</SidebarMenuItem>
-										))}
-									</SidebarMenu>
-								</SidebarGroupContent>
-							</SidebarGroup>
-						))}
+												</SidebarMenuItem>
+											))}
+										</SidebarMenu>
+									</SidebarGroupContent>
+								</SidebarGroup>
+							)
+						})}
 					</React.Fragment>
 				))}
 			</SidebarContent>

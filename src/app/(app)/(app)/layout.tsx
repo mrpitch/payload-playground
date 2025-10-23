@@ -25,7 +25,7 @@ import { Footer } from '@/components/layout/footer'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const navData = await getNavData()
-	const { settings, footerNav } = navData
+	const { settings } = navData
 
 	const user = await getSession()
 	if (!user) {
@@ -62,7 +62,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
 					</div>
 				</header>
 				<div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
-				<Footer siteName={settings?.siteName} navigation={footerNav?.menuItems} />
+				<Suspense fallback={null}>
+					<NavigationProvider>
+						<Footer siteName={settings?.siteName} />
+					</NavigationProvider>
+				</Suspense>
 			</SidebarInset>
 		</SidebarProvider>
 	)

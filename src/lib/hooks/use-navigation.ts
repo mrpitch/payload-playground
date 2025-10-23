@@ -13,56 +13,15 @@
  */
 
 import { useContext } from 'react'
-import { usePathname } from 'next/navigation'
-
 import { NavigationContext } from '@/components/utils/nav-provider'
-import type { IconType } from '@/components/ui/custom/icons'
-
-/**
- * Base types for processed navigation items
- *
- * These interfaces define the structure of navigation data after processing.
- * All items are standardized with consistent properties regardless of their
- * original source (pages, docs, URLs, etc.).
- */
-
-/** Legacy interface for backward compatibility */
-export interface TProcessedNavItem {
-	label: string
-	href: string
-	icon?: IconType
-	type?: 'link' | 'label' | 'folder'
-	children?: TProcessedNavItem[]
-}
-
-/** Legacy interface for backward compatibility */
-export interface TProcessedNavGroup {
-	name: string
-	shortDescription?: string | null
-	menuItems: TProcessedNavItem[]
-}
-
-/**
- * New grouped navigation structure
- *
- * This is the modern structure used throughout the application.
- * Navigation items are organized into logical groups based on 'nolink' items.
- */
-
-/** Individual navigation item with standardized properties */
-export interface TGroupedNavItem {
-	label: string
-	href: string
-	icon?: IconType
-	type?: 'link' | 'label' | 'folder'
-	children?: TGroupedNavItem[]
-}
-
-/** Navigation group containing multiple items */
-export interface TNavGroup {
-	name: string
-	items: TGroupedNavItem[]
-}
+import type {
+	TMainNavContext,
+	TDashboardNavContext,
+	TDocsNavContext,
+	TFooterNavContext,
+	TThreedotsNavContext,
+	TProfileNavContext,
+} from '@/lib/types/navigation'
 
 /**
  * Navigation type enum
@@ -78,58 +37,12 @@ export enum NavigationType {
 	DashboardNav = 'dashboardNav',
 	/** Documentation navigation (multiple menus with groups) */
 	DocsNav = 'docsNav',
+	/** Footer navigation (flat links) */
+	FooterNav = 'footerNav',
 	/** Three dots/hamburger menu navigation (pages only) */
 	ThreedotsNav = 'threedotsNav',
 	/** Profile/user menu navigation (URLs only) */
 	ProfileNav = 'profileNav',
-}
-
-/**
- * Context-specific return types
- *
- * These interfaces define the exact structure returned by each navigation type.
- * TypeScript uses these for compile-time type checking and IntelliSense support.
- */
-
-/** Main navigation context - header navigation with site settings */
-export interface TMainNavContext {
-	mainNav: TNavGroup[]
-	settings: {
-		siteName?: string
-		siteDescription?: string
-	}
-}
-
-/** Dashboard navigation context - sidebar navigation with site settings */
-export interface TDashboardNavContext {
-	dashboardNav: TNavGroup[]
-	settings: {
-		siteName?: string
-		siteDescription?: string
-	}
-}
-
-/** Documentation navigation context - multiple docs menus with groups */
-export interface TDocsNavContext {
-	docsNav: Array<{
-		name: string
-		shortDescription?: string | null
-		navGroups: TNavGroup[]
-	}>
-	settings: {
-		siteName?: string
-		siteDescription?: string
-	}
-}
-
-/** Three dots navigation context - mobile/hamburger menu (pages only) */
-export interface TThreedotsNavContext {
-	mainNav: TNavGroup[]
-}
-
-/** Profile navigation context - user menu items (URLs only) */
-export interface TProfileNavContext {
-	profileNav: TNavGroup[]
 }
 
 /**
@@ -142,6 +55,7 @@ export interface TProfileNavContext {
 export function useNavigation(type: NavigationType.MainNav): TMainNavContext
 export function useNavigation(type: NavigationType.DashboardNav): TDashboardNavContext
 export function useNavigation(type: NavigationType.DocsNav): TDocsNavContext
+export function useNavigation(type: NavigationType.FooterNav): TFooterNavContext
 export function useNavigation(type: NavigationType.ThreedotsNav): TThreedotsNavContext
 export function useNavigation(type: NavigationType.ProfileNav): TProfileNavContext
 export function useNavigation(
@@ -151,7 +65,8 @@ export function useNavigation(
 	| TDashboardNavContext
 	| TDocsNavContext
 	| TThreedotsNavContext
-	| TProfileNavContext {
+	| TProfileNavContext
+	| TFooterNavContext {
 	/**
 	 * Get navigation context from React Context
 	 *
@@ -191,6 +106,11 @@ export function useNavigation(
 			return {
 				docsNav: ctx.docsNav,
 				settings: ctx.settings,
+			}
+
+		case NavigationType.FooterNav:
+			return {
+				footerNav: ctx.footerNav,
 			}
 
 		case NavigationType.ThreedotsNav:
