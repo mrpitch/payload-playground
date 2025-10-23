@@ -35,6 +35,7 @@ export function DashboardNavApp({
 }: React.ComponentProps<typeof Sidebar> & ISideBarNavProps) {
 	const { state } = useSidebar()
 	const { dashboardNav, settings } = useNavigation(NavigationType.DashboardNav)
+
 	const pathname = usePathname()
 	return (
 		<Sidebar {...props} variant="sidebar" collapsible="icon">

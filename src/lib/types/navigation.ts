@@ -23,9 +23,18 @@ export interface DashboardNavGroup {
 	items: NavItem[]
 }
 
+export interface NavFolder {
+	type: 'folder'
+	label: string
+	icon?: NavigationIcon
+	items: NavItem[]
+}
+
+export type DocsNavEntry = NavItem | NavFolder
+
 export interface DocsNavGroup {
 	label: string
-	items: NavItem[]
+	items: DocsNavEntry[]
 }
 
 export interface DocsNavMenu {

@@ -17,8 +17,12 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
 	useSidebar,
 } from '@/components/ui/sidebar'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useNavigation, NavigationType, isActive } from '@/lib/hooks/use-navigation'
 
@@ -59,22 +63,76 @@ export function DocsNavApp({
 											<SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>
 										)}
 										<SidebarMenu>
-											{group.items.map((item) => (
-												<SidebarMenuItem key={item.href}>
-													<SidebarMenuButton
-														asChild
-														tooltip={item.label}
-														isActive={isActive(item.href, pathname)}
-													>
-														<Link href={item.href}>
-															{item.icon ? (
-																<Icon iconName={item.icon} className="h-4 w-4" aria-hidden="true" />
-															) : null}
-															<span>{item.label}</span>
-														</Link>
-													</SidebarMenuButton>
-												</SidebarMenuItem>
-											))}
+											{group.items.map((item, itemIndex) => {
+												const itemKeyBase = `menu-${menuIndex}-group-${groupIndex}-item-${itemIndex}`
+												if (item.type === 'folder') {
+													return (
+														<SidebarMenuItem key={`folder-${itemKeyBase}`}>
+															<Collapsible defaultOpen className="group/collapsible">
+																<CollapsibleTrigger asChild>
+																	<SidebarMenuButton className="cursor-pointer">
+																		{item.icon ? (
+																			<Icon
+																				iconName={item.icon}
+																				className="h-4 w-4"
+																				aria-hidden="true"
+																			/>
+																		) : null}
+																		<span>{item.label}</span>
+																		<Icon
+																			iconName="chevronRight"
+																			className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90"
+																			aria-hidden="true"
+																		/>
+																	</SidebarMenuButton>
+																</CollapsibleTrigger>
+																<CollapsibleContent>
+																	<SidebarMenuSub>
+																		{item.items.map((child, childIndex) => (
+																			<SidebarMenuSubItem
+																				key={`${itemKeyBase}-child-${childIndex}`}
+																			>
+																				<SidebarMenuSubButton
+																					asChild
+																					isActive={isActive(child.href, pathname)}
+																				>
+																					<Link href={child.href}>
+																						{child.icon ? (
+																							<Icon
+																								iconName={child.icon}
+																								className="h-4 w-4"
+																								aria-hidden="true"
+																							/>
+																						) : null}
+																						<span>{child.label}</span>
+																					</Link>
+																				</SidebarMenuSubButton>
+																			</SidebarMenuSubItem>
+																		))}
+																	</SidebarMenuSub>
+																</CollapsibleContent>
+															</Collapsible>
+														</SidebarMenuItem>
+													)
+												}
+
+												return (
+													<SidebarMenuItem key={`item-${itemKeyBase}`}>
+														<SidebarMenuButton
+															asChild
+															tooltip={item.label}
+															isActive={isActive(item.href, pathname)}
+														>
+															<Link href={item.href}>
+																{item.icon ? (
+																	<Icon iconName={item.icon} className="h-4 w-4" aria-hidden="true" />
+																) : null}
+																<span>{item.label}</span>
+															</Link>
+														</SidebarMenuButton>
+													</SidebarMenuItem>
+												)
+											})}
 										</SidebarMenu>
 									</SidebarGroupContent>
 								</SidebarGroup>

@@ -8,20 +8,25 @@ import type {
 	DashboardNavGroup,
 	DocsNavMenu,
 	DocsNavGroup,
+	NavFolder,
 } from '@/lib/types/navigation'
 import type { IconType } from '@/components/ui/custom/icons'
 
 type MenuItemBlock = NonNullable<Menu['menuItems']>[number]
-type MenuItem = NonNullable<MenuItemBlock>['menuItems']
-type GroupItemBlock = NonNullable<MenuItem['groupItems']>[number]
+type RawMenuItem = NonNullable<MenuItemBlock>['menuItems']
+type MenuItem = RawMenuItem
+type MenuGroupItem = Extract<MenuItem, { groupItems?: unknown; type?: string | null }>
+type GroupItemBlock = NonNullable<MenuGroupItem['groupItems']>[number]
 type GroupItem = NonNullable<GroupItemBlock>['groupItem']
-type FolderItemBlock = NonNullable<GroupItem['folderItems']>[number]
+type GroupItemWithFolder = Extract<GroupItem, { folderItems?: unknown }>
+type FolderItemBlock = NonNullable<GroupItemWithFolder['folderItems']>[number]
 type FolderItem = NonNullable<FolderItemBlock>['folderItem']
 
 type LinkItem = {
 	type?: string | null
 	icon?: IconType | null
 	label?: string | null
+	groupItems?: (GroupItemBlock | null)[] | null
 	page?: {
 		relationTo: 'pages'
 		value: number | Page
@@ -34,6 +39,10 @@ type LinkItem = {
 }
 
 const HOME_SLUG = 'home'
+
+const isMenuGroupItem = (item: MenuItem | undefined): item is MenuGroupItem => {
+	return Boolean(item && item.type === 'group')
+}
 
 const resolvePageHref = (page: Page | null | undefined): string | null => {
 	if (!page) return null
@@ -96,6 +105,7 @@ const createNavItemFromLinkItem = (item: LinkItem | undefined): NavItem | null =
 }
 
 const createNavItemFromMenuItem = (item: MenuItem | undefined): NavItem | null => {
+	if (!item || isMenuGroupItem(item)) return null
 	return createNavItemFromLinkItem(item)
 }
 
@@ -105,6 +115,29 @@ const createNavItemFromGroupItem = (item: GroupItem | undefined): NavItem | null
 
 const createNavItemFromFolderItem = (item: FolderItem | undefined): NavItem | null => {
 	return createNavItemFromLinkItem(item)
+}
+
+const createNavFolderFromGroupItem = (item: GroupItem | undefined): NavFolder | null => {
+	if (!item) return null
+	const label = item.label
+	if (!label) return null
+	const icon = (item.icon as IconType | null | undefined) ?? undefined
+	const folderItems: NavItem[] = []
+
+	for (const folderItemBlock of item.folderItems ?? []) {
+		const folderItem = folderItemBlock?.folderItem
+		const navItem = createNavItemFromFolderItem(folderItem)
+		if (navItem) folderItems.push(navItem)
+	}
+
+	if (!folderItems.length) return null
+
+	return {
+		type: 'folder',
+		label,
+		icon,
+		items: folderItems,
+	}
 }
 
 const createMainNavGroup = (item: MenuItem | undefined): MainNavGroup | null => {
@@ -139,7 +172,6 @@ const processMainNav = (menu?: Menu): MainNavEntry[] => {
 
 const processDashboardNav = (menu?: Menu): DashboardNavGroup[] => {
 	if (!menu?.menuItems) return []
-	console.log('processDashboardNav', menu?.menuItems)
 	const groups: DashboardNavGroup[] = []
 	let currentGroup: DashboardNavGroup | null = null
 
@@ -157,7 +189,7 @@ const processDashboardNav = (menu?: Menu): DashboardNavGroup[] => {
 		const menuItem = block?.menuItems
 		if (!menuItem) continue
 
-		if (menuItem.type === 'group') {
+		if (isMenuGroupItem(menuItem)) {
 			const group = startGroup(menuItem.label ?? '')
 			for (const groupItemBlock of menuItem.groupItems ?? []) {
 				const groupItem = groupItemBlock?.groupItem
@@ -187,13 +219,11 @@ const processDashboardNav = (menu?: Menu): DashboardNavGroup[] => {
 		const navItem = createNavItemFromMenuItem(menuItem)
 		if (!navItem) continue
 
-			if (!currentGroup || currentGroup.label) {
-				currentGroup = startGroup('')
-			}
-			currentGroup.items.push(navItem)
+		if (!currentGroup || currentGroup.label) {
+			currentGroup = startGroup('')
 		}
-
-	console.log('groups', groups)
+		currentGroup.items.push(navItem)
+	}
 
 	return groups.filter((group) => group.items.length)
 }
@@ -223,32 +253,29 @@ const processDocsNav = (menus?: Menu[]): DocsNavMenu[] => {
 			const menuItem = block?.menuItems
 			if (!menuItem) continue
 
-			if (menuItem.type === 'group') {
+		if (isMenuGroupItem(menuItem)) {
 			const group = startDocsGroup(menuItem.label ?? '')
 			for (const groupItemBlock of menuItem.groupItems ?? []) {
 				const groupItem = groupItemBlock?.groupItem
 				if (!groupItem) continue
 
-					if (groupItem.type === 'folder') {
-						for (const folderItemBlock of groupItem.folderItems ?? []) {
-							const folderItem = folderItemBlock?.folderItem
-							const navItem = createNavItemFromFolderItem(folderItem)
-							if (navItem) {
-								group.items.push(navItem)
-							}
-						}
-						continue
+				if (groupItem.type === 'folder') {
+					const folder = createNavFolderFromGroupItem(groupItem)
+					if (folder) {
+						group.items.push(folder)
 					}
+					continue
+				}
 
-					const navItem = createNavItemFromGroupItem(groupItem)
-					if (navItem) {
+				const navItem = createNavItemFromGroupItem(groupItem)
+				if (navItem) {
 						group.items.push(navItem)
 					}
-			}
+				}
 
-			currentGroup = null
-			continue
-		}
+				currentGroup = null
+				continue
+			}
 
 			const navItem = createNavItemFromMenuItem(menuItem)
 			if (!navItem) continue
