@@ -1,11 +1,22 @@
 import type { Menu } from '@payload-types'
-import type { TNavData, TProcessedNavData, NavLink, MainNavEntry, MainNavGroup } from '@/lib/types/navigation'
+import type {
+	TNavData,
+	TProcessedNavData,
+	NavLink,
+	MainNavEntry,
+	MainNavGroup,
+	NavFolder,
+} from '@/lib/types/navigation'
 import type { IconType } from '@/components/ui/custom/icons'
-import type { MenuItem } from '@/lib/utils/navigation/payloadMenuTypes'
-import { createNavLink } from '@/lib/utils/navigation/resolveNavLink'
-import { processDashboardNav, processDocsNav } from '@/lib/utils/navigation/navGrouping'
+import type { MenuGroupItem } from '@/lib/utils/navigation/payloadMenuTypes'
+import { createNavLink, warnEmptyGroup } from '@/lib/utils/navigation/resolveNavLink'
+import {
+	processDashboardNav,
+	processDocsNav,
+	collectGroupEntriesWithFolders,
+} from '@/lib/utils/navigation/navGrouping'
 
-const createMainNavGroup = (item: MenuItem | undefined): MainNavGroup | null => {
+const createMainNavGroup = (item: MenuGroupItem | undefined, items: Array<NavLink | NavFolder>): MainNavGroup | null => {
 	if (!item) return null
 	const label = item.label
 	if (!label) return null
@@ -13,6 +24,7 @@ const createMainNavGroup = (item: MenuItem | undefined): MainNavGroup | null => 
 		type: 'group',
 		label,
 		icon: toIcon(item.icon),
+		items,
 	}
 }
 
@@ -27,7 +39,13 @@ const processMainNav = (menu?: Menu): MainNavEntry[] => {
 			const navItem = createNavLink(menuItem)
 			if (navItem) acc.push(navItem)
 		} else if (menuItem.type === 'group') {
-			const group = createMainNavGroup(menuItem)
+			const groupItems = collectGroupEntriesWithFolders(menuItem)
+			if (!groupItems.length) {
+				warnEmptyGroup('main group', menuItem.label ?? '', menu?.name ?? undefined)
+				return acc
+			}
+
+			const group = createMainNavGroup(menuItem, groupItems)
 			if (group) acc.push(group)
 		}
 

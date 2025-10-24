@@ -25,6 +25,7 @@ export interface MainNavGroup {
 	type: 'group'
 	label: string
 	icon?: NavigationIcon
+	items: Array<NavLink | NavFolder>
 }
 
 export type MainNavEntry = NavLink | MainNavGroup

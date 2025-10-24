@@ -94,8 +94,8 @@ export const processDocsNav = (menus?: Menu[]): DocsNavMenu[] => {
 			const menuItem = block?.menuItems
 			if (!menuItem) continue
 
-			if (isMenuGroupItem(menuItem)) {
-				const groupItems = collectDocsGroupEntries(menuItem)
+		if (isMenuGroupItem(menuItem)) {
+			const groupItems = collectGroupEntriesWithFolders(menuItem)
 				if (groupItems.length) {
 					navGroups.push({
 						label: menuItem.label ?? '',
@@ -128,7 +128,7 @@ export const processDocsNav = (menus?: Menu[]): DocsNavMenu[] => {
 	}, [])
 }
 
-const collectGroupLinks = (groupItem: MenuGroupItem): NavLink[] => {
+export const collectGroupLinks = (groupItem: MenuGroupItem): NavLink[] => {
 	const items: NavLink[] = []
 	for (const entry of groupItem.groupItems ?? []) {
 		const child = entry?.groupItem
@@ -147,7 +147,7 @@ const collectGroupLinks = (groupItem: MenuGroupItem): NavLink[] => {
 	return items
 }
 
-const collectDocsGroupEntries = (groupItem: MenuGroupItem): (NavFolder | NavLink)[] => {
+export const collectGroupEntriesWithFolders = (groupItem: MenuGroupItem): (NavFolder | NavLink)[] => {
 	const items: (NavFolder | NavLink)[] = []
 	for (const entry of groupItem.groupItems ?? []) {
 		const child = entry?.groupItem
