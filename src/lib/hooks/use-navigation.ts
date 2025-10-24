@@ -1,15 +1,8 @@
 /**
- * useNavigation Hook - High-Performance Navigation Data Access
+ * useNavigation Hook - Access processed navigation data.
  *
- * This hook provides instant access to pre-processed navigation data through
- * context-level caching. All expensive processing operations are done in NavigationProvider.
- *
- * ## Usage:
- * ```typescript
- * const { mainNav, settings } = useNavigation(NavigationType.MainNav)
- * const { dashboardNav } = useNavigation(NavigationType.DashboardNav)
- * const { docsNav } = useNavigation(NavigationType.DocsNav)
- * ```
+ * Navigation data is prepared on the server (see getNavData) and delivered through
+ * NavigationProvider. This hook simply selects the portion needed for each consumer.
  */
 
 import { useContext } from 'react'
@@ -67,28 +60,9 @@ export function useNavigation(
 	| TThreedotsNavContext
 	| TProfileNavContext
 	| TFooterNavContext {
-	/**
-	 * Get navigation context from React Context
-	 *
-	 * This context contains all pre-processed navigation data that was
-	 * computed once in the NavigationProvider using useMemo.
-	 */
 	const ctx = useContext(NavigationContext)
 	if (!ctx) throw new Error('useNavigation must be used within NavigationProvider')
 
-	/**
-	 * Return pre-processed data based on navigation type
-	 *
-	 * This is the core of the performance optimization. Instead of processing
-	 * raw data on every render, we simply return the pre-processed data from
-	 * context. All expensive operations have already been completed.
-	 *
-	 * ## Data Flow:
-	 * 1. NavigationProvider processes all data once using useMemo
-	 * 2. Processed data is stored in NavigationContext
-	 * 3. This hook simply returns the appropriate data based on type
-	 * 4. Components receive instant, processed navigation data
-	 */
 	switch (type) {
 		case NavigationType.MainNav:
 			return {

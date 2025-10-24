@@ -2,9 +2,10 @@ import { cache } from 'react'
 
 import { getGlobals } from '@/lib/utils/getGlobals'
 import type { AppSetting, Menu } from '@payload-types'
-import type { TNavData } from '@/lib/types/navigation'
+import type { TNavData, TProcessedNavData } from '@/lib/types/navigation'
+import { processNavData } from '@/lib/utils/navigation/processNavData'
 
-export const getNavData = cache(async (): Promise<TNavData> => {
+export const getNavData = cache(async (): Promise<TProcessedNavData> => {
 	const appSettings = (await getGlobals('app-settings', { depth: 4 })) as AppSetting
 	const ensureMenu = (menu: Menu | number | null | undefined): Menu | undefined => {
 		return menu && typeof menu === 'object' ? (menu as Menu) : undefined
@@ -17,7 +18,7 @@ export const getNavData = cache(async (): Promise<TNavData> => {
 
 	const docsMenus = ensureMenuArray(appSettings?.menus?.docsMenu)
 
-	return {
+	const rawData: TNavData = {
 		mainNav: ensureMenu(appSettings?.menus?.mainMenu),
 		footerNav: ensureMenu(appSettings?.menus?.footerMenu),
 		profileNav: ensureMenu(appSettings?.menus?.profileMenu),
@@ -25,4 +26,6 @@ export const getNavData = cache(async (): Promise<TNavData> => {
 		docsNav: docsMenus.length ? docsMenus : undefined,
 		settings: appSettings?.settings,
 	}
+
+	return processNavData(rawData)
 })

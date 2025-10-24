@@ -1,5 +1,5 @@
 import { cache } from 'react'
-import { getNavData } from '@/lib/utils/getNavData'
+import { getNavData } from '@/lib/utils/navigation'
 import { NavigationProviderClient } from './nav-provider'
 
 const getNavDataCached = cache(getNavData)

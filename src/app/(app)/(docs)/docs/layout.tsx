@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 
 import { getSession } from '@/lib/actions/get-session'
-import { getNavData } from '@/lib/utils/getNavData'
+import { getNavData } from '@/lib/utils/navigation'
 
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 

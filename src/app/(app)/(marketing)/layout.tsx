@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { getNavData } from '@/lib/utils/getNavData'
+import { getNavData } from '@/lib/utils/navigation'
 
 import { Footer } from '@/components/layout/footer'
 import { Header } from '@/components/layout/header'
