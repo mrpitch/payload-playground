@@ -12,7 +12,7 @@ export interface ITypographyProps
 	id?: string
 }
 
-const typographyVariants = cva('text-foreground', {
+const typographyVariants = cva('', {
 	variants: {
 		as: {
 			h1: 'scroll-m-20 text-4xl font-bold mb-8 tracking-tight lg:text-5xl text-balance',

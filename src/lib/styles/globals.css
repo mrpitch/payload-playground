@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
-@import "./variables-candyland.css";
+@import "./variables-bubblegum.css";
 @import "./theme.css";
 /*---break---*/
 @custom-variant dark (&:is(.dark *));
@@ -15,9 +15,9 @@
 	.prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
 		scroll-margin-top: 80px;
 	}
-	.prose-gray {
+	.prose  {
 	--tw-prose-body: var(--color-foreground);
-	--tw-prose-headings: var(--color-foreground);
+	--tw-prose-headings: var(--color-primary);
 	--tw-prose-lead: var(--color-foreground);
 	--tw-prose-links: var(--color-primary);
 	--tw-prose-bold: var(--color-foreground);
@@ -54,7 +54,12 @@
 /* Base layer after tokens are defined */
 @layer base {
   body { @apply bg-background text-foreground; }
-  * { @apply border-border; }
+    * { @apply border-border; }
+  }
+
+/* Ensure smooth scrolling for TOC navigation */
+html {
+  scroll-behavior: smooth;
 }
 
 

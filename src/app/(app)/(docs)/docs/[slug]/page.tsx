@@ -77,9 +77,9 @@ export default async function Doc({ params: paramsPromise }: Args) {
 	const tocData = processToc({ copy })
 
 	return (
-		<>
+		<div className="@container/docs">
 			<RefreshRouteOnSave />
-			<header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4">
+			<header className="bg-background sticky top-0 z-50 flex shrink-0 items-center gap-2 border-b p-4">
 				{folder && typeof folder !== 'number' && (
 					<BreadcrumbNav folder={folder} pageTitle={title} />
 				)}
@@ -91,8 +91,12 @@ export default async function Doc({ params: paramsPromise }: Args) {
 					</Suspense>
 				</div>
 			</header>
+
+			<TableOfContents items={tocData} type="mobile" />
+			{/* Main content area */}
 			<div className="flex gap-4 p-4">
-				<div className="flex-1 xl:max-w-4xl">
+				{/* Article content */}
+				<article className="flex-1 xl:max-w-4xl">
 					<div className="flex-start mt-4 mb-2 flex gap-2">
 						{categories?.map(
 							(category) =>
@@ -141,12 +145,11 @@ export default async function Doc({ params: paramsPromise }: Args) {
 						</Typography>
 					) : null}
 					{copy ? <RichText data={copy} className="prose w-full" /> : null}
-					{/* <Container as="div" className="overflow-x-scroll">
-					<pre>{JSON.stringify(docs, null, 2)}</pre>
-				</Container> */}
-				</div>
+				</article>
+
+				{/* Desktop TOC - sidebar */}
 				<TableOfContents items={tocData} />
 			</div>
-		</>
+		</div>
 	)
 }
