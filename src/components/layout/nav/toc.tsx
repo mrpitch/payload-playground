@@ -42,7 +42,6 @@ function TableOfContentsDropdown({ items = [] }: TableOfContentsProps) {
 	const activeTitle = items.find((item) => item.id === activeId)?.text || 'On this page'
 
 	const handleItemClick = (id: string) => {
-		scrollToHeading(id, 100)
 		setIsOpen(false)
 	}
 
@@ -97,10 +96,6 @@ function TableOfContentsSidebar({ items = [] }: TableOfContentsProps) {
 		}
 	}, [activeId])
 
-	const handleItemClick = (id: string) => {
-		scrollToHeading(id, 80)
-	}
-
 	return (
 		<nav className="relative space-y-2">
 			<Typography as="h3" size="xl" className="text-foreground mb-4 flex items-center gap-2">
@@ -118,13 +113,7 @@ function TableOfContentsSidebar({ items = [] }: TableOfContentsProps) {
 					}}
 				/>
 
-				<TocNavList
-					items={items}
-					activeId={activeId}
-					variant="sidebar"
-					onItemClick={handleItemClick}
-					itemRefs={itemRefs}
-				/>
+				<TocNavList items={items} activeId={activeId} variant="sidebar" itemRefs={itemRefs} />
 			</div>
 		</nav>
 	)
@@ -157,8 +146,7 @@ function TocNavList({
 						}
 						href={`#${item.id}`}
 						className={getItemClasses(item, activeId, variant)}
-						onClick={(event) => {
-							event.preventDefault()
+						onClick={() => {
 							onItemClick?.(item.id)
 						}}
 					>
@@ -230,16 +218,4 @@ function useActiveTocId(items: TTocItem[] = []) {
 	return activeId
 }
 
-function scrollToHeading(id: string, offset: number) {
-	const element = document.getElementById(id)
-
-	if (!element) return
-
-	const elementPosition = element.getBoundingClientRect().top
-	const offsetPosition = elementPosition + window.scrollY - offset
-
-	window.scrollTo({
-		top: offsetPosition,
-		behavior: 'smooth',
-	})
-}
+// Rely on default anchor navigation with CSS scroll-margin on headings

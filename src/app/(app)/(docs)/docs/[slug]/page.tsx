@@ -144,7 +144,12 @@ export default async function Doc({ params: paramsPromise }: Args) {
 							{excerpt}
 						</Typography>
 					) : null}
-					{copy ? <RichText data={copy} className="prose w-full" /> : null}
+					{copy ? (
+						<RichText
+							data={copy}
+							className="prose prose-headings:scroll-mt-36 @5xl/docs:prose-headings:scroll-mt-20 w-full"
+						/>
+					) : null}
 				</article>
 
 				{/* Desktop TOC - sidebar */}
