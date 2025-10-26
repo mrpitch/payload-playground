@@ -3,9 +3,10 @@ import { Suspense } from 'react'
 import { getSession } from '@/lib/actions/get-session'
 import { getNavData } from '@/lib/utils/navigation'
 
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarProvider } from '@/components/ui/sidebar'
 
 import { DocsNavApp, DocsNavAppSkeleton } from '@/components/layout/nav'
+import { SidebarWrapper } from '@/components/layout/nav/sidebar-wrapper'
 import { NavigationProvider } from '@/components/utils/nav-provider.server'
 import { Footer } from '@/components/layout/footer'
 
@@ -22,14 +23,14 @@ export default async function Layout({ children }: { children: React.ReactNode }
 					<DocsNavApp user={user} />
 				</NavigationProvider>
 			</Suspense>
-			<SidebarInset>
+			<SidebarWrapper>
 				{children}
 				<Suspense fallback={null}>
 					<NavigationProvider>
 						<Footer siteName={settings?.siteName} />
 					</NavigationProvider>
 				</Suspense>
-			</SidebarInset>
+			</SidebarWrapper>
 		</SidebarProvider>
 	)
 }

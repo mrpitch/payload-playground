@@ -58,6 +58,7 @@ import {
 	Smartphone,
 	SunMedium,
 	Tag,
+	TextAlignStart,
 	Trash2,
 	Upload,
 	User,
@@ -127,6 +128,7 @@ export type IconType =
 	| 'smartphone'
 	| 'sun'
 	| 'tag'
+	| 'textAlignStart'
 	| 'trash'
 	| 'upload'
 	| 'user'
@@ -197,6 +199,7 @@ const Icons = {
 	smartphone: (props: IconProps) => <Smartphone {...props} />,
 	sun: (props: IconProps) => <SunMedium {...props} />,
 	tag: (props: IconProps) => <Tag {...props} />,
+	textAlignStart: (props: IconProps) => <TextAlignStart {...props} />,
 	trash: (props: IconProps) => <Trash2 {...props} />,
 	menu: (props: IconProps) => <Menu {...props} />,
 	upload: (props: IconProps) => <Upload {...props} />,

@@ -22,7 +22,6 @@ export const MainNav = () => {
 	if (!mainNav.length) {
 		return null
 	}
-	console.log('mainNav', mainNav)
 
 	return (
 		<NavigationMenu className="hidden md:flex">

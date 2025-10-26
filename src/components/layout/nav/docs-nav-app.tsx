@@ -43,8 +43,15 @@ export function DocsNavApp({
 	const pathname = usePathname()
 
 	return (
-		<Sidebar {...props} variant="sidebar" collapsible="icon">
-			<SidebarContent className="gap-0">
+		<Sidebar
+			{...props}
+			variant="sidebar"
+			collapsible="icon"
+			className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 ${
+				state === 'collapsed' ? 'w-16' : 'w-64'
+			}`}
+		>
+			<SidebarContent className="scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border hover:scrollbar-thumb-border/80 h-screen gap-0 overflow-x-hidden overflow-y-auto">
 				<SidebarGroup>
 					<SidebarGroupContent>
 						<Logo name={state === 'collapsed' ? '' : settings?.siteName} />
@@ -125,7 +132,11 @@ export function DocsNavApp({
 														>
 															<Link href={item.href}>
 																{item.icon ? (
-																	<Icon iconName={item.icon} className="h-4 w-4" aria-hidden="true" />
+																	<Icon
+																		iconName={item.icon}
+																		className="h-4 w-4"
+																		aria-hidden="true"
+																	/>
 																) : null}
 																<span>{item.label}</span>
 															</Link>

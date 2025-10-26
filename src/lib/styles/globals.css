@@ -9,6 +9,12 @@
 
 /*override prose styles*/
 @layer utilities {
+	.prose {
+		max-width: none;
+	}
+	.prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+		scroll-margin-top: 80px;
+	}
 	.prose-gray {
 	--tw-prose-body: var(--color-foreground);
 	--tw-prose-headings: var(--color-foreground);
@@ -50,5 +56,6 @@
   body { @apply bg-background text-foreground; }
   * { @apply border-border; }
 }
+
 
 

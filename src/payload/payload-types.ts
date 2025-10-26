@@ -189,7 +189,21 @@ export interface Doc {
     image?: (number | null) | Media;
     description?: string | null;
   };
-  layout?: (QuoteBlock | CopyBlock)[] | null;
+  copy?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   publishedAt?: string | null;
   author: number | User;
   categories?: (number | Category)[] | null;
@@ -286,43 +300,6 @@ export interface FolderInterface {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "QuoteBlock".
- */
-export interface QuoteBlock {
-  quoteHeader: string;
-  quoteText?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'quote';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CopyBlock".
- */
-export interface CopyBlock {
-  headline: string;
-  showHeadline: boolean;
-  copy?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'copy';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -376,6 +353,32 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CopyBlock".
+ */
+export interface CopyBlock {
+  headline: string;
+  showHeadline: boolean;
+  copy?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'copy';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ImageTextBlock".
  */
 export interface ImageTextBlock {
@@ -394,6 +397,17 @@ export interface ImageTextBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'image-text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuoteBlock".
+ */
+export interface QuoteBlock {
+  quoteHeader: string;
+  quoteText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quote';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -843,12 +857,7 @@ export interface DocsSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
-  layout?:
-    | T
-    | {
-        quote?: T | QuoteBlockSelect<T>;
-        copy?: T | CopyBlockSelect<T>;
-      };
+  copy?: T;
   publishedAt?: T;
   author?: T;
   categories?: T;
@@ -856,27 +865,6 @@ export interface DocsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "QuoteBlock_select".
- */
-export interface QuoteBlockSelect<T extends boolean = true> {
-  quoteHeader?: T;
-  quoteText?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CopyBlock_select".
- */
-export interface CopyBlockSelect<T extends boolean = true> {
-  headline?: T;
-  showHeadline?: T;
-  copy?: T;
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -910,6 +898,17 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CopyBlock_select".
+ */
+export interface CopyBlockSelect<T extends boolean = true> {
+  headline?: T;
+  showHeadline?: T;
+  copy?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ImageTextBlock_select".
  */
 export interface ImageTextBlockSelect<T extends boolean = true> {
@@ -925,6 +924,16 @@ export interface ImageTextBlockSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuoteBlock_select".
+ */
+export interface QuoteBlockSelect<T extends boolean = true> {
+  quoteHeader?: T;
+  quoteText?: T;
   id?: T;
   blockName?: T;
 }

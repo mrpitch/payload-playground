@@ -20,6 +20,18 @@ import { CopyBlock } from '@/payload/blocks/copy-block'
 
 import { breakpoints } from '@/payload/utils/breakpoints'
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
+import {
+	BoldFeature,
+	UnorderedListFeature,
+	OrderedListFeature,
+	UnderlineFeature,
+	HeadingFeature,
+	lexicalEditor,
+	ParagraphFeature,
+	LinkFeature,
+	ItalicFeature,
+	BlockquoteFeature,
+} from '@payloadcms/richtext-lexical'
 
 export const Docs: CollectionConfig = {
 	slug: 'docs',
@@ -113,15 +125,25 @@ export const Docs: CollectionConfig = {
 					description: 'Page Content',
 					fields: [
 						{
-							name: 'layout', // required
-							type: 'blocks', // required
-							minRows: 1,
-							maxRows: 20,
-							blocks: [
-								// required
-								QuoteBlock,
-								CopyBlock,
-							],
+							name: 'copy',
+							type: 'richText',
+							localized: true,
+							editor: lexicalEditor({
+								features({ rootFeatures }) {
+									return [
+										...rootFeatures,
+										HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
+										ParagraphFeature(),
+										BoldFeature(),
+										UnderlineFeature(),
+										OrderedListFeature(),
+										UnorderedListFeature(),
+										LinkFeature(),
+										ItalicFeature(),
+										BlockquoteFeature(),
+									]
+								},
+							}),
 						},
 					],
 				},

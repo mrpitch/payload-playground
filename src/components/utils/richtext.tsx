@@ -1,5 +1,6 @@
 import {
 	DefaultNodeTypes,
+	SerializedHeadingNode,
 	SerializedLinkNode,
 	type DefaultTypedEditorState,
 } from '@payloadcms/richtext-lexical'
@@ -7,7 +8,29 @@ import {
 	type JSXConvertersFunction,
 	LinkJSXConverter,
 	RichText as ConvertRichText,
+	JSXConverters,
 } from '@payloadcms/richtext-lexical/react'
+
+import { generateSlug } from '@/lib/utils/generateSlug'
+import { Typography } from '@/components/ui/custom/typography'
+
+export const HeadingJSXConverter: JSXConverters<SerializedHeadingNode> = {
+	heading: ({ node, nodesToJSX }) => {
+		const children = nodesToJSX({
+			nodes: node.children,
+		})
+
+		return (
+			<Typography
+				as={node.tag as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'}
+				size="2xl"
+				id={generateSlug(children.toString())}
+			>
+				{children}
+			</Typography>
+		)
+	},
+}
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 	const { relationTo, value } = linkNode.fields.doc!
@@ -31,6 +54,7 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
 	...defaultConverters,
 	...LinkJSXConverter({ internalDocToHref }),
+	...HeadingJSXConverter,
 })
 
 type Props = {
