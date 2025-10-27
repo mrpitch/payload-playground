@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, RefObject } from 'react'
 import { cn } from '@/lib/utils/cn'
 import { TTocItem } from '@/lib/utils/navigation/processToc'
 
@@ -130,7 +130,7 @@ function TocNavList({
 	activeId: string
 	variant: TocVariant
 	onItemClick?: (id: string) => void
-	itemRefs?: React.MutableRefObject<Record<string, HTMLAnchorElement | null>>
+	itemRefs?: RefObject<Record<string, HTMLAnchorElement | null>>
 }) {
 	return (
 		<ul className="space-y-1">
@@ -176,7 +176,7 @@ function getItemClasses(item: TTocItem, activeId: string, variant: TocVariant) {
 		'hover:bg-muted block rounded px-2 py-1 text-sm transition-colors',
 		item.level === 2 && 'font-medium',
 		item.level === 3 && 'pl-4 text-sm',
-		item.level === 4 && 'pl-6 text-xs',
+		item.level === 4 && 'pl-6 text-sm',
 		isActive ? 'bg-primary text-primary-foreground' : 'text-foreground',
 	)
 }
@@ -200,7 +200,7 @@ function useActiveTocId(items: TTocItem[] = []) {
 				})
 			},
 			{
-				rootMargin: '-20% 0px -35% 0px',
+				rootMargin: '-60px 0px -35% 0px',
 				threshold: 0,
 			},
 		)
