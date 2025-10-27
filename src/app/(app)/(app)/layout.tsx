@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 
 import { getSession } from '@/lib/actions/get-session'
 import { getNavData } from '@/lib/utils/navigation'
-import { NavigationProvider } from '@/components/utils/nav-provider.server'
+import { NavigationProvider } from '@/components/layout/nav/nav-provider.server'
 
 import {
 	Breadcrumb,
