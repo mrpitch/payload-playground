@@ -13,19 +13,20 @@ import { getSession } from '@/lib/actions/get-session'
 import type { Doc } from '@payload-types'
 import { TGenerateMeta } from '@/lib/types'
 
-import { RichText } from '@/components/utils/richtext'
-
 import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
+import { processToc } from '@/lib/utils/navigation/processToc'
 
 import { Badge } from '@/components/ui/badge'
-import { BreadcrumbNav } from '@/components/layout/breadcrumb-nav'
-import { Typography } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
-import { NavigationProvider } from '@/components/utils/nav-provider.server'
-import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
-import { ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
-import { TableOfContents } from '@/components/layout/nav/toc'
-import { processToc } from '@/lib/utils/navigation/processToc'
+import {
+	NavigationProvider,
+	ThreedotsNav,
+	ThreedotsNavSkeleton,
+	TableOfContents,
+	BreadcrumbNav,
+} from '@/components/layout/nav'
+import { RichText } from '@/components/utils/richtext'
+import { Typography } from '@/components/ui/custom/typography'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise

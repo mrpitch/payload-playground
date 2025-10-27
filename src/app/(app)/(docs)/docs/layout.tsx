@@ -5,9 +5,12 @@ import { getNavData } from '@/lib/utils/navigation'
 
 import { SidebarProvider } from '@/components/ui/sidebar'
 
-import { DocsNavApp, DocsNavAppSkeleton } from '@/components/layout/nav'
-import { SidebarWrapper } from '@/components/layout/nav/sidebar-wrapper'
-import { NavigationProvider } from '@/components/utils/nav-provider.server'
+import {
+	DocsNavApp,
+	DocsNavAppSkeleton,
+	NavigationProvider,
+	SidebarWrapper,
+} from '@/components/layout/nav'
 import { Footer } from '@/components/layout/footer'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
