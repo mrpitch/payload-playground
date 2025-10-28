@@ -73,7 +73,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories, copy, excerpt, author, folder } = docs as Doc
+	const { title, publishedAt, categories, copy, excerpt, author } = docs as Doc
 
 	const tocData = processToc({ copy })
 
@@ -81,9 +81,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 		<div className="@container/docs">
 			<RefreshRouteOnSave />
 			<header className="bg-background sticky top-0 z-50 flex shrink-0 items-center gap-2 border-b p-4">
-				{folder && typeof folder !== 'number' && (
-					<BreadcrumbNav folder={folder} pageTitle={title} />
-				)}
+				<BreadcrumbNav pageTitle={title} slug={slug ?? ''} />
 				<div className="ml-auto">
 					<Suspense fallback={<ThreedotsNavSkeleton />}>
 						<NavigationProvider>

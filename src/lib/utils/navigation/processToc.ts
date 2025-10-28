@@ -1,5 +1,5 @@
 import { Doc } from '@payload-types'
-import { generateSlug } from '../generateSlug'
+import { generateSlug } from '@/lib/utils/generateSlug'
 
 type TDocCopy = Pick<Doc, 'copy'>
 

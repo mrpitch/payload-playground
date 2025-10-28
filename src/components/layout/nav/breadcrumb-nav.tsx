@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import Link from 'next/link'
 
 import {
@@ -10,37 +9,18 @@ import {
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { SidebarTrigger } from '@/components/ui/sidebar'
-import type { FolderInterface } from '@/payload/payload-types'
+import { getNavData } from '@/lib/utils/navigation'
+import { resolveBreadcrumbFromDocsNav } from '@/lib/utils/navigation/processBreadcrumb'
 
-// Utility function to build breadcrumb trail
-function buildBreadcrumbTrail(
-	folder: FolderInterface | null,
-): Array<{ id: number; name: string; slug?: string }> {
-	const trail: Array<{ id: number; name: string; slug?: string }> = []
-
-	// Recursively traverse up the folder hierarchy
-	let currentFolder = folder
-	while (currentFolder) {
-		trail.unshift({
-			id: currentFolder.id,
-			name: currentFolder.name,
-			slug: currentFolder.name?.toLowerCase().replace(/\s+/g, '-'),
-		})
-		currentFolder = currentFolder.folder as FolderInterface | null
-	}
-
-	return trail
-}
-
-// Component to render breadcrumbs
-export function BreadcrumbNav({
-	folder,
+export async function BreadcrumbNav({
 	pageTitle,
+	slug,
 }: {
-	folder: FolderInterface | null
 	pageTitle: string
+	slug: string
 }) {
-	const breadcrumbTrail = buildBreadcrumbTrail(folder)
+	const { docsNav } = await getNavData()
+	const resolved = resolveBreadcrumbFromDocsNav(docsNav, slug)
 
 	return (
 		<Breadcrumb className="mb-2">
@@ -54,23 +34,25 @@ export function BreadcrumbNav({
 						<Link href="/docs">Docs</Link>
 					</BreadcrumbLink>
 				</BreadcrumbItem>
-				<BreadcrumbSeparator />
-
-				{/* Render all folders as links */}
-				{breadcrumbTrail.map((item) => (
-					<Fragment key={item.id}>
-						<BreadcrumbItem key={item.id}>
-							<BreadcrumbLink asChild>
-								<Link href={`/${item.slug}`}>{item.name}</Link>
-							</BreadcrumbLink>
-						</BreadcrumbItem>
+				{resolved?.groupLabel ? (
+					<>
 						<BreadcrumbSeparator />
-					</Fragment>
-				))}
-
-				{/* Always render the current page as the last item */}
+						<BreadcrumbItem>
+							<span className="text-muted-foreground">{resolved.groupLabel}</span>
+						</BreadcrumbItem>
+					</>
+				) : null}
+				{resolved?.folderLabel ? (
+					<>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<span className="text-muted-foreground">{resolved.folderLabel}</span>
+						</BreadcrumbItem>
+					</>
+				) : null}
+				<BreadcrumbSeparator />
 				<BreadcrumbItem>
-					<BreadcrumbPage>{pageTitle}</BreadcrumbPage>
+					<BreadcrumbPage>{resolved?.itemLabel ?? pageTitle}</BreadcrumbPage>
 				</BreadcrumbItem>
 			</BreadcrumbList>
 		</Breadcrumb>
