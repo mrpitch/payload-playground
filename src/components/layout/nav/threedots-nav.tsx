@@ -59,7 +59,10 @@ export function ThreedotsNav({ user, context = 'marketing' }: INavProps) {
 					<Button
 						variant="ghost"
 						size="icon"
-						className={cn('text-foreground data-[state=open]:bg-accent', !user ? 'md:hidden' : '')}
+						className={cn(
+							'text-foreground data-[state=open]:bg-accent',
+							context === 'app' ? 'block' : '',
+						)}
 					>
 						<Icon iconName="moreHorizontal" />
 					</Button>
