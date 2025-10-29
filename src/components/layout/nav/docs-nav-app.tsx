@@ -42,6 +42,8 @@ export function DocsNavApp({
 	const { docsNav, settings } = useNavigation(NavigationType.DocsNav)
 	const pathname = usePathname()
 
+	console.log('docsNav', docsNav)
+
 	return (
 		<Sidebar
 			{...props}

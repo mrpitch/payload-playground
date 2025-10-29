@@ -16,7 +16,10 @@ import {
 	collectGroupEntriesWithFolders,
 } from '@/lib/utils/navigation/navGrouping'
 
-const createMainNavGroup = (item: MenuGroupItem | undefined, items: Array<NavLink | NavFolder>): MainNavGroup | null => {
+const createMainNavGroup = (
+	item: MenuGroupItem | undefined,
+	items: Array<NavLink | NavFolder>,
+): MainNavGroup | null => {
 	if (!item) return null
 	const label = item.label
 	if (!label) return null
