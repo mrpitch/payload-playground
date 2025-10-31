@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { admin } from '@/payload/access/admin'
 import { adminAndEditor } from '@/payload/access/admin-and-editor'
+import { revalidateCacheGlobal } from '@/payload/content-model/shared/hooks/revalidate-cache'
 
 export const AppSettings: GlobalConfig = {
 	slug: 'app-settings',
@@ -115,4 +116,7 @@ export const AppSettings: GlobalConfig = {
 			},
 		},
 	],
+	hooks: {
+		afterChange: [revalidateCacheGlobal],
+	},
 }

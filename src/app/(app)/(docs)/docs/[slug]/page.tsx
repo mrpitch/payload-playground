@@ -13,19 +13,20 @@ import { getSession } from '@/lib/actions/get-session'
 import type { Doc } from '@payload-types'
 import { TGenerateMeta } from '@/lib/types'
 
-import { RichText } from '@/components/utils/richtext'
-
 import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
+import { processToc } from '@/lib/utils/navigation/processToc'
 
 import { Badge } from '@/components/ui/badge'
-import { BreadcrumbNav } from '@/components/layout/breadcrumb-nav'
-import { Typography } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
-import { NavigationProvider } from '@/components/utils/nav-provider.server'
-import { ThreedotsNav } from '@/components/layout/nav/threedots-nav'
-import { ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
-import { TableOfContents } from '@/components/layout/nav/toc'
-import { processToc } from '@/lib/utils/navigation/processToc'
+import {
+	NavigationProvider,
+	ThreedotsNav,
+	ThreedotsNavSkeleton,
+	TableOfContents,
+	BreadcrumbNav,
+} from '@/components/layout/nav'
+import { RichText } from '@/components/utils/richtext'
+import { Typography } from '@/components/ui/custom/typography'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise
@@ -72,7 +73,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 		notFound()
 	}
 
-	const { title, publishedAt, categories, copy, excerpt, author, folder } = docs as Doc
+	const { title, publishedAt, categories, copy, excerpt, author } = docs as Doc
 
 	const tocData = processToc({ copy })
 
@@ -80,9 +81,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 		<div className="@container/docs">
 			<RefreshRouteOnSave />
 			<header className="bg-background sticky top-0 z-50 flex shrink-0 items-center gap-2 border-b p-4">
-				{folder && typeof folder !== 'number' && (
-					<BreadcrumbNav folder={folder} pageTitle={title} />
-				)}
+				<BreadcrumbNav pageTitle={title} slug={slug ?? ''} />
 				<div className="ml-auto">
 					<Suspense fallback={<ThreedotsNavSkeleton />}>
 						<NavigationProvider>
@@ -144,7 +143,12 @@ export default async function Doc({ params: paramsPromise }: Args) {
 							{excerpt}
 						</Typography>
 					) : null}
-					{copy ? <RichText data={copy} className="prose w-full" /> : null}
+					{copy ? (
+						<RichText
+							data={copy}
+							className="prose prose-headings:scroll-mt-36 @5xl/docs:prose-headings:scroll-mt-20 w-full"
+						/>
+					) : null}
 				</article>
 
 				{/* Desktop TOC - sidebar */}

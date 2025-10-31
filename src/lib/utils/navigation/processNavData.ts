@@ -7,7 +7,6 @@ import type {
 	MainNavGroup,
 	NavFolder,
 } from '@/lib/types/navigation'
-import type { IconType } from '@/components/ui/custom/icons'
 import type { MenuGroupItem } from '@/lib/utils/navigation/payloadMenuTypes'
 import { createNavLink, warnEmptyGroup } from '@/lib/utils/navigation/resolveNavLink'
 import {
@@ -15,11 +14,23 @@ import {
 	processDocsNav,
 	collectGroupEntriesWithFolders,
 } from '@/lib/utils/navigation/navGrouping'
+import { toIcon } from './sharedUtils'
 
-const createMainNavGroup = (item: MenuGroupItem | undefined, items: Array<NavLink | NavFolder>): MainNavGroup | null => {
+/**
+ * Creates a main navigation group from a menu group item
+ * @param item - Menu group item to convert
+ * @param items - Array of navigation links and folders for the group
+ * @returns MainNavGroup object or null if invalid
+ */
+const createMainNavGroup = (
+	item: MenuGroupItem | undefined,
+	items: Array<NavLink | NavFolder>,
+): MainNavGroup | null => {
 	if (!item) return null
+
 	const label = item.label
 	if (!label) return null
+
 	return {
 		type: 'group',
 		label,
@@ -28,67 +39,137 @@ const createMainNavGroup = (item: MenuGroupItem | undefined, items: Array<NavLin
 	}
 }
 
+/**
+ * Processes main navigation menu into structured entries
+ * Supports both individual links and grouped navigation
+ * @param menu - Menu to process
+ * @returns Array of main navigation entries
+ */
 const processMainNav = (menu?: Menu): MainNavEntry[] => {
 	if (!menu?.menuItems) return []
 
-	return menu.menuItems.reduce<MainNavEntry[]>((acc, block) => {
-		const menuItem = block?.menuItems
-		if (!menuItem) return acc
+	try {
+		return menu.menuItems.reduce<MainNavEntry[]>((acc, block) => {
+			const menuItem = block?.menuItems
+			if (!menuItem) return acc
 
-		if (menuItem.type === 'page') {
-			const navItem = createNavLink(menuItem)
-			if (navItem) acc.push(navItem)
-		} else if (menuItem.type === 'group') {
-			const groupItems = collectGroupEntriesWithFolders(menuItem)
-			if (!groupItems.length) {
-				warnEmptyGroup('main group', menuItem.label ?? '', menu?.name ?? undefined)
-				return acc
+			if (menuItem.type === 'page') {
+				const navItem = createNavLink(menuItem)
+				if (navItem) acc.push(navItem)
+			} else if (menuItem.type === 'group') {
+				const groupItems = collectGroupEntriesWithFolders(menuItem)
+				if (!groupItems.length) {
+					warnEmptyGroup('main group', menuItem.label ?? '', menu?.name ?? undefined)
+					return acc
+				}
+
+				const group = createMainNavGroup(menuItem, groupItems)
+				if (group) acc.push(group)
 			}
 
-			const group = createMainNavGroup(menuItem, groupItems)
-			if (group) acc.push(group)
-		}
-
-		return acc
-	}, [])
+			return acc
+		}, [])
+	} catch (error) {
+		console.error('[Navigation] Error processing main nav:', error)
+		return []
+	}
 }
 
+/**
+ * Processes footer or profile navigation menu into flat link array
+ * @param menu - Menu to process
+ * @returns Array of navigation links
+ */
 const processFooterNav = (menu?: Menu): NavLink[] => {
 	if (!menu?.menuItems) return []
-	return menu.menuItems
-		.map((block) => createNavLink(block?.menuItems))
-		.filter((item): item is NavLink => Boolean(item))
+
+	try {
+		return menu.menuItems
+			.map((block) => createNavLink(block?.menuItems))
+			.filter((item): item is NavLink => Boolean(item))
+	} catch (error) {
+		console.error('[Navigation] Error processing footer nav:', error)
+		return []
+	}
 }
 
+/**
+ * Extracts only link entries from main navigation for mobile overflow menu
+ * @param entries - Main navigation entries
+ * @returns Array of navigation links only (no groups)
+ */
 const processMainNavForThreeDots = (entries: MainNavEntry[]): NavLink[] => {
-	return entries.reduce<NavLink[]>((acc, entry) => {
-		if (entry.type === 'link') acc.push(entry)
-		return acc
-	}, [])
+	try {
+		return entries.reduce<NavLink[]>((acc, entry) => {
+			if (entry.type === 'link') acc.push(entry)
+			return acc
+		}, [])
+	} catch (error) {
+		console.error('[Navigation] Error processing three dots nav:', error)
+		return []
+	}
 }
 
-const toIcon = (icon: unknown): IconType | undefined => {
-	return typeof icon === 'string' ? (icon as IconType) : undefined
-}
-
+/**
+ * Processes raw navigation data from CMS into structured navigation
+ * Handles all navigation types: main, footer, profile, dashboard, and docs
+ * @param navData - Raw navigation data from CMS
+ * @returns Processed navigation data ready for rendering
+ * @example
+ * processNavData({ mainNav: menu1, footerNav: menu2, ... })
+ * // => { mainNav: [...], footerNav: [...], settings: {...} }
+ */
 export const processNavData = (navData: TNavData): TProcessedNavData => {
-	const mainNav = processMainNav(navData.mainNav)
-	const footerNav = processFooterNav(navData.footerNav)
-	const profileNav = processFooterNav(navData.profileNav)
-	const dashboardNav = processDashboardNav(navData.dashboardNav)
-	const docsNav = processDocsNav(navData.docsNav)
-	const threedotsNav = processMainNavForThreeDots(mainNav)
+	try {
+		// Validate input
+		if (!navData || typeof navData !== 'object') {
+			console.error('[Navigation] Invalid navData provided')
+			return {
+				mainNav: [],
+				dashboardNav: [],
+				footerNav: [],
+				docsNav: [],
+				profileNav: [],
+				threedotsNav: [],
+				settings: {
+					siteName: undefined,
+					siteDescription: undefined,
+				},
+			}
+		}
 
-	return {
-		mainNav,
-		dashboardNav,
-		footerNav,
-		docsNav,
-		profileNav,
-		threedotsNav,
-		settings: {
-			siteName: navData.settings?.siteName,
-			siteDescription: navData.settings?.siteDescription,
-		},
+		const mainNav = processMainNav(navData.mainNav)
+		const footerNav = processFooterNav(navData.footerNav)
+		const profileNav = processFooterNav(navData.profileNav)
+		const dashboardNav = processDashboardNav(navData.dashboardNav)
+		const docsNav = processDocsNav(navData.docsNav)
+		const threedotsNav = processMainNavForThreeDots(mainNav)
+
+		return {
+			mainNav,
+			dashboardNav,
+			footerNav,
+			docsNav,
+			profileNav,
+			threedotsNav,
+			settings: {
+				siteName: navData.settings?.siteName,
+				siteDescription: navData.settings?.siteDescription,
+			},
+		}
+	} catch (error) {
+		console.error('[Navigation] Error processing nav data:', error)
+		return {
+			mainNav: [],
+			dashboardNav: [],
+			footerNav: [],
+			docsNav: [],
+			profileNav: [],
+			threedotsNav: [],
+			settings: {
+				siteName: undefined,
+				siteDescription: undefined,
+			},
+		}
 	}
 }

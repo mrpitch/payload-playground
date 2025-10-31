@@ -9,7 +9,7 @@ import { MainNav, MainNavSkeleton } from '@/components/layout/nav'
 import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
 import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
 import { Suspense } from 'react'
-import { NavigationProvider } from '@/components/utils/nav-provider.server'
+import { NavigationProvider } from '@/components/layout/nav/nav-provider.server'
 
 interface HeaderProps {
 	siteName?: string

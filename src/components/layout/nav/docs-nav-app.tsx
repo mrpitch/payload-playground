@@ -42,6 +42,8 @@ export function DocsNavApp({
 	const { docsNav, settings } = useNavigation(NavigationType.DocsNav)
 	const pathname = usePathname()
 
+	console.log('docsNav', docsNav)
+
 	return (
 		<Sidebar
 			{...props}
@@ -77,7 +79,10 @@ export function DocsNavApp({
 														<SidebarMenuItem key={`folder-${itemKeyBase}`}>
 															<Collapsible defaultOpen className="group/collapsible">
 																<CollapsibleTrigger asChild>
-																	<SidebarMenuButton className="cursor-pointer">
+																	<SidebarMenuButton
+																		className="cursor-pointer"
+																		tooltip={item.label}
+																	>
 																		{item.icon ? (
 																			<Icon
 																				iconName={item.icon}

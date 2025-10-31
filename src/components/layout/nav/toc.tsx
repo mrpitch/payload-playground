@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, RefObject } from 'react'
 import { cn } from '@/lib/utils/cn'
 import { TTocItem } from '@/lib/utils/navigation/processToc'
 
@@ -42,7 +42,6 @@ function TableOfContentsDropdown({ items = [] }: TableOfContentsProps) {
 	const activeTitle = items.find((item) => item.id === activeId)?.text || 'On this page'
 
 	const handleItemClick = (id: string) => {
-		scrollToHeading(id, 100)
 		setIsOpen(false)
 	}
 
@@ -97,10 +96,6 @@ function TableOfContentsSidebar({ items = [] }: TableOfContentsProps) {
 		}
 	}, [activeId])
 
-	const handleItemClick = (id: string) => {
-		scrollToHeading(id, 80)
-	}
-
 	return (
 		<nav className="relative space-y-2">
 			<Typography as="h3" size="xl" className="text-foreground mb-4 flex items-center gap-2">
@@ -118,13 +113,7 @@ function TableOfContentsSidebar({ items = [] }: TableOfContentsProps) {
 					}}
 				/>
 
-				<TocNavList
-					items={items}
-					activeId={activeId}
-					variant="sidebar"
-					onItemClick={handleItemClick}
-					itemRefs={itemRefs}
-				/>
+				<TocNavList items={items} activeId={activeId} variant="sidebar" itemRefs={itemRefs} />
 			</div>
 		</nav>
 	)
@@ -141,7 +130,7 @@ function TocNavList({
 	activeId: string
 	variant: TocVariant
 	onItemClick?: (id: string) => void
-	itemRefs?: React.MutableRefObject<Record<string, HTMLAnchorElement | null>>
+	itemRefs?: RefObject<Record<string, HTMLAnchorElement | null>>
 }) {
 	return (
 		<ul className="space-y-1">
@@ -157,8 +146,7 @@ function TocNavList({
 						}
 						href={`#${item.id}`}
 						className={getItemClasses(item, activeId, variant)}
-						onClick={(event) => {
-							event.preventDefault()
+						onClick={() => {
 							onItemClick?.(item.id)
 						}}
 					>
@@ -188,7 +176,7 @@ function getItemClasses(item: TTocItem, activeId: string, variant: TocVariant) {
 		'hover:bg-muted block rounded px-2 py-1 text-sm transition-colors',
 		item.level === 2 && 'font-medium',
 		item.level === 3 && 'pl-4 text-sm',
-		item.level === 4 && 'pl-6 text-xs',
+		item.level === 4 && 'pl-6 text-sm',
 		isActive ? 'bg-primary text-primary-foreground' : 'text-foreground',
 	)
 }
@@ -212,7 +200,7 @@ function useActiveTocId(items: TTocItem[] = []) {
 				})
 			},
 			{
-				rootMargin: '-20% 0px -35% 0px',
+				rootMargin: '-60px 0px -35% 0px',
 				threshold: 0,
 			},
 		)
@@ -230,16 +218,4 @@ function useActiveTocId(items: TTocItem[] = []) {
 	return activeId
 }
 
-function scrollToHeading(id: string, offset: number) {
-	const element = document.getElementById(id)
-
-	if (!element) return
-
-	const elementPosition = element.getBoundingClientRect().top
-	const offsetPosition = elementPosition + window.scrollY - offset
-
-	window.scrollTo({
-		top: offsetPosition,
-		behavior: 'smooth',
-	})
-}
+// Rely on default anchor navigation with CSS scroll-margin on headings

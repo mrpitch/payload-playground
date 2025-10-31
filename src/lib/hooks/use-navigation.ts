@@ -6,7 +6,7 @@
  */
 
 import { useContext } from 'react'
-import { NavigationContext } from '@/components/utils/nav-provider'
+import { NavigationContext } from '@/components/layout/nav/nav-provider'
 import type {
 	TMainNavContext,
 	TDashboardNavContext,
