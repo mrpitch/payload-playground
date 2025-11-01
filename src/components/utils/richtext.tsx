@@ -1,7 +1,12 @@
+import Image from 'next/image'
+import { VideoPlayer } from './video-player'
+
 import {
 	DefaultNodeTypes,
 	SerializedHeadingNode,
 	SerializedLinkNode,
+	SerializedUploadNode,
+	SerializedBlockNode,
 	type DefaultTypedEditorState,
 } from '@payloadcms/richtext-lexical'
 import {
@@ -13,6 +18,7 @@ import {
 
 import { generateSlug } from '@/lib/utils/generateSlug'
 import { Typography } from '@/components/ui/custom/typography'
+import { VideoBlock } from '@/payload/blocks/video-block'
 
 export const HeadingJSXConverter: JSXConverters<SerializedHeadingNode> = {
 	heading: ({ node, nodesToJSX }) => {
@@ -51,10 +57,55 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 	}
 }
 
+// Custom upload converter component that uses next/image
+const CustomUploadComponent: React.FC<{
+	node: SerializedUploadNode
+}> = ({ node }) => {
+	if (node.relationTo === 'media') {
+		const uploadDoc = node.value
+		if (typeof uploadDoc !== 'object') {
+			return null
+		}
+		const { alt, height, url, width } = uploadDoc
+		return (
+			<div className="relative h-full w-full">
+				<Image alt={alt || ''} height={height || 0} src={url || ''} width={width || 0} />
+				<div className="absolute right-0 bottom-0 left-0 bg-black/50 p-2 text-white">
+					<p className="text-sm">{alt || ''}</p>
+				</div>
+			</div>
+		)
+	}
+
+	return null
+}
+
+const VideoBlockComponent: React.FC<{
+	node: SerializedBlockNode
+}> = ({ node }) => {
+	console.log('node', node)
+	const videoUrl = node.fields.videoUrl
+	if (!videoUrl) {
+		return null
+	}
+	return (
+		<div className="relative aspect-video h-full w-full">
+			<VideoPlayer videoUrl={videoUrl} width="100%" height="100%" />
+		</div>
+	)
+}
+
 const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
 	...defaultConverters,
 	...LinkJSXConverter({ internalDocToHref }),
 	...HeadingJSXConverter,
+	// Override the default upload converter
+	upload: ({ node }) => {
+		return <CustomUploadComponent node={node} />
+	},
+	blocks: {
+		video: ({ node }: { node: SerializedBlockNode }) => <VideoBlockComponent node={node} />,
+	},
 })
 
 type Props = {

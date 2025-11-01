@@ -15,8 +15,6 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 
 import { ContentItemsIconOptions } from '@/payload/content-model/shared/fields/content-items-icons'
-import { QuoteBlock } from '@/payload/blocks/quote-block'
-import { CopyBlock } from '@/payload/blocks/copy-block'
 
 import { breakpoints } from '@/payload/utils/breakpoints'
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
@@ -31,7 +29,13 @@ import {
 	LinkFeature,
 	ItalicFeature,
 	BlockquoteFeature,
+	BlocksFeature,
+	FixedToolbarFeature,
+	InlineToolbarFeature,
+	ChecklistFeature,
+	UploadFeature,
 } from '@payloadcms/richtext-lexical'
+import { VideoBlock } from '@/payload/blocks/video-block'
 
 export const Docs: CollectionConfig = {
 	slug: 'docs',
@@ -135,12 +139,37 @@ export const Docs: CollectionConfig = {
 										HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
 										ParagraphFeature(),
 										BoldFeature(),
+										ChecklistFeature(),
 										UnderlineFeature(),
 										OrderedListFeature(),
 										UnorderedListFeature(),
 										LinkFeature(),
 										ItalicFeature(),
 										BlockquoteFeature(),
+										InlineToolbarFeature(),
+										BlocksFeature({
+											blocks: [VideoBlock],
+										}),
+										FixedToolbarFeature(),
+										UploadFeature({
+											collections: {
+												media: {
+													fields: [
+														{
+															name: 'caption',
+															type: 'text',
+															label: 'Caption',
+														},
+														{
+															name: 'alt',
+															type: 'text',
+															label: 'Alt Text',
+														},
+													],
+												},
+											},
+											maxDepth: 3,
+										}),
 									]
 								},
 							}),
