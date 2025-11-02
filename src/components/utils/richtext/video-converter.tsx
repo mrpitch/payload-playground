@@ -4,10 +4,10 @@ import { VideoPlayer } from '@/components/utils/video-player'
 export const VideoBlockComponent: React.FC<{
 	node: SerializedBlockNode
 }> = ({ node }) => {
-	const { videoId, startAt, type, title } = node.fields
+	const { videoId, startAt, title } = node.fields
 
 	if (!videoId) {
 		return null
 	}
-	return <VideoPlayer videoId={videoId} startAt={startAt} type={type} title={title} />
+	return <VideoPlayer videoId={videoId} startAt={startAt} title={title} />
 }

@@ -10,9 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 type TVideoPlayerProps = {
 	videoId: string
 	startAt: number
-	type: 'youtube' | 'self-hosted'
 	title: string
-	description?: string
 	imageUrl?: string
 	loop?: boolean
 	muted?: boolean
@@ -23,7 +21,6 @@ type TVideoPlayerProps = {
 	onPlay?: (player: YouTubePlayer) => void
 	onPause?: (player: YouTubePlayer) => void
 	onEnded?: (player: YouTubePlayer) => void
-	onStart?: (player: YouTubePlayer) => void
 	className?: string
 }
 
@@ -36,21 +33,8 @@ type YouTubePlayer = {
 	setVolume: (volume: number) => void
 	setPlaybackRate: (rate: number) => void
 	destroy: () => void
-	addEventListener: (
-		event: string,
-		listener: (event: { data: number; target: YouTubePlayer }) => void,
-	) => void
-	removeEventListener: (
-		event: string,
-		listener: (event: { data: number; target: YouTubePlayer }) => void,
-	) => void
 	getPlayerState: () => number
 }
-
-type PlayerCallbacks = Pick<
-	TVideoPlayerProps,
-	'onReady' | 'onPlay' | 'onPause' | 'onEnded' | 'onStart'
->
 
 type YouTubeAPI = {
 	Player: new (
@@ -82,6 +66,8 @@ declare global {
 	}
 }
 
+// Simplified API loading following YouTube IFrame API best practices
+// Reference: https://developers.google.com/youtube/iframe_api_reference
 const loadYouTubeAPI = (): Promise<YouTubeAPI> => {
 	if (typeof window === 'undefined') {
 		return Promise.reject(new Error('YouTube API unavailable during SSR'))
@@ -104,49 +90,35 @@ const loadYouTubeAPI = (): Promise<YouTubeAPI> => {
 	return new Promise((resolve, reject) => {
 		const previousCallback = window.onYouTubeIframeAPIReady
 		let timeoutId: number | undefined
-		let pollId: number | undefined
+
 		const cleanup = () => {
 			window.onYouTubeIframeAPIReady = previousCallback ?? undefined
 			if (timeoutId !== undefined) {
 				window.clearTimeout(timeoutId)
 			}
-			if (pollId !== undefined) {
-				window.clearInterval(pollId)
-			}
 		}
-		const resolveIfReady = () => {
-			if (window.YT?.Player) {
-				cleanup()
-				resolve(window.YT)
-				return true
-			}
-			return false
-		}
-
-		if (resolveIfReady()) return
 
 		window.onYouTubeIframeAPIReady = () => {
 			previousCallback?.()
-			if (resolveIfReady()) return
-			cleanup()
-			reject(new Error('YouTube API failed to load'))
+			if (window.YT?.Player) {
+				cleanup()
+				resolve(window.YT)
+			} else {
+				cleanup()
+				reject(new Error('YouTube API failed to load'))
+			}
 		}
 
 		timeoutId = window.setTimeout(() => {
 			cleanup()
 			reject(new Error('YouTube API timed out'))
 		}, 10000)
-
-		pollId = window.setInterval(() => {
-			resolveIfReady()
-		}, 250)
 	})
 }
 
 export const VideoPlayer = ({
 	videoId,
 	startAt,
-	type,
 	title,
 	imageUrl,
 	loop,
@@ -158,41 +130,20 @@ export const VideoPlayer = ({
 	onPlay,
 	onPause,
 	onEnded,
-	onStart,
 	className,
 }: TVideoPlayerProps) => {
 	const containerRef = useRef<HTMLDivElement | null>(null)
 	const playerRef = useRef<YouTubePlayer | null>(null)
-	const shouldPlayRef = useRef(false)
-	const playerStateRef = useRef({
-		muted,
-		volume,
-		playbackRate,
-		loop,
-	})
-	const callbacksRef = useRef<PlayerCallbacks>({
-		onReady,
-		onPlay,
-		onPause,
-		onEnded,
-		onStart,
-	})
+	const shouldAutoplayRef = useRef(false)
 
 	const [isMounted, setIsMounted] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [isPlaying, setIsPlaying] = useState(false)
 	const [hasError, setHasError] = useState<string | null>(null)
 
+	// Initialize player when mounted
 	useEffect(() => {
-		playerStateRef.current = { muted, volume, playbackRate, loop }
-	}, [loop, muted, playbackRate, volume])
-
-	useEffect(() => {
-		callbacksRef.current = { onReady, onPlay, onPause, onEnded, onStart }
-	}, [onEnded, onPause, onPlay, onReady, onStart])
-
-	useEffect(() => {
-		if (!isMounted || type !== 'youtube' || playerRef.current || !containerRef.current) {
+		if (!isMounted || playerRef.current || !containerRef.current) {
 			return
 		}
 
@@ -205,7 +156,7 @@ export const VideoPlayer = ({
 
 				const playerVars: Record<string, unknown> = {
 					start: startAt,
-					autoplay: shouldPlayRef.current ? 1 : 0,
+					autoplay: shouldAutoplayRef.current ? 1 : 0,
 					controls: controls ? 1 : 0,
 					rel: 0,
 					modestbranding: 1,
@@ -220,55 +171,53 @@ export const VideoPlayer = ({
 							setIsLoading(false)
 							playerRef.current = event.target
 
-							const state = playerStateRef.current
-
-							if (state.muted) {
+							if (muted) {
 								event.target.mute()
 							} else {
 								event.target.unMute()
 							}
 
-							if (typeof state.volume === 'number') {
-								event.target.setVolume(Math.round(Math.min(Math.max(state.volume, 0), 1) * 100))
+							if (typeof volume === 'number') {
+								event.target.setVolume(Math.round(Math.min(Math.max(volume, 0), 1) * 100))
 							}
 
-							if (typeof state.playbackRate === 'number') {
-								event.target.setPlaybackRate(state.playbackRate)
+							if (typeof playbackRate === 'number') {
+								event.target.setPlaybackRate(playbackRate)
 							}
 
 							if (startAt > 0) {
 								event.target.seekTo(startAt, true)
 							}
 
-							if (shouldPlayRef.current) {
+							if (shouldAutoplayRef.current) {
 								event.target.playVideo()
 							}
 
-							callbacksRef.current.onReady?.(event.target)
-							callbacksRef.current.onStart?.(event.target)
+							onReady?.(event.target)
 						},
 						onStateChange: (event) => {
 							const state = event.data
 
 							if (state === YT.PlayerState.PLAYING) {
+								// Dispatch event to pause other players
 								document.dispatchEvent(
 									new CustomEvent<YouTubePlayer>('yt-player-play', {
 										detail: event.target,
 									}),
 								)
 								setIsPlaying(true)
-								callbacksRef.current.onPlay?.(event.target)
+								onPlay?.(event.target)
 							}
 
 							if (state === YT.PlayerState.PAUSED) {
 								setIsPlaying(false)
-								callbacksRef.current.onPause?.(event.target)
+								onPause?.(event.target)
 							}
 
 							if (state === YT.PlayerState.ENDED) {
 								setIsPlaying(false)
-								callbacksRef.current.onEnded?.(event.target)
-								if (playerStateRef.current.loop) {
+								onEnded?.(event.target)
+								if (loop) {
 									event.target.seekTo(startAt, true)
 									event.target.playVideo()
 								}
@@ -295,8 +244,22 @@ export const VideoPlayer = ({
 			playerRef.current?.destroy()
 			playerRef.current = null
 		}
-	}, [controls, isMounted, startAt, type, videoId])
+	}, [
+		controls,
+		isMounted,
+		loop,
+		muted,
+		playbackRate,
+		startAt,
+		videoId,
+		volume,
+		onReady,
+		onPlay,
+		onPause,
+		onEnded,
+	])
 
+	// Control player playback state
 	useEffect(() => {
 		if (!playerRef.current) return
 
@@ -307,6 +270,26 @@ export const VideoPlayer = ({
 		}
 	}, [isPlaying])
 
+	// Update player controls (muted, volume, playbackRate)
+	useEffect(() => {
+		if (!playerRef.current) return
+
+		if (muted) {
+			playerRef.current.mute()
+		} else {
+			playerRef.current.unMute()
+		}
+
+		if (typeof volume === 'number') {
+			playerRef.current.setVolume(Math.round(Math.min(Math.max(volume, 0), 1) * 100))
+		}
+
+		if (typeof playbackRate === 'number') {
+			playerRef.current.setPlaybackRate(playbackRate)
+		}
+	}, [muted, volume, playbackRate])
+
+	// Pause this player when another player starts playing
 	useEffect(() => {
 		const handleExternalPlay = (evt: Event) => {
 			if (!playerRef.current) return
@@ -323,40 +306,17 @@ export const VideoPlayer = ({
 		}
 	}, [])
 
-	useEffect(() => {
-		if (!playerRef.current) return
-		if (muted) {
-			playerRef.current.mute()
-		} else {
-			playerRef.current.unMute()
-		}
-	}, [muted])
-
-	useEffect(() => {
-		if (!playerRef.current || typeof volume !== 'number') return
-		playerRef.current.setVolume(Math.round(Math.min(Math.max(volume, 0), 1) * 100))
-	}, [volume])
-
-	useEffect(() => {
-		if (!playerRef.current || typeof playbackRate !== 'number') return
-		playerRef.current.setPlaybackRate(playbackRate)
-	}, [playbackRate])
-
-	if (type !== 'youtube') {
-		return null
-	}
-
 	const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
 	const thumbnailUrl = imageUrl ?? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
 
 	const handleClick = useCallback(() => {
-		shouldPlayRef.current = true
+		shouldAutoplayRef.current = true
 		setIsMounted(true)
 		setIsPlaying(true)
 	}, [])
 
 	const handleRetry = useCallback(() => {
-		shouldPlayRef.current = true
+		shouldAutoplayRef.current = true
 		setHasError(null)
 		setIsMounted(false)
 		requestAnimationFrame(() => {
