@@ -47,17 +47,18 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 		<html
 			lang="en"
 			data-mode={currentTheme?.value || useThemeStore.getState().theme}
-			className={cn(
-				currentTheme?.value || useThemeStore.getState().theme,
-				'h-full',
-				sans.variable,
-				serif.variable,
-				mono.variable,
-			)}
+			className={cn(currentTheme?.value || useThemeStore.getState().theme, 'h-full')}
 		>
 			<head />
 			<ThemeProvider>
-				<body className={cn('bg-background h-full min-h-screen font-sans antialiased')}>
+				<body
+					className={cn(
+						'bg-background h-full min-h-screen font-sans antialiased',
+						sans.variable,
+						serif.variable,
+						mono.variable,
+					)}
+				>
 					{children}
 					<Toaster position="bottom-right" />
 

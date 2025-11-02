@@ -42,13 +42,11 @@
   --sidebar-accent-foreground: oklch(0.4254 0.1159 144.3078);
   --sidebar-border: oklch(0.8606 0.0321 84.5881);    /* neutral */
   --sidebar-ring: oklch(0.5234 0.1347 144.1672);     /* green */
-
-  /* —— Fonts (kept from Theme 1 exactly) —— */
-  --font-sans: Libre Baskerville, serif;
-  --font-serif: Lora, serif;
-  --font-mono: IBM Plex Mono, monospace;
-
-  /* —— Radius & shadows (keep Theme 1) —— */
+	
+  /* Fonts, radius, shadows (keep Theme 1) */
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
   --radius: 0.25rem;
   --shadow-2xs: 2px 3px 5px 0px hsl(28 13% 20% / 0.06);
   --shadow-xs:  2px 3px 5px 0px hsl(28 13% 20% / 0.06);
@@ -105,9 +103,9 @@
   --sidebar-ring: oklch(0.6731 0.1624 144.2083);
 
   /* Fonts, radius, shadows (keep Theme 1) */
-  --font-sans: Libre Baskerville, serif;
-  --font-serif: Lora, serif;
-  --font-mono: IBM Plex Mono, monospace;
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
   --radius: 0.25rem;
   --shadow-2xs: 2px 3px 5px 0px hsl(28 13% 20% / 0.06);
   --shadow-xs:  2px 3px 5px 0px hsl(28 13% 20% / 0.06);
