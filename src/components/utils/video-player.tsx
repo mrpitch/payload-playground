@@ -143,8 +143,6 @@ const loadYouTubeAPI = (): Promise<YouTubeAPI> => {
 	})
 }
 
-type TVideoPlaceholderProps = Pick<TVideoPlayerProps, 'imageUrl' | 'title'>
-
 export const VideoPlayer = ({
 	videoId,
 	startAt,
@@ -253,6 +251,11 @@ export const VideoPlayer = ({
 							const state = event.data
 
 							if (state === YT.PlayerState.PLAYING) {
+								document.dispatchEvent(
+									new CustomEvent<YouTubePlayer>('yt-player-play', {
+										detail: event.target,
+									}),
+								)
 								setIsPlaying(true)
 								callbacksRef.current.onPlay?.(event.target)
 							}
@@ -305,6 +308,22 @@ export const VideoPlayer = ({
 	}, [isPlaying])
 
 	useEffect(() => {
+		const handleExternalPlay = (evt: Event) => {
+			if (!playerRef.current) return
+			const { detail } = evt as CustomEvent<YouTubePlayer>
+			if (detail !== playerRef.current) {
+				playerRef.current.pauseVideo()
+				setIsPlaying(false)
+			}
+		}
+
+		document.addEventListener('yt-player-play', handleExternalPlay)
+		return () => {
+			document.removeEventListener('yt-player-play', handleExternalPlay)
+		}
+	}, [])
+
+	useEffect(() => {
 		if (!playerRef.current) return
 		if (muted) {
 			playerRef.current.mute()
@@ -354,7 +373,14 @@ export const VideoPlayer = ({
 					onClick={handleClick}
 					className="group relative block h-full w-full cursor-pointer overflow-hidden focus:outline-none"
 				>
-					<VideoPlaceholder imageUrl={thumbnailUrl} title={title} />
+					<Image
+						src={thumbnailUrl}
+						alt={title}
+						fill
+						className="mt-0 mb-0 object-cover"
+						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+					/>
+					<div className="bg-secondary absolute inset-0 opacity-30 transition-opacity group-hover:opacity-40" />
 					<PlayIcon />
 				</button>
 			)}
@@ -369,7 +395,7 @@ export const VideoPlayer = ({
 					/>
 					{isLoading && (
 						<div className="bg-background/40 absolute inset-0 flex items-center justify-center backdrop-blur-sm">
-							<VideoPlayerSkeleton />
+							<Skeleton className="h-full w-full" />
 						</div>
 					)}
 				</div>
@@ -391,21 +417,6 @@ export const VideoPlayer = ({
 	)
 }
 
-const VideoPlaceholder = ({ imageUrl, title }: TVideoPlaceholderProps) => {
-	return (
-		<div className="aspect-video h-full w-full">
-			<Image
-				src={imageUrl ?? ''}
-				alt={title}
-				fill
-				className="mt-0 mb-0 object-cover"
-				sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-			/>
-			<div className="bg-secondary absolute inset-0 opacity-30 transition-opacity group-hover:opacity-40" />
-		</div>
-	)
-}
-
 const PlayIcon = () => {
 	return (
 		<div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
@@ -420,14 +431,6 @@ const PlayIcon = () => {
 			>
 				<Icon iconName="play" className="text-primary-foreground ml-1 size-8 fill-current" />
 			</div>
-		</div>
-	)
-}
-
-const VideoPlayerSkeleton = () => {
-	return (
-		<div className="relative aspect-video h-full w-full">
-			<Skeleton className="h-full w-full" />
 		</div>
 	)
 }
