@@ -15,14 +15,31 @@ export const CodeBlock: Block = {
 	interfaceName: 'CodeBlock', // optional
 	fields: [
 		{
-			type: 'select',
-			name: 'language',
-			options: Object.entries(languages).map(([key, value]) => ({
-				label: value,
-				value: key,
-			})),
-			defaultValue: 'ts',
+			type: 'row',
+			fields: [
+				{
+					type: 'select',
+					name: 'language',
+					options: Object.entries(languages).map(([key, value]) => ({
+						label: value,
+						value: key,
+					})),
+					defaultValue: 'ts',
+					admin: {
+						width: '50%',
+					},
+				},
+				{
+					name: 'filename',
+					type: 'text',
+					label: 'Filename',
+					admin: {
+						width: '50%',
+					},
+				},
+			],
 		},
+
 		{
 			admin: {
 				components: {
