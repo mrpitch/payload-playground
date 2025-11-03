@@ -36,6 +36,7 @@ import {
 	UploadFeature,
 } from '@payloadcms/richtext-lexical'
 import { VideoBlock } from '@/payload/blocks/video-block'
+import { CodeBlock } from '@/payload/blocks/code-block'
 
 export const Docs: CollectionConfig = {
 	slug: 'docs',
@@ -136,6 +137,8 @@ export const Docs: CollectionConfig = {
 								features({ rootFeatures }) {
 									return [
 										...rootFeatures,
+										InlineToolbarFeature(),
+										FixedToolbarFeature(),
 										HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5', 'h6'] }),
 										ParagraphFeature(),
 										BoldFeature(),
@@ -146,11 +149,6 @@ export const Docs: CollectionConfig = {
 										LinkFeature(),
 										ItalicFeature(),
 										BlockquoteFeature(),
-										InlineToolbarFeature(),
-										BlocksFeature({
-											blocks: [VideoBlock],
-										}),
-										FixedToolbarFeature(),
 										UploadFeature({
 											collections: {
 												media: {
@@ -169,6 +167,9 @@ export const Docs: CollectionConfig = {
 												},
 											},
 											maxDepth: 3,
+										}),
+										BlocksFeature({
+											blocks: [VideoBlock, CodeBlock],
 										}),
 									]
 								},

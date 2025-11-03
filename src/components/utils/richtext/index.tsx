@@ -13,6 +13,7 @@ import { HeadingJSXConverter } from './heading-converter'
 import { VideoBlockComponent } from './video-converter'
 import { ImageBlockComponent } from './image-converter'
 import { internalDocToHref } from './helper'
+import { CodeBlockComponent } from './code-converter'
 
 const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
 	...defaultConverters,
@@ -24,6 +25,7 @@ const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConvert
 	},
 	blocks: {
 		video: ({ node }: { node: SerializedBlockNode }) => <VideoBlockComponent node={node} />,
+		code: ({ node }: { node: SerializedBlockNode }) => <CodeBlockComponent node={node} />,
 	},
 })
 
