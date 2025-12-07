@@ -57,4 +57,22 @@
 --shadow-lg: var(--shadow-lg);
 --shadow-xl: var(--shadow-xl);
 --shadow-2xl: var(--shadow-2xl);
+
+@keyframes accordion-down {
+	from {
+		height: 0;
+	}
+	to {
+		height: var(--radix-accordion-content-height);
+	}
+}
+
+@keyframes accordion-up {
+	from {
+		height: var(--radix-accordion-content-height);
+	}
+	to {
+		height: 0;
+	}
+}
 }
