@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { notFound, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 import { getSession } from '@/lib/actions/get-session'
 import { getNavData } from '@/lib/utils/navigation'
@@ -61,7 +61,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 						</Suspense>
 					</div>
 				</header>
-				<div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+				<div className="flex flex-1 flex-col gap-4 p-4 md:pl-24">{children}</div>
 				<Suspense fallback={null}>
 					<NavigationProvider>
 						<Footer siteName={settings?.siteName} />

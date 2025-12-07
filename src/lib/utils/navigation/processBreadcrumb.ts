@@ -161,3 +161,58 @@ const resolveBreadcrumbFromDocsNavInternal = (
  * This provides automatic memoization within a single request
  */
 export const resolveBreadcrumbFromDocsNav = cache(resolveBreadcrumbFromDocsNavInternal)
+
+/**
+ * Flattens all docs links and returns previous/next for a given slug
+ * Order follows visual docsNav order (groups → items/folders → folder children)
+ */
+export type FlatDoc = { href: string; label: string }
+
+const resolvePrevNextFromDocsNavInternal = (
+	docsNav: DocsNavMenu[],
+	slug: string,
+): { flatDocs: FlatDoc[]; previous: FlatDoc | null; next: FlatDoc | null } => {
+	try {
+		if (!Array.isArray(docsNav) || docsNav.length === 0) {
+			return { flatDocs: [], previous: null, next: null }
+		}
+
+		const targetPath = normalizePath(slug ? `${DOCS_BASE_PATH}/${slug}` : DOCS_BASE_PATH)
+
+		// Build flat list of docs in traversal order
+		const flatDocs: FlatDoc[] = []
+
+		for (const { entry } of flattenNavEntries(docsNav)) {
+			if (isFolder(entry)) {
+				for (const child of entry.items) {
+					const href = normalizePath(child.href)
+					if (href.startsWith(DOCS_BASE_PATH)) {
+						flatDocs.push({ href, label: child.label })
+					}
+				}
+			} else {
+				const href = normalizePath(entry.href)
+				if (href.startsWith(DOCS_BASE_PATH)) {
+					flatDocs.push({ href, label: entry.label })
+				}
+			}
+		}
+
+		if (flatDocs.length === 0) {
+			return { flatDocs, previous: null, next: null }
+		}
+
+		const currentIndex = flatDocs.findIndex((d) => d.href === targetPath)
+
+		const previous = currentIndex > 0 ? flatDocs[currentIndex - 1] : null
+		const next =
+			currentIndex >= 0 && currentIndex < flatDocs.length - 1 ? flatDocs[currentIndex + 1] : null
+
+		return { flatDocs, previous, next }
+	} catch (error) {
+		console.error('Error resolving prev/next:', error)
+		return { flatDocs: [], previous: null, next: null }
+	}
+}
+
+export const resolvePrevNextFromDocsNav = cache(resolvePrevNextFromDocsNavInternal)

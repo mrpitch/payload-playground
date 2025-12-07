@@ -15,6 +15,8 @@ import { TGenerateMeta } from '@/lib/types'
 
 import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
 import { processToc } from '@/lib/utils/navigation/processToc'
+import { getNavData } from '@/lib/utils/navigation'
+import { resolvePrevNextFromDocsNav } from '@/lib/utils/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import { Icon } from '@/components/ui/custom/icons'
@@ -24,6 +26,7 @@ import {
 	ThreedotsNavSkeleton,
 	TableOfContents,
 	BreadcrumbNav,
+	DocsPrevNextNav,
 } from '@/components/layout/nav'
 import { RichText } from '@/components/utils/richtext'
 import { Typography } from '@/components/ui/custom/typography'
@@ -76,6 +79,10 @@ export default async function Doc({ params: paramsPromise }: Args) {
 	const { title, publishedAt, categories, copy, excerpt, author } = docs as Doc
 
 	const tocData = processToc({ copy })
+
+	// Load navigation data to compute previous/next for docs
+	const navData = await getNavData()
+	const { previous, next } = resolvePrevNextFromDocsNav(navData.docsNav, slug || '')
 
 	return (
 		<div className="@container/docs">
@@ -149,6 +156,8 @@ export default async function Doc({ params: paramsPromise }: Args) {
 							className="prose prose-headings:scroll-mt-36 @5xl/docs:prose-headings:scroll-mt-20 w-full"
 						/>
 					) : null}
+					{/* Previous / Next navigation */}
+					<DocsPrevNextNav previous={previous} next={next} />
 				</article>
 
 				{/* Desktop TOC - sidebar */}

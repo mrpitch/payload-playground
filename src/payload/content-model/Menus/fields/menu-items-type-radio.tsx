@@ -166,7 +166,7 @@ export const CustomRadioFieldClient: RadioFieldClientComponent = (props: RadioFi
 
 	// Memoize the onChange handler
 	const handleChange = useCallback(
-		(value: any) => {
+		(value: string) => {
 			setValue(value)
 		},
 		[setValue],

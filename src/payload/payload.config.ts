@@ -1,5 +1,4 @@
 import { buildConfig } from 'payload'
-import type { Payload } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import {
 	FeatureProviderServer,
@@ -129,7 +128,7 @@ export default buildConfig({
 	localization,
 	sharp,
 	plugins: [...plugins],
-	onInit: async (payload: Payload) => {
+	onInit: async () => {
 		if (process.env.PAYLOAD_SEED === 'true') {
 			//await seed(payload)
 		}

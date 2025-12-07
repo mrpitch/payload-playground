@@ -8,11 +8,7 @@ import type {
 	GlobalAfterChangeHook,
 } from 'payload'
 
-export const revalidateCache: CollectionAfterChangeHook = async ({
-	doc,
-	previousDoc,
-	collection,
-}) => {
+export const revalidateCache: CollectionAfterChangeHook = async ({ doc, collection }) => {
 	// Skip revalidation during initialization
 	if (process.env.PAYLOAD_SEED === 'true') {
 		return doc

@@ -48,6 +48,7 @@ import {
 	Menu,
 	MoreHorizontal,
 	Phone,
+	Play,
 	Plus,
 	PlusCircle,
 	Rocket,
@@ -117,6 +118,7 @@ export type IconType =
 	| 'monitorX'
 	| 'moon'
 	| 'moreHorizontal'
+	| 'play'
 	| 'plus'
 	| 'plusCircle'
 	| 'phone'
@@ -189,6 +191,7 @@ const Icons = {
 	moon: (props: IconProps) => <Moon {...props} />,
 	moreHorizontal: (props: IconProps) => <MoreHorizontal {...props} />,
 	phone: (props: IconProps) => <Phone {...props} />,
+	play: (props: IconProps) => <Play {...props} />,
 	plus: (props: IconProps) => <Plus {...props} />,
 	plusCircle: (props: IconProps) => <PlusCircle {...props} />,
 	rocket: (props: IconProps) => <Rocket {...props} />,
