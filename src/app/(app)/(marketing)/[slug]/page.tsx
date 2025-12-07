@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { generateMeta } from '@/lib/utils/generateMeta'
-import { getAllByCollection, getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
+import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
 
-import type { Page, Doc } from '@payload-types'
+import type { Page } from '@payload-types'
 import type { TGenerateMeta } from '@/lib/types'
 
 import { Typography } from '@/components/ui/custom/typography'
@@ -12,7 +12,6 @@ import { Typography } from '@/components/ui/custom/typography'
 import { RenderBlocks } from '@/components/utils/render-blocks'
 import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
 import { Container } from '@/components/ui/custom/container'
-import Link from 'next/link'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { isEnabled } = await draftMode()
@@ -59,12 +58,6 @@ export default async function Page({ params: paramsPromise }: Args) {
 	}
 
 	const { title, showPageTitle, layout } = page as Page
-
-	let docs: Doc[] = []
-	if (slug === 'docs') {
-		const result = await getAllByCollection('docs', isEnabled)
-		docs = result.docs || []
-	}
 
 	return (
 		<>

@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { notFound, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 import { getSession } from '@/lib/actions/get-session'
 import { getNavData } from '@/lib/utils/navigation'

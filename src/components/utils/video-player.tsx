@@ -89,13 +89,15 @@ const loadYouTubeAPI = (): Promise<YouTubeAPI> => {
 
 	return new Promise((resolve, reject) => {
 		const previousCallback = window.onYouTubeIframeAPIReady
-		let timeoutId: number | undefined
+
+		const timeoutId = window.setTimeout(() => {
+			window.onYouTubeIframeAPIReady = previousCallback ?? undefined
+			reject(new Error('YouTube API timed out'))
+		}, 10000)
 
 		const cleanup = () => {
 			window.onYouTubeIframeAPIReady = previousCallback ?? undefined
-			if (timeoutId !== undefined) {
-				window.clearTimeout(timeoutId)
-			}
+			window.clearTimeout(timeoutId)
 		}
 
 		window.onYouTubeIframeAPIReady = () => {
@@ -108,11 +110,6 @@ const loadYouTubeAPI = (): Promise<YouTubeAPI> => {
 				reject(new Error('YouTube API failed to load'))
 			}
 		}
-
-		timeoutId = window.setTimeout(() => {
-			cleanup()
-			reject(new Error('YouTube API timed out'))
-		}, 10000)
 	})
 }
 

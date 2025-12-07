@@ -21,7 +21,6 @@ import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { StageBlock } from '@/payload/blocks/stage-block'
 import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
 import { DocsTeaserBlock } from '@/payload/blocks/docs-teaser-block'
-import { VideoBlock } from '@/payload/blocks/video-block'
 
 import { breakpoints } from '@/payload/utils/breakpoints'
 

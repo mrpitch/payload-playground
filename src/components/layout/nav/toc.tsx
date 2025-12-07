@@ -41,7 +41,7 @@ function TableOfContentsDropdown({ items = [] }: TableOfContentsProps) {
 	const activeId = useActiveTocId(items)
 	const activeTitle = items.find((item) => item.id === activeId)?.text || 'On this page'
 
-	const handleItemClick = (id: string) => {
+	const handleItemClick = () => {
 		setIsOpen(false)
 	}
 
