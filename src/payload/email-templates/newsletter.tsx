@@ -8,13 +8,14 @@ import {
 	Preview,
 	Section,
 	Tailwind,
+	pixelBasedPreset,
 } from '@react-email/components'
 
 import { cn } from '@/lib/utils/cn'
 
 import { baseUrl } from '@/payload/utils/constants'
 
-import { theme } from '@/lib/styles/v3/theme'
+import { theme } from '@/lib/styles/email/theme'
 import { sans, serif, mono } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
@@ -29,7 +30,12 @@ export function EmailNewsletter(props: TEmailNewsletterProps) {
 
 	return (
 		<Html>
-			<Tailwind config={theme}>
+			<Tailwind
+				config={{
+					presets: [pixelBasedPreset],
+					theme,
+				}}
+			>
 				<Head />
 				<Body
 					className={cn('mx-auto my-auto font-sans', sans.variable, serif.variable, mono.variable)}
