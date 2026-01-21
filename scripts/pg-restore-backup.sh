@@ -46,10 +46,10 @@ fi
 
 # --- prompt: dump file
 if [[ -n "${DEFAULT_DUMP_FILE}" ]]; then
-  read -r -p "Dump file (host ./db-backup/... or container /db-backup/...) [${DEFAULT_DUMP_FILE}]: " DUMP_IN
+  read -r -p "Dump file (host ./db-backup/...) [${DEFAULT_DUMP_FILE}]: " DUMP_IN
   DUMP_FILE="${DUMP_IN:-$DEFAULT_DUMP_FILE}"
 else
-  read -r -p "Dump file (host ./db-backup/... or container /db-backup/...): " DUMP_FILE
+  read -r -p "Dump file (host ./db-backup/...): " DUMP_FILE
 fi
 
 # Map host path -> container path if needed
@@ -84,7 +84,6 @@ if [[ -z "${DB_URL}" ]]; then
   echo "❌ DB_URL is required." >&2
   exit 1
 fi
-
 
 echo "==> Restoring '${DUMP_FILE_IN_CONTAINER}' into '${DB_URL}' ..."
 echo "    container=${CONTAINER_NAME}"
