@@ -1,6 +1,6 @@
 {
 	"name": "mr-pitchs-payload-playground",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Palyground to build boilerplate for Payload CMS and next.js app",
 	"license": "MIT",
 	"type": "module",
