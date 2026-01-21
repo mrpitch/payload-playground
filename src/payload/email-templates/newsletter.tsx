@@ -1,25 +1,22 @@
 import {
 	Body,
-	Column,
 	Container,
 	Head,
 	Hr,
 	Html,
 	Img,
-	Link,
 	Preview,
-	Row,
 	Section,
 	Tailwind,
-	Text,
+	pixelBasedPreset,
 } from '@react-email/components'
 
 import { cn } from '@/lib/utils/cn'
 
 import { baseUrl } from '@/payload/utils/constants'
 
-import { theme } from '@/lib/styles/v3/theme'
-import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
+import { theme } from '@/lib/styles/email/theme'
+import { sans, serif, mono } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
 
@@ -33,20 +30,19 @@ export function EmailNewsletter(props: TEmailNewsletterProps) {
 
 	return (
 		<Html>
-			<Tailwind config={theme}>
+			<Tailwind
+				config={{
+					presets: [pixelBasedPreset],
+					theme,
+				}}
+			>
 				<Head />
 				<Body
-					className={cn(
-						'bg-background mx-auto my-auto font-sans',
-						typeNextRegular.variable,
-						typeNextLight.variable,
-						typeNextSemiBold.variable,
-						typeNextBold.variable,
-					)}
+					className={cn('mx-auto my-auto font-sans', sans.variable, serif.variable, mono.variable)}
 				>
 					<Preview>{previewText}</Preview>
 
-					<Container className="border-secondary-light mx-auto my-[40px] max-w-[640px] rounded border border-solid">
+					<Container className="bg-background mx-auto my-[40px] max-w-[640px] rounded border border-solid">
 						<Section className="mx-auto mt-8 mb-8 w-10/12">
 							<Img
 								src={`${baseUrl}/images/logo-secondary-light.png`}

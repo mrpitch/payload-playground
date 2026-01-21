@@ -1,0 +1,311 @@
+---
+description: Complete project directory structure and important files guide for Payload CMS + Next.js playground
+globs: **/*
+alwaysApply: true
+---
+
+# Project Directory Structure
+
+This document outlines the complete directory structure and important files in the Payload CMS + Next.js playground project.
+
+## Root Level Files
+
+```
+payload-playground/
+├── .cursor/                    # Cursor IDE configuration
+│   └── rules/                 # Cursor rules and guidelines
+├── docs/                      # Project documentation
+├── public/                    # Static assets
+│   └── images/               # Images, icons, logos
+├── src/                       # Source code
+├── components.json            # Shadcn/ui components configuration
+├── docker-compose.yml         # Docker services configuration
+├── eslint.config.mjs          # ESLint configuration
+├── next.config.mjs            # Next.js configuration
+├── package.json               # Dependencies and scripts
+├── postcss.config.cjs         # PostCSS configuration
+├── tsconfig.json              # TypeScript configuration
+├── vercel.json                # Vercel deployment configuration
+└── README.md                  # Project documentation
+```
+
+## Source Code Structure (`src/`)
+
+### App Router (`src/app/`)
+
+```
+src/app/
+├── (app)/                     # Main application routes
+│   ├── _components/           # App-specific components
+│   │   ├── footer.tsx
+│   │   ├── header.tsx
+│   │   └── navigation/        # Navigation components
+│   ├── (app)/                 # Authenticated app routes
+│   │   ├── account-settings/
+│   │   ├── dashboard/
+│   │   └── layout.tsx
+│   ├── (auth)/                # Authentication routes
+│   │   ├── change-password/
+│   │   ├── login/
+│   │   ├── register/
+│   │   ├── reset-password/
+│   │   └── verify-email/
+│   ├── (marketing)/           # Marketing/public routes
+│   │   ├── [slug]/           # Dynamic pages
+│   │   ├── blog/
+│   │   ├── docs/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── error.tsx
+│   ├── layout.tsx
+│   └── not-found.tsx
+├── (payload)/                 # Payload CMS admin routes
+│   ├── admin/                 # Admin interface
+│   ├── api/                   # Payload API routes
+│   ├── custom.scss
+│   ├── layout.tsx
+│   └── payloadShadcn.css
+└── api/                       # Custom API routes
+    ├── my-route/
+    └── preview/
+```
+
+### Components (`src/components/`)
+
+```
+src/components/
+├── auth/                      # Authentication components
+│   ├── form-change-password.tsx
+│   ├── form-container.tsx
+│   ├── form-login.tsx
+│   ├── form-register.tsx
+│   ├── form-reset-password.tsx
+│   ├── logout-button.tsx
+│   └── verify-email.tsx
+├── form/                      # Form components
+│   ├── form-message.tsx
+│   └── form.tsx
+├── layout/                    # Layout components
+│   ├── blog-teaser-block.tsx
+│   ├── breadcrumb-nav.tsx
+│   ├── copy-block.tsx
+│   ├── image-text.tsx
+│   ├── quote-block.tsx
+│   ├── stage.tsx
+│   └── toc.tsx
+├── ui/                        # Shadcn/ui components
+│   ├── accordion.tsx
+│   ├── alert.tsx
+│   ├── avatar.tsx
+│   ├── button.tsx
+│   ├── card.tsx
+│   ├── custom/                # Custom UI components
+│   │   ├── author.tsx
+│   │   ├── container.tsx
+│   │   ├── custom-dialog.tsx
+│   │   ├── disable-preview-button.tsx
+│   │   ├── exit-preview-button.tsx
+│   │   ├── icons.tsx
+│   │   ├── logo.tsx
+│   │   ├── theme-toggle.tsx
+│   │   ├── toast.tsx
+│   │   └── typography.tsx
+│   ├── dialog.tsx
+│   ├── form.tsx
+│   ├── input.tsx
+│   ├── sidebar.tsx
+│   └── ... (other shadcn components)
+└── utils/                     # Utility components
+    ├── image-provider.tsx
+    ├── refresh-route-onsave.tsx
+    ├── render-blocks.tsx
+    ├── richtext.tsx
+    └── theme-provider.tsx
+```
+
+### Library (`src/lib/`)
+
+```
+src/lib/
+├── actions/                   # Server actions
+│   ├── change-password.ts
+│   ├── get-session.ts
+│   ├── login.ts
+│   ├── logout.ts
+│   ├── register.ts
+│   ├── reset-password.ts
+│   ├── user.ts
+│   └── verify-email.ts
+├── config.ts                  # App configuration
+├── routes.ts                  # Route definitions
+├── schema/                    # Zod validation schemas
+│   ├── change-password.schema.ts
+│   ├── login.schema.ts
+│   ├── register.schema.ts
+│   └── reset-password.schema.ts
+├── store/                     # Zustand stores
+│   ├── nav-store.ts
+│   ├── theme-store.ts
+│   └── user-store.ts
+├── styles/                    # Styling and themes
+│   ├── fonts/                 # Font configurations
+│   │   ├── amethysthaze.ts
+│   │   ├── bubblegum.ts
+│   │   ├── candyland.ts
+│   │   ├── custom/            # Custom fonts
+│   │   ├── index.ts
+│   │   ├── nature.ts
+│   │   ├── sageandsand.ts
+│   │   └── vintagepaper.ts
+│   ├── v3/                    # Theme v3 files
+│   │   ├── emailStyles.ts
+│   │   ├── theme.ts
+│   │   ├── variables-bubblegum.ts
+│   │   └── variables.ts
+│   ├── globals.css            # Global styles
+│   ├── theme.css              # Theme configuration
+│   └── variables-*.css        # Theme variable files
+├── types/                     # TypeScript type definitions
+│   └── index.ts
+└── utils/                     # Utility functions
+    ├── cn.ts                  # Class name utility
+    ├── constants.ts
+    ├── cookies.ts
+    ├── generate-preview-path.ts
+    ├── generateMeta.ts
+    ├── getCollections.ts
+    └── getGlobals.ts
+```
+
+### Payload CMS (`src/payload/`)
+
+```
+src/payload/
+├── access/                    # Access control
+│   ├── admin-and-editor.ts
+│   ├── admin.ts
+│   ├── anyone.ts
+│   └── index.ts
+├── actions/                   # Payload actions
+│   └── send-email.ts
+├── blocks/                    # Content blocks
+│   ├── blog-teaser-block.ts
+│   ├── copy-block.ts
+│   ├── email-gallery.ts
+│   ├── email-image-text-block.ts
+│   ├── image-text-block.ts
+│   ├── quote-block.ts
+│   └── stage-block.ts
+├── collections/               # Payload collections
+│   ├── Categories.ts
+│   ├── Docs.ts
+│   ├── Media.ts
+│   ├── Newsletter.ts
+│   ├── Pages.ts
+│   ├── Posts.ts
+│   └── Users.ts
+├── components/                # Payload components
+│   ├── avatar-client.tsx
+│   ├── avatar.tsx
+│   ├── email-preview.tsx
+│   ├── Icon.tsx
+│   ├── logo.tsx
+│   ├── nav-links.tsx
+│   └── order-cell.tsx
+├── email-templates/           # Email templates
+│   ├── email-gallery.tsx
+│   ├── email-image-text.tsx
+│   ├── newsletter.tsx
+│   ├── password-reset.tsx
+│   ├── render-email-blocks.tsx
+│   └── verify-account.tsx
+├── globals/                   # Payload globals
+│   ├── AppShell.ts
+│   └── EmailTemplates.ts
+├── hooks/                     # Payload hooks
+│   ├── check-role.ts
+│   ├── email-preview.ts
+│   ├── protect-roles.ts
+│   └── revalidate-cache.ts
+├── i18n/                      # Internationalization
+│   ├── localization.ts
+│   └── routing.ts
+├── plugins/                   # Payload plugins
+│   └── index.ts
+├── types/                     # Payload types
+│   └── email-templates.ts
+├── utils/                     # Payload utilities
+│   ├── breakpoints.ts
+│   ├── can-use-dom.ts
+│   ├── constants.ts
+│   ├── generate-preview-path.ts
+│   ├── get-url.ts
+│   ├── render-email.ts
+│   └── seed/                  # Database seeding
+├── views/                     # Custom admin views
+│   ├── folder-view.tsx
+│   └── my-custom-view.tsx
+├── payload-types.ts           # Generated Payload types
+└── payload.config.ts          # Payload configuration
+```
+
+### Hooks (`src/hooks/`)
+
+```
+src/hooks/
+├── use-mobile.ts              # Mobile detection hook
+└── use-toc.ts                 # Table of contents hook
+```
+
+## Important Configuration Files
+
+### Core Configuration
+- `package.json` - Dependencies, scripts, and project metadata
+- `tsconfig.json` - TypeScript configuration
+- `next.config.mjs` - Next.js configuration
+- `postcss.config.cjs` - PostCSS configuration
+- `eslint.config.mjs` - ESLint configuration
+
+### Styling Configuration
+- `components.json` - Shadcn/ui components configuration
+- `src/lib/styles/globals.css` - Global CSS styles
+- `src/lib/styles/theme.css` - Theme configuration
+- `src/lib/styles/variables-*.css` - Theme variable files
+
+### Payload CMS Configuration
+- `src/payload/payload.config.ts` - Main Payload configuration
+- `src/payload/collections/` - Content collections
+- `src/payload/globals/` - Global content
+- `src/payload/blocks/` - Content blocks
+
+### Development Tools
+- `docker-compose.yml` - Local development services
+- `vercel.json` - Deployment configuration
+- `.cursor/rules/` - Cursor IDE rules
+
+## Key Patterns
+
+### File Naming Conventions
+- Components: `kebab-case.tsx`
+- Pages: `page.tsx`, `layout.tsx`, `error.tsx`
+- Utilities: `kebab-case.ts`
+- Types: `index.ts` or `kebab-case.ts`
+
+### Import Patterns
+- Use `@/` alias for `src/` directory
+- Group imports: external → internal → relative
+- Use named exports for components
+
+### Route Groups
+- `(app)` - Main application routes
+- `(auth)` - Authentication routes  
+- `(marketing)` - Public marketing routes
+- `(payload)` - Payload CMS admin routes
+
+### Theme System
+- CSS variables in `variables-*.css`
+- TypeScript variables in `v3/variables-*.ts`
+- Font configurations in `fonts/`
+- Global styles in `globals.css`
+
+This structure follows Next.js 15 App Router conventions with Payload CMS integration, providing a scalable foundation for content management and frontend development.

@@ -98,7 +98,7 @@ export function FormChangePassword({ token }: { token: string }) {
 							<div className="space-y-1">
 								<FormMessage variant="error">{errors.root?.serverError.message}</FormMessage>
 								<Link
-									className={cn(buttonVariants({ variant: 'neutral' }), 'px-0')}
+									className={cn(buttonVariants({ variant: 'link' }), 'px-0')}
 									href="/reset-password"
 								>
 									Send Verification E-Mail again

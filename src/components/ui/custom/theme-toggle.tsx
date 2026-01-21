@@ -18,8 +18,8 @@ export function ThemeToggle() {
 				}
 			}}
 		>
-			<Icon iconName="moon" className="hidden h-[1.5rem] w-[1.3rem] dark:block" />
-			<Icon iconName="sun" className="h-5 w-5 dark:hidden" />
+			<Icon iconName="moon" className="hidden dark:block" />
+			<Icon iconName="sun" className="dark:hidden" />
 			<span className="sr-only">Toggle theme</span>
 		</Button>
 	)

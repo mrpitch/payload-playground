@@ -16,9 +16,9 @@ import {
 import { baseUrl } from '@/payload/utils/constants'
 import { cn } from '@/lib/utils/cn'
 
-import { theme } from '@/lib/styles/v3/theme'
-import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
-import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
+import { theme } from '@/lib/styles/email/theme'
+import { emailButtonVariants } from '@/lib/styles/email/emailStyles'
+import { sans, serif, mono } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'
 import { TVerifyEmailProps } from '@/payload/types/email-templates'
@@ -36,10 +36,9 @@ export function EmailVerifyAccount(props: TEmailVerifyAccountProps) {
 				<Body
 					className={cn(
 						'bg-background mx-auto my-auto font-sans',
-						typeNextRegular.variable,
-						typeNextLight.variable,
-						typeNextSemiBold.variable,
-						typeNextBold.variable,
+						sans.variable,
+						serif.variable,
+						mono.variable,
 					)}
 				>
 					<Preview>

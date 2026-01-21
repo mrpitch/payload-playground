@@ -93,7 +93,7 @@ export const ResetPasswordForm = () => {
 						{isSubmitting ? <Icon iconName="loader" className="mr-2 h-4 w-4 animate-spin" /> : null}
 						Send reset email
 					</Button>
-					<Link className={cn(buttonVariants({ variant: 'neutral' }), 'w-full')} href="/login">
+					<Link className={cn(buttonVariants({ variant: 'link' }), 'w-full')} href="/login">
 						Back to login
 					</Link>
 				</div>

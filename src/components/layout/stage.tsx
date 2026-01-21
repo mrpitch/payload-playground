@@ -20,7 +20,7 @@ export default function Stage({
 	ctaText,
 	ctaLink,
 	backgroundImage,
-	overlayOpacity = 0.3,
+	overlayOpacity = 0.2,
 }: StageProps) {
 	return (
 		<section className="relative h-[70vh] min-h-[500px] w-full overflow-hidden">
@@ -28,7 +28,7 @@ export default function Stage({
 			<div className="absolute inset-0 h-full w-full">
 				<Image
 					src={
-						`${imageUrl}/${backgroundImage && typeof backgroundImage === 'object' ? backgroundImage.filename : ''}` ||
+						`${imageUrl}/${backgroundImage && typeof backgroundImage === 'object' ? backgroundImage?.sizes?.hero?.filename : ''}` ||
 						'/placeholder_16-9_1x.png'
 					}
 					alt={

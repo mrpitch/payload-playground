@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 	// Enable Draft Mode by setting the cookie
 	const draft = await draftMode()
 	draft.enable()
-	console.log('draft', draft)
+	//console.log('draft', draft)
 
 	return NextResponse.redirect(new URL(`${baseUrl}/${path}/${slug}`, nextUrl))
 }

@@ -1,4 +1,3 @@
-import { Plugin } from 'payload'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage } from '@payloadcms/storage-s3'
@@ -8,16 +7,15 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page } from '@payload-types'
 import { getServerSideURL } from '@/payload/utils/get-url'
 
-const generateTitle: GenerateTitle<Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Page> = ({ doc }: { doc: Page }) => {
 	return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
-const generateURL: GenerateURL<Page> = ({ doc }) => {
+const generateURL: GenerateURL<Page> = ({ doc }: { doc: Page }) => {
 	const url = getServerSideURL()
-
 	return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
-export const plugins: Plugin[] = [
+export const plugins = [
 	seoPlugin({
 		generateTitle,
 		generateURL,

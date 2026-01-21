@@ -67,12 +67,14 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    categories: Category;
+    docs: Doc;
     pages: Page;
     posts: Post;
-    categories: Category;
     newsletter: Newsletter;
     users: User;
     media: Media;
+    menus: Menu;
     'payload-jobs': PayloadJob;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -81,16 +83,18 @@ export interface Config {
   };
   collectionsJoins: {
     'payload-folders': {
-      documentsAndFolders: 'payload-folders' | 'posts';
+      documentsAndFolders: 'payload-folders' | 'docs' | 'media';
     };
   };
   collectionsSelect: {
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    docs: DocsSelect<false> | DocsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     newsletter: NewsletterSelect<false> | NewsletterSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    menus: MenusSelect<false> | MenusSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -101,12 +105,12 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    'app-shell': AppShell;
     'e-mail-templates': EMailTemplate;
+    'app-settings': AppSetting;
   };
   globalsSelect: {
-    'app-shell': AppShellSelect<false> | AppShellSelect<true>;
     'e-mail-templates': EMailTemplatesSelect<false> | EMailTemplatesSelect<true>;
+    'app-settings': AppSettingsSelect<false> | AppSettingsSelect<true>;
   };
   locale: 'en' | 'de';
   user: User & {
@@ -143,6 +147,189 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title?: string | null;
+  slug?: string | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "docs".
+ */
+export interface Doc {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  icon:
+    | 'layoutDashboard'
+    | 'folderKanban'
+    | 'image'
+    | 'bookOpen'
+    | 'database'
+    | 'shield'
+    | 'zap'
+    | 'rocket'
+    | 'dumbbell'
+    | 'tag'
+    | 'user'
+    | 'settings'
+    | 'code';
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  copy?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  publishedAt?: string | null;
+  author: number | User;
+  categories?: (number | Category)[] | null;
+  folder?: (number | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  prefix?: string | null;
+  folder?: (number | null) | FolderInterface;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    small?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    medium?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders".
+ */
+export interface FolderInterface {
+  id: number;
+  name: string;
+  folder?: (number | null) | FolderInterface;
+  documentsAndFolders?: {
+    docs?: (
+      | {
+          relationTo?: 'payload-folders';
+          value: number | FolderInterface;
+        }
+      | {
+          relationTo?: 'docs';
+          value: number | Doc;
+        }
+      | {
+          relationTo?: 'media';
+          value: number | Media;
+        }
+    )[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  folderType?: ('docs' | 'media')[] | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  avatar?: (number | null) | Media;
+  roles?: ('admin' | 'editor' | 'user')[] | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
@@ -158,31 +345,11 @@ export interface Page {
     description?: string | null;
   };
   showPageTitle?: boolean | null;
-  layout?: (CopyBlock | ImageTextBlock | QuoteBlock | StageBlock | BlogTeaserBlock)[] | null;
+  layout?: (CopyBlock | ImageTextBlock | QuoteBlock | StageBlock | BlogTeaserBlock | DocsTeaserBlock)[] | null;
   publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  prefix?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -290,83 +457,25 @@ export interface Post {
     description?: string | null;
   };
   layout?: (QuoteBlock | CopyBlock)[] | null;
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
   publishedAt?: string | null;
   author: number | User;
-  folder?: (number | null) | FolderInterface;
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
+ * via the `definition` "DocsTeaserBlock".
  */
-export interface Category {
-  id: number;
-  title?: string | null;
-  slug?: string | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  avatar?: (number | null) | Media;
-  roles?: ('admin' | 'editor' | 'user')[] | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  _verified?: boolean | null;
-  _verificationToken?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-folders".
- */
-export interface FolderInterface {
-  id: number;
-  name: string;
-  folder?: (number | null) | FolderInterface;
-  documentsAndFolders?: {
-    docs?: (
-      | {
-          relationTo?: 'payload-folders';
-          value: number | FolderInterface;
-        }
-      | {
-          relationTo?: 'posts';
-          value: number | Post;
-        }
-    )[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  folderType?: 'posts'[] | null;
-  updatedAt: string;
-  createdAt: string;
+export interface DocsTeaserBlock {
+  headline: string;
+  subline?: string | null;
+  docs?: (number | Doc)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'docs-teaser';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -420,6 +529,124 @@ export interface EmailGalleryBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'email-gallery';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menus".
+ */
+export interface Menu {
+  id: number;
+  menuType: 'mainMenu' | 'footerMenu' | 'profileMenu' | 'dashboardMenu' | 'docsMenu';
+  name?: string | null;
+  shortDescription?: string | null;
+  menuItems?:
+    | {
+        menuItems?: {
+          type?: string | null;
+          icon?:
+            | (
+                | 'layoutDashboard'
+                | 'folderKanban'
+                | 'image'
+                | 'bookOpen'
+                | 'database'
+                | 'shield'
+                | 'zap'
+                | 'rocket'
+                | 'dumbbell'
+                | 'tag'
+                | 'user'
+                | 'settings'
+                | 'code'
+              )
+            | null;
+          label?: string | null;
+          page?: {
+            relationTo: 'pages';
+            value: number | Page;
+          } | null;
+          doc?: {
+            relationTo: 'docs';
+            value: number | Doc;
+          } | null;
+          url?: string | null;
+          groupItems?:
+            | {
+                groupItem?: {
+                  type?: string | null;
+                  icon?:
+                    | (
+                        | 'layoutDashboard'
+                        | 'folderKanban'
+                        | 'image'
+                        | 'bookOpen'
+                        | 'database'
+                        | 'shield'
+                        | 'zap'
+                        | 'rocket'
+                        | 'dumbbell'
+                        | 'tag'
+                        | 'user'
+                        | 'settings'
+                        | 'code'
+                      )
+                    | null;
+                  label?: string | null;
+                  page?: {
+                    relationTo: 'pages';
+                    value: number | Page;
+                  } | null;
+                  doc?: {
+                    relationTo: 'docs';
+                    value: number | Doc;
+                  } | null;
+                  url?: string | null;
+                  folderItems?:
+                    | {
+                        folderItem?: {
+                          type?: string | null;
+                          icon?:
+                            | (
+                                | 'layoutDashboard'
+                                | 'folderKanban'
+                                | 'image'
+                                | 'bookOpen'
+                                | 'database'
+                                | 'shield'
+                                | 'zap'
+                                | 'rocket'
+                                | 'dumbbell'
+                                | 'tag'
+                                | 'user'
+                                | 'settings'
+                                | 'code'
+                              )
+                            | null;
+                          label?: string | null;
+                          page?: {
+                            relationTo: 'pages';
+                            value: number | Page;
+                          } | null;
+                          doc?: {
+                            relationTo: 'docs';
+                            value: number | Doc;
+                          } | null;
+                        };
+                        id?: string | null;
+                      }[]
+                    | null;
+                };
+                id?: string | null;
+              }[]
+            | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -521,16 +748,20 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'docs';
+        value: number | Doc;
+      } | null)
+    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
     | ({
         relationTo: 'posts';
         value: number | Post;
-      } | null)
-    | ({
-        relationTo: 'categories';
-        value: number | Category;
       } | null)
     | ({
         relationTo: 'newsletter';
@@ -543,6 +774,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'menus';
+        value: number | Menu;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -596,6 +831,43 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "docs_select".
+ */
+export interface DocsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  excerpt?: T;
+  icon?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  copy?: T;
+  publishedAt?: T;
+  author?: T;
+  categories?: T;
+  folder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
@@ -617,6 +889,7 @@ export interface PagesSelect<T extends boolean = true> {
         quote?: T | QuoteBlockSelect<T>;
         stage?: T | StageBlockSelect<T>;
         'blog-teaser'?: T | BlogTeaserBlockSelect<T>;
+        'docs-teaser'?: T | DocsTeaserBlockSelect<T>;
       };
   publishedAt?: T;
   updatedAt?: T;
@@ -693,6 +966,17 @@ export interface BlogTeaserBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "DocsTeaserBlock_select".
+ */
+export interface DocsTeaserBlockSelect<T extends boolean = true> {
+  headline?: T;
+  subline?: T;
+  docs?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -713,23 +997,10 @@ export interface PostsSelect<T extends boolean = true> {
         quote?: T | QuoteBlockSelect<T>;
         copy?: T | CopyBlockSelect<T>;
       };
-  relatedPosts?: T;
-  categories?: T;
   publishedAt?: T;
   author?: T;
-  folder?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
- */
-export interface CategoriesSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  publishedAt?: T;
+  relatedPosts?: T;
+  categories?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -828,6 +1099,7 @@ export interface UsersSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   prefix?: T;
+  folder?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -839,6 +1111,107 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        small?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menus_select".
+ */
+export interface MenusSelect<T extends boolean = true> {
+  menuType?: T;
+  name?: T;
+  shortDescription?: T;
+  menuItems?:
+    | T
+    | {
+        menuItems?:
+          | T
+          | {
+              type?: T;
+              icon?: T;
+              label?: T;
+              page?: T;
+              doc?: T;
+              url?: T;
+              groupItems?:
+                | T
+                | {
+                    groupItem?:
+                      | T
+                      | {
+                          type?: T;
+                          icon?: T;
+                          label?: T;
+                          page?: T;
+                          doc?: T;
+                          url?: T;
+                          folderItems?:
+                            | T
+                            | {
+                                folderItem?:
+                                  | T
+                                  | {
+                                      type?: T;
+                                      icon?: T;
+                                      label?: T;
+                                      page?: T;
+                                      doc?: T;
+                                    };
+                                id?: T;
+                              };
+                        };
+                    id?: T;
+                  };
+            };
+        id?: T;
+      };
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -880,6 +1253,7 @@ export interface PayloadFoldersSelect<T extends boolean = true> {
   folder?: T;
   documentsAndFolders?: T;
   folderType?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -914,58 +1288,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "app-shell".
- */
-export interface AppShell {
-  id: number;
-  settings: {
-    siteName: string;
-    siteDescription: string;
-  };
-  mainNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  legalNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  profileNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  sideBarNavigation?: {
-    navItems?:
-      | {
-          label: string;
-          href: string;
-          icon: 'layoutDashboard' | 'rocket' | 'dumbbell' | 'tag' | 'image' | 'user' | 'settings' | 'logout';
-          id?: string | null;
-        }[]
-      | null;
-  };
-  publishedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1015,65 +1337,25 @@ export interface EMailTemplate {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "app-shell_select".
+ * via the `definition` "app-settings".
  */
-export interface AppShellSelect<T extends boolean = true> {
-  settings?:
-    | T
-    | {
-        siteName?: T;
-        siteDescription?: T;
-      };
-  mainNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              id?: T;
-            };
-      };
-  legalNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              id?: T;
-            };
-      };
-  profileNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              id?: T;
-            };
-      };
-  sideBarNavigation?:
-    | T
-    | {
-        navItems?:
-          | T
-          | {
-              label?: T;
-              href?: T;
-              icon?: T;
-              id?: T;
-            };
-      };
-  publishedAt?: T;
-  _status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
+export interface AppSetting {
+  id: number;
+  settings: {
+    siteName: string;
+    siteDescription: string;
+  };
+  menus?: {
+    mainMenu?: (number | null) | Menu;
+    footerMenu?: (number | null) | Menu;
+    profileMenu?: (number | null) | Menu;
+    dashboardMenu?: (number | null) | Menu;
+    docsMenu?: (number | Menu)[] | null;
+  };
+  publishedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1119,6 +1401,32 @@ export interface EMailTemplatesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "app-settings_select".
+ */
+export interface AppSettingsSelect<T extends boolean = true> {
+  settings?:
+    | T
+    | {
+        siteName?: T;
+        siteDescription?: T;
+      };
+  menus?:
+    | T
+    | {
+        mainMenu?: T;
+        footerMenu?: T;
+        profileMenu?: T;
+        dashboardMenu?: T;
+        docsMenu?: T;
+      };
+  publishedAt?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -1126,6 +1434,14 @@ export interface TaskSchedulePublish {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
     doc?:
+      | ({
+          relationTo: 'categories';
+          value: number | Category;
+        } | null)
+      | ({
+          relationTo: 'docs';
+          value: number | Doc;
+        } | null)
       | ({
           relationTo: 'pages';
           value: number | Page;
@@ -1135,13 +1451,26 @@ export interface TaskSchedulePublish {
           value: number | Post;
         } | null)
       | ({
-          relationTo: 'categories';
-          value: number | Category;
+          relationTo: 'menus';
+          value: number | Menu;
         } | null);
-    global?: 'app-shell' | null;
+    global?: 'app-settings' | null;
     user?: (number | null) | User;
   };
   output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "VideoBlock".
+ */
+export interface VideoBlock {
+  type?: ('youtube' | 'self-hosted') | null;
+  title: string;
+  videoId: string;
+  startAt?: number | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'video';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

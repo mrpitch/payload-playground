@@ -1,0 +1,40 @@
+'use server'
+
+import { revalidateTag } from 'next/cache'
+
+import type {
+	CollectionAfterChangeHook,
+	CollectionAfterDeleteHook,
+	GlobalAfterChangeHook,
+} from 'payload'
+
+export const revalidateCache: CollectionAfterChangeHook = async ({ doc, collection }) => {
+	// Skip revalidation during initialization
+	if (process.env.PAYLOAD_SEED === 'true') {
+		return doc
+	}
+
+	// Revalidate when doc is published (first time OR on updates)
+	if (doc._status === 'published') {
+		revalidateTag(`${collection.slug}_${doc.slug}`)
+		revalidateTag(`collection_${collection.slug}`)
+	}
+	return doc
+}
+
+export const revalidateCacheAfterDelete: CollectionAfterDeleteHook = async ({
+	doc,
+	collection,
+}) => {
+	// Skip revalidation during initialization
+	if (process.env.PAYLOAD_SEED === 'true') {
+		return
+	}
+
+	revalidateTag(`${collection.slug}_${doc.slug}`)
+	revalidateTag(`collection_${collection.slug}`)
+}
+
+export const revalidateCacheGlobal: GlobalAfterChangeHook = async ({ global }) => {
+	revalidateTag(`global_${global.slug}`)
+}

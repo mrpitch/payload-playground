@@ -1,25 +1,24 @@
-// import { unstable_cache } from 'next/cache'
-import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
-import { getGlobals } from '@/lib/utils/getGlobals'
+import { getNavData } from '@/lib/utils/navigation'
 
-import type { AppShell } from '@payload-types'
-
-import { Footer } from '@/app/_components/footer'
-import { Header } from '@/app/_components/header'
+import { Footer } from '@/components/layout/footer'
+import { Header } from '@/components/layout/header'
+import { NavigationProvider } from '@/components/layout/nav/nav-provider.server'
 
 export default async function RootLayout({ children }: { children: React.JSX.Element }) {
-	const appShell = (await getGlobals('app-shell')) as AppShell
-	if (!appShell) {
-		notFound()
-	}
-	const { mainNavigation, settings, legalNavigation, profileNavigation } = appShell
+	const navData = await getNavData()
+	const { settings } = navData
 
 	return (
 		<div className="flex h-screen flex-col">
-			<Header mainNavigation={mainNavigation} profileNavigation={profileNavigation} />
+			<Header siteName={settings?.siteName} />
 			<main>{children}</main>
-			<Footer siteName={settings?.siteName} legalNavigation={legalNavigation?.navItems} />
+			<Suspense fallback={null}>
+				<NavigationProvider>
+					<Footer siteName={settings?.siteName} />
+				</NavigationProvider>
+			</Suspense>
 		</div>
 	)
 }

@@ -9,6 +9,7 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
     volumes:
       - db_payload_dev:/var/lib/postgresql/data/
+      - ./db-backup:/db-backup
       #- ./database/oegd_example_latest.sql.gz:/docker-entrypoint-initdb.d/oegd_example_latest.sql.gz
     ports:
       - "5432:5432"
