@@ -18,6 +18,8 @@
 		"start:postgres": "docker compose -f docker-compose.yml --env-file .env up -d",
 		"stop:postgres": "docker compose -f docker-compose.yml --env-file .env down",
 		"stop:postgres:cleanup": "docker compose -f docker-compose.yml --env-file .env down --volumes",
+		"db:dump:local": "bash ./scripts/pg-dump-local-db.sh .env",
+		"db:restore": "bash ./scripts/pg-restore-backup.sh",
 		"analyze": "cross-env ANALYZE=true NODE_OPTIONS=--no-deprecation next build",
 		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml; rm -rf .next"
 	},
