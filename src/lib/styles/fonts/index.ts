@@ -1,3 +1,3 @@
-import { sans, serif, mono } from './bubblegum'
+import { sans, serif, mono } from './gingerhero'
 
 export { sans, serif, mono }
