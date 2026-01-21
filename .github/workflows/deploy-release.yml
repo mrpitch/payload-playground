@@ -3,22 +3,22 @@ name: Promote release to production branch
 on:
   release:
     types: [published]
-  # or:
-  # push:
-  #   tags: ["v*"]
 
 jobs:
   promote:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to push the production branch
+
     steps:
+      # Checkout EXACTLY the tag that the release refers to
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.ref }}  # e.g. refs/tags/v1.1.0
 
-      # Move production branch to the release tag commit
       - name: Fast-forward production to release tag
         run: |
-          git fetch --tags origin
-          TAG="${GITHUB_REF_NAME}"   # for "release" event, this is the tag name
-          git checkout -B production "refs/tags/$TAG"
+          TAG="${GITHUB_REF_NAME}"      # v1.1.0
+          git checkout -B production    # branch at current HEAD (the tag commit)
           git push origin production --force-with-lease
