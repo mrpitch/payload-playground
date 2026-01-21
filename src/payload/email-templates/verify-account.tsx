@@ -16,8 +16,8 @@ import {
 import { baseUrl } from '@/payload/utils/constants'
 import { cn } from '@/lib/utils/cn'
 
-import { theme } from '@/lib/styles/v3/theme'
-import { emailButtonVariants } from '@/lib/styles/v3/emailStyles'
+import { theme } from '@/lib/styles/email/theme'
+import { emailButtonVariants } from '@/lib/styles/email/emailStyles'
 import { sans, serif, mono } from '@/lib/styles/fonts'
 
 import { RichText } from '@/components/utils/richtext'

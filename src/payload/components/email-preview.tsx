@@ -127,7 +127,7 @@ export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 
 	return (
 		<div
-			className="field-type group-field group-field--within-row group-field--within-tab min-h-[500px]"
+			className="bg-backgroundfield-type group-field group-field--within-row group-field--within-tab min-h-[500px]"
 			style={{ '--field-width': '50%' } as React.CSSProperties}
 		>
 			<div className="flex items-center justify-end gap-2 py-4">
@@ -151,7 +151,7 @@ export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 			</div>
 			<div className="mx-auto">
 				{isLoading ? (
-					<div className="bg-background mt-[40px] flex h-[calc(100vh_-_140px)] w-[640px] rounded border border-solid">
+					<div className="bg-background mt-[40px] flex h-[calc(100vh-140px)] w-[640px] rounded border border-solid">
 						<div className="border-accent mx-auto my-[40px] w-[640px] rounded border border-solid">
 							<div className="mx-auto mt-8 mb-8 flex w-10/12 flex-col space-y-3">
 								<Skeleton className="mx-auto h-[25px] w-full rounded-xl" />
@@ -172,14 +172,14 @@ export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 					<>
 						{viewPort === 'desktop' ? (
 							<iframe
-								className="h-[calc(100vh_-_140px)] w-[640px] border-none lg:h-[calc(100vh_-_70px)]"
+								className="h-[calc(100vh-140px)] w-[640px] border-none lg:h-[calc(100vh-70px)]"
 								srcDoc={html}
 								title="Desktop"
 							/>
 						) : null}
 						{viewPort === 'mobile' ? (
 							<iframe
-								className="mx-auto h-[calc(100vh_-_140px)] w-[360px] border-none lg:h-[calc(100vh_-_70px)]"
+								className="mx-auto h-[calc(100vh-140px)] w-[360px] border-none lg:h-[calc(100vh-70px)]"
 								srcDoc={html}
 								title="Mobile"
 							/>

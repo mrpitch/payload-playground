@@ -38,6 +38,7 @@ import { default as default_a00caba113209666e61d893d06127258 } from '../../../pa
 import { LinkToCustomView as LinkToCustomView_467709ff245671dd3f36b52036d3076b } from '../../../payload/components/nav-links'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { default as default_1e2964ad239735bf50e5e57739acfc0d } from '../../../payload/views/my-custom-view.tsx'
+import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 
 export const importMap = {
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
@@ -79,5 +80,6 @@ export const importMap = {
   "./components/logo.tsx#default": default_a00caba113209666e61d893d06127258,
   "./components/nav-links#LinkToCustomView": LinkToCustomView_467709ff245671dd3f36b52036d3076b,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
-  "./views/my-custom-view.tsx#default": default_1e2964ad239735bf50e5e57739acfc0d
+  "./views/my-custom-view.tsx#default": default_1e2964ad239735bf50e5e57739acfc0d,
+  "@payloadcms/ui/rsc#CollectionCards": CollectionCards_ab83ff7e88da8d3530831f296ec4756a
 }
