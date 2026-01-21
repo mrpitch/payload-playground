@@ -8,7 +8,7 @@
 		"build": "cross-env NODE_OPTIONS=--no-deprecation next build",
 		"dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --turbopack",
 		"devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev --turbopack",
-		"dev:seed": "PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts PAYLOAD_DROP_DATABASE=true PAYLOAD_SEED=true pnpm dev",
+		"dev:seed": "PAYLOAD_CONFIG_PATH=src/payload/payload.config.ts PAYLOAD_DROP_DATABASE=true PAYLOAD_SEED=true pnpm dev --turbopack",
 		"generate:importmap": "node scripts/generate-importmap.js",
 		"generate:types": "node scripts/generate-types.js",
 		"lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",

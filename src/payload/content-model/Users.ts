@@ -23,7 +23,7 @@ export const Users: CollectionConfig = {
 		cookies: {
 			sameSite: 'None',
 			secure: true,
-			domain: process.env.COOKIE_DOMAIN,
+			domain: process.env.NEXT_PUBLIC_SERVER_URL?.split('://')[1],
 		},
 		verify: {
 			generateEmailHTML: async (args?: { req?: PayloadRequest; token?: string; user?: User }) => {
