@@ -20,5 +20,5 @@ jobs:
       - name: Fast-forward production to release tag
         run: |
           TAG="${GITHUB_REF_NAME}"      # v1.1.0
-          git checkout -B production    # branch at current HEAD (the tag commit)
-          git push origin production --force-with-lease
+          git checkout -B main    # branch at current HEAD (the tag commit)
+          git push origin main --force-with-lease

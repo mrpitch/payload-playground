@@ -21,7 +21,8 @@
 		"db:dump:local": "bash ./scripts/pg-dump-local-db.sh .env",
 		"db:restore": "bash ./scripts/pg-restore-backup.sh",
 		"analyze": "cross-env ANALYZE=true NODE_OPTIONS=--no-deprecation next build",
-		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml; rm -rf .next"
+		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml; rm -rf .next",
+		"deploy:release": "bash ./scripts/deploy-release.sh"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^4.1.2",
