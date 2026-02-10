@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "mrp-nextjs@mrp-nextjs-plugins": true
+  }
+}
