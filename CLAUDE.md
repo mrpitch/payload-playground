@@ -70,7 +70,7 @@ No test framework is currently configured.
 
 ### Path Aliases (tsconfig)
 
-```
+```text
 @/*          → src/*
 @/app/*      → src/app/(app)/*
 @/components/* → src/components/*
