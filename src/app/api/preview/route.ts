@@ -1,4 +1,4 @@
-import { draftMode } from 'next/headers'
+import { cookies, draftMode } from 'next/headers'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
 	const searchParams = nextUrl.searchParams
 	const slug = searchParams.get('slug')
 	const path = searchParams.get('path')
-	const secret = searchParams.get('secret')
 	const user = await getSession()
 
 	if (!user) {
@@ -22,14 +21,26 @@ export async function GET(request: NextRequest) {
 		return new Response('Unauthorized', { status: 401 })
 	}
 
-	if (secret !== previewSecret) {
+	const cookieStore = await cookies()
+	const secret = cookieStore.get('__preview_secret')?.value
+	cookieStore.delete('__preview_secret')
+
+	if (!secret || secret !== previewSecret) {
 		return new Response('Unauthorized', { status: 401 })
+	}
+
+	const allowedPaths = ['posts', 'pages', 'docs']
+	if (!path || !allowedPaths.includes(path)) {
+		return new Response('Invalid path', { status: 400 })
+	}
+
+	if (!slug || !/^[\w-]+$/.test(slug)) {
+		return new Response('Invalid slug', { status: 400 })
 	}
 
 	// Enable Draft Mode by setting the cookie
 	const draft = await draftMode()
 	draft.enable()
-	//console.log('draft', draft)
 
 	return NextResponse.redirect(new URL(`${baseUrl}/${path}/${slug}`, nextUrl))
 }

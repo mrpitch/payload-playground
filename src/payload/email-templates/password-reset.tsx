@@ -29,7 +29,7 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 
 	return (
 		<Html>
-			<Tailwind config={theme}>
+			<Tailwind config={{ theme }}>
 				<Head />
 				<Body
 					className={cn(

@@ -30,7 +30,6 @@ const onAcceptCallback = () => {
 		`SameSite=Lax`,
 		`Secure`,
 	].join('; ')
-	console.log('Accept')
 }
 
 const onDeclineCallback = () => {
@@ -41,7 +40,6 @@ const onDeclineCallback = () => {
 		`SameSite=Lax`,
 		`Secure`,
 	].join('; ')
-	console.log('Decline')
 }
 
 const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(

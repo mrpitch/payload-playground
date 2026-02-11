@@ -7,14 +7,13 @@ import { formMessages } from '@/lib/utils/constants'
 
 export async function verifyEmail(token: string) {
 	const {
-		error: { tokenMissing, tokenNotExists, failedToVerify },
+		error: { tokenNotExists, failedToVerify },
 		success: { emailVerified },
 	} = formMessages
 	let result = false
 	let message = ''
 
 	if (!token || typeof token !== 'string') {
-		console.log(tokenMissing)
 		redirect('/')
 	}
 

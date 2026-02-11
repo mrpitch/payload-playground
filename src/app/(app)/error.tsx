@@ -14,7 +14,6 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
 		})
 	}
 	const { message } = error
-	console.log('message', message)
 	return (
 		<FormContainer title={message}>
 			<div className="flex flex-col gap-4">

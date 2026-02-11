@@ -29,7 +29,6 @@ const renderBlock = (block: TEmailImageTextBlock | TEmailGalleryBlock, index: nu
 				</Fragment>
 			)
 		default:
-			console.log('No component found for block:', { blockType })
 			return null
 	}
 }
@@ -38,7 +37,6 @@ export const RenderEmailBlocks: React.FC<IRenderBlocksProps> = ({ blocks }) => {
 	const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
 	if (!hasBlocks) {
-		console.log('No blocks to render:', { blocks, hasBlocks })
 		return null
 	}
 

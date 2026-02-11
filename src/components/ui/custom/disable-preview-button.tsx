@@ -1,11 +1,8 @@
 'use client'
-import { usePathname } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
 export function DisablePreviewButton() {
-	const pathname = usePathname()
-	console.log('pathname', pathname)
 	const handleDisablePreview = async () => {
 		try {
 			await fetch('/api/preview/disable', { method: 'GET' })

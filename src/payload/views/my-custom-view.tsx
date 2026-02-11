@@ -23,7 +23,6 @@ export function MyCustomView({ initPageResult, params, searchParams }: AdminView
 			</div>
 		)
 	}
-	console.log('initPageResult', initPageResult)
 	return (
 		<DefaultTemplate
 			i18n={i18n}

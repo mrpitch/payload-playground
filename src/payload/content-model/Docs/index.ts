@@ -209,8 +209,6 @@ export const Docs: CollectionConfig = {
 					({ req, value }) => {
 						// If there's no author set and we have a user
 						if (!value && req.user) {
-							console.log('value', value)
-							console.log('req', req.user)
 							return req.user.id
 						}
 						return value

@@ -53,8 +53,7 @@ export async function login(data: TLoginForm) {
 			})
 			return { success: true }
 		}
-	} catch (error) {
-		console.log('error', error)
+	} catch (_error) {
 		return { error: somethingWrong }
 	}
 }

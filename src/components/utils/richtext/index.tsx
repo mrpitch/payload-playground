@@ -29,8 +29,10 @@ const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConvert
 	},
 })
 
+export type TRichTextData = DefaultTypedEditorState
+
 type Props = {
-	data: DefaultTypedEditorState
+	data: TRichTextData
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const RichText = (props: Props) => {

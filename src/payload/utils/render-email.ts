@@ -4,6 +4,8 @@ import { render } from '@react-email/render'
 import type { PayloadRequest } from 'payload'
 import { ReactElement } from 'react'
 
+import { defaultEmailValues } from '@/payload/types/email-templates'
+
 interface EmailTemplateProps {
 	url: string
 	email: string
@@ -60,7 +62,7 @@ export const renderEMail = async (args?: {
 	const salutation = data?.[type]?.Template?.salutation || ''
 	const copy = data?.[type]?.Template?.copy || ''
 	const buttonLabel = data?.[type]?.Template?.buttonLabel || ''
-	const footer = data?.footer?.content || ''
+	const footer = (data?.footer?.content || defaultEmailValues.footer) as DefaultTypedEditorState
 
 	return await render(
 		EmailTemplate({

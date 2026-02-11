@@ -3,17 +3,15 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	typescript: {
-		// TEMP: allow build to pass while seed scripts are being fixed
-		ignoreBuildErrors: true,
-	},
-	turbopack: {
+turbopack: {
 		resolveAlias: {
 			'@/*': './src/*',
 		},
 	},
 	images: {
 		dangerouslyAllowSVG: true,
+		contentDispositionType: 'attachment',
+		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
 		deviceSizes: [640, 750, 828, 1080, 1200, 1920],
 		remotePatterns: [
 			{
@@ -38,6 +36,41 @@ const nextConfig = {
 	webpack: (config) => {
 		process.setMaxListeners(20)
 		return config
+	},
+	async headers() {
+		return [
+			{
+				source: '/:path*',
+				headers: [
+					{ key: 'X-Frame-Options', value: 'DENY' },
+					{ key: 'X-Content-Type-Options', value: 'nosniff' },
+					{ key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+					{
+						key: 'Strict-Transport-Security',
+						value: 'max-age=31536000; includeSubDomains',
+					},
+					{
+						key: 'Permissions-Policy',
+						value: 'camera=(), microphone=(), geolocation=()',
+					},
+					{
+						key: 'Content-Security-Policy',
+						value: [
+							"default-src 'self'",
+							"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com",
+							"style-src 'self' 'unsafe-inline'",
+							"img-src 'self' data: blob: https://assets.mrpitch.rocks https://img.youtube.com",
+							"font-src 'self'",
+							"frame-src 'self' https://www.youtube.com",
+							"connect-src 'self'",
+							"object-src 'none'",
+							"base-uri 'self'",
+							"form-action 'self'",
+						].join('; '),
+					},
+				],
+			},
+		]
 	},
 }
 

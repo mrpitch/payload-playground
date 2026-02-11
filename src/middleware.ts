@@ -7,21 +7,25 @@ export function middleware(req: NextRequest) {
 
 	// Check for preview mode
 	const isPreview = req.cookies.get('__next_preview_data') || req.cookies.get('__prerender_bypass')
-	//console.log('isPreview', !isPreview)
-	//console.log('pathname', pathname)
+
 	// If not in preview mode and trying to access preview content
 	if (!isPreview && pathname.startsWith('/preview')) {
-		//console.log('isPreview', isPreview)
 		const path = searchParams.get('path') || ''
 		const slug = searchParams.get('slug') || ''
-		const secret = previewSecret || ''
 
-		// Redirect to preview API
+		// Redirect to preview API with secret in cookie (not URL)
 		const apiUrl = new URL('/api/preview', baseUrl)
-		apiUrl.searchParams.set('secret', secret)
 		apiUrl.searchParams.set('path', path)
 		apiUrl.searchParams.set('slug', slug)
-		return NextResponse.redirect(new URL(apiUrl, req.url))
+		const response = NextResponse.redirect(new URL(apiUrl, req.url))
+		response.cookies.set('__preview_secret', previewSecret || '', {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			maxAge: 60,
+			path: '/api/preview',
+		})
+		return response
 	}
 
 	// If in preview mode, rewrite the URL to show the actual content
@@ -29,7 +33,6 @@ export function middleware(req: NextRequest) {
 		const newPathname = pathname === '/preview' ? '/' : pathname.replace(/^\/preview/, '')
 		const rewrittenUrl = req.nextUrl.clone()
 		rewrittenUrl.pathname = newPathname
-		//console.log('rewrittenUrl', rewrittenUrl)
 		return NextResponse.rewrite(rewrittenUrl)
 	}
 

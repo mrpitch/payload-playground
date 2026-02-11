@@ -44,7 +44,6 @@ export function FormChangePassword({ token }: { token: string }) {
 	const onSubmit = async (values: TChangePasswordForm) => {
 		await changePassword(values, token).then((res) => {
 			const formError = res?.error
-			console.log('formError', formError)
 			if (formError) {
 				setError('root.serverError', {
 					type: 'server',

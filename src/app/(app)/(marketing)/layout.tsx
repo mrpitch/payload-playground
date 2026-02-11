@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/header'
 import { NavigationProvider } from '@/components/layout/nav/nav-provider.server'
 import { getNavData } from '@/lib/utils/navigation'
 
-export default async function RootLayout({ children }: { children: React.JSX.Element }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const navData = await getNavData()
 	const { settings } = navData
 

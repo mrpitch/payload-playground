@@ -82,6 +82,7 @@ export const defaultEmailValues: TDefaultEmailValues = {
 					direction: null,
 					format: '',
 					indent: 0,
+					textFormat: 0,
 					type: 'paragraph',
 					version: 1,
 				},

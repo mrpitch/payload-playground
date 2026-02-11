@@ -27,14 +27,11 @@ export async function resetPassword(data: TResetPasswordForm) {
 
 	const payload = await getPayload({ config })
 
-	// Returned token will allow for a password reset
-	const token = await payload.forgotPassword({
+	await payload.forgotPassword({
 		collection: 'users', // required
 		data: {
 			email: email,
 		},
 	})
-	console.log('url:', `http://localhost:3000/change-password?token=${token}`)
-
 	return { success: emailResetSend }
 }

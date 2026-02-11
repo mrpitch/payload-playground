@@ -17,7 +17,7 @@ import { Badge } from '@/components/ui/badge'
 import { Icon } from '@/components/ui/custom/icons'
 import { Typography } from '@/components/ui/custom/typography'
 import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
-import { RichText } from '@/components/utils/richtext'
+import { RichText, type TRichTextData } from '@/components/utils/richtext'
 import { getSession } from '@/lib/actions/get-session'
 import { TGenerateMeta } from '@/lib/types'
 import { generateMeta } from '@/lib/utils/generateMeta'
@@ -147,7 +147,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 					) : null}
 					{copy ? (
 						<RichText
-							data={copy}
+							data={copy as TRichTextData}
 							className="prose w-full prose-headings:scroll-mt-36 @5xl/docs:prose-headings:scroll-mt-20"
 						/>
 					) : null}

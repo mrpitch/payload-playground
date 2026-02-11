@@ -10,5 +10,8 @@ export async function GET(request: NextRequest) {
 	const draft = await draftMode()
 	draft.disable()
 
-	return NextResponse.redirect(new URL(redirectUrl || '/', nextUrl))
+	// Validate redirect is a relative path (prevent open redirect)
+	const safePath = redirectUrl?.startsWith('/') && !redirectUrl.startsWith('//') ? redirectUrl : '/'
+
+	return NextResponse.redirect(new URL(safePath, nextUrl))
 }
