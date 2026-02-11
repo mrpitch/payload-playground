@@ -12,23 +12,23 @@ export async function DocsPrevNextNav({
 	next: FlatDoc | null
 }) {
 	return (
-		<div className="border-border mt-12 grid grid-cols-1 gap-4 border-t pt-8 md:grid-cols-2">
+		<div className="mt-12 grid grid-cols-1 gap-4 border-t border-border pt-8 md:grid-cols-2">
 			{/* Previous Link */}
 			<div className="flex">
 				{previous ? (
 					<Link href={previous.href} className="w-full">
-						<Card className="group hover:bg-card/80 border-border/50 hover:border-border h-full cursor-pointer transition-all duration-200">
+						<Card className="group h-full cursor-pointer border-border/50 transition-all duration-200 hover:border-border hover:bg-card/80">
 							<CardContent className="p-6">
 								<div className="flex items-center gap-3">
 									<Icon
 										iconName="arrowLeft"
-										className="text-muted-foreground group-hover:text-foreground h-5 w-5 flex-shrink-0 transition-all group-hover:-translate-x-1"
+										className="h-5 w-5 flex-shrink-0 text-muted-foreground transition-all group-hover:-translate-x-1 group-hover:text-foreground"
 									/>
 									<div className="flex flex-col gap-1">
-										<span className="text-muted-foreground text-xs tracking-wide uppercase">
+										<span className="text-xs tracking-wide text-muted-foreground uppercase">
 											Previous
 										</span>
-										<span className="text-foreground group-hover:text-primary text-sm font-medium transition-colors">
+										<span className="text-sm font-medium text-foreground transition-colors group-hover:text-primary">
 											{previous.label}
 										</span>
 									</div>
@@ -45,20 +45,20 @@ export async function DocsPrevNextNav({
 			<div className="flex">
 				{next ? (
 					<Link href={next.href} className="w-full">
-						<Card className="group hover:bg-card/80 border-border/50 hover:border-border h-full cursor-pointer transition-all duration-200">
+						<Card className="group h-full cursor-pointer border-border/50 transition-all duration-200 hover:border-border hover:bg-card/80">
 							<CardContent className="p-6">
 								<div className="flex items-center justify-end gap-3">
 									<div className="flex flex-col gap-1 text-right">
-										<span className="text-muted-foreground text-xs tracking-wide uppercase">
+										<span className="text-xs tracking-wide text-muted-foreground uppercase">
 											Next
 										</span>
-										<span className="text-foreground group-hover:text-primary text-sm font-medium transition-colors">
+										<span className="text-sm font-medium text-foreground transition-colors group-hover:text-primary">
 											{next.label}
 										</span>
 									</div>
 									<Icon
 										iconName="arrowRight"
-										className="text-muted-foreground group-hover:text-foreground h-5 w-5 flex-shrink-0 transition-all group-hover:translate-x-1"
+										className="h-5 w-5 flex-shrink-0 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-foreground"
 									/>
 								</div>
 							</CardContent>

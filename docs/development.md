@@ -5,6 +5,7 @@ This guide covers development practices, coding standards, and best practices fo
 ## Development Principles
 
 ### **Core Guidelines**
+
 - Follow user requirements carefully & to the letter
 - Think step-by-step: describe plan in pseudocode with great detail
 - Confirm approach, then write code
@@ -24,9 +25,9 @@ This guide covers development practices, coding standards, and best practices fo
 ```typescript
 // ✅ Good: Use interfaces for object shapes
 interface TUserProps {
-  id: string
-  name: string
-  email: string
+	id: string
+	name: string
+	email: string
 }
 
 // ✅ Good: Type naming convention
@@ -34,8 +35,8 @@ type TUserRole = 'admin' | 'editor' | 'user'
 
 // ❌ Bad: Avoid enums, use literal types
 enum UserRole {
-  ADMIN = 'admin',
-  EDITOR = 'editor'
+	ADMIN = 'admin',
+	EDITOR = 'editor',
 }
 ```
 
@@ -51,7 +52,7 @@ interface TButtonProps {
 
 export function Button({ variant, children, onClick }: TButtonProps) {
   return (
-    <button 
+    <button
       className={`btn btn-${variant}`}
       onClick={onClick}
     >
@@ -75,6 +76,7 @@ const BUTTON_VARIANTS = ['primary', 'secondary'] as const
 ```
 
 ### **Naming Conventions**
+
 - **Directories**: `kebab-case` (e.g., `components/auth-wizard`)
 - **Files**: `kebab-case.tsx` for components
 - **Types**: `T{DescriptiveName}` (e.g., `TUserProps`, `TApiResponse`)
@@ -90,7 +92,7 @@ const BUTTON_VARIANTS = ['primary', 'secondary'] as const
 // ✅ Good: Server Component (default)
 export default function UserProfile({ userId }: { userId: string }) {
   const user = await getUser(userId) // Server-side data fetching
-  
+
   return (
     <div>
       <h1>{user.name}</h1>
@@ -103,7 +105,7 @@ export default function UserProfile({ userId }: { userId: string }) {
 'use client'
 export function InteractiveButton() {
   const [count, setCount] = useState(0)
-  
+
   return (
     <button onClick={() => setCount(c => c + 1)}>
       Count: {count}
@@ -117,17 +119,17 @@ export function InteractiveButton() {
 ```typescript
 // ✅ Good: Server-side data fetching
 async function getUsers(): Promise<TUser[]> {
-  const response = await fetch('/api/users')
-  return response.json()
+	const response = await fetch('/api/users')
+	return response.json()
 }
 
 // ✅ Good: Client-side with React Query
 function useUsers() {
-  return useQuery({
-    queryKey: ['users'],
-    queryFn: getUsers,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  })
+	return useQuery({
+		queryKey: ['users'],
+		queryFn: getUsers,
+		staleTime: 5 * 60 * 1000, // 5 minutes
+	})
 }
 ```
 
@@ -136,24 +138,27 @@ function useUsers() {
 ```typescript
 // ✅ Good: Early returns and guard clauses
 function processUser(user: TUser | null): string {
-  if (!user) {
-    return 'No user provided'
-  }
-  
-  if (!user.email) {
-    return 'User email is required'
-  }
-  
-  // Process user
-  return `Processing ${user.email}`
+	if (!user) {
+		return 'No user provided'
+	}
+
+	if (!user.email) {
+		return 'User email is required'
+	}
+
+	// Process user
+	return `Processing ${user.email}`
 }
 
 // ✅ Good: Custom error types
 class TValidationError extends Error {
-  constructor(message: string, public field: string) {
-    super(message)
-    this.name = 'ValidationError'
-  }
+	constructor(
+		message: string,
+		public field: string,
+	) {
+		super(message)
+		this.name = 'ValidationError'
+	}
 }
 ```
 
@@ -225,17 +230,17 @@ const buttonVariants = cva(
 ```typescript
 // ✅ Good: Type-safe store
 interface TUserStore {
-  user: TUser | null
-  isLoading: boolean
-  setUser: (user: TUser | null) => void
-  setLoading: (loading: boolean) => void
+	user: TUser | null
+	isLoading: boolean
+	setUser: (user: TUser | null) => void
+	setLoading: (loading: boolean) => void
 }
 
 export const useUserStore = create<TUserStore>((set) => ({
-  user: null,
-  isLoading: false,
-  setUser: (user) => set({ user }),
-  setLoading: (isLoading) => set({ isLoading }),
+	user: null,
+	isLoading: false,
+	setUser: (user) => set({ user }),
+	setLoading: (isLoading) => set({ isLoading }),
 }))
 ```
 
@@ -248,11 +253,11 @@ import { useQueryState } from 'nuqs'
 function SearchPage() {
   const [query, setQuery] = useQueryState('q', { defaultValue: '' })
   const [page, setPage] = useQueryState('page', { defaultValue: '1' })
-  
+
   return (
     <div>
-      <input 
-        value={query} 
+      <input
+        value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search..."
       />
@@ -303,16 +308,16 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ```typescript
 // ✅ Good: Zod schema validation
 const userSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  name: z.string().min(1),
+	email: z.string().email(),
+	password: z.string().min(8),
+	name: z.string().min(1),
 })
 
 type TUserInput = z.infer<typeof userSchema>
 
 function createUser(input: unknown): TUser {
-  const validatedInput = userSchema.parse(input)
-  // Process validated input
+	const validatedInput = userSchema.parse(input)
+	// Process validated input
 }
 ```
 
@@ -322,13 +327,13 @@ function createUser(input: unknown): TUser {
 // ✅ Good: CSRF tokens in forms
 function ContactForm() {
   const [csrfToken, setCsrfToken] = useState('')
-  
+
   useEffect(() => {
     fetch('/api/csrf-token')
       .then(res => res.json())
       .then(data => setCsrfToken(data.token))
   }, [])
-  
+
   return (
     <form action="/api/contact" method="POST">
       <input type="hidden" name="csrf_token" value={csrfToken} />
@@ -352,11 +357,11 @@ describe('Button Component', () => {
     render(<Button>Click me</Button>)
     expect(screen.getByText('Click me')).toBeInTheDocument()
   })
-  
+
   it('calls onClick when clicked', () => {
     const handleClick = jest.fn()
     render(<Button onClick={handleClick}>Click me</Button>)
-    
+
     fireEvent.click(screen.getByText('Click me'))
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
@@ -378,6 +383,7 @@ describe('Button Component', () => {
 **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `revert`
 
 **Examples**:
+
 ```
 feat(auth): implement JWT authentication
 fix(api): resolve race condition in user sessions
@@ -385,6 +391,7 @@ docs(readme): update deployment instructions
 ```
 
 ### **Branch Naming**
+
 - `feature/*` - New features
 - `fix/*` - Bug fixes
 - `hotfix/*` - Urgent fixes
@@ -395,15 +402,15 @@ docs(readme): update deployment instructions
 
 ### **Component Documentation**
 
-```typescript
+````typescript
 /**
  * Button component with multiple variants and sizes
- * 
+ *
  * @param variant - Visual style variant
  * @param size - Button size
  * @param children - Button content
  * @param onClick - Click handler
- * 
+ *
  * @example
  * ```tsx
  * <Button variant="primary" size="lg" onClick={handleClick}>
@@ -412,9 +419,9 @@ docs(readme): update deployment instructions
  * ```
  */
 export function Button({ variant, size, children, onClick }: TButtonProps) {
-  // Implementation
+	// Implementation
 }
-```
+````
 
 ### **API Documentation**
 
@@ -427,7 +434,7 @@ export function Button({ variant, size, children, onClick }: TButtonProps) {
  * @throws {ValidationError} When input validation fails
  */
 export async function POST(request: Request) {
-  // Implementation
+	// Implementation
 }
 ```
 
@@ -480,7 +487,7 @@ function processData(data: unknown): string {
   if (!data || typeof data !== 'object') {
     throw new Error('Invalid data provided')
   }
-  
+
   return (data as any).someProperty || 'default'
 }
 

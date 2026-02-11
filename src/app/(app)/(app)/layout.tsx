@@ -39,8 +39,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
 				</NavigationProvider>
 			</Suspense>
 			<SidebarInset>
-				<header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4">
-					<SidebarTrigger className="text-foreground -ml-1" />
+				<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
+					<SidebarTrigger className="-ml-1 text-foreground" />
 					<Separator orientation="vertical" className="mr-2 data-[orientation=vertical]:h-4" />
 					<Breadcrumb>
 						<BreadcrumbList>

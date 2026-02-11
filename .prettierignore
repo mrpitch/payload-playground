@@ -1,0 +1,18 @@
+# Build artifacts
+.next
+out
+build
+dist
+
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Generated files
+src/payload/payload-types.ts
+src/payload/importmap.js
+
+# Other
+.env*
+.git
+.memory

@@ -5,6 +5,7 @@ This document provides a comprehensive guide to all environment variables used i
 ## Environment Setup
 
 ### Development Environment
+
 Copy the example environment file and configure your variables:
 
 ```bash
@@ -12,104 +13,105 @@ cp .env.example .env
 ```
 
 ### Production Environment
+
 Set environment variables in your deployment platform (Vercel, Docker, etc.).
 
 ## Required Variables
 
 ### Database Configuration
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `DATABASE_URI` | `postgres://payload_db_user:payload_db_pw@127.0.0.1:5432/db_payload_dev` | PostgreSQL connection string | ✅ |
-| `DATABASE_CLIENT` | `postgres` | Database client type | ✅ |
-| `DATABASE_HOST` | `localhost` | Database host | ✅ |
-| `DATABASE_PORT` | `5432` | Database port | ✅ |
-| `DATABASE_USERNAME` | `payload_db_user` | Database username | ✅ |
-| `DATABASE_PASSWORD` | `payload_db_pw` | Database password | ✅ |
-| `DATABASE_NAME` | `db_payload_dev` | Database name | ✅ |
-| `DATABASE_SCHEMA` | `public` | Database schema | ✅ |
-| `DATABASE_SSL` | `false` | Enable SSL for database connection | ❌ |
+| Variable            | Default                                                                  | Description                        | Required |
+| ------------------- | ------------------------------------------------------------------------ | ---------------------------------- | -------- |
+| `DATABASE_URI`      | `postgres://payload_db_user:payload_db_pw@127.0.0.1:5432/db_payload_dev` | PostgreSQL connection string       | ✅       |
+| `DATABASE_CLIENT`   | `postgres`                                                               | Database client type               | ✅       |
+| `DATABASE_HOST`     | `localhost`                                                              | Database host                      | ✅       |
+| `DATABASE_PORT`     | `5432`                                                                   | Database port                      | ✅       |
+| `DATABASE_USERNAME` | `payload_db_user`                                                        | Database username                  | ✅       |
+| `DATABASE_PASSWORD` | `payload_db_pw`                                                          | Database password                  | ✅       |
+| `DATABASE_NAME`     | `db_payload_dev`                                                         | Database name                      | ✅       |
+| `DATABASE_SCHEMA`   | `public`                                                                 | Database schema                    | ✅       |
+| `DATABASE_SSL`      | `false`                                                                  | Enable SSL for database connection | ❌       |
 
 ### PayloadCMS Configuration
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `PAYLOAD_SECRET` | `supersecret` | Secret key for PayloadCMS authentication | ✅ |
-| `PAYLOAD_CONFIG_PATH` | `src/payload/payload.config.ts` | Path to PayloadCMS configuration | ❌ |
-| `PAYLOAD_DROP_DATABASE` | `false` | Drop database on startup (development only) | ❌ |
-| `PAYLOAD_SEED` | `false` | Seed database with initial data | ❌ |
+| Variable                | Default                         | Description                                 | Required |
+| ----------------------- | ------------------------------- | ------------------------------------------- | -------- |
+| `PAYLOAD_SECRET`        | `supersecret`                   | Secret key for PayloadCMS authentication    | ✅       |
+| `PAYLOAD_CONFIG_PATH`   | `src/payload/payload.config.ts` | Path to PayloadCMS configuration            | ❌       |
+| `PAYLOAD_DROP_DATABASE` | `false`                         | Drop database on startup (development only) | ❌       |
+| `PAYLOAD_SEED`          | `false`                         | Seed database with initial data             | ❌       |
 
 ### Next.js Configuration
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `NEXT_PUBLIC_SERVER_URL` | `http://localhost:3000` | Base URL for the application | ✅ |
-| `NEXT_PUBLIC_ASSETS_PATH` | `http://localhost:3000` | Base URL for static assets | ✅ |
-| `NEXT_PUBLIC_IMAGE_URL` | - | URL for image CDN | ❌ |
-| `NEXT_PUBLIC_REVALIDATE` | `60` | Cache revalidation time in seconds | ❌ |
-| `NEXT_PUBLIC_GA_ID` | - | Google Analytics ID | ❌ |
-| `NEXT_PUBLIC_GTM_ID` | - | Google Tag Manager ID | ❌ |
+| Variable                  | Default                 | Description                        | Required |
+| ------------------------- | ----------------------- | ---------------------------------- | -------- |
+| `NEXT_PUBLIC_SERVER_URL`  | `http://localhost:3000` | Base URL for the application       | ✅       |
+| `NEXT_PUBLIC_ASSETS_PATH` | `http://localhost:3000` | Base URL for static assets         | ✅       |
+| `NEXT_PUBLIC_IMAGE_URL`   | -                       | URL for image CDN                  | ❌       |
+| `NEXT_PUBLIC_REVALIDATE`  | `60`                    | Cache revalidation time in seconds | ❌       |
+| `NEXT_PUBLIC_GA_ID`       | -                       | Google Analytics ID                | ❌       |
+| `NEXT_PUBLIC_GTM_ID`      | -                       | Google Tag Manager ID              | ❌       |
 
 ## Optional Variables
 
 ### AWS S3 Configuration
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `AWS_S3_REGION` | `eu-central-1` | AWS region for S3 | ❌ |
-| `AWS_S3_BUCKET_NAME` | - | S3 bucket name | ❌ |
-| `AWS_S3_ACCESS_KEY_ID` | - | AWS access key ID | ❌ |
-| `AWS_S3_SECRET_ACCESS_KEY` | - | AWS secret access key | ❌ |
-| `AWS_S3_BUCKET_PREFIX` | `payloadcms-playground` | Prefix for S3 bucket objects | ❌ |
+| Variable                   | Default                 | Description                  | Required |
+| -------------------------- | ----------------------- | ---------------------------- | -------- |
+| `AWS_S3_REGION`            | `eu-central-1`          | AWS region for S3            | ❌       |
+| `AWS_S3_BUCKET_NAME`       | -                       | S3 bucket name               | ❌       |
+| `AWS_S3_ACCESS_KEY_ID`     | -                       | AWS access key ID            | ❌       |
+| `AWS_S3_SECRET_ACCESS_KEY` | -                       | AWS secret access key        | ❌       |
+| `AWS_S3_BUCKET_PREFIX`     | `payloadcms-playground` | Prefix for S3 bucket objects | ❌       |
 
 ### Email Configuration (Resend)
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `RESEND_API_KEY` | - | Resend API key for email service | ❌ |
-| `RESEND_FROM_EMAIL` | - | Default sender email address | ❌ |
-| `RESEND_FROM_NAME` | `Payloadcms Playground` | Default sender name | ❌ |
+| Variable            | Default                 | Description                      | Required |
+| ------------------- | ----------------------- | -------------------------------- | -------- |
+| `RESEND_API_KEY`    | -                       | Resend API key for email service | ❌       |
+| `RESEND_FROM_EMAIL` | -                       | Default sender email address     | ❌       |
+| `RESEND_FROM_NAME`  | `Payloadcms Playground` | Default sender name              | ❌       |
 
 ### Vercel Configuration
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `VERCEL_PROJECT_PRODUCTION_URL` | - | Vercel production URL | ❌ |
-| `VERCEL_URL` | - | Vercel deployment URL (auto-set) | ❌ |
+| Variable                        | Default | Description                      | Required |
+| ------------------------------- | ------- | -------------------------------- | -------- |
+| `VERCEL_PROJECT_PRODUCTION_URL` | -       | Vercel production URL            | ❌       |
+| `VERCEL_URL`                    | -       | Vercel deployment URL (auto-set) | ❌       |
 
 ### Cookie Configuration
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `COOKIE_DOMAIN` | `localhost` | Domain for cookie storage | ❌ |
-| `COOKIE_SECURE` | `false` | Use secure cookies (HTTPS only) | ❌ |
-| `COOKIE_SAME_SITE` | `lax` | SameSite cookie attribute | ❌ |
+| Variable           | Default     | Description                     | Required |
+| ------------------ | ----------- | ------------------------------- | -------- |
+| `COOKIE_DOMAIN`    | `localhost` | Domain for cookie storage       | ❌       |
+| `COOKIE_SECURE`    | `false`     | Use secure cookies (HTTPS only) | ❌       |
+| `COOKIE_SAME_SITE` | `lax`       | SameSite cookie attribute       | ❌       |
 
 ### Redis Configuration (Optional)
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `REDIS_URL` | - | Redis connection URL for caching | ❌ |
-| `UPSTASH_REDIS_REST_URL` | - | Upstash Redis REST URL | ❌ |
-| `UPSTASH_REDIS_REST_TOKEN` | - | Upstash Redis REST token | ❌ |
+| Variable                   | Default | Description                      | Required |
+| -------------------------- | ------- | -------------------------------- | -------- |
+| `REDIS_URL`                | -       | Redis connection URL for caching | ❌       |
+| `UPSTASH_REDIS_REST_URL`   | -       | Upstash Redis REST URL           | ❌       |
+| `UPSTASH_REDIS_REST_TOKEN` | -       | Upstash Redis REST token         | ❌       |
 
 ### Monitoring & Analytics
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `SENTRY_DSN` | - | Sentry DSN for error tracking | ❌ |
-| `SENTRY_ORG` | - | Sentry organization | ❌ |
-| `SENTRY_PROJECT` | - | Sentry project | ❌ |
-| `SENTRY_AUTH_TOKEN` | - | Sentry auth token | ❌ |
+| Variable            | Default | Description                   | Required |
+| ------------------- | ------- | ----------------------------- | -------- |
+| `SENTRY_DSN`        | -       | Sentry DSN for error tracking | ❌       |
+| `SENTRY_ORG`        | -       | Sentry organization           | ❌       |
+| `SENTRY_PROJECT`    | -       | Sentry project                | ❌       |
+| `SENTRY_AUTH_TOKEN` | -       | Sentry auth token             | ❌       |
 
 ### Development Tools
 
-| Variable | Default | Description | Required |
-|----------|---------|-------------|----------|
-| `NODE_ENV` | `development` | Node.js environment | ❌ |
-| `NODE_OPTIONS` | - | Node.js options | ❌ |
-| `ANALYZE` | `false` | Enable bundle analysis | ❌ |
-| `IGNORE_LOCAL_FONT` | `false` | Ignore local fonts | ❌ |
+| Variable            | Default       | Description            | Required |
+| ------------------- | ------------- | ---------------------- | -------- |
+| `NODE_ENV`          | `development` | Node.js environment    | ❌       |
+| `NODE_OPTIONS`      | -             | Node.js options        | ❌       |
+| `ANALYZE`           | `false`       | Enable bundle analysis | ❌       |
+| `IGNORE_LOCAL_FONT` | `false`       | Ignore local fonts     | ❌       |
 
 ## Environment-Specific Configurations
 
@@ -205,6 +207,7 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
 ### Secret Management
 
 1. **Never commit secrets to version control**
+
    ```bash
    # Add to .gitignore
    .env
@@ -213,6 +216,7 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
    ```
 
 2. **Use strong, unique secrets**
+
    ```bash
    # Generate secure secrets
    openssl rand -base64 32
@@ -234,10 +238,10 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
 import { z } from 'zod'
 
 const envSchema = z.object({
-  DATABASE_URI: z.string().url(),
-  PAYLOAD_SECRET: z.string().min(32),
-  NEXT_PUBLIC_SERVER_URL: z.string().url(),
-  // ... other variables
+	DATABASE_URI: z.string().url(),
+	PAYLOAD_SECRET: z.string().min(32),
+	NEXT_PUBLIC_SERVER_URL: z.string().url(),
+	// ... other variables
 })
 
 export const env = envSchema.parse(process.env)
@@ -249,6 +253,7 @@ export const env = envSchema.parse(process.env)
 
 1. **Set environment variables in Vercel dashboard**
 2. **Use Vercel's built-in Postgres**
+
    ```bash
    vercel storage create postgres
    vercel env pull .env.local
@@ -257,12 +262,12 @@ export const env = envSchema.parse(process.env)
 3. **Configure preview deployments**
    ```json
    {
-     "git": {
-       "deploymentEnabled": {
-         "main": true,
-         "preview": true
-       }
-     }
+   	"git": {
+   		"deploymentEnabled": {
+   			"main": true,
+   			"preview": true
+   		}
+   	}
    }
    ```
 
@@ -307,6 +312,7 @@ echo "PAYLOAD_SECRET=..." >> .env
 ### Common Issues
 
 #### Database Connection Errors
+
 ```bash
 # Check database connection
 psql $DATABASE_URI -c "SELECT version();"
@@ -318,6 +324,7 @@ echo $DATABASE_PORT
 ```
 
 #### Missing Environment Variables
+
 ```bash
 # Check if variables are set
 env | grep DATABASE
@@ -326,6 +333,7 @@ env | grep NEXT_PUBLIC
 ```
 
 #### SSL Certificate Issues
+
 ```bash
 # For development, disable SSL
 DATABASE_SSL=false
@@ -341,11 +349,11 @@ DATABASE_SSL=true
 import { envSchema } from '../lib/config/env'
 
 try {
-  envSchema.parse(process.env)
-  console.log('✅ Environment variables are valid')
+	envSchema.parse(process.env)
+	console.log('✅ Environment variables are valid')
 } catch (error) {
-  console.error('❌ Environment validation failed:', error)
-  process.exit(1)
+	console.error('❌ Environment validation failed:', error)
+	process.exit(1)
 }
 ```
 

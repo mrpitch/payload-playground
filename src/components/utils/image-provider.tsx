@@ -6,12 +6,7 @@ interface ImageProviderProps {
 	width: number
 	height: number
 }
-export const ImageProvider: React.FC<ImageProviderProps> = ({
-	src,
-	alt,
-	width,
-	height,
-}) => {
+export const ImageProvider: React.FC<ImageProviderProps> = ({ src, alt, width, height }) => {
 	return (
 		<Image
 			src={`${process.env.NEXT_PUBLIC_ASSETS_PATH}${src}`}

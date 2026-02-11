@@ -82,7 +82,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 						className="relative isolate mb-4 w-full overflow-hidden rounded-lg"
 						style={{ aspectRatio: '10/3' }}
 					>
-						<div className="bg-secondary absolute inset-0 z-10" style={{ opacity: 0.1 }} />
+						<div className="absolute inset-0 z-10 bg-secondary" style={{ opacity: 0.1 }} />
 						<Image
 							src={thumbnail.url || ''}
 							alt={`Featured image for ${title}`}
@@ -128,7 +128,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 				<Typography as="h1" size="4xl">
 					{title}
 				</Typography>
-				<div className="text-muted-foreground mb-6 flex items-center gap-2">
+				<div className="mb-6 flex items-center gap-2 text-muted-foreground">
 					{typeof author !== 'number' && author?.avatar && typeof author.avatar !== 'number' ? (
 						<Image
 							src={author.avatar.url ?? '/placeholder.png'}
@@ -138,7 +138,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 							className="rounded-full"
 						/>
 					) : (
-						<Icon iconName="user" className="border-muted-foreground h-6 w-6 rounded-full border" />
+						<Icon iconName="user" className="h-6 w-6 rounded-full border border-muted-foreground" />
 					)}
 					<span className="text-sm font-medium">
 						{typeof author !== 'number' ? `${author?.firstName} ${author?.lastName}` : ''}

@@ -46,7 +46,7 @@ export const MainNav = () => {
 														className="space-y-1"
 														id={`group-folder-${item.label}-${itemIndex}`}
 													>
-														<div className="text-muted-foreground flex items-center gap-2 text-xs font-semibold tracking-wide uppercase">
+														<div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
 															{item.icon ? (
 																<Icon
 																	iconName={item.icon}
@@ -75,7 +75,7 @@ export const MainNav = () => {
 												<li key={`group-item-${item.href}-${itemIndex}`}>
 													<NavigationMenuLink
 														asChild
-														className="hover:bg-muted flex items-center gap-2 rounded-md p-2 text-sm transition-colors"
+														className="flex items-center gap-2 rounded-md p-2 text-sm transition-colors hover:bg-muted"
 													>
 														<Link href={item.href}>
 															{item.icon ? (
@@ -122,7 +122,7 @@ function ListItem({
 			<NavigationMenuLink asChild>
 				<Link href={href}>
 					<div className="text-sm leading-none font-medium">{title}</div>
-					<p className="text-muted-foreground line-clamp-2 text-sm leading-snug">{children}</p>
+					<p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
 				</Link>
 			</NavigationMenuLink>
 		</li>

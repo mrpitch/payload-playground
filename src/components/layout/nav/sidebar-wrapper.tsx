@@ -14,7 +14,7 @@ export function SidebarWrapper({ children }: ISidebarWrapperProps) {
 	return (
 		<SidebarInset
 			className={cn(
-				'bg-background relative flex w-full flex-1 flex-col transition-all duration-300',
+				'relative flex w-full flex-1 flex-col bg-background transition-all duration-300',
 				isMobile ? 'ml-0' : state === 'collapsed' ? 'md:ml-16' : 'md:ml-64',
 			)}
 		>

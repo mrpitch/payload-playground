@@ -53,7 +53,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 			<ThemeProvider>
 				<body
 					className={cn(
-						'bg-background h-full min-h-screen font-sans antialiased',
+						'h-full min-h-screen bg-background font-sans antialiased',
 						sans.variable,
 						serif.variable,
 						mono.variable,

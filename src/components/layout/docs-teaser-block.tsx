@@ -22,7 +22,7 @@ export async function DocsTeaser({
 			<Typography as="h2" className="mb-8 text-center">
 				{headline}
 			</Typography>
-			<Typography as="h4" className="text-muted-foreground mb-8 text-center">
+			<Typography as="h4" className="mb-8 text-center text-muted-foreground">
 				{subline}
 			</Typography>
 			<div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -32,12 +32,12 @@ export async function DocsTeaser({
 						href={`/docs/${doc.slug}`}
 						className="block transition-transform hover:scale-[1.02]"
 					>
-						<Card className="group hover:bg-card/80 border-border/50 hover:border-border cursor-pointer transition-all duration-200">
+						<Card className="group cursor-pointer border-border/50 transition-all duration-200 hover:border-border hover:bg-card/80">
 							<CardHeader className="pb-3">
 								<div className="mb-3 flex items-start justify-between">
 									{doc.icon ? (
-										<div className="bg-secondary group-hover:bg-accent rounded-lg p-2 transition-colors">
-											<Icon iconName={doc.icon} className="text-foreground h-5 w-5" />
+										<div className="rounded-lg bg-secondary p-2 transition-colors group-hover:bg-accent">
+											<Icon iconName={doc.icon} className="h-5 w-5 text-foreground" />
 										</div>
 									) : null}
 									{doc.categories && doc?.categories?.length > 0 ? (
@@ -53,16 +53,16 @@ export async function DocsTeaser({
 										</div>
 									) : null}
 								</div>
-								<CardTitle className="text-foreground group-hover:text-primary text-lg transition-colors">
+								<CardTitle className="text-lg text-foreground transition-colors group-hover:text-primary">
 									{doc.title}
 								</CardTitle>
 							</CardHeader>
 							<CardContent className="pt-0">
-								<CardDescription className="text-muted-foreground mb-4 text-sm leading-relaxed">
+								<CardDescription className="mb-4 text-sm leading-relaxed text-muted-foreground">
 									{doc.excerpt}
 								</CardDescription>
 								<div className="flex items-center justify-between">
-									<span className="text-muted-foreground text-xs">
+									<span className="text-xs text-muted-foreground">
 										Updated{' '}
 										{new Date(doc?.publishedAt || '').toLocaleDateString('de-DE', {
 											month: 'short',
@@ -72,7 +72,7 @@ export async function DocsTeaser({
 									</span>
 									<Icon
 										iconName="arrowRight"
-										className="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-all group-hover:translate-x-1"
+										className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-foreground"
 									/>
 								</div>
 							</CardContent>

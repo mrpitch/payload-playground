@@ -36,7 +36,7 @@ const TopImage = ({ imageUrl, headline }: IImageContentProps) => (
 const TopContent = ({ tagline, headline, copy, ctaText, ctaLink }: IContentProps) => (
 	<Section className="text-center">
 		{tagline && (
-			<Text className="text-secondary my-[16px] text-[18px] leading-[28px] font-semibold">
+			<Text className="my-[16px] text-[18px] leading-[28px] font-semibold text-secondary">
 				{tagline}
 			</Text>
 		)}
@@ -46,10 +46,10 @@ const TopContent = ({ tagline, headline, copy, ctaText, ctaLink }: IContentProps
 		>
 			{headline}
 		</Heading>
-		{copy && <Text className="text-foreground text-[16px] leading-[24px]">{copy}</Text>}
+		{copy && <Text className="text-[16px] leading-[24px] text-foreground">{copy}</Text>}
 		{ctaText && ctaLink && (
 			<Button
-				className="bg-primary mt-[16px] rounded-[8px] px-[40px] py-[12px] font-semibold text-white"
+				className="mt-[16px] rounded-[8px] bg-primary px-[40px] py-[12px] font-semibold text-white"
 				href={ctaLink}
 			>
 				{ctaText}
@@ -75,14 +75,14 @@ const SideImage = ({ imageUrl, headline }: IImageContentProps) => (
 const SideContent = ({ tagline, headline, copy, ctaText, ctaLink }: IContentProps) => (
 	<>
 		{tagline && (
-			<Text className="text-secondary m-0 mt-0 text-[16px] leading-[24px] font-semibold">
+			<Text className="m-0 mt-0 text-[16px] leading-[24px] font-semibold text-secondary">
 				{tagline}
 			</Text>
 		)}
 		<Text className="text-foreground-dark m-0 mt-[8px] text-[20px] leading-[28px] font-semibold">
 			{headline}
 		</Text>
-		{copy && <Text className="text-foreground mt-[8px] text-[16px] leading-[24px]">{copy}</Text>}
+		{copy && <Text className="mt-[8px] text-[16px] leading-[24px] text-foreground">{copy}</Text>}
 		{ctaText && ctaLink && (
 			<Link className="text-primary underline" href={ctaLink}>
 				{ctaText}

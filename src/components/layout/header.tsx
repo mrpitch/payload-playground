@@ -20,12 +20,12 @@ export async function Header({ siteName }: HeaderProps) {
 	const { isEnabled } = await draftMode()
 
 	return (
-		<div className="bg-background sticky top-0 z-50 w-full border-b">
+		<div className="sticky top-0 z-50 w-full border-b bg-background">
 			<Container as="header">
 				<div className="flex w-full items-center justify-between py-2">
 					<div className="flex gap-6 md:gap-10">
 						<Link href="/" passHref>
-							<Logo className="text-foreground -ml-1" name={siteName} />
+							<Logo className="-ml-1 text-foreground" name={siteName} />
 						</Link>
 						<Suspense fallback={<MainNavSkeleton />}>
 							<NavigationProvider>

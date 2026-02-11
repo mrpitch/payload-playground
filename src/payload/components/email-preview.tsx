@@ -151,8 +151,8 @@ export const EmailPreview = ({ type }: TEmailPreviewProps) => {
 			</div>
 			<div className="mx-auto">
 				{isLoading ? (
-					<div className="bg-background mt-[40px] flex h-[calc(100vh-140px)] w-[640px] rounded border border-solid">
-						<div className="border-accent mx-auto my-[40px] w-[640px] rounded border border-solid">
+					<div className="mt-[40px] flex h-[calc(100vh-140px)] w-[640px] rounded border border-solid bg-background">
+						<div className="mx-auto my-[40px] w-[640px] rounded border border-solid border-accent">
 							<div className="mx-auto mt-8 mb-8 flex w-10/12 flex-col space-y-3">
 								<Skeleton className="mx-auto h-[25px] w-full rounded-xl" />
 								<Skeleton className="mx-auto h-[250px] w-full rounded-xl" />
@@ -232,7 +232,7 @@ export const CodePreview = ({ html }: { html: string }) => {
 	}
 
 	return (
-		<div className="border-accent w-[640px] rounded-sm border p-4">
+		<div className="w-[640px] rounded-sm border border-accent p-4">
 			<div className="flex items-center justify-end gap-2 pb-4">
 				<Button type="button" variant="outline" size="icon" onClick={() => copyToClipboard()}>
 					{isCopied ? <Icon iconName="check" /> : <Icon iconName="clipboard" />}

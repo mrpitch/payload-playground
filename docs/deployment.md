@@ -5,6 +5,7 @@ This guide covers deployment strategies, infrastructure setup, and production co
 ## Deployment Overview
 
 The project supports multiple deployment strategies:
+
 - **Vercel** (Recommended) - Full-stack deployment with edge functions
 - **Docker** - Containerized deployment
 - **Traditional VPS** - Self-hosted deployment
@@ -12,6 +13,7 @@ The project supports multiple deployment strategies:
 ## Vercel Deployment (Recommended)
 
 ### Prerequisites
+
 - Vercel account
 - GitHub repository
 - Environment variables configured
@@ -19,6 +21,7 @@ The project supports multiple deployment strategies:
 ### Step-by-Step Deployment
 
 #### 1. Connect Repository
+
 ```bash
 # Install Vercel CLI
 npm i -g vercel
@@ -31,6 +34,7 @@ vercel link
 ```
 
 #### 2. Configure Environment Variables
+
 Set the following environment variables in Vercel dashboard:
 
 ```env
@@ -54,6 +58,7 @@ RESEND_FROM_EMAIL=noreply@yourdomain.com
 ```
 
 #### 3. Deploy
+
 ```bash
 # Deploy to production
 vercel --prod
@@ -65,23 +70,25 @@ git push origin main
 ### Vercel Configuration
 
 #### `vercel.json`
+
 ```json
 {
-  "buildCommand": "pnpm build",
-  "outputDirectory": ".next",
-  "framework": "nextjs",
-  "functions": {
-    "src/app/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
-  "env": {
-    "NODE_ENV": "production"
-  }
+	"buildCommand": "pnpm build",
+	"outputDirectory": ".next",
+	"framework": "nextjs",
+	"functions": {
+		"src/app/api/**/*.ts": {
+			"maxDuration": 30
+		}
+	},
+	"env": {
+		"NODE_ENV": "production"
+	}
 }
 ```
 
 #### Build Settings
+
 - **Framework Preset**: Next.js
 - **Build Command**: `pnpm build`
 - **Output Directory**: `.next`
@@ -90,6 +97,7 @@ git push origin main
 ## Docker Deployment
 
 ### Dockerfile
+
 ```dockerfile
 # Multi-stage build
 FROM node:20-alpine AS base
@@ -139,6 +147,7 @@ CMD ["node", "server.js"]
 ```
 
 ### Docker Compose
+
 ```yaml
 version: '3.8'
 
@@ -146,7 +155,7 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
       - DATABASE_URI=postgresql://user:password@db:5432/database
@@ -164,13 +173,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - '5432:5432'
     restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
     restart: unless-stopped
 
 volumes:
@@ -178,6 +187,7 @@ volumes:
 ```
 
 ### Build and Deploy
+
 ```bash
 # Build Docker image
 docker build -t payload-playground .
@@ -197,12 +207,14 @@ docker run -p 3000:3000 \
 ### PostgreSQL Production Setup
 
 #### Using Managed Services
+
 - **Vercel Postgres** (Recommended for Vercel)
 - **Supabase**
 - **PlanetScale**
 - **AWS RDS**
 
 #### Vercel Postgres
+
 ```bash
 # Install Vercel Postgres
 vercel storage create postgres
@@ -212,6 +224,7 @@ vercel env pull .env.local
 ```
 
 #### Manual PostgreSQL Setup
+
 ```sql
 -- Create database
 CREATE DATABASE payload_production;
@@ -224,6 +237,7 @@ GRANT ALL PRIVILEGES ON DATABASE payload_production TO payload_user;
 ```
 
 ### Database Migrations
+
 ```bash
 # Generate migration
 pnpm payload migrate:create
@@ -240,6 +254,7 @@ pnpm payload seed
 ### AWS S3 Configuration
 
 #### 1. Create S3 Bucket
+
 ```bash
 # Using AWS CLI
 aws s3 mb s3://your-bucket-name --region eu-central-1
@@ -251,38 +266,37 @@ aws s3api put-bucket-versioning \
 ```
 
 #### 2. Configure CORS
+
 ```json
 {
-  "CORSRules": [
-    {
-      "AllowedHeaders": ["*"],
-      "AllowedMethods": ["GET", "PUT", "POST", "DELETE"],
-      "AllowedOrigins": ["https://yourdomain.com"],
-      "ExposeHeaders": ["ETag"]
-    }
-  ]
+	"CORSRules": [
+		{
+			"AllowedHeaders": ["*"],
+			"AllowedMethods": ["GET", "PUT", "POST", "DELETE"],
+			"AllowedOrigins": ["https://yourdomain.com"],
+			"ExposeHeaders": ["ETag"]
+		}
+	]
 }
 ```
 
 #### 3. Create IAM User
+
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "s3:GetObject",
-        "s3:PutObject",
-        "s3:DeleteObject"
-      ],
-      "Resource": "arn:aws:s3:::your-bucket-name/*"
-    }
-  ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+			"Resource": "arn:aws:s3:::your-bucket-name/*"
+		}
+	]
 }
 ```
 
 ### CloudFront CDN Setup
+
 ```bash
 # Create CloudFront distribution
 aws cloudfront create-distribution \
@@ -294,6 +308,7 @@ aws cloudfront create-distribution \
 ### Production Environment Variables
 
 #### Required Variables
+
 ```env
 # Application
 NODE_ENV=production
@@ -317,6 +332,7 @@ RESEND_FROM_NAME=Your App Name
 ```
 
 #### Optional Variables
+
 ```env
 # Analytics
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
@@ -338,84 +354,88 @@ UPSTASH_REDIS_REST_TOKEN=your-upstash-token
 ## Performance Optimization
 
 ### Next.js Configuration
+
 ```javascript
 // next.config.mjs
 const nextConfig = {
-  // Enable static optimization
-  output: 'standalone',
-  
-  // Image optimization
-  images: {
-    domains: ['your-s3-bucket.s3.amazonaws.com'],
-    formats: ['image/webp', 'image/avif'],
-  },
-  
-  // Compression
-  compress: true,
-  
-  // Headers for security and performance
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-        ],
-      },
-    ]
-  },
+	// Enable static optimization
+	output: 'standalone',
+
+	// Image optimization
+	images: {
+		domains: ['your-s3-bucket.s3.amazonaws.com'],
+		formats: ['image/webp', 'image/avif'],
+	},
+
+	// Compression
+	compress: true,
+
+	// Headers for security and performance
+	async headers() {
+		return [
+			{
+				source: '/(.*)',
+				headers: [
+					{
+						key: 'X-Frame-Options',
+						value: 'DENY',
+					},
+					{
+						key: 'X-Content-Type-Options',
+						value: 'nosniff',
+					},
+					{
+						key: 'Referrer-Policy',
+						value: 'origin-when-cross-origin',
+					},
+				],
+			},
+		]
+	},
 }
 
 export default nextConfig
 ```
 
 ### Caching Strategy
+
 ```typescript
 // API route caching
 export async function GET() {
-  const data = await fetchData()
-  
-  return Response.json(data, {
-    headers: {
-      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
-    },
-  })
+	const data = await fetchData()
+
+	return Response.json(data, {
+		headers: {
+			'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+		},
+	})
 }
 ```
 
 ## Monitoring & Logging
 
 ### Error Tracking with Sentry
+
 ```typescript
 // sentry.client.config.ts
 import * as Sentry from '@sentry/nextjs'
 
 Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  environment: process.env.NODE_ENV,
-  tracesSampleRate: 1.0,
+	dsn: process.env.SENTRY_DSN,
+	environment: process.env.NODE_ENV,
+	tracesSampleRate: 1.0,
 })
 ```
 
 ### Performance Monitoring
+
 ```typescript
 // monitoring.ts
 import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals'
 
 function sendToAnalytics(metric: any) {
-  // Send to your analytics service
-  console.log(metric)
+	// Send to your analytics service
+	console.log(metric)
 }
 
 getCLS(sendToAnalytics)
@@ -428,24 +448,26 @@ getTTFB(sendToAnalytics)
 ## Security Considerations
 
 ### Security Headers
+
 ```typescript
 // middleware.ts
 import { NextResponse } from 'next/server'
 
 export function middleware(request: Request) {
-  const response = NextResponse.next()
-  
-  // Security headers
-  response.headers.set('X-Frame-Options', 'DENY')
-  response.headers.set('X-Content-Type-Options', 'nosniff')
-  response.headers.set('Referrer-Policy', 'origin-when-cross-origin')
-  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
-  
-  return response
+	const response = NextResponse.next()
+
+	// Security headers
+	response.headers.set('X-Frame-Options', 'DENY')
+	response.headers.set('X-Content-Type-Options', 'nosniff')
+	response.headers.set('Referrer-Policy', 'origin-when-cross-origin')
+	response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+
+	return response
 }
 ```
 
 ### Environment Security
+
 - Use strong, unique secrets
 - Rotate secrets regularly
 - Use environment-specific configurations
@@ -454,6 +476,7 @@ export function middleware(request: Request) {
 ## Backup Strategy
 
 ### Database Backups
+
 ```bash
 # Automated backup script
 #!/bin/bash
@@ -464,6 +487,7 @@ aws s3 cp backup_*.sql s3://your-backup-bucket/database/
 ```
 
 ### File Storage Backups
+
 ```bash
 # Sync S3 bucket for backup
 aws s3 sync s3://your-bucket s3://your-backup-bucket --delete
@@ -474,6 +498,7 @@ aws s3 sync s3://your-bucket s3://your-backup-bucket --delete
 ### Common Issues
 
 #### Build Failures
+
 ```bash
 # Clear Next.js cache
 rm -rf .next
@@ -487,6 +512,7 @@ pnpm check-types
 ```
 
 #### Database Connection Issues
+
 ```bash
 # Test database connection
 psql $DATABASE_URI -c "SELECT version();"
@@ -496,6 +522,7 @@ echo $DATABASE_URI
 ```
 
 #### File Upload Issues
+
 ```bash
 # Test S3 connection
 aws s3 ls s3://your-bucket-name
@@ -505,32 +532,35 @@ aws iam get-user
 ```
 
 ### Health Checks
+
 ```typescript
 // app/api/health/route.ts
 export async function GET() {
-  try {
-    // Check database
-    await payload.find({ collection: 'users', limit: 1 })
-    
-    // Check S3
-    // Add S3 health check
-    
-    return Response.json({ status: 'healthy', timestamp: new Date().toISOString() })
-  } catch (error) {
-    return Response.json({ status: 'unhealthy', error: error.message }, { status: 500 })
-  }
+	try {
+		// Check database
+		await payload.find({ collection: 'users', limit: 1 })
+
+		// Check S3
+		// Add S3 health check
+
+		return Response.json({ status: 'healthy', timestamp: new Date().toISOString() })
+	} catch (error) {
+		return Response.json({ status: 'unhealthy', error: error.message }, { status: 500 })
+	}
 }
 ```
 
 ## Scaling Considerations
 
 ### Horizontal Scaling
+
 - Use load balancers
 - Implement session storage (Redis)
 - Use CDN for static assets
 - Database read replicas
 
 ### Vertical Scaling
+
 - Monitor resource usage
 - Optimize database queries
 - Implement caching strategies

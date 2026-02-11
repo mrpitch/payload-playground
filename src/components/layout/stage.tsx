@@ -38,26 +38,26 @@ export default function Stage({
 					priority
 					className="object-cover"
 				/>
-				<div className="bg-secondary absolute inset-0" style={{ opacity: overlayOpacity }} />
+				<div className="absolute inset-0 bg-secondary" style={{ opacity: overlayOpacity }} />
 			</div>
 			{/* Content */}
 			<Container className="relative flex h-full w-full items-center">
 				<div className="px-4 py-12 md:px-6">
 					{tagline ? (
-						<p className="text-primary-foreground/80 mb-3 text-sm font-medium md:text-base">
+						<p className="mb-3 text-sm font-medium text-primary-foreground/80 md:text-base">
 							{tagline}
 						</p>
 					) : null}
 					<Typography
 						as="h1"
-						className="text-primary-foreground mb-4 text-3xl tracking-tighter md:text-4xl lg:text-5xl"
+						className="mb-4 text-3xl tracking-tighter text-primary-foreground md:text-4xl lg:text-5xl"
 					>
 						{headline}
 					</Typography>
 					{subline ? (
 						<Typography
 							as="h2"
-							className="text-primary-foreground/90 mb-4 text-xl font-medium md:text-2xl"
+							className="mb-4 text-xl font-medium text-primary-foreground/90 md:text-2xl"
 						>
 							{subline}
 						</Typography>
@@ -65,7 +65,7 @@ export default function Stage({
 					{copy ? (
 						<Typography
 							as="p"
-							className="text-primary-foreground/80 mb-6 max-w-xl text-base md:text-lg"
+							className="mb-6 max-w-xl text-base text-primary-foreground/80 md:text-lg"
 						>
 							{copy}
 						</Typography>

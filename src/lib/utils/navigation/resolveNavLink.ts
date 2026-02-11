@@ -50,11 +50,11 @@ export const getRelationshipValue = <T extends Page | Doc>(
 	rel: { value: number | T } | null | undefined,
 ): T | null => {
 	if (!rel) return null
-	
+
 	const { value } = rel
 	if (typeof value === 'number') return null
 	if (!value || typeof value !== 'object') return null
-	
+
 	return value as T
 }
 

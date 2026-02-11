@@ -87,7 +87,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 	return (
 		<div className="@container/docs">
 			<RefreshRouteOnSave />
-			<header className="bg-background sticky top-0 z-50 flex shrink-0 items-center gap-2 border-b p-4">
+			<header className="sticky top-0 z-50 flex shrink-0 items-center gap-2 border-b bg-background p-4">
 				<BreadcrumbNav pageTitle={title} slug={slug ?? ''} />
 				<div className="ml-auto">
 					<Suspense fallback={<ThreedotsNavSkeleton />}>
@@ -128,15 +128,15 @@ export default async function Doc({ params: paramsPromise }: Args) {
 						) : (
 							<Icon
 								iconName="user"
-								className="border-muted-foreground h-6 w-6 rounded-full border"
+								className="h-6 w-6 rounded-full border border-muted-foreground"
 							/>
 						)}
 						<span className="text-sm font-medium">
 							{typeof author !== 'number' ? `${author?.firstName} ${author?.lastName}` : ''}
 						</span>
-						<span className="text-muted-foreground text-xs"> • </span>
+						<span className="text-xs text-muted-foreground"> • </span>
 						{publishedAt && (
-							<time dateTime={publishedAt} className="text-muted-foreground text-xs">
+							<time dateTime={publishedAt} className="text-xs text-muted-foreground">
 								{new Date(publishedAt).toLocaleDateString('en-US', {
 									year: 'numeric',
 									month: 'short',
@@ -153,7 +153,7 @@ export default async function Doc({ params: paramsPromise }: Args) {
 					{copy ? (
 						<RichText
 							data={copy}
-							className="prose prose-headings:scroll-mt-36 @5xl/docs:prose-headings:scroll-mt-20 w-full"
+							className="prose w-full prose-headings:scroll-mt-36 @5xl/docs:prose-headings:scroll-mt-20"
 						/>
 					) : null}
 					{/* Previous / Next navigation */}

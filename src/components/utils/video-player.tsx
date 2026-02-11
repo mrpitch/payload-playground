@@ -337,7 +337,7 @@ export const VideoPlayer = ({
 						className="mt-0 mb-0 object-cover"
 						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
 					/>
-					<div className="bg-secondary absolute inset-0 opacity-30 transition-opacity group-hover:opacity-40" />
+					<div className="absolute inset-0 bg-secondary opacity-30 transition-opacity group-hover:opacity-40" />
 					<PlayIcon />
 				</button>
 			)}
@@ -351,7 +351,7 @@ export const VideoPlayer = ({
 						data-video-url={videoUrl}
 					/>
 					{isLoading && (
-						<div className="bg-background/40 absolute inset-0 flex items-center justify-center backdrop-blur-sm">
+						<div className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm">
 							<Skeleton className="h-full w-full" />
 						</div>
 					)}
@@ -359,12 +359,12 @@ export const VideoPlayer = ({
 			)}
 
 			{hasError && (
-				<div className="bg-background/80 text-foreground absolute inset-0 flex flex-col items-center justify-center gap-4 p-4 text-center">
+				<div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-background/80 p-4 text-center text-foreground">
 					<p className="text-sm">{hasError}</p>
 					<button
 						type="button"
 						onClick={handleRetry}
-						className="bg-primary text-primary-foreground rounded-md px-3 py-1 text-sm font-medium"
+						className="rounded-md bg-primary px-3 py-1 text-sm font-medium text-primary-foreground"
 					>
 						Retry
 					</button>
@@ -386,7 +386,7 @@ const PlayIcon = () => {
 				)}
 				aria-hidden="true"
 			>
-				<Icon iconName="play" className="text-primary-foreground ml-1 size-8 fill-current" />
+				<Icon iconName="play" className="ml-1 size-8 fill-current text-primary-foreground" />
 			</div>
 		</div>
 	)

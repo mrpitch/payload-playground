@@ -21,15 +21,17 @@ const currentReqUser = (reqUser: unknown): MaybePartialUser => {
 // do not let non-admins change roles
 export const protectRoles: FieldHook<User, Role[]> = ({ data, req, value }) => {
 	const reqUser = currentReqUser(req.user)
-	const isAdmin =
-		(reqUser?.roles?.includes('admin') ?? false) || data?.email === 'hurdi@gurdi.de' // seed account
+	const isAdmin = (reqUser?.roles?.includes('admin') ?? false) || data?.email === 'hurdi@gurdi.de' // seed account
 
 	if (!isAdmin) {
 		return ['user']
 	}
 
-	const sourceRoles: User['roles'] =
-		Array.isArray(data?.roles) ? data.roles : (Array.isArray(value) ? value : [])
+	const sourceRoles: User['roles'] = Array.isArray(data?.roles)
+		? data.roles
+		: Array.isArray(value)
+			? value
+			: []
 
 	const existingRoles = ensureRolesArray(sourceRoles)
 	const userRoles = new Set<Role>(existingRoles)

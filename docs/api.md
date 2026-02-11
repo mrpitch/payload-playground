@@ -5,6 +5,7 @@ This document covers the API structure, endpoints, and integration patterns for 
 ## API Overview
 
 The project uses a hybrid API approach combining:
+
 - **PayloadCMS REST API** - For content management
 - **Next.js API Routes** - For custom business logic
 - **Server Actions** - For form handling and mutations
@@ -12,26 +13,29 @@ The project uses a hybrid API approach combining:
 ## PayloadCMS API
 
 ### Base URL
+
 ```
 http://localhost:3000/api
 ```
 
 ### Authentication
+
 All PayloadCMS API endpoints require authentication via JWT tokens.
 
 ```typescript
 // Example API call with authentication
 const response = await fetch('/api/users', {
-  headers: {
-    'Authorization': `JWT ${token}`,
-    'Content-Type': 'application/json',
-  },
+	headers: {
+		Authorization: `JWT ${token}`,
+		'Content-Type': 'application/json',
+	},
 })
 ```
 
 ### Core Collections
 
 #### Users
+
 ```typescript
 // GET /api/users
 // POST /api/users
@@ -40,16 +44,17 @@ const response = await fetch('/api/users', {
 // DELETE /api/users/{id}
 
 interface TUser {
-  id: string
-  email: string
-  password: string
-  role: 'admin' | 'editor' | 'user'
-  createdAt: string
-  updatedAt: string
+	id: string
+	email: string
+	password: string
+	role: 'admin' | 'editor' | 'user'
+	createdAt: string
+	updatedAt: string
 }
 ```
 
 #### Pages
+
 ```typescript
 // GET /api/pages
 // POST /api/pages
@@ -58,18 +63,19 @@ interface TUser {
 // DELETE /api/pages/{id}
 
 interface TPage {
-  id: string
-  title: string
-  slug: string
-  content: TContentBlock[]
-  meta: TMetaData
-  status: 'draft' | 'published'
-  createdAt: string
-  updatedAt: string
+	id: string
+	title: string
+	slug: string
+	content: TContentBlock[]
+	meta: TMetaData
+	status: 'draft' | 'published'
+	createdAt: string
+	updatedAt: string
 }
 ```
 
 #### Posts
+
 ```typescript
 // GET /api/posts
 // POST /api/posts
@@ -78,21 +84,22 @@ interface TPage {
 // DELETE /api/posts/{id}
 
 interface TPost {
-  id: string
-  title: string
-  slug: string
-  excerpt: string
-  content: TContentBlock[]
-  author: TUser
-  categories: TCategory[]
-  featuredImage: TMedia
-  publishedAt: string
-  createdAt: string
-  updatedAt: string
+	id: string
+	title: string
+	slug: string
+	excerpt: string
+	content: TContentBlock[]
+	author: TUser
+	categories: TCategory[]
+	featuredImage: TMedia
+	publishedAt: string
+	createdAt: string
+	updatedAt: string
 }
 ```
 
 #### Media
+
 ```typescript
 // GET /api/media
 // POST /api/media
@@ -101,60 +108,63 @@ interface TPost {
 // DELETE /api/media/{id}
 
 interface TMedia {
-  id: string
-  alt: string
-  filename: string
-  mimeType: string
-  filesize: number
-  width: number
-  height: number
-  url: string
-  createdAt: string
-  updatedAt: string
+	id: string
+	alt: string
+	filename: string
+	mimeType: string
+	filesize: number
+	width: number
+	height: number
+	url: string
+	createdAt: string
+	updatedAt: string
 }
 ```
 
 ### Query Parameters
 
 #### Pagination
+
 ```typescript
 // GET /api/posts?limit=10&page=1
 interface TPaginationParams {
-  limit?: number
-  page?: number
-  sort?: string
+	limit?: number
+	page?: number
+	sort?: string
 }
 ```
 
 #### Filtering
+
 ```typescript
 // GET /api/posts?where[status][equals]=published
 // GET /api/posts?where[author][equals]=user-id
 // GET /api/posts?where[createdAt][greater_than]=2024-01-01
 
 interface TWhereClause {
-  [field: string]: {
-    equals?: any
-    not_equals?: any
-    in?: any[]
-    not_in?: any[]
-    exists?: boolean
-    greater_than?: number | string
-    greater_than_equal?: number | string
-    less_than?: number | string
-    less_than_equal?: number | string
-    like?: string
-    contains?: string
-  }
+	[field: string]: {
+		equals?: any
+		not_equals?: any
+		in?: any[]
+		not_in?: any[]
+		exists?: boolean
+		greater_than?: number | string
+		greater_than_equal?: number | string
+		less_than?: number | string
+		less_than_equal?: number | string
+		like?: string
+		contains?: string
+	}
 }
 ```
 
 #### Population
+
 ```typescript
 // GET /api/posts?populate=author,categories,featuredImage
 interface TPopulationParams {
-  populate?: string | string[]
-  depth?: number
+	populate?: string | string[]
+	depth?: number
 }
 ```
 
@@ -163,29 +173,30 @@ interface TPopulationParams {
 ### Custom Endpoints
 
 #### Authentication
+
 ```typescript
 // POST /api/auth/login
 interface TLoginRequest {
-  email: string
-  password: string
+	email: string
+	password: string
 }
 
 interface TLoginResponse {
-  user: TUser
-  token: string
-  refreshToken: string
+	user: TUser
+	token: string
+	refreshToken: string
 }
 
 // POST /api/auth/register
 interface TRegisterRequest {
-  email: string
-  password: string
-  name: string
+	email: string
+	password: string
+	name: string
 }
 
 // POST /api/auth/refresh
 interface TRefreshRequest {
-  refreshToken: string
+	refreshToken: string
 }
 
 // POST /api/auth/logout
@@ -193,47 +204,49 @@ interface TRefreshRequest {
 ```
 
 #### User Management
+
 ```typescript
 // GET /api/user/profile
 // Returns current user profile
 
 // PATCH /api/user/profile
 interface TUpdateProfileRequest {
-  name?: string
-  email?: string
-  avatar?: string
+	name?: string
+	email?: string
+	avatar?: string
 }
 
 // POST /api/user/change-password
 interface TChangePasswordRequest {
-  currentPassword: string
-  newPassword: string
+	currentPassword: string
+	newPassword: string
 }
 ```
 
 #### Content Operations
+
 ```typescript
 // POST /api/content/preview
 interface TPreviewRequest {
-  collection: string
-  data: any
+	collection: string
+	data: any
 }
 
 interface TPreviewResponse {
-  url: string
-  expiresAt: string
+	url: string
+	expiresAt: string
 }
 
 // POST /api/content/duplicate
 interface TDuplicateRequest {
-  collection: string
-  id: string
+	collection: string
+	id: string
 }
 
 // POST /api/content/bulk-delete
 interface TBulkDeleteRequest {
-  collection: string
-  ids: string[]
+	collection: string
+	ids: string[]
 }
 ```
 
@@ -244,28 +257,28 @@ interface TBulkDeleteRequest {
 ```typescript
 // src/lib/actions/login.ts
 export async function loginAction(formData: FormData) {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  
-  // Validation
-  const validatedFields = loginSchema.safeParse({ email, password })
-  
-  if (!validatedFields.success) {
-    return { error: 'Invalid fields' }
-  }
-  
-  // Authentication logic
-  // ...
+	const email = formData.get('email') as string
+	const password = formData.get('password') as string
+
+	// Validation
+	const validatedFields = loginSchema.safeParse({ email, password })
+
+	if (!validatedFields.success) {
+		return { error: 'Invalid fields' }
+	}
+
+	// Authentication logic
+	// ...
 }
 
 // src/lib/actions/register.ts
 export async function registerAction(formData: FormData) {
-  // Registration logic
+	// Registration logic
 }
 
 // src/lib/actions/logout.ts
 export async function logoutAction() {
-  // Logout logic
+	// Logout logic
 }
 ```
 
@@ -274,11 +287,11 @@ export async function logoutAction() {
 ```typescript
 // src/lib/actions/user.ts
 export async function updateProfileAction(formData: FormData) {
-  // Profile update logic
+	// Profile update logic
 }
 
 export async function changePasswordAction(formData: FormData) {
-  // Password change logic
+	// Password change logic
 }
 ```
 
@@ -297,13 +310,13 @@ async function getPosts(): Promise<TPost[]> {
     sort: '-publishedAt',
     limit: 10
   })
-  
+
   return posts.docs
 }
 
 export default async function PostsPage() {
   const posts = await getPosts()
-  
+
   return (
     <div>
       {posts.map(post => (
@@ -331,10 +344,10 @@ function usePosts() {
 
 function PostsList() {
   const { data: posts, isLoading, error } = usePosts()
-  
+
   if (isLoading) return <LoadingSpinner />
   if (error) return <ErrorMessage error={error} />
-  
+
   return (
     <div>
       {posts?.docs.map(post => (
@@ -364,10 +377,10 @@ async function contactAction(formData: FormData) {
   const name = formData.get('name') as string
   const email = formData.get('email') as string
   const message = formData.get('message') as string
-  
+
   // Process form data
   // Send email, save to database, etc.
-  
+
   redirect('/thank-you')
 }
 ```
@@ -378,26 +391,26 @@ async function contactAction(formData: FormData) {
 
 ```typescript
 interface TApiError {
-  message: string
-  code: string
-  details?: any
+	message: string
+	code: string
+	details?: any
 }
 
 // Example error handling
 async function fetchWithErrorHandling(url: string) {
-  try {
-    const response = await fetch(url)
-    
-    if (!response.ok) {
-      const error: TApiError = await response.json()
-      throw new Error(error.message)
-    }
-    
-    return response.json()
-  } catch (error) {
-    console.error('API Error:', error)
-    throw error
-  }
+	try {
+		const response = await fetch(url)
+
+		if (!response.ok) {
+			const error: TApiError = await response.json()
+			throw new Error(error.message)
+		}
+
+		return response.json()
+	} catch (error) {
+		console.error('API Error:', error)
+		throw error
+	}
 }
 ```
 
@@ -405,25 +418,25 @@ async function fetchWithErrorHandling(url: string) {
 
 ```typescript
 async function createPostAction(formData: FormData) {
-  try {
-    const validatedData = postSchema.parse({
-      title: formData.get('title'),
-      content: formData.get('content'),
-    })
-    
-    const post = await payload.create({
-      collection: 'posts',
-      data: validatedData,
-    })
-    
-    return { success: true, post }
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { error: 'Validation failed', details: error.errors }
-    }
-    
-    return { error: 'Failed to create post' }
-  }
+	try {
+		const validatedData = postSchema.parse({
+			title: formData.get('title'),
+			content: formData.get('content'),
+		})
+
+		const post = await payload.create({
+			collection: 'posts',
+			data: validatedData,
+		})
+
+		return { success: true, post }
+	} catch (error) {
+		if (error instanceof z.ZodError) {
+			return { error: 'Validation failed', details: error.errors }
+		}
+
+		return { error: 'Failed to create post' }
+	}
 }
 ```
 
@@ -437,19 +450,19 @@ import type { TPost, TUser, TMedia } from '@/payload/payload-types'
 
 // Custom API response types
 interface TApiResponse<T> {
-  docs: T[]
-  totalDocs: number
-  limit: number
-  page: number
-  totalPages: number
-  hasNextPage: boolean
-  hasPrevPage: boolean
-  nextPage: number | null
-  prevPage: number | null
+	docs: T[]
+	totalDocs: number
+	limit: number
+	page: number
+	totalPages: number
+	hasNextPage: boolean
+	hasPrevPage: boolean
+	nextPage: number | null
+	prevPage: number | null
 }
 
 // Usage
-const posts: TApiResponse<TPost> = await fetch('/api/posts').then(r => r.json())
+const posts: TApiResponse<TPost> = await fetch('/api/posts').then((r) => r.json())
 ```
 
 ## Rate Limiting & Security
@@ -462,19 +475,19 @@ import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 
 const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(10, '10 s'),
+	redis: Redis.fromEnv(),
+	limiter: Ratelimit.slidingWindow(10, '10 s'),
 })
 
 export async function POST(request: Request) {
-  const ip = request.ip ?? '127.0.0.1'
-  const { success } = await ratelimit.limit(ip)
-  
-  if (!success) {
-    return new Response('Rate limit exceeded', { status: 429 })
-  }
-  
-  // Continue with request processing
+	const ip = request.ip ?? '127.0.0.1'
+	const { success } = await ratelimit.limit(ip)
+
+	if (!success) {
+		return new Response('Rate limit exceeded', { status: 429 })
+	}
+
+	// Continue with request processing
 }
 ```
 
@@ -483,21 +496,21 @@ export async function POST(request: Request) {
 ```typescript
 // Zod schemas for API validation
 const createPostSchema = z.object({
-  title: z.string().min(1).max(100),
-  content: z.string().min(1),
-  status: z.enum(['draft', 'published']),
-  author: z.string().uuid(),
+	title: z.string().min(1).max(100),
+	content: z.string().min(1),
+	status: z.enum(['draft', 'published']),
+	author: z.string().uuid(),
 })
 
 export async function POST(request: Request) {
-  const body = await request.json()
-  
-  try {
-    const validatedData = createPostSchema.parse(body)
-    // Process validated data
-  } catch (error) {
-    return Response.json({ error: 'Invalid input' }, { status: 400 })
-  }
+	const body = await request.json()
+
+	try {
+		const validatedData = createPostSchema.parse(body)
+		// Process validated data
+	} catch (error) {
+		return Response.json({ error: 'Invalid input' }, { status: 400 })
+	}
 }
 ```
 
@@ -510,22 +523,22 @@ export async function POST(request: Request) {
 import { POST } from '@/app/api/posts/route'
 
 describe('/api/posts', () => {
-  it('should create a new post', async () => {
-    const request = new Request('http://localhost:3000/api/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        title: 'Test Post',
-        content: 'Test content',
-        status: 'draft',
-      }),
-    })
-    
-    const response = await POST(request)
-    const data = await response.json()
-    
-    expect(response.status).toBe(201)
-    expect(data.title).toBe('Test Post')
-  })
+	it('should create a new post', async () => {
+		const request = new Request('http://localhost:3000/api/posts', {
+			method: 'POST',
+			body: JSON.stringify({
+				title: 'Test Post',
+				content: 'Test content',
+				status: 'draft',
+			}),
+		})
+
+		const response = await POST(request)
+		const data = await response.json()
+
+		expect(response.status).toBe(201)
+		expect(data.title).toBe('Test Post')
+	})
 })
 ```
 
@@ -534,19 +547,19 @@ describe('/api/posts', () => {
 ```typescript
 // Testing with test database
 describe('Posts API Integration', () => {
-  beforeEach(async () => {
-    // Setup test database
-    await setupTestDB()
-  })
-  
-  afterEach(async () => {
-    // Cleanup test database
-    await cleanupTestDB()
-  })
-  
-  it('should handle full CRUD operations', async () => {
-    // Test create, read, update, delete
-  })
+	beforeEach(async () => {
+		// Setup test database
+		await setupTestDB()
+	})
+
+	afterEach(async () => {
+		// Cleanup test database
+		await cleanupTestDB()
+	})
+
+	it('should handle full CRUD operations', async () => {
+		// Test create, read, update, delete
+	})
 })
 ```
 

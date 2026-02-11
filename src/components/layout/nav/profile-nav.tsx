@@ -135,12 +135,12 @@ export function UserNavSkeleton() {
 	return (
 		<div className="min-w-56">
 			<div className="flex items-center gap-2 p-2">
-				<Skeleton className="bg-sidebar-accent h-8 w-8 rounded-full" />
-				<Skeleton className="bg-sidebar-accent h-4 w-24" />
+				<Skeleton className="h-8 w-8 rounded-full bg-sidebar-accent" />
+				<Skeleton className="h-4 w-24 bg-sidebar-accent" />
 			</div>
 			<div className="space-y-2 p-2">
-				<Skeleton className="bg-sidebar-accent h-8 w-full rounded-md" />
-				<Skeleton className="bg-sidebar-accent h-8 w-full rounded-md" />
+				<Skeleton className="h-8 w-full rounded-md bg-sidebar-accent" />
+				<Skeleton className="h-8 w-full rounded-md bg-sidebar-accent" />
 			</div>
 		</div>
 	)

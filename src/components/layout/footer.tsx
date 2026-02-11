@@ -28,7 +28,7 @@ export function Footer({ siteName }: FooterProps) {
 							href={item.href}
 							className={cn(
 								typographyVariants({ size: 'xs' }),
-								'text-muted-foreground hover:text-foreground flex items-center gap-1 underline decoration-dotted underline-offset-4 transition hover:no-underline',
+								'flex items-center gap-1 text-muted-foreground underline decoration-dotted underline-offset-4 transition hover:text-foreground hover:no-underline',
 							)}
 						>
 							{item.icon ? (

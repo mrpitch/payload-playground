@@ -254,6 +254,7 @@ src/hooks/
 ## Important Configuration Files
 
 ### Core Configuration
+
 - `package.json` - Dependencies, scripts, and project metadata
 - `tsconfig.json` - TypeScript configuration
 - `next.config.mjs` - Next.js configuration
@@ -261,18 +262,21 @@ src/hooks/
 - `eslint.config.mjs` - ESLint configuration
 
 ### Styling Configuration
+
 - `components.json` - Shadcn/ui components configuration
 - `src/lib/styles/globals.css` - Global CSS styles
 - `src/lib/styles/theme.css` - Theme configuration
 - `src/lib/styles/variables-*.css` - Theme variable files
 
 ### PayloadCMS Configuration
+
 - `src/payload/payload.config.ts` - Main Payload configuration
 - `src/payload/collections/` - Content collections
 - `src/payload/globals/` - Global content
 - `src/payload/blocks/` - Content blocks
 
 ### Development Tools
+
 - `docker-compose.yml` - Local development services
 - `vercel.json` - Deployment configuration
 - `.cursor/rules/` - Cursor IDE rules
@@ -280,22 +284,26 @@ src/hooks/
 ## File Naming Conventions
 
 ### Components
+
 - **React Components**: `kebab-case.tsx` (e.g., `user-profile.tsx`)
 - **Page Components**: `page.tsx`, `layout.tsx`, `error.tsx`
 - **API Routes**: `route.ts` (e.g., `api/users/route.ts`)
 
 ### Utilities
+
 - **Utility Functions**: `kebab-case.ts` (e.g., `format-date.ts`)
 - **Type Definitions**: `index.ts` or `kebab-case.ts`
 - **Configuration**: `config.ts` or `kebab-case.config.ts`
 
 ### Styles
+
 - **CSS Files**: `kebab-case.css` (e.g., `theme-nature.css`)
 - **TypeScript Variables**: `variables-kebab-case.ts`
 
 ## Import Patterns
 
 ### Path Aliases
+
 ```typescript
 // Use @/ alias for src/ directory
 import { Button } from '@/components/ui/button'
@@ -304,6 +312,7 @@ import { cn } from '@/lib/utils/cn'
 ```
 
 ### Import Organization
+
 ```typescript
 // 1. External libraries
 import React from 'react'
@@ -321,12 +330,14 @@ import { LocalComponent } from './local-component'
 ## Route Groups
 
 ### App Router Groups
+
 - `(app)` - Main application routes
-- `(auth)` - Authentication routes  
+- `(auth)` - Authentication routes
 - `(marketing)` - Public marketing routes
 - `(payload)` - PayloadCMS admin routes
 
 ### Route Group Benefits
+
 - **Organization**: Logical grouping of related routes
 - **Layouts**: Shared layouts within groups
 - **URL Structure**: Groups don't affect URL paths
@@ -335,6 +346,7 @@ import { LocalComponent } from './local-component'
 ## Theme System Architecture
 
 ### Theme Structure
+
 ```
 src/lib/styles/
 ├── fonts/                     # Font configurations
@@ -354,6 +366,7 @@ src/lib/styles/
 ```
 
 ### Theme Usage
+
 ```typescript
 // Import theme variables
 import { variablesNature } from '@/lib/styles/v3/variables-nature'
@@ -365,6 +378,7 @@ const theme = variablesNature.root['--primary']
 ## State Management Architecture
 
 ### Zustand Stores
+
 ```
 src/lib/store/
 ├── nav-store.ts              # Navigation state
@@ -373,25 +387,27 @@ src/lib/store/
 ```
 
 ### Store Pattern
+
 ```typescript
 interface TUserStore {
-  user: TUser | null
-  isLoading: boolean
-  setUser: (user: TUser | null) => void
-  setLoading: (loading: boolean) => void
+	user: TUser | null
+	isLoading: boolean
+	setUser: (user: TUser | null) => void
+	setLoading: (loading: boolean) => void
 }
 
 export const useUserStore = create<TUserStore>((set) => ({
-  user: null,
-  isLoading: false,
-  setUser: (user) => set({ user }),
-  setLoading: (isLoading) => set({ isLoading }),
+	user: null,
+	isLoading: false,
+	setUser: (user) => set({ user }),
+	setLoading: (isLoading) => set({ isLoading }),
 }))
 ```
 
 ## API Architecture
 
 ### API Routes Structure
+
 ```
 src/app/api/
 ├── auth/                     # Authentication endpoints
@@ -407,6 +423,7 @@ src/app/api/
 ```
 
 ### Server Actions
+
 ```
 src/lib/actions/
 ├── auth/                     # Authentication actions
@@ -424,6 +441,7 @@ src/lib/actions/
 ## Best Practices
 
 ### File Organization
+
 1. **Group by feature** when possible
 2. **Use consistent naming** conventions
 3. **Keep related files together**
@@ -431,6 +449,7 @@ src/lib/actions/
 5. **Use barrel exports** for clean imports
 
 ### Component Structure
+
 1. **Co-locate** related components
 2. **Extract** reusable components to `/components`
 3. **Keep** page-specific components in route folders
@@ -438,6 +457,7 @@ src/lib/actions/
 5. **Follow** the established patterns
 
 ### Import/Export Patterns
+
 1. **Use named exports** for components
 2. **Use default exports** for pages
 3. **Group imports** logically

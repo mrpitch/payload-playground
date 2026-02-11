@@ -42,7 +42,7 @@ export function EmailNewsletter(props: TEmailNewsletterProps) {
 				>
 					<Preview>{previewText}</Preview>
 
-					<Container className="bg-background mx-auto my-[40px] max-w-[640px] rounded border border-solid">
+					<Container className="mx-auto my-[40px] max-w-[640px] rounded border border-solid bg-background">
 						<Section className="mx-auto mt-8 mb-8 w-10/12">
 							<Img
 								src={`${baseUrl}/images/logo-secondary-light.png`}
@@ -57,7 +57,7 @@ export function EmailNewsletter(props: TEmailNewsletterProps) {
 						<Section className="mx-auto w-10/12">
 							<Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
 
-							<RichText data={footer} className="text-foreground text-xs" />
+							<RichText data={footer} className="text-xs text-foreground" />
 						</Section>
 					</Container>
 				</Body>

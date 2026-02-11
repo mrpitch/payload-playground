@@ -27,13 +27,13 @@ export default function ImageText({
 				return (
 					<div
 						key={item.id}
-						className="border-muted flex flex-col items-center gap-8 border-b py-12 last:border-0 md:flex-row"
+						className="flex flex-col items-center gap-8 border-b border-muted py-12 last:border-0 md:flex-row"
 					>
 						{/* Image Section */}
 						<div className={`w-full md:w-1/2 ${imageOnLeft ? 'md:order-1' : 'md:order-2'}`}>
 							<div className="relative isolate aspect-video overflow-hidden rounded-lg">
 								<div
-									className="bg-secondary absolute inset-0 z-10"
+									className="absolute inset-0 z-10 bg-secondary"
 									style={{ opacity: overlayOpacity }}
 								/>
 								<Image
@@ -52,7 +52,7 @@ export default function ImageText({
 						<div className={`w-full md:w-1/2 ${imageOnLeft ? 'md:order-2' : 'md:order-1'}`}>
 							<div className="space-y-4">
 								<div className="mb-2">
-									<span className="text-primary text-sm font-medium tracking-wider uppercase">
+									<span className="text-sm font-medium tracking-wider text-primary uppercase">
 										{item.tagline}
 									</span>
 								</div>

@@ -12,7 +12,7 @@ export const Logo: React.FC<ILogoProps> = ({ name, className }) => {
 	className = cn(baseStyles.default, className)
 
 	return (
-		<div className="text-foreground flex items-center space-x-2">
+		<div className="flex items-center space-x-2 text-foreground">
 			<svg
 				width="82"
 				height="100"

@@ -37,7 +37,7 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 				<Head />
 				<Body
 					className={cn(
-						'bg-background mx-auto my-auto font-sans',
+						'mx-auto my-auto bg-background font-sans',
 						sans.variable,
 						serif.variable,
 						mono.variable,
@@ -58,14 +58,14 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 							/>
 						</Section>
 
-						<Heading className="text-secondary mt-8 text-center text-lg leading-2 font-bold">
+						<Heading className="mt-8 text-center text-lg leading-2 font-bold text-secondary">
 							{heading} {email}
 						</Heading>
 						<Section className="mx-auto mb-8 w-10/12">
-							<Text className="text-normal text-foreground leading-1.5">
+							<Text className="text-normal leading-1.5 text-foreground">
 								{salutation} {username},
 							</Text>
-							<Text className="text-normal text-foreground leading-1.5">{copy}</Text>
+							<Text className="text-normal leading-1.5 text-foreground">{copy}</Text>
 						</Section>
 						<Section className="mx-auto mb-6 w-10/12 text-center">
 							<Button href={url} className={emailButtonVariants({ variant: 'secondary' })}>
@@ -75,7 +75,7 @@ export function EmailPasswordReset(props: TEmailPasswordResetProps) {
 						<Section className="mx-auto w-10/12">
 							<Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
 
-							<RichText data={footer} className="text-foreground text-xs" />
+							<RichText data={footer} className="text-xs text-foreground" />
 						</Section>
 					</Container>
 				</Body>

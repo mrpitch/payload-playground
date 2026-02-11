@@ -102,7 +102,7 @@ function Toast(props: ToastProps) {
 			{dismiss ? (
 				<button
 					type="button"
-					className="bg-background text-foreground absolute -top-2 -left-2 z-10 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border"
+					className="absolute -top-2 -left-2 z-10 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border bg-background text-foreground"
 					onClick={() => sonnerToast.dismiss(id)}
 				>
 					<Icon iconName="x" className="h-6 w-6" />

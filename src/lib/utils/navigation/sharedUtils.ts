@@ -79,4 +79,3 @@ export const HOME_SLUG = 'home'
 export const DOCS_BASE_PATH = '/docs'
 export const ROOT_PATH = '/'
 export const HEADING_TYPE = 'heading'
-

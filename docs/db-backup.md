@@ -149,12 +149,12 @@ bash ./scripts/pg-restore-backup.sh
 
 The script will prompt you for:
 
-1. **Dump file path**: 
+1. **Dump file path**:
    - Host path: `./db-backup/db_payload_dev_20241215_143022.dump`
    - Container path: `/db-backup/db_payload_dev_20241215_143022.dump`
    - Or just filename: `db_payload_dev_20241215_143022.dump` (assumes it's in `/db-backup`)
 
-2. **Database URL**: 
+2. **Database URL**:
    ```
    postgresql://payload_db_user:payload_db_pw@localhost:5432/db_payload_dev
    ```
@@ -213,7 +213,7 @@ bash ./scripts/pg-restore-backup.sh
 The script will prompt you for:
 
 1. **Dump file path**: Same as local restore
-2. **Remote database URL**: 
+2. **Remote database URL**:
    ```
    postgresql://user:password@host:port/database?sslmode=require
    ```
@@ -311,12 +311,14 @@ CLEAN_FLAGS="" bash ./scripts/pg-restore-backup.sh
 ### Container Not Running
 
 **Error:**
+
 ```
 ❌ Container not running: payload-playground-db-dev
    Start it with: docker compose up -d
 ```
 
 **Solution:**
+
 ```bash
 pnpm start:postgres
 # or
@@ -326,6 +328,7 @@ docker compose up -d
 ### Missing Backup Directory Mount
 
 **Error:**
+
 ```
 ❌ Container cannot access /db-backup.
    Add this to docker-compose volumes and restart:
@@ -335,6 +338,7 @@ docker compose up -d
 **Solution:**
 
 1. Add the volume mount to `docker-compose.yml`:
+
    ```yaml
    volumes:
      - ./db-backup:/db-backup
@@ -349,6 +353,7 @@ docker compose up -d
 ### Database Connection Errors
 
 **Error:**
+
 ```
 pg_restore: error: connection to database "..." failed: FATAL: password authentication failed
 ```
@@ -364,6 +369,7 @@ pg_restore: error: connection to database "..." failed: FATAL: password authenti
 ### File Not Found
 
 **Error:**
+
 ```
 ❌ Dump file not found in container: /db-backup/my-backup.dump
    Tip: put the dump into ./db-backup on the host, then reference it here.
@@ -381,6 +387,7 @@ pg_restore: error: connection to database "..." failed: FATAL: password authenti
 If you encounter permission errors:
 
 1. Check file permissions on the backup directory:
+
    ```bash
    chmod 755 ./db-backup
    ```
@@ -393,6 +400,7 @@ If you encounter permission errors:
 ### Missing Environment Variables
 
 **Error:**
+
 ```
 ❌ Missing DATABASE_NAME in .env
 ```
@@ -400,6 +408,7 @@ If you encounter permission errors:
 **Solution:**
 
 Ensure your `.env` file contains all required variables:
+
 - `DATABASE_NAME`
 - `DATABASE_USERNAME`
 - `DATABASE_PASSWORD`
@@ -415,6 +424,7 @@ Ensure your `.env` file contains all required variables:
 ### Backup File Management
 
 1. **Naming convention**: The script automatically uses timestamped names, but you can rename for clarity:
+
    ```bash
    mv db_payload_dev_20241215_143022.dump production_backup_20241215.dump
    ```
@@ -465,11 +475,13 @@ Ensure your `.env` file contains all required variables:
 **Location:** `scripts/pg-dump-local-db.sh`
 
 **Usage:**
+
 ```bash
 bash ./scripts/pg-dump-local-db.sh [.env]
 ```
 
 **Environment Variables:**
+
 - `DATABASE_NAME` (required)
 - `DATABASE_USERNAME` (required)
 - `DATABASE_PASSWORD` (required)
@@ -477,6 +489,7 @@ bash ./scripts/pg-dump-local-db.sh [.env]
 - `BACKUP_DIR` (optional, defaults to `./db-backup`)
 
 **Output:**
+
 - Creates timestamped `.dump` file in `BACKUP_DIR`
 
 ### pg-restore-backup.sh
@@ -484,21 +497,25 @@ bash ./scripts/pg-dump-local-db.sh [.env]
 **Location:** `scripts/pg-restore-backup.sh`
 
 **Usage:**
+
 ```bash
 bash ./scripts/pg-restore-backup.sh [dump-file]
 ```
 
 **Environment Variables:**
+
 - `CONTAINER_NAME` (optional, defaults to `payload-playground-db-dev`)
 - `JOBS` (optional, defaults to `4`)
 - `CLEAN_FLAGS` (optional, defaults to `--clean --if-exists`)
 - `DB_URL` (optional, can be provided to skip prompt)
 
 **Interactive Prompts:**
+
 - Dump file path
 - Database connection URL
 
 **Output:**
+
 - Restores database from dump file
 
 ## Summary

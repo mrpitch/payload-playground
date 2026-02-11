@@ -20,7 +20,7 @@ export function TableOfContents({ items, type = 'desktop' }: TableOfContentsProp
 	return (
 		<>
 			{type === 'mobile' && (
-				<div className="bg-background sticky top-16 z-40 border-b @5xl/docs:hidden">
+				<div className="sticky top-16 z-40 border-b bg-background @5xl/docs:hidden">
 					<TableOfContentsDropdown items={items} />
 				</div>
 			)}
@@ -49,7 +49,7 @@ function TableOfContentsDropdown({ items = [] }: TableOfContentsProps) {
 		<div className="px-4 py-3">
 			<button
 				onClick={() => setIsOpen((prev) => !prev)}
-				className="bg-background flex w-full items-center justify-between rounded-lg border p-3 text-sm font-medium shadow-sm"
+				className="flex w-full items-center justify-between rounded-lg border bg-background p-3 text-sm font-medium shadow-sm"
 			>
 				<span className="flex items-center gap-2">
 					<Icon iconName="textAlignStart" className="h-4 w-4" />
@@ -62,7 +62,7 @@ function TableOfContentsDropdown({ items = [] }: TableOfContentsProps) {
 			</button>
 
 			{isOpen && (
-				<div className="bg-background mt-2 max-h-64 overflow-y-auto rounded-lg border p-3 shadow-sm">
+				<div className="mt-2 max-h-64 overflow-y-auto rounded-lg border bg-background p-3 shadow-sm">
 					<TocNavList
 						items={items}
 						activeId={activeId}
@@ -98,15 +98,15 @@ function TableOfContentsSidebar({ items = [] }: TableOfContentsProps) {
 
 	return (
 		<nav className="relative space-y-2">
-			<Typography as="h3" size="xl" className="text-foreground mb-4 flex items-center gap-2">
+			<Typography as="h3" size="xl" className="mb-4 flex items-center gap-2 text-foreground">
 				<Icon iconName="textAlignStart" className="h-4 w-4" /> On this page
 			</Typography>
 
 			<div className="relative">
-				<div className="bg-secondary absolute top-0 left-0 h-full w-0.5 rounded-full" />
+				<div className="absolute top-0 left-0 h-full w-0.5 rounded-full bg-secondary" />
 
 				<div
-					className="bg-primary absolute left-0 w-0.5 rounded-full transition-all duration-300 ease-out"
+					className="absolute left-0 w-0.5 rounded-full bg-primary transition-all duration-300 ease-out"
 					style={{
 						top: `${indicatorStyle.top}px`,
 						height: `${indicatorStyle.height}px`,
@@ -163,17 +163,17 @@ function getItemClasses(item: TTocItem, activeId: string, variant: TocVariant) {
 
 	if (variant === 'sidebar') {
 		return cn(
-			'hover:text-primary mt-2 block transition-colors',
+			'mt-2 block transition-colors hover:text-primary',
 			typographyVariants({ size: 'base' }),
 			item.level === 2 && 'mt-6 pl-3',
 			item.level === 3 && 'pl-6',
 			item.level === 4 && 'pl-8',
-			isActive ? 'text-primary font-medium' : 'text-foreground',
+			isActive ? 'font-medium text-primary' : 'text-foreground',
 		)
 	}
 
 	return cn(
-		'hover:bg-muted block rounded px-2 py-1 text-sm transition-colors',
+		'block rounded px-2 py-1 text-sm transition-colors hover:bg-muted',
 		item.level === 2 && 'font-medium',
 		item.level === 3 && 'pl-4 text-sm',
 		item.level === 4 && 'pl-6 text-sm',

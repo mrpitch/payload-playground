@@ -5,17 +5,20 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## Core Framework Stack
 
 ### **Frontend Framework**
+
 - **Next.js**: `^15.4` - Latest stable version with App Router
 - **React**: `19.0.0` - Latest major version with new features
 - **React DOM**: `19.0.0` - Matching React version
 
 **Best Practices:**
+
 - ✅ Using Next.js 15.4 (latest stable)
 - ✅ React 19 with new features (Actions, use(), etc.)
 - ⚠️ **Note**: React 19 is cutting-edge - monitor for breaking changes
 - 🔧 **Recommendation**: Test thoroughly before production deployment
 
 ### **Content Management System**
+
 - **Payload CMS**: `^3.50.0` - Latest stable version
 - **Payload Cloud**: `^3.50.0` - Cloud hosting integration
 - **Payload Plugins**:
@@ -29,6 +32,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
   - `@payloadcms/ui`: `^3.50.0` - Admin UI components
 
 **Best Practices:**
+
 - ✅ Using latest Payload CMS 3.50.0
 - ✅ Comprehensive plugin ecosystem
 - 🔧 **Recommendation**: Keep plugins in sync with core version
@@ -36,16 +40,19 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## UI & Styling Stack
 
 ### **CSS Framework**
+
 - **Tailwind CSS**: `^4` - Latest major version (v4)
 - **PostCSS**: `@tailwindcss/postcss ^4` - PostCSS integration
 - **Typography**: `@tailwindcss/typography ^0.5.16` - Prose styling
 
 **Best Practices:**
+
 - ⚠️ **Note**: Tailwind CSS v4 is in beta/alpha - expect breaking changes
 - 🔧 **Recommendation**: Monitor v4 stability before production
 - ✅ Using modern PostCSS integration
 
 ### **UI Component Libraries**
+
 - **Radix UI**: Multiple components (v1.1.x - v2.1.x)
   - Accordion, Avatar, Dialog, Dropdown, etc.
 - **Shadcn/ui**: Built on Radix UI primitives
@@ -53,11 +60,13 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **Class Variance Authority**: `^0.7.1` - Component variants
 
 **Best Practices:**
+
 - ✅ Using latest Radix UI components
 - ✅ Modern component architecture with CVA
 - 🔧 **Recommendation**: Keep Radix UI components updated for accessibility
 
 ### **Styling Utilities**
+
 - **clsx**: `^2.1.1` - Conditional class names
 - **tailwind-merge**: `^3.3.0` - Tailwind class merging
 - **tw-animate-css**: `^1.3.0` - Animation utilities
@@ -65,15 +74,18 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## State Management & Forms
 
 ### **State Management**
+
 - **Zustand**: `^5.0.3` - Lightweight state management
 - **React Hook Form**: `^7.54.2` - Form handling
 - **Hookform Resolvers**: `^4.1.2` - Form validation integration
 
 ### **Validation**
+
 - **Zod**: `^3.24.1` - Schema validation
 - **zod-form-data**: `^2.0.5` - Form data validation
 
 **Best Practices:**
+
 - ✅ Using latest Zustand (v5) with modern patterns
 - ✅ Latest React Hook Form with improved performance
 - ✅ Zod v3 with enhanced TypeScript integration
@@ -81,11 +93,13 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## Email & Communication
 
 ### **Email Services**
+
 - **Resend**: `^4.1.2` - Email delivery service
 - **React Email**: `^0.0.34` - Email template components
 - **React Email Render**: `1.1.2` - Email rendering
 
 **Best Practices:**
+
 - ✅ Using latest Resend API
 - ✅ Modern React Email components
 - 🔧 **Recommendation**: Test email templates across clients
@@ -93,22 +107,26 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## Development & Build Tools
 
 ### **Package Manager**
+
 - **pnpm**: Used for dependency management
 - **cross-env**: `^7.0.3` - Cross-platform environment variables
 
 ### **TypeScript**
+
 - **TypeScript**: `^5` - Latest stable version
 - **@types/node**: `^20` - Node.js type definitions
 - **@types/react**: `^19` - React 19 type definitions
 - **@types/react-dom**: `^19` - React DOM type definitions
 
 ### **Linting & Formatting**
+
 - **ESLint**: `^9.19.0` - Latest ESLint with flat config
 - **ESLint Config Next**: `^15.4` - Next.js specific rules
 - **Prettier**: `^3.5.3` - Code formatting
 - **Prettier Plugin Tailwind**: `^0.6.11` - Tailwind class sorting
 
 **Best Practices:**
+
 - ✅ Using ESLint 9 with modern flat config
 - ✅ Latest Prettier with Tailwind integration
 - 🔧 **Recommendation**: Regular linting rule updates
@@ -116,6 +134,7 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## Additional Libraries
 
 ### **Utilities**
+
 - **cmdk**: `^1.0.4` - Command palette component
 - **embla-carousel-react**: `^8.5.2` - Carousel component
 - **sonner**: `^1.7.4` - Toast notifications
@@ -123,21 +142,26 @@ This document provides a comprehensive overview of the technologies, frameworks,
 - **sharp**: `0.34.3` - Image optimization
 
 ### **Internationalization**
+
 - **next-intl**: `^3.26.3` - Internationalization for Next.js
 
 ### **Theming**
+
 - **next-themes**: `^0.4.6` - Theme switching
 
 ### **Data & API**
+
 - **GraphQL**: `^16.8.1` - GraphQL client/server
 
 ## Node.js & Runtime
 
 ### **Runtime Requirements**
+
 - **Node.js**: `^18.20.2 || >=20.9.0` - LTS and current versions
 - **Module Type**: `"type": "module"` - ES modules
 
 **Best Practices:**
+
 - ✅ Supporting Node.js 18 LTS and 20+
 - ✅ Using ES modules (modern standard)
 - 🔧 **Recommendation**: Consider upgrading to Node.js 20+ for better performance
@@ -145,22 +169,26 @@ This document provides a comprehensive overview of the technologies, frameworks,
 ## Dependency Management Best Practices
 
 ### **Version Management**
+
 1. **Semantic Versioning**: Using `^` for minor/patch updates
 2. **Lock Files**: `pnpm-lock.yaml` committed to version control
 3. **Regular Updates**: Monitor for security updates
 4. **Dependency Auditing**: Regular security audits
 
 ### **Security Considerations**
+
 - **Regular Audits**: Run `pnpm audit` regularly
 - **Dependency Updates**: Keep dependencies current
 - **Vulnerability Monitoring**: Monitor for known vulnerabilities
 
 ### **Performance Optimizations**
+
 - **Bundle Analysis**: `@next/bundle-analyzer` for optimization
 - **Image Optimization**: Sharp for server-side image processing
 - **Tree Shaking**: ES modules for better tree shaking
 
 ### **Development Workflow**
+
 - **Turbopack**: Using `--turbopack` for faster development builds
 - **Type Checking**: Separate `check-types` script
 - **Linting**: Integrated ESLint with Next.js
@@ -168,28 +196,31 @@ This document provides a comprehensive overview of the technologies, frameworks,
 
 ## Version Compatibility Matrix
 
-| Technology | Version | Status | Notes |
-|---|---|-----|----|
-| Next.js | 15.4 | ✅ Stable | Latest stable |
-| React | 19.0.0 | ⚠️ Cutting-edge | Monitor for stability |
-| Payload CMS | 3.50.0 | ✅ Stable | Latest stable |
-| Tailwind CSS | 4.x | ⚠️ Beta | Expect breaking changes |
-| TypeScript | 5.x | ✅ Stable | Latest stable |
-| Node.js | 18.20.2+ | ✅ LTS | Recommended 20+ |
+| Technology   | Version  | Status          | Notes                   |
+| ------------ | -------- | --------------- | ----------------------- |
+| Next.js      | 15.4     | ✅ Stable       | Latest stable           |
+| React        | 19.0.0   | ⚠️ Cutting-edge | Monitor for stability   |
+| Payload CMS  | 3.50.0   | ✅ Stable       | Latest stable           |
+| Tailwind CSS | 4.x      | ⚠️ Beta         | Expect breaking changes |
+| TypeScript   | 5.x      | ✅ Stable       | Latest stable           |
+| Node.js      | 18.20.2+ | ✅ LTS          | Recommended 20+         |
 
 ## Recommendations
 
 ### **Immediate Actions**
+
 1. **Monitor React 19**: Watch for stability issues
 2. **Tailwind v4**: Prepare for potential breaking changes
 3. **Security Audits**: Run regular dependency audits
 
 ### **Future Considerations**
+
 1. **Node.js 20+**: Consider upgrading for better performance
 2. **Dependency Updates**: Regular updates for security and features
 3. **Bundle Optimization**: Monitor bundle size with new versions
 
 ### **Production Readiness**
+
 - ✅ **Ready**: Next.js, Payload CMS, TypeScript, most UI libraries
 - ⚠️ **Monitor**: React 19, Tailwind v4
 - 🔧 **Test**: Email templates, image optimization, performance

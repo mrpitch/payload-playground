@@ -101,8 +101,8 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
 			className: cn(
 				containerClasses,
 				variant === 'mini'
-					? 'left-0 right-0 sm:left-4 bottom-4 w-full sm:max-w-3xl'
-					: 'bottom-0 left-0 right-0 sm:left-4 sm:bottom-4 w-full sm:max-w-md',
+					? 'right-0 bottom-4 left-0 w-full sm:left-4 sm:max-w-3xl'
+					: 'right-0 bottom-0 left-0 w-full sm:bottom-4 sm:left-4 sm:max-w-md',
 			),
 			...props,
 		}
@@ -117,13 +117,13 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
 						</CardHeader>
 						<CardContent className="space-y-2">
 							<CardDescription className="text-sm">{description}</CardDescription>
-							<p className="text-muted-foreground text-xs">
+							<p className="text-xs text-muted-foreground">
 								By clicking <span className="font-medium">&quot;Accept&quot;</span>, you agree to
 								our use of cookies.
 							</p>
 							<a
 								href={learnMoreHref}
-								className="text-primary text-xs underline underline-offset-4 hover:no-underline"
+								className="text-xs text-primary underline underline-offset-4 hover:no-underline"
 							>
 								Learn more
 							</a>

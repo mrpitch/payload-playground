@@ -4,16 +4,16 @@ A modern, full-stack web application built with PayloadCMS 3.50.0 and Next.js 15
 
 ## 🚀 Quick Start
 
-   ```bash
+```bash
 # Clone and install
 git clone <repository-url>
 cd payload-playground
-   pnpm install
+pnpm install
 
 # Start database and development server
-   pnpm start:postgres
-   pnpm dev
-   ```
+pnpm start:postgres
+pnpm dev
+```
 
 Visit [http://localhost:3000](http://localhost:3000) to see the application.
 
@@ -30,6 +30,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see the application.
 ## 🛠️ Technology Stack
 
 ### Core Technologies
+
 - **Next.js 15.4** - App Router, Server Components
 - **React 19.0.0** - Latest with Actions, use(), new features
 - **PayloadCMS 3.50.0** - Headless CMS with admin interface
@@ -37,18 +38,21 @@ Visit [http://localhost:3000](http://localhost:3000) to see the application.
 - **Tailwind CSS v4** - Utility-first styling (beta)
 
 ### UI & Components
+
 - **Shadcn/ui** - Modern component library
 - **Radix UI** - Headless accessibility primitives
 - **Lucide React** - Beautiful icons
 - **Class Variance Authority** - Component variants
 
 ### State & Data
+
 - **Zustand** - Lightweight state management
 - **React Hook Form** - Form handling
 - **Zod** - Schema validation
 - **TanStack React Query** - Data fetching and caching
 
 ### Infrastructure
+
 - **PostgreSQL** - Primary database
 - **AWS S3** - File storage
 - **Resend** - Email service
@@ -91,6 +95,7 @@ The project includes a comprehensive theme system with multiple pre-built themes
 - **Vintage Paper Theme** - Classic, warm aesthetic
 
 Each theme includes:
+
 - Complete color palettes (light/dark modes)
 - Typography configurations
 - Shadow and border radius settings
@@ -106,6 +111,4 @@ This project is optimized for Cursor AI development with:
 - **Best Practices**: Modern patterns and conventions
 - **Documentation**: Extensive docs for AI context
 
-
 **Built with ❤️ using PayloadCMS, Next.js, and modern web technologies.**
-

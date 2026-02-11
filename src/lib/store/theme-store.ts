@@ -23,11 +23,10 @@ const initialState =
 	typeof window !== 'undefined'
 		? {
 				theme:
-					window.matchMedia &&
-					window.matchMedia('(prefers-color-scheme: dark)').matches
+					window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 						? Theme.dark
 						: Theme.light,
-		  }
+			}
 		: { theme: Theme.light }
 
 const useThemeStore = create<ThemeStore>()(
@@ -45,8 +44,8 @@ const useThemeStore = create<ThemeStore>()(
 		{
 			name: 'themeStorage',
 			storage: createJSONStorage(() => localStorage),
-		}
-	)
+		},
+	),
 )
 
 export { useThemeStore }

@@ -12,13 +12,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import { getNavData } from '@/lib/utils/navigation'
 import { resolveBreadcrumbFromDocsNav } from '@/lib/utils/navigation/processBreadcrumb'
 
-export async function BreadcrumbNav({
-	pageTitle,
-	slug,
-}: {
-	pageTitle: string
-	slug: string
-}) {
+export async function BreadcrumbNav({ pageTitle, slug }: { pageTitle: string; slug: string }) {
 	const { docsNav } = await getNavData()
 	const resolved = resolveBreadcrumbFromDocsNav(docsNav, slug)
 

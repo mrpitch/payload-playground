@@ -26,14 +26,14 @@ export const CodeBlockComponent: React.FC<{
 		<div className="group relative my-6">
 			{/* Filename header if provided */}
 			{filename && (
-				<div className="border-border text-muted-foreground rounded-t-lg border border-b-0 px-4 py-2 font-mono text-sm">
+				<div className="rounded-t-lg border border-b-0 border-border px-4 py-2 font-mono text-sm text-muted-foreground">
 					{filename}
 				</div>
 			)}
 
 			{/* Code container */}
 			<div
-				className={`border-border relative border ${filename ? 'rounded-b-lg' : 'rounded-lg'} overflow-hidden`}
+				className={`relative border border-border ${filename ? 'rounded-b-lg' : 'rounded-lg'} overflow-hidden`}
 			>
 				{/* Copy button */}
 				<Button
@@ -51,7 +51,7 @@ export const CodeBlockComponent: React.FC<{
 
 				{/* Code content */}
 				<pre className="overflow-x-auto bg-transparent p-4 text-sm leading-relaxed">
-					<code className="text-foreground font-mono">{code}</code>
+					<code className="font-mono text-foreground">{code}</code>
 				</pre>
 			</div>
 		</div>

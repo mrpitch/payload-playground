@@ -15,8 +15,7 @@ const containerVariants = cva('mx-auto px-2 md:px-8', {
 })
 
 export interface IContainerProps
-	extends React.HTMLAttributes<HTMLElement>,
-		VariantProps<typeof containerVariants> {
+	extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof containerVariants> {
 	children: React.ReactNode
 	as?: 'div' | 'main' | 'nav' | 'section' | 'footer' | 'header' | 'article'
 }

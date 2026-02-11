@@ -27,7 +27,7 @@ export async function BlogTeaser({
 			<Typography as="h2" className="mb-8">
 				{headline}
 			</Typography>
-			<Typography as="p" className="text-muted-foreground mb-8">
+			<Typography as="p" className="mb-8 text-muted-foreground">
 				{subline}
 			</Typography>
 			<div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -37,12 +37,12 @@ export async function BlogTeaser({
 						href={`/blog/${post.slug}`}
 						className="block transition-transform hover:scale-[1.02]"
 					>
-						<Card className="bg-background h-full overflow-hidden pt-0">
+						<Card className="h-full overflow-hidden bg-background pt-0">
 							<div className="relative aspect-[16/9] w-full overflow-hidden">
 								{post.thumbnail && typeof post.thumbnail !== 'number' && (
 									<>
 										<div
-											className="bg-secondary absolute inset-0 z-10"
+											className="absolute inset-0 z-10 bg-secondary"
 											style={{ opacity: overlayOpacity }}
 										/>
 										<Image
@@ -69,7 +69,7 @@ export async function BlogTeaser({
 								<Typography as="h3" className="mb-2 line-clamp-2">
 									{post.title}
 								</Typography>
-								<Typography as="p" className="text-muted-foreground line-clamp-2 text-sm">
+								<Typography as="p" className="line-clamp-2 text-sm text-muted-foreground">
 									{post.excerpt}
 								</Typography>
 								{readMoreText && <Button className="mt-4">{readMoreText}</Button>}
@@ -88,17 +88,17 @@ export async function BlogTeaser({
 								) : (
 									<Icon
 										iconName="user"
-										className="border-muted-foreground h-6 w-6 rounded-full border"
+										className="h-6 w-6 rounded-full border border-muted-foreground"
 									/>
 								)}
-								<span className="text-foreground text-sm font-medium">
+								<span className="text-sm font-medium text-foreground">
 									{typeof post.author !== 'number'
 										? `${post.author?.firstName} ${post.author?.lastName}`
 										: ''}
 								</span>
-								<span className="text-muted-foreground text-xs"> • </span>
+								<span className="text-xs text-muted-foreground"> • </span>
 								{post.publishedAt && (
-									<time dateTime={post.publishedAt} className="text-muted-foreground text-xs">
+									<time dateTime={post.publishedAt} className="text-xs text-muted-foreground">
 										{new Date(post.publishedAt).toLocaleDateString('en-US', {
 											year: 'numeric',
 											month: 'short',
