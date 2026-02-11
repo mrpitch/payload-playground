@@ -13,9 +13,9 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
 			reset()
 		})
 	}
-	const { message } = error
+	const title = process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
 	return (
-		<FormContainer title={message}>
+		<FormContainer title={title}>
 			<div className="flex flex-col gap-4">
 				<Button onClick={handleRetry} variant="secondary">
 					Try again

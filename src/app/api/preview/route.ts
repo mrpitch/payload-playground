@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server'
 
 import { getSession } from '@/lib/actions/get-session'
 import { baseUrl, previewSecret } from '@/lib/utils/constants'
+import { rateLimit } from '@/lib/utils/rate-limit'
 
 export async function GET(request: NextRequest) {
 	const { nextUrl } = request
@@ -19,6 +20,11 @@ export async function GET(request: NextRequest) {
 	const roles = user?.roles
 	if (!roles?.includes('admin') && !roles?.includes('editor')) {
 		return new Response('Unauthorized', { status: 401 })
+	}
+
+	const { isLimited } = rateLimit(user.email, { prefix: 'preview', limit: 10, windowSec: 60 })
+	if (isLimited) {
+		return new Response('Too many requests', { status: 429 })
 	}
 
 	const cookieStore = await cookies()

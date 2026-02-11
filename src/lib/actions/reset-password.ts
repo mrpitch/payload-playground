@@ -6,6 +6,7 @@ import { getUser } from '@/lib/actions/user'
 import { resetPasswordFormSchema } from '@/lib/schema/reset-password.schema'
 import type { TResetPasswordForm } from '@/lib/types'
 import { formMessages } from '@/lib/utils/constants'
+import { rateLimit } from '@/lib/utils/rate-limit'
 
 export async function resetPassword(data: TResetPasswordForm) {
 	const {
@@ -18,6 +19,11 @@ export async function resetPassword(data: TResetPasswordForm) {
 		return { errors: validatedData.error.flatten() }
 	}
 	const { email } = validatedData.data
+
+	const { isLimited } = rateLimit(email, { prefix: 'reset-pw', limit: 3, windowSec: 86400 })
+	if (isLimited) {
+		return { error: 'Too many reset requests. Please try again tomorrow.' }
+	}
 
 	const existingUser = await getUser(email)
 

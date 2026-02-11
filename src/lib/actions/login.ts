@@ -2,13 +2,14 @@
 
 import config from '@payload-config'
 import type { User } from '@payload-types'
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import { getPayload } from 'payload'
 
 import { getUser } from '@/lib/actions/user'
 import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
 import { formMessages } from '@/lib/utils/constants'
+import { rateLimit } from '@/lib/utils/rate-limit'
 interface LoginResult {
 	exp?: number
 	token?: string
@@ -19,6 +20,13 @@ export async function login(data: TLoginForm) {
 	const {
 		error: { credentialsInvalid, emailNotVerified, somethingWrong },
 	} = formMessages
+
+	const headersList = await headers()
+	const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+	const { isLimited } = rateLimit(ip, { prefix: 'login', limit: 5, windowSec: 300 })
+	if (isLimited) {
+		return { error: 'Too many login attempts. Please try again later.' }
+	}
 
 	const validatedData = loginFormSchema.safeParse(data)
 
@@ -49,6 +57,7 @@ export async function login(data: TLoginForm) {
 			cookieStore.set('payload-token', result.token, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'lax',
 				path: '/',
 			})
 			return { success: true }

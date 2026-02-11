@@ -97,6 +97,7 @@ export default buildConfig({
 			return [...rootFeatures, InlineToolbarFeature()]
 		},
 	}),
+	cors: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'],
 	secret: process.env.PAYLOAD_SECRET || '',
 	typescript: {
 		outputFile: path.resolve(dirname, 'payload-types.ts'),
