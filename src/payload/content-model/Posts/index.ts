@@ -1,11 +1,3 @@
-import { CollectionConfig } from 'payload'
-
-import { adminAndEditor } from '@/payload/access'
-import {
-	revalidateCache,
-	revalidateCacheAfterDelete,
-} from '@/payload/content-model/shared/hooks/revalidate-cache'
-
 import {
 	MetaDescriptionField,
 	MetaImageField,
@@ -13,10 +5,15 @@ import {
 	OverviewField,
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import { CollectionConfig } from 'payload'
 
-import { QuoteBlock } from '@/payload/blocks/quote-block'
+import { adminAndEditor } from '@/payload/access'
 import { CopyBlock } from '@/payload/blocks/copy-block'
-
+import { QuoteBlock } from '@/payload/blocks/quote-block'
+import {
+	revalidateCache,
+	revalidateCacheAfterDelete,
+} from '@/payload/content-model/shared/hooks/revalidate-cache'
 import { breakpoints } from '@/payload/utils/breakpoints'
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 

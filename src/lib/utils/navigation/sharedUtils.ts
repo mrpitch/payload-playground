@@ -1,4 +1,5 @@
-import type { Menu, Page, Doc } from '@payload-types'
+import type { Doc, Menu, Page } from '@payload-types'
+
 import type { IconType } from '@/components/ui/custom/icons'
 
 /**

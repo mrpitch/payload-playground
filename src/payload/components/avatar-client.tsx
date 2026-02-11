@@ -1,7 +1,6 @@
 'use client'
+import type { Media, User } from '@payload-types'
 import { useAuth } from '@payloadcms/ui'
-
-import type { User, Media } from '@payload-types'
 
 import { Avatar as AvatarPrimitive, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Icon } from '@/components/ui/custom/icons'

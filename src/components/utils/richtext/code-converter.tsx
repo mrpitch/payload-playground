@@ -1,10 +1,10 @@
 'use client'
 
+import { SerializedBlockNode } from '@payloadcms/richtext-lexical'
 import { useState } from 'react'
+
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
-
-import { SerializedBlockNode } from '@payloadcms/richtext-lexical'
 
 export const CodeBlockComponent: React.FC<{
 	node: SerializedBlockNode

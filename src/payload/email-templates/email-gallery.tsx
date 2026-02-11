@@ -1,7 +1,7 @@
-import React from 'react'
-import { Heading, Img, Section, Text, Link, Column, Row } from '@react-email/components'
-
 import type { EmailGalleryBlock, Media } from '@payload-types'
+import { Column, Heading, Img, Link, Row, Section, Text } from '@react-email/components'
+import React from 'react'
+
 import { cn } from '@/lib/utils/cn'
 
 type GridType = '4grid' | '3grid-horizontal' | '3grid-vertical'

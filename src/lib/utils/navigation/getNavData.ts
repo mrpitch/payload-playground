@@ -1,8 +1,10 @@
-import { cache } from 'react'
-import { getGlobals } from '@/lib/utils/getGlobals'
 import type { AppSetting } from '@payload-types'
+import { cache } from 'react'
+
 import type { TNavData, TProcessedNavData } from '@/lib/types/navigation'
+import { getGlobals } from '@/lib/utils/getGlobals'
 import { processNavData } from '@/lib/utils/navigation/processNavData'
+
 import { ensureMenu, ensureMenuArray } from './sharedUtils'
 
 // Constants

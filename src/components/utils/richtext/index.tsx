@@ -1,7 +1,7 @@
 import {
 	DefaultNodeTypes,
-	SerializedBlockNode,
 	type DefaultTypedEditorState,
+	SerializedBlockNode,
 } from '@payloadcms/richtext-lexical'
 import {
 	type JSXConvertersFunction,
@@ -9,11 +9,11 @@ import {
 	RichText as ConvertRichText,
 } from '@payloadcms/richtext-lexical/react'
 
-import { HeadingJSXConverter } from './heading-converter'
-import { VideoBlockComponent } from './video-converter'
-import { ImageBlockComponent } from './image-converter'
-import { internalDocToHref } from './helper'
 import { CodeBlockComponent } from './code-converter'
+import { HeadingJSXConverter } from './heading-converter'
+import { internalDocToHref } from './helper'
+import { ImageBlockComponent } from './image-converter'
+import { VideoBlockComponent } from './video-converter'
 
 const jsxConverters: JSXConvertersFunction<DefaultNodeTypes> = ({ defaultConverters }) => ({
 	...defaultConverters,

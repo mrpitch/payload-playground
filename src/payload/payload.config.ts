@@ -1,31 +1,28 @@
-import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
 import {
 	FeatureProviderServer,
-	lexicalEditor,
 	InlineToolbarFeature,
+	lexicalEditor,
 } from '@payloadcms/richtext-lexical'
-import { resendAdapter } from '@payloadcms/email-resend'
 import path from 'path'
-
-import { fileURLToPath } from 'url'
+import type { CollectionConfig } from 'payload'
+import { buildConfig } from 'payload'
 import sharp from 'sharp'
-
-import { plugins } from '@/payload/plugins'
+import { fileURLToPath } from 'url'
 
 import { AppSettings } from '@/payload/content-model/AppSettings'
-import { EmailTemplates } from '@/payload/content-model/EmailTemplates'
 import { Categories } from '@/payload/content-model/Categories'
 import { Docs } from '@/payload/content-model/Docs'
-import { Users } from '@/payload/content-model/Users'
+import { EmailTemplates } from '@/payload/content-model/EmailTemplates'
 import { Media } from '@/payload/content-model/Media'
 import { Menus } from '@/payload/content-model/Menus'
+import { Newsletter } from '@/payload/content-model/Newsletter'
 import { Pages } from '@/payload/content-model/Pages'
 import { Posts } from '@/payload/content-model/Posts'
-import { Newsletter } from '@/payload/content-model/Newsletter'
-
+import { Users } from '@/payload/content-model/Users'
 import { i18n, localization } from '@/payload/i18n/localization'
-import type { CollectionConfig } from 'payload'
+import { plugins } from '@/payload/plugins'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)

@@ -1,12 +1,11 @@
+import type { Doc } from '@payload-types'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
-import { Container } from '@/components/ui/custom/container'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Container } from '@/components/ui/custom/container'
 import { Icon } from '@/components/ui/custom/icons'
 import { Typography } from '@/components/ui/custom/typography'
-
-import type { Doc } from '@payload-types'
 
 export async function DocsTeaser({
 	headline,

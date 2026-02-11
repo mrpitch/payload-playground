@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload'
-import { EmailImageTextBlock } from '@/payload/blocks/email-image-text-block'
+
 import { EmailGalleryBlock } from '@/payload/blocks/email-gallery'
+import { EmailImageTextBlock } from '@/payload/blocks/email-image-text-block'
 
 export const Newsletter: CollectionConfig = {
 	slug: 'newsletter',

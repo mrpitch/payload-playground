@@ -1,12 +1,11 @@
+import { ImageTextBlock as TImageText } from '@payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { ImageTextBlock as TImageText } from '@payload-types'
-import { imageUrl } from '@/lib/utils/constants'
-
 import { Button } from '@/components/ui/button'
-import { Typography } from '@/components/ui/custom/typography'
 import { Container } from '@/components/ui/custom/container'
+import { Typography } from '@/components/ui/custom/typography'
+import { imageUrl } from '@/lib/utils/constants'
 
 interface ImageTextProps extends TImageText {
 	overlayOpacity?: number

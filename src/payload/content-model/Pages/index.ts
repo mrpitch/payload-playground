@@ -1,12 +1,3 @@
-import { CollectionConfig } from 'payload'
-
-import { admin, adminAndEditor } from '@/payload/access'
-import {
-	revalidateCache,
-	revalidateCacheAfterDelete,
-} from '@/payload/content-model/shared/hooks/revalidate-cache'
-import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
-
 import {
 	MetaDescriptionField,
 	MetaImageField,
@@ -14,15 +5,21 @@ import {
 	OverviewField,
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import { CollectionConfig } from 'payload'
 
+import { admin, adminAndEditor } from '@/payload/access'
+import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
 import { CopyBlock } from '@/payload/blocks/copy-block'
+import { DocsTeaserBlock } from '@/payload/blocks/docs-teaser-block'
 import { ImageTextBlock } from '@/payload/blocks/image-text-block'
 import { QuoteBlock } from '@/payload/blocks/quote-block'
 import { StageBlock } from '@/payload/blocks/stage-block'
-import { BlogTeaserBlock } from '@/payload/blocks/blog-teaser-block'
-import { DocsTeaserBlock } from '@/payload/blocks/docs-teaser-block'
-
+import {
+	revalidateCache,
+	revalidateCacheAfterDelete,
+} from '@/payload/content-model/shared/hooks/revalidate-cache'
 import { breakpoints } from '@/payload/utils/breakpoints'
+import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
 export const Pages: CollectionConfig = {
 	slug: 'pages',

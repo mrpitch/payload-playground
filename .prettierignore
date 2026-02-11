@@ -15,4 +15,5 @@ src/payload/importmap.js
 # Other
 .env*
 .git
+.claude
 .memory

@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+
 import { admin } from '@/payload/access/admin'
 import { adminAndEditor } from '@/payload/access/admin-and-editor'
 import { revalidateCacheGlobal } from '@/payload/content-model/shared/hooks/revalidate-cache'

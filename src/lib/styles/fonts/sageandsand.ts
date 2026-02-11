@@ -1,4 +1,4 @@
-import { Libre_Baskerville, Lora, IBM_Plex_Mono } from 'next/font/google'
+import { IBM_Plex_Mono, Libre_Baskerville, Lora } from 'next/font/google'
 
 export const sans = Libre_Baskerville({
 	display: 'swap',

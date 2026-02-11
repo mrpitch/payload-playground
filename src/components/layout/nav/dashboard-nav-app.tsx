@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { User } from '@/payload/payload-types'
 
 import { Icon } from '@/components/ui/custom/icons'
 import { Logo } from '@/components/ui/custom/logo'
@@ -19,7 +18,8 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNavigation, NavigationType, isActive } from '@/lib/hooks/use-navigation'
+import { isActive, NavigationType, useNavigation } from '@/lib/hooks/use-navigation'
+import { User } from '@/payload/payload-types'
 
 import { UserNav } from './profile-nav'
 

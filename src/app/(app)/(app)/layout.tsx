@@ -1,10 +1,14 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
-import { getSession } from '@/lib/actions/get-session'
-import { getNavData } from '@/lib/utils/navigation'
+import { Footer } from '@/components/layout/footer'
+import {
+	DashboardNavApp,
+	DashboardNavAppSkeleton,
+	ThreedotsNav,
+	ThreedotsNavSkeleton,
+} from '@/components/layout/nav'
 import { NavigationProvider } from '@/components/layout/nav/nav-provider.server'
-
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -15,13 +19,8 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import {
-	DashboardNavApp,
-	DashboardNavAppSkeleton,
-	ThreedotsNav,
-	ThreedotsNavSkeleton,
-} from '@/components/layout/nav'
-import { Footer } from '@/components/layout/footer'
+import { getSession } from '@/lib/actions/get-session'
+import { getNavData } from '@/lib/utils/navigation'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const navData = await getNavData()

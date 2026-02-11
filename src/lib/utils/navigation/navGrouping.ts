@@ -1,14 +1,16 @@
 import type { Menu } from '@payload-types'
+
 import type {
-	NavLink,
-	NavFolder,
 	DashboardNavGroup,
 	DocsNavGroup,
 	DocsNavMenu,
+	NavFolder,
+	NavLink,
 } from '@/lib/types/navigation'
-import { createNavLink, warnEmptyGroup } from '@/lib/utils/navigation/resolveNavLink'
 import type { GroupItem, MenuGroupItem } from '@/lib/utils/navigation/payloadMenuTypes'
 import { isMenuGroupItem } from '@/lib/utils/navigation/payloadMenuTypes'
+import { createNavLink, warnEmptyGroup } from '@/lib/utils/navigation/resolveNavLink'
+
 import { toIcon } from './sharedUtils'
 
 /**

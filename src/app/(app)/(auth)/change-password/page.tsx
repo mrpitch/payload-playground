@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
-import { FormContainer } from '@/components/auth/form-container'
 import { FormChangePassword } from '@/components/auth/form-change-password'
+import { FormContainer } from '@/components/auth/form-container'
 
 export const metadata: Metadata = {
 	title: 'Password reset',

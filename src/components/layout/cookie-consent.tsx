@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Icon } from '@/components/ui/custom/icons'
+
 import { Button } from '@/components/ui/button'
 import {
 	Card,
@@ -11,6 +11,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
+import { Icon } from '@/components/ui/custom/icons'
 import { cn } from '@/lib/utils/cn'
 
 // Define prop types

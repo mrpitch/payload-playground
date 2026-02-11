@@ -1,13 +1,12 @@
+import type { Page, Post } from '@payload-types'
 import React, { Fragment } from 'react'
 
-import type { Page, Post } from '@payload-types'
-
-import QuoteBlock from '@/components/layout/quote-block'
-import CopyBlock from '@/components/layout/copy-block'
-import Stage from '@/components/layout/stage'
-import ImageText from '@/components/layout/image-text'
 import BlogTeaser from '@/components/layout//blog-teaser-block'
+import CopyBlock from '@/components/layout/copy-block'
 import DocsTeaser from '@/components/layout/docs-teaser-block'
+import ImageText from '@/components/layout/image-text'
+import QuoteBlock from '@/components/layout/quote-block'
+import Stage from '@/components/layout/stage'
 
 interface IRenderBlocksProps {
 	blocks: Page['layout'] | Post['layout']

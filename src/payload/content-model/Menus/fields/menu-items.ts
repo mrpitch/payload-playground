@@ -1,4 +1,4 @@
-import type { Field, GroupField, ArrayField } from 'payload'
+import type { ArrayField, Field, GroupField } from 'payload'
 
 import { ContentItemsIconOptions } from '@/payload/content-model/shared/fields/content-items-icons'
 

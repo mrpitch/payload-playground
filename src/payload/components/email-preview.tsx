@@ -1,32 +1,30 @@
 'use client'
-import { Fragment, useState, useCallback } from 'react'
-
 import type { Language } from 'prism-react-renderer'
 import { Highlight } from 'prism-react-renderer'
-import { cn } from '@/lib/utils/cn'
+import { Fragment, useCallback, useState } from 'react'
 
-import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
-import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
-import { EmailNewsletter } from '@/payload/email-templates/newsletter'
+import { Button } from '@/components/ui/button'
+import { Icon } from '@/components/ui/custom/icons'
+import { toast } from '@/components/ui/custom/toast'
+import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Skeleton } from '@/components/ui/skeleton'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { cn } from '@/lib/utils/cn'
+import { sendEmail } from '@/payload/actions/send-email'
 import {
 	useEmailPreview,
 	UseEmailPreviewProps,
 } from '@/payload/content-model/shared/hooks/email-preview'
-import { sendEmail } from '@/payload/actions/send-email'
+import { EmailNewsletter } from '@/payload/email-templates/newsletter'
+import { EmailPasswordReset } from '@/payload/email-templates/password-reset'
+import { EmailVerifyAccount } from '@/payload/email-templates/verify-account'
 import {
 	TEmailTemplateType,
 	TNewsletterProps,
 	TPasswordResetProps,
 	TVerifyEmailProps,
 } from '@/payload/types/email-templates'
-
-import { Button } from '@/components/ui/button'
-import { Icon } from '@/components/ui/custom/icons'
-import { Input } from '@/components/ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Skeleton } from '@/components/ui/skeleton'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
-import { toast } from '@/components/ui/custom/toast'
 
 export type TEmailPreviewProps = {
 	type: TEmailTemplateType

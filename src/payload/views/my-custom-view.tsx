@@ -1,7 +1,6 @@
-import type { AdminViewServerProps } from 'payload'
-
 import { DefaultTemplate } from '@payloadcms/next/templates'
 import { Gutter } from '@payloadcms/ui'
+import type { AdminViewServerProps } from 'payload'
 import React from 'react'
 
 export function MyCustomView({ initPageResult, params, searchParams }: AdminViewServerProps) {

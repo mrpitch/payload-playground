@@ -1,25 +1,21 @@
 'use client'
-import { useState } from 'react'
-
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/form/form'
+import { FormMessage } from '@/components/form/form-message'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Icon } from '@/components/ui/custom/icons'
+import { typographyVariants } from '@/components/ui/custom/typography'
+import { Input } from '@/components/ui/input'
 import { login } from '@/lib/actions/login'
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
 import { loginFormSchema } from '@/lib/schema/login.schema'
 import type { TLoginForm } from '@/lib/types'
-import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
-
 import { cn } from '@/lib/utils/cn'
-
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/form/form'
-import { Icon } from '@/components/ui/custom/icons'
-import { Input } from '@/components/ui/input'
-import { FormMessage } from '@/components/form/form-message'
-import { typographyVariants } from '@/components/ui/custom/typography'
 
 export function FormLogin() {
 	const [success, setSuccess] = useState<string>('')

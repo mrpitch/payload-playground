@@ -12,6 +12,7 @@
 		"generate:importmap": "node scripts/generate-importmap.js",
 		"generate:types": "node scripts/generate-types.js",
 		"lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+		"lint:check": "cross-env NODE_OPTIONS=--no-deprecation next lint --max-warnings 0",
 		"check-types": "tsc --noEmit",
 		"payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
 		"start": "cross-env NODE_OPTIONS=--no-deprecation next start",
@@ -20,11 +21,12 @@
 		"stop:postgres:cleanup": "docker compose -f docker-compose.yml --env-file .env down --volumes",
 		"db:dump:local": "bash ./scripts/pg-dump-local-db.sh .env",
 		"db:restore": "bash ./scripts/pg-restore-backup.sh",
-		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-		"format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml,graphql}\"",
+		"format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml,graphql}\"",
 		"analyze": "cross-env ANALYZE=true NODE_OPTIONS=--no-deprecation next build",
 		"nuke": "rm -r node_modules; rm -r pnpm-lock.yaml; rm -rf .next",
-		"deploy:release": "bash ./scripts/deploy-release.sh"
+		"deploy:release": "bash ./scripts/deploy-release.sh",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^4.1.2",
@@ -94,6 +96,9 @@
 		"eslint": "^9.39.1",
 		"eslint-config-next": "^15.5",
 		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-simple-import-sort": "^12.1.1",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.2.7",
 		"prettier": "^3.5.3",
 		"prettier-plugin-tailwindcss": "^0.6",
 		"prism-react-renderer": "^2.4.1",

@@ -1,5 +1,5 @@
-import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import type { EmailImageTextBlock } from '@payload-types'
+import { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
 export type TEmailTemplateType = 'passwordReset' | 'verifyEmail' | 'newsletter'
 

@@ -1,7 +1,9 @@
-import type { Page, Doc } from '@payload-types'
-import type { NavLink } from '@/lib/types/navigation'
+import type { Doc, Page } from '@payload-types'
+
 import type { IconType } from '@/components/ui/custom/icons'
-import { toIcon, warnEmptyGroup, HOME_SLUG, DOCS_BASE_PATH } from './sharedUtils'
+import type { NavLink } from '@/lib/types/navigation'
+
+import { DOCS_BASE_PATH, HOME_SLUG, toIcon, warnEmptyGroup } from './sharedUtils'
 
 /**
  * Resolves a Page object to its href path

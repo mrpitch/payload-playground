@@ -1,11 +1,3 @@
-import { CollectionConfig } from 'payload'
-
-import { adminAndEditor } from '@/payload/access'
-import {
-	revalidateCache,
-	revalidateCacheAfterDelete,
-} from '@/payload/content-model/shared/hooks/revalidate-cache'
-
 import {
 	MetaDescriptionField,
 	MetaImageField,
@@ -13,30 +5,35 @@ import {
 	OverviewField,
 	PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-
-import { ContentItemsIconOptions } from '@/payload/content-model/shared/fields/content-items-icons'
-
-import { breakpoints } from '@/payload/utils/breakpoints'
-import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 import {
-	BoldFeature,
-	UnorderedListFeature,
-	OrderedListFeature,
-	UnderlineFeature,
-	HeadingFeature,
-	lexicalEditor,
-	ParagraphFeature,
-	LinkFeature,
-	ItalicFeature,
 	BlockquoteFeature,
 	BlocksFeature,
-	FixedToolbarFeature,
-	InlineToolbarFeature,
+	BoldFeature,
 	ChecklistFeature,
+	FixedToolbarFeature,
+	HeadingFeature,
+	InlineToolbarFeature,
+	ItalicFeature,
+	lexicalEditor,
+	LinkFeature,
+	OrderedListFeature,
+	ParagraphFeature,
+	UnderlineFeature,
+	UnorderedListFeature,
 	UploadFeature,
 } from '@payloadcms/richtext-lexical'
-import { VideoBlock } from '@/payload/blocks/video-block'
+import { CollectionConfig } from 'payload'
+
+import { adminAndEditor } from '@/payload/access'
 import { CodeBlock } from '@/payload/blocks/code-block'
+import { VideoBlock } from '@/payload/blocks/video-block'
+import { ContentItemsIconOptions } from '@/payload/content-model/shared/fields/content-items-icons'
+import {
+	revalidateCache,
+	revalidateCacheAfterDelete,
+} from '@/payload/content-model/shared/hooks/revalidate-cache'
+import { breakpoints } from '@/payload/utils/breakpoints'
+import { generatePreviewPath } from '@/payload/utils/generate-preview-path'
 
 export const Docs: CollectionConfig = {
 	slug: 'docs',

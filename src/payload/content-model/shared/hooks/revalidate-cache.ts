@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidateTag } from 'next/cache'
-
 import type {
 	CollectionAfterChangeHook,
 	CollectionAfterDeleteHook,

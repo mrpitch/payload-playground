@@ -1,4 +1,4 @@
-import { Montserrat, Merriweather, Source_Code_Pro } from 'next/font/google'
+import { Merriweather, Montserrat, Source_Code_Pro } from 'next/font/google'
 
 export const sans = Montserrat({
 	display: 'swap',

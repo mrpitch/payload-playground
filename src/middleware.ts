@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { previewSecret, baseUrl } from '@/lib/utils/constants'
+
+import { baseUrl, previewSecret } from '@/lib/utils/constants'
 
 export function middleware(req: NextRequest) {
 	const { pathname, searchParams } = req.nextUrl

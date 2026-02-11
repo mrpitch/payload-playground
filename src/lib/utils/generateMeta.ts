@@ -1,6 +1,5 @@
+import type { Doc, Page, Post } from '@payload-types'
 import type { Metadata } from 'next'
-
-import type { Page, Post, Doc } from '@payload-types'
 
 export const generateMeta = async (args: {
 	doc: Partial<Page> | Partial<Post> | Partial<Doc> | Partial<Doc> | null

@@ -1,8 +1,7 @@
 'use server'
-import { getUser, createUser } from '@/lib/actions/user'
+import { createUser, getUser } from '@/lib/actions/user'
 import { registerFormSchema } from '@/lib/schema/register.schema'
 import type { TRegisterForm } from '@/lib/types'
-
 import { formMessages } from '@/lib/utils/constants'
 
 export async function register(data: TRegisterForm) {

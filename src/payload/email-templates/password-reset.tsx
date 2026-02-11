@@ -13,18 +13,14 @@ import {
 	Text,
 } from '@react-email/components'
 
-import { cn } from '@/lib/utils/cn'
-
-import { baseUrl } from '@/payload/utils/constants'
-
-import { theme } from '@/lib/styles/email/theme'
-import { sans, serif, mono } from '@/lib/styles/fonts'
 //import { typeNextRegular, typeNextLight, typeNextSemiBold, typeNextBold } from '@/lib/styles/fonts'
-
 import { RichText } from '@/components/utils/richtext'
-import { TPasswordResetProps } from '@/payload/types/email-templates'
-
 import { emailButtonVariants } from '@/lib/styles/email/emailStyles'
+import { theme } from '@/lib/styles/email/theme'
+import { mono, sans, serif } from '@/lib/styles/fonts'
+import { cn } from '@/lib/utils/cn'
+import { TPasswordResetProps } from '@/payload/types/email-templates'
+import { baseUrl } from '@/payload/utils/constants'
 export type TEmailPasswordResetProps = TPasswordResetProps
 
 export function EmailPasswordReset(props: TEmailPasswordResetProps) {

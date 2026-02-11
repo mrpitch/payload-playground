@@ -1,23 +1,19 @@
 'use client'
-import { useState } from 'react'
-
-import Link from 'next/link'
-
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/form/form'
+import { FormMessage } from '@/components/form/form-message'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Icon } from '@/components/ui/custom/icons'
+import { typographyVariants } from '@/components/ui/custom/typography'
+import { Input } from '@/components/ui/input'
 import { resetPassword } from '@/lib/actions/reset-password'
 import { resetPasswordFormSchema } from '@/lib/schema/reset-password.schema'
 import type { TResetPasswordForm } from '@/lib/types'
-
 import { cn } from '@/lib/utils/cn'
-
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/form/form'
-import { FormMessage } from '@/components/form/form-message'
-import { Icon } from '@/components/ui/custom/icons'
-import { Input } from '@/components/ui/input'
-import { typographyVariants } from '@/components/ui/custom/typography'
 
 export const ResetPasswordForm = () => {
 	const [success, setSuccess] = useState<string>('')

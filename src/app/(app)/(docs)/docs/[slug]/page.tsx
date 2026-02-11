@@ -1,35 +1,30 @@
-import { Suspense } from 'react'
-
+import type { Doc } from '@payload-types'
 import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { draftMode } from 'next/headers'
+import { Suspense } from 'react'
 
-import { generateMeta } from '@/lib/utils/generateMeta'
-import { getSlugs, getCollectionBySlug } from '@/lib/utils/getCollections'
-
-import { getSession } from '@/lib/actions/get-session'
-
-import type { Doc } from '@payload-types'
-import { TGenerateMeta } from '@/lib/types'
-
-import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
-import { processToc } from '@/lib/utils/navigation/processToc'
-import { getNavData } from '@/lib/utils/navigation'
-import { resolvePrevNextFromDocsNav } from '@/lib/utils/navigation'
-
-import { Badge } from '@/components/ui/badge'
-import { Icon } from '@/components/ui/custom/icons'
 import {
-	NavigationProvider,
-	ThreedotsNav,
-	ThreedotsNavSkeleton,
-	TableOfContents,
 	BreadcrumbNav,
 	DocsPrevNextNav,
+	NavigationProvider,
+	TableOfContents,
+	ThreedotsNav,
+	ThreedotsNavSkeleton,
 } from '@/components/layout/nav'
-import { RichText } from '@/components/utils/richtext'
+import { Badge } from '@/components/ui/badge'
+import { Icon } from '@/components/ui/custom/icons'
 import { Typography } from '@/components/ui/custom/typography'
+import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
+import { RichText } from '@/components/utils/richtext'
+import { getSession } from '@/lib/actions/get-session'
+import { TGenerateMeta } from '@/lib/types'
+import { generateMeta } from '@/lib/utils/generateMeta'
+import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
+import { getNavData } from '@/lib/utils/navigation'
+import { resolvePrevNextFromDocsNav } from '@/lib/utils/navigation'
+import { processToc } from '@/lib/utils/navigation/processToc'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise

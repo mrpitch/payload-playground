@@ -21,16 +21,17 @@
  * ```
  */
 
-import { useEffect, useState } from 'react'
 import { useDocumentInfo, usePayloadAPI } from '@payloadcms/ui'
-import { renderEmailHtml } from '@/payload/utils/render-email'
+import { useEffect, useState } from 'react'
 import { ReactElement } from 'react'
+
 import {
 	TEmailTemplateType,
+	TNewsletterProps,
 	TPasswordResetProps,
 	TVerifyEmailProps,
-	TNewsletterProps,
 } from '@/payload/types/email-templates'
+import { renderEmailHtml } from '@/payload/utils/render-email'
 
 // Result interface for the hook's return value
 interface UseEmailPreviewResult {

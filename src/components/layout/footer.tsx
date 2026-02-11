@@ -3,10 +3,10 @@
 import Link from 'next/link'
 
 import { Container } from '@/components/ui/custom/container'
-import { Typography, typographyVariants } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
+import { Typography, typographyVariants } from '@/components/ui/custom/typography'
+import { NavigationType, useNavigation } from '@/lib/hooks/use-navigation'
 import { cn } from '@/lib/utils/cn'
-import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
 
 type FooterProps = {
 	siteName?: string

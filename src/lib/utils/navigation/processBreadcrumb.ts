@@ -1,4 +1,5 @@
 import { cache } from 'react'
+
 import type { DocsNavEntry, DocsNavMenu, NavFolder } from '@/lib/types/navigation'
 
 /**

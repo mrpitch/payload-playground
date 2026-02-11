@@ -1,10 +1,9 @@
 'use server'
 
+import config from '@payload-config'
+import type { User } from '@payload-types'
 import { cookies } from 'next/headers'
 import { getPayload } from 'payload'
-import config from '@payload-config'
-
-import type { User } from '@payload-types'
 
 import { getUser } from '@/lib/actions/user'
 import { loginFormSchema } from '@/lib/schema/login.schema'

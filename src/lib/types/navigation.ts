@@ -1,4 +1,5 @@
 import type { AppSetting, Menu } from '@payload-types'
+
 import type { IconType } from '@/components/ui/custom/icons'
 
 export type MenuItemBlock = NonNullable<Menu['menuItems']>[number]

@@ -1,7 +1,7 @@
 import Link from 'next/link'
+
 import { Card, CardContent } from '@/components/ui/card'
 import { Icon } from '@/components/ui/custom/icons'
-
 import type { FlatDoc } from '@/lib/utils/navigation'
 
 export async function DocsPrevNextNav({

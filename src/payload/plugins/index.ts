@@ -1,10 +1,9 @@
+import { Page } from '@payload-types'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { seoPlugin } from '@payloadcms/plugin-seo'
+import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { s3Storage } from '@payloadcms/storage-s3'
 
-import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-
-import { Page } from '@payload-types'
 import { getServerSideURL } from '@/payload/utils/get-url'
 
 const generateTitle: GenerateTitle<Page> = ({ doc }: { doc: Page }) => {

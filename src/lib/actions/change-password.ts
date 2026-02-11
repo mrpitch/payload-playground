@@ -1,10 +1,9 @@
 'use server'
-import { getPayload } from 'payload'
 import config from '@payload-config'
+import { getPayload } from 'payload'
 
 import { changePasswordFormSchema } from '@/lib/schema/change-password.schema'
 import type { TChangePasswordForm } from '@/lib/types'
-
 import { formMessages } from '@/lib/utils/constants'
 
 export async function changePassword(data: TChangePasswordForm, token: string) {

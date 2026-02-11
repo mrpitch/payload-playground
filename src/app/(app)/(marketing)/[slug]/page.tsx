@@ -1,17 +1,15 @@
+import type { Page } from '@payload-types'
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
+import { notFound } from 'next/navigation'
+
+import { Container } from '@/components/ui/custom/container'
+import { Typography } from '@/components/ui/custom/typography'
+import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
+import { RenderBlocks } from '@/components/utils/render-blocks'
+import type { TGenerateMeta } from '@/lib/types'
 import { generateMeta } from '@/lib/utils/generateMeta'
 import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
-
-import type { Page } from '@payload-types'
-import type { TGenerateMeta } from '@/lib/types'
-
-import { Typography } from '@/components/ui/custom/typography'
-
-import { RenderBlocks } from '@/components/utils/render-blocks'
-import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
-import { Container } from '@/components/ui/custom/container'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { isEnabled } = await draftMode()

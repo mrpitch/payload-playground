@@ -1,6 +1,6 @@
 'use client'
-import { startTransition } from 'react'
 import { useRouter } from 'next/navigation'
+import { startTransition } from 'react'
 
 import { FormContainer } from '@/components/auth/form-container'
 import { Button } from '@/components/ui/button'

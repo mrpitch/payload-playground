@@ -1,17 +1,17 @@
-import type { GlobalConfig } from 'payload'
-import { admin } from '@/payload/access/admin'
-import { adminAndEditor } from '@/payload/access/admin-and-editor'
-
 import {
-	lexicalEditor,
-	ItalicFeature,
 	BoldFeature,
+	type FeatureProviderServer,
+	ItalicFeature,
+	lexicalEditor,
 	LinkFeature,
-	UnorderedListFeature,
 	OrderedListFeature,
 	UnderlineFeature,
-	type FeatureProviderServer,
+	UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
+import type { GlobalConfig } from 'payload'
+
+import { admin } from '@/payload/access/admin'
+import { adminAndEditor } from '@/payload/access/admin-and-editor'
 
 export const EmailTemplates: GlobalConfig = {
 	slug: 'e-mail-templates',

@@ -1,6 +1,5 @@
-import { QuoteBlock as TQuoteBlock } from '@/payload/payload-types'
-
 import { Container } from '@/components/ui/custom/container'
+import { QuoteBlock as TQuoteBlock } from '@/payload/payload-types'
 
 const QuoteBlock: React.FC<TQuoteBlock> = ({ quoteHeader, quoteText }) => (
 	<Container as="section">

@@ -1,18 +1,9 @@
 'use client'
-import { useState } from 'react'
-
-import Link from 'next/link'
-
-import { cn } from '@/lib/utils/cn'
-
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import { register } from '@/lib/actions/register'
-import { registerFormSchema } from '@/lib/schema/register.schema'
-import type { TRegisterForm } from '@/lib/types'
-
-import { Button, buttonVariants } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
@@ -22,8 +13,14 @@ import {
 	//FormMessage,
 } from '@/components/form/form'
 import { FormMessage } from '@/components/form/form-message'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
 import { Input } from '@/components/ui/input'
+import { register } from '@/lib/actions/register'
+import { registerFormSchema } from '@/lib/schema/register.schema'
+import type { TRegisterForm } from '@/lib/types'
+import { cn } from '@/lib/utils/cn'
+
 import { typographyVariants } from '../ui/custom/typography'
 
 export function FormRegister() {

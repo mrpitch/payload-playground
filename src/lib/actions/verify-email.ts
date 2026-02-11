@@ -1,8 +1,7 @@
 'use server'
-import { redirect } from 'next/navigation'
-
-import { getPayload } from 'payload'
 import config from '@payload-config'
+import { redirect } from 'next/navigation'
+import { getPayload } from 'payload'
 
 import { formMessages } from '@/lib/utils/constants'
 

@@ -1,17 +1,15 @@
 import { Suspense } from 'react'
 
-import { getSession } from '@/lib/actions/get-session'
-import { getNavData } from '@/lib/utils/navigation'
-
-import { SidebarProvider } from '@/components/ui/sidebar'
-
+import { Footer } from '@/components/layout/footer'
 import {
 	DocsNavApp,
 	DocsNavAppSkeleton,
 	NavigationProvider,
 	SidebarWrapper,
 } from '@/components/layout/nav'
-import { Footer } from '@/components/layout/footer'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { getSession } from '@/lib/actions/get-session'
+import { getNavData } from '@/lib/utils/navigation'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const navData = await getNavData()

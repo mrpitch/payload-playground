@@ -1,4 +1,5 @@
 import { SerializedBlockNode } from '@payloadcms/richtext-lexical'
+
 import { VideoPlayer } from '@/components/utils/video-player'
 
 export const VideoBlockComponent: React.FC<{

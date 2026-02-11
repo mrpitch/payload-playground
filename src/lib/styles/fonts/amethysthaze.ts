@@ -1,4 +1,4 @@
-import { Geist, Lora, Fira_Code } from 'next/font/google'
+import { Fira_Code, Geist, Lora } from 'next/font/google'
 
 export const sans = Geist({
 	display: 'swap',

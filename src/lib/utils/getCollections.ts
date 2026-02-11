@@ -23,15 +23,12 @@
  * 3. Functions will automatically support the new collection.
  */
 
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-import { unstable_cache } from 'next/cache'
-
-import { getPayload } from 'payload'
-
 import configPromise from '@payload-config'
-import type { Post, Page, Doc } from '@payload-types'
+import type { Doc, Page, Post } from '@payload-types'
+import { unstable_cache } from 'next/cache'
+import path from 'path'
+import { getPayload } from 'payload'
+import { fileURLToPath } from 'url'
 
 import { revalidate } from '@/lib/utils/constants'
 

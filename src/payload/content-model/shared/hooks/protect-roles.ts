@@ -1,6 +1,5 @@
-import type { FieldHook } from 'payload'
-
 import type { User } from '@payload-types'
+import type { FieldHook } from 'payload'
 
 type Role = NonNullable<User['roles']>[number]
 type MaybePartialUser = Partial<User> | null | undefined

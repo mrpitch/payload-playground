@@ -1,15 +1,14 @@
-import Link from 'next/link'
 import { draftMode } from 'next/headers'
-
-import { getSession } from '@/lib/actions/get-session'
-
-import { Container } from '@/components/ui/custom/container'
-import { Logo } from '@/components/ui/custom/logo'
-import { MainNav, MainNavSkeleton } from '@/components/layout/nav'
-import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
-import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
+import Link from 'next/link'
 import { Suspense } from 'react'
+
+import { MainNav, MainNavSkeleton } from '@/components/layout/nav'
 import { NavigationProvider } from '@/components/layout/nav/nav-provider.server'
+import { ThreedotsNav, ThreedotsNavSkeleton } from '@/components/layout/nav/threedots-nav'
+import { Container } from '@/components/ui/custom/container'
+import { DisablePreviewButton } from '@/components/ui/custom/disable-preview-button'
+import { Logo } from '@/components/ui/custom/logo'
+import { getSession } from '@/lib/actions/get-session'
 
 interface HeaderProps {
 	siteName?: string

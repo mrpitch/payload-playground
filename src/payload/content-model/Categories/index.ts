@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+
 import { admin, adminAndEditor } from '@/payload/access'
 import {
 	revalidateCache,

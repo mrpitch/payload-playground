@@ -5,23 +5,19 @@ import {
 	Hr,
 	Html,
 	Img,
+	pixelBasedPreset,
 	Preview,
 	Section,
 	Tailwind,
-	pixelBasedPreset,
 } from '@react-email/components'
 
-import { cn } from '@/lib/utils/cn'
-
-import { baseUrl } from '@/payload/utils/constants'
-
-import { theme } from '@/lib/styles/email/theme'
-import { sans, serif, mono } from '@/lib/styles/fonts'
-
 import { RichText } from '@/components/utils/richtext'
-
+import { theme } from '@/lib/styles/email/theme'
+import { mono, sans, serif } from '@/lib/styles/fonts'
+import { cn } from '@/lib/utils/cn'
 import { RenderEmailBlocks } from '@/payload/email-templates/render-email-blocks'
 import { TNewsletterProps } from '@/payload/types/email-templates'
+import { baseUrl } from '@/payload/utils/constants'
 
 export type TEmailNewsletterProps = TNewsletterProps
 

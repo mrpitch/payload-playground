@@ -1,6 +1,6 @@
 'use client'
-import { createContext, use } from 'react'
 import type { Usable } from 'react'
+import { createContext, use } from 'react'
 
 import type { TProcessedNavData } from '@/lib/types/navigation'
 export const NavigationContext = createContext<TProcessedNavData | null>(null)

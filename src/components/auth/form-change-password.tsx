@@ -1,18 +1,9 @@
 'use client'
-import { useState } from 'react'
-
-import Link from 'next/link'
-
-import { cn } from '@/lib/utils/cn'
-
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import { changePassword } from '@/lib/actions/change-password'
-import { changePasswordFormSchema } from '@/lib/schema/change-password.schema'
-import type { TChangePasswordForm } from '@/lib/types'
-
-import { Button, buttonVariants } from '@/components/ui/button'
 import {
 	Form,
 	FormControl,
@@ -22,9 +13,14 @@ import {
 	//FormMessage,
 } from '@/components/form/form'
 import { FormMessage } from '@/components/form/form-message'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
-import { Input } from '@/components/ui/input'
 import { typographyVariants } from '@/components/ui/custom/typography'
+import { Input } from '@/components/ui/input'
+import { changePassword } from '@/lib/actions/change-password'
+import { changePasswordFormSchema } from '@/lib/schema/change-password.schema'
+import type { TChangePasswordForm } from '@/lib/types'
+import { cn } from '@/lib/utils/cn'
 
 export function FormChangePassword({ token }: { token: string }) {
 	const [success, setSuccess] = useState<string>('')

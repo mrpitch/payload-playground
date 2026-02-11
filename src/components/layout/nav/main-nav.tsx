@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import { Skeleton } from '@/components/ui/skeleton'
+import { Icon } from '@/components/ui/custom/icons'
 import {
 	NavigationMenu,
 	NavigationMenuContent,
@@ -12,8 +12,8 @@ import {
 	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
-import { Icon } from '@/components/ui/custom/icons'
-import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
+import { Skeleton } from '@/components/ui/skeleton'
+import { NavigationType, useNavigation } from '@/lib/hooks/use-navigation'
 import { cn } from '@/lib/utils/cn'
 
 export const MainNav = () => {

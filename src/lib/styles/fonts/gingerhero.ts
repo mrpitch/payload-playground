@@ -1,4 +1,4 @@
-import { Poppins, Lora, Fira_Code } from 'next/font/google'
+import { Fira_Code, Lora, Poppins } from 'next/font/google'
 
 export const sans = Poppins({
 	display: 'swap',

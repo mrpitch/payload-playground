@@ -1,6 +1,8 @@
-import { cache } from 'react'
 import type { Doc } from '@payload-types'
+import { cache } from 'react'
+
 import { generateSlug } from '@/lib/utils/generateSlug'
+
 import { HEADING_TYPE } from './sharedUtils'
 
 /**

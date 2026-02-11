@@ -1,14 +1,14 @@
 import {
-	lexicalEditor,
+	BlockquoteFeature,
+	BoldFeature,
 	HeadingFeature,
 	ItalicFeature,
-	BoldFeature,
+	lexicalEditor,
 	LinkFeature,
-	UnorderedListFeature,
 	OrderedListFeature,
-	UnderlineFeature,
-	BlockquoteFeature,
 	ParagraphFeature,
+	UnderlineFeature,
+	UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
 import { Block } from 'payload'
 

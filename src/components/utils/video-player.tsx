@@ -1,11 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { cn } from '@/lib/utils/cn'
 import { Icon } from '@/components/ui/custom/icons'
 import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils/cn'
 
 type TVideoPlayerProps = {
 	videoId: string

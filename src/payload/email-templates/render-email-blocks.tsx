@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react'
 import type {
-	EmailImageTextBlock as TEmailImageTextBlock,
 	EmailGalleryBlock as TEmailGalleryBlock,
+	EmailImageTextBlock as TEmailImageTextBlock,
 } from '@payload-types'
-import EmailImageText from '@/payload/email-templates/email-image-text'
+import React, { Fragment } from 'react'
+
 import EmailGallery from '@/payload/email-templates/email-gallery'
+import EmailImageText from '@/payload/email-templates/email-image-text'
 
 interface IRenderBlocksProps {
 	blocks: (TEmailImageTextBlock | TEmailGalleryBlock)[]

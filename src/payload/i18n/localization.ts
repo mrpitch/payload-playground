@@ -1,6 +1,6 @@
 import type { I18nOptions } from '@payloadcms/translations'
-import { en } from '@payloadcms/translations/languages/en'
 import { de } from '@payloadcms/translations/languages/de'
+import { en } from '@payloadcms/translations/languages/en'
 
 export const i18n: I18nOptions = {
 	fallbackLanguage: 'en', // default

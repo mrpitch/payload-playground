@@ -1,12 +1,10 @@
 'use server'
-import { getPayload } from 'payload'
 import config from '@payload-config'
+import { getPayload } from 'payload'
 
 import { getUser } from '@/lib/actions/user'
-
 import { resetPasswordFormSchema } from '@/lib/schema/reset-password.schema'
 import type { TResetPasswordForm } from '@/lib/types'
-
 import { formMessages } from '@/lib/utils/constants'
 
 export async function resetPassword(data: TResetPasswordForm) {

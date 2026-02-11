@@ -1,22 +1,20 @@
+import '@/lib/styles/globals.css'
+
 import { Metadata } from 'next'
 import { cookies } from 'next/headers'
-import { cn } from '@/lib/utils/cn'
 
+import { CookieConsent } from '@/components/layout/cookie-consent'
+import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from '@/components/utils/theme-provider'
+import { useThemeStore } from '@/lib/store/theme-store'
 // import {
 // 	typeNextRegular,
 // 	typeNextLight,
 // 	typeNextSemiBold,
 // 	typeNextBold,
 // } from '@/lib/styles/fonts/index'
-
-import { sans, serif, mono } from '@/lib/styles/fonts'
-import '@/lib/styles/globals.css'
-
-import { ThemeProvider } from '@/components/utils/theme-provider'
-import { Toaster } from '@/components/ui/sonner'
-import { CookieConsent } from '@/components/layout/cookie-consent'
-
-import { useThemeStore } from '@/lib/store/theme-store'
+import { mono, sans, serif } from '@/lib/styles/fonts'
+import { cn } from '@/lib/utils/cn'
 // Navigation provider is scoped closer to consumers to enable Suspense fallbacks
 
 export const metadata: Metadata = {

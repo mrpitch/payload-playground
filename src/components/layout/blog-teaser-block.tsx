@@ -1,14 +1,13 @@
+import type { Post } from '@payload-types'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Container } from '@/components/ui/custom/container'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Container } from '@/components/ui/custom/container'
 import { Icon } from '@/components/ui/custom/icons'
 import { Typography } from '@/components/ui/custom/typography'
-
-import type { Post } from '@payload-types'
 
 export async function BlogTeaser({
 	headline,

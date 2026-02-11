@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import { SerializedUploadNode } from '@payloadcms/richtext-lexical'
+import Image from 'next/image'
 
 export const ImageBlockComponent: React.FC<{
 	node: SerializedUploadNode

@@ -1,10 +1,10 @@
 'use client'
-import { Toaster as Sonner, toast as sonnerToast } from 'sonner'
-import { cn } from '@/lib/utils/cn'
 import { cva } from 'class-variance-authority'
+import { toast as sonnerToast, Toaster as Sonner } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
+import { cn } from '@/lib/utils/cn'
 
 type ToasterProps = React.ComponentProps<typeof Sonner>
 
@@ -134,4 +134,4 @@ function Toast(props: ToastProps) {
 	)
 }
 
-export { Toaster, toast }
+export { toast, Toaster }

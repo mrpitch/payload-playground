@@ -1,15 +1,14 @@
 'use client'
-import { useCallback, useEffect, useMemo, useState } from 'react'
 import { RadioGroupField, useField } from '@payloadcms/ui'
-
 import type { RadioFieldClientComponent, RadioFieldClientProps } from 'payload'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
-	TGroupItemType,
-	TMenuItemType,
-	TFolderItemType,
 	groupItemTypeOptions,
 	menuItemTypeOptions,
+	TFolderItemType,
+	TGroupItemType,
+	TMenuItemType,
 } from './menu-items'
 
 // Define allowed options for each menu type

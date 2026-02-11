@@ -1,7 +1,8 @@
 'use server'
-import { getPayload, Payload } from 'payload'
 import configPromise from '@payload-config'
 import type { User } from '@payload-types'
+import { getPayload, Payload } from 'payload'
+
 import { TCreateUser } from '@/lib/types'
 
 export async function getUser(email: string): Promise<User | null> {

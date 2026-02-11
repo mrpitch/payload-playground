@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import type { User } from '@payload-types'
+import { create } from 'zustand'
 
 interface IUserState {
 	user: User | null

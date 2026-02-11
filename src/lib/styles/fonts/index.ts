@@ -1,3 +1,3 @@
-import { sans, serif, mono } from './gingerhero'
+import { mono, sans, serif } from './gingerhero'
 
-export { sans, serif, mono }
+export { mono, sans, serif }

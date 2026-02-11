@@ -1,20 +1,17 @@
 'use client'
 
+import type { User } from '@payload-types'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-import { imageUrl } from '@/lib/utils/constants'
-
-import type { User } from '@payload-types'
-
+import { LogoutButton } from '@/components/auth/logout-button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Icon } from '@/components/ui/custom/icons'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Icon } from '@/components/ui/custom/icons'
-import { LogoutButton } from '@/components/auth/logout-button'
 import {
 	SidebarGroup,
 	SidebarGroupContent,
@@ -25,7 +22,8 @@ import {
 	useSidebar,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNavigation, NavigationType, isActive } from '@/lib/hooks/use-navigation'
+import { isActive, NavigationType, useNavigation } from '@/lib/hooks/use-navigation'
+import { imageUrl } from '@/lib/utils/constants'
 
 interface INavProps {
 	user: User | null

@@ -1,32 +1,31 @@
 'use client'
 
+import type { User } from '@payload-types'
 import Link from 'next/link'
 
-import type { User } from '@payload-types'
-
-import { cn } from '@/lib/utils/cn'
-
 import { Button, buttonVariants } from '@/components/ui/button'
+import { Icon } from '@/components/ui/custom/icons'
+import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Icon } from '@/components/ui/custom/icons'
-import { useNavigation, NavigationType } from '@/lib/hooks/use-navigation'
-import { UserNav } from './profile-nav'
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarMenu,
-	SidebarMenuItem,
 	SidebarMenuButton,
+	SidebarMenuItem,
 	SidebarProvider,
 } from '@/components/ui/sidebar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { ThemeToggle } from '@/components/ui/custom/theme-toggle'
+import { NavigationType, useNavigation } from '@/lib/hooks/use-navigation'
+import { cn } from '@/lib/utils/cn'
+
+import { UserNav } from './profile-nav'
 
 interface INavProps {
 	user: User | null

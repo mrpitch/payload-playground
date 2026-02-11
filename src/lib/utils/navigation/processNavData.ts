@@ -1,19 +1,21 @@
 import type { Menu } from '@payload-types'
+
 import type {
-	TNavData,
-	TProcessedNavData,
-	NavLink,
 	MainNavEntry,
 	MainNavGroup,
 	NavFolder,
+	NavLink,
+	TNavData,
+	TProcessedNavData,
 } from '@/lib/types/navigation'
-import type { MenuGroupItem } from '@/lib/utils/navigation/payloadMenuTypes'
-import { createNavLink, warnEmptyGroup } from '@/lib/utils/navigation/resolveNavLink'
 import {
+	collectGroupEntriesWithFolders,
 	processDashboardNav,
 	processDocsNav,
-	collectGroupEntriesWithFolders,
 } from '@/lib/utils/navigation/navGrouping'
+import type { MenuGroupItem } from '@/lib/utils/navigation/payloadMenuTypes'
+import { createNavLink, warnEmptyGroup } from '@/lib/utils/navigation/resolveNavLink'
+
 import { toIcon } from './sharedUtils'
 
 /**

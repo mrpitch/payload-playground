@@ -1,17 +1,9 @@
+import type { Post } from '@payload-types'
 import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { draftMode } from 'next/headers'
-
-import { generateMeta } from '@/lib/utils/generateMeta'
-import { getSlugs, getCollectionBySlug } from '@/lib/utils/getCollections'
-
-import type { Post } from '@payload-types'
-import { TGenerateMeta } from '@/lib/types'
-
-import { RenderBlocks } from '@/components/utils/render-blocks'
-import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
 
 import { Badge } from '@/components/ui/badge'
 import {
@@ -22,10 +14,14 @@ import {
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-
 import { Container } from '@/components/ui/custom/container'
-import { Typography } from '@/components/ui/custom/typography'
 import { Icon } from '@/components/ui/custom/icons'
+import { Typography } from '@/components/ui/custom/typography'
+import { RefreshRouteOnSave } from '@/components/utils/refresh-route-onsave'
+import { RenderBlocks } from '@/components/utils/render-blocks'
+import { TGenerateMeta } from '@/lib/types'
+import { generateMeta } from '@/lib/utils/generateMeta'
+import { getCollectionBySlug, getSlugs } from '@/lib/utils/getCollections'
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
 	const { slug } = await paramsPromise

@@ -1,7 +1,6 @@
-import React from 'react'
-import { Button, Heading, Img, Link, Section, Text } from '@react-email/components'
-
 import type { EmailImageTextBlock } from '@payload-types'
+import { Button, Heading, Img, Link, Section, Text } from '@react-email/components'
+import React from 'react'
 
 type LayoutType = 'image-top' | 'image-left' | 'image-right'
 

@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Icon } from '@/components/ui/custom/icons'
-
 import { Theme, useThemeStore } from '@/lib/store/theme-store'
 
 export function ThemeToggle() {

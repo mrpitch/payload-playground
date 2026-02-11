@@ -1,7 +1,6 @@
 'use client'
-import type { CodeFieldClient, CodeFieldClientProps } from 'payload'
-
 import { CodeField, useFormFields } from '@payloadcms/ui'
+import type { CodeFieldClient, CodeFieldClientProps } from 'payload'
 import React, { useMemo } from 'react'
 
 import { languages } from '@/payload/blocks/code-block'

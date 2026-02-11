@@ -1,7 +1,6 @@
-import { BasePayload } from 'payload'
+import type { Media, User } from '@payload-types'
 import { headers as nextHeaders } from 'next/headers'
-
-import type { User, Media } from '@payload-types'
+import { BasePayload } from 'payload'
 
 import { Avatar as AvatarPrimitive, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Icon } from '@/components/ui/custom/icons'

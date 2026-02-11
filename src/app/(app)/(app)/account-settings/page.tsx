@@ -1,6 +1,6 @@
-import { getSession } from '@/lib/actions/get-session'
 import { Icon } from '@/components/ui/custom/icons'
 import { Typography } from '@/components/ui/custom/typography'
+import { getSession } from '@/lib/actions/get-session'
 
 export default async function Dashboard() {
 	const session = await getSession()

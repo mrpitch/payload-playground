@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState, RefObject } from 'react'
+import { RefObject, useEffect, useRef, useState } from 'react'
+
+import { Icon } from '@/components/ui/custom/icons'
+import { Typography, typographyVariants } from '@/components/ui/custom/typography'
 import { cn } from '@/lib/utils/cn'
 import { TTocItem } from '@/lib/utils/navigation/processToc'
-
-import { Typography, typographyVariants } from '@/components/ui/custom/typography'
-import { Icon } from '@/components/ui/custom/icons'
 
 interface TableOfContentsProps {
 	items?: TTocItem[]

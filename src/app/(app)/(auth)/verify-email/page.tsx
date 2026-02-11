@@ -1,9 +1,8 @@
 import { Metadata } from 'next'
 
-import { verifyEmail } from '@/lib/actions/verify-email'
-
 import { FormContainer } from '@/components/auth/form-container'
 import VerifyEmail from '@/components/auth/verify-email'
+import { verifyEmail } from '@/lib/actions/verify-email'
 
 export const metadata: Metadata = {
 	title: 'E-Mail verification',
