@@ -60,6 +60,13 @@ const eslintConfig = [
 			'jsx-a11y/no-redundant-roles': 'warn',
 		},
 	},
+	{
+		files: ['**/*.test.ts', '**/*.test.tsx', 'src/test/**'],
+		rules: {
+			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-unused-vars': 'off',
+		},
+	},
 ]
 
 export default eslintConfig
